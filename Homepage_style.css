@@ -1,40 +1,88 @@
+/* ================= BIẾN MÀU SẮC ================= */
 :root {
-  --color-primary-dark: #005A24;
-  --color-primary: #00712D;
-  --color-primary-light: #D5ED9F;
-  --color-bg-cream: #FFFBE6;
-  --color-bg-light: #FFFDF3;
-  --color-accent: #FF9100;
-  --font-main: 'Quicksand', sans-serif;
+    --color-primary-dark: #005A24;
+    --color-primary: #00712D;
+    --color-primary-light: #D5ED9F;
+    --color-bg-cream: #FFFBE6;
+    --color-bg-light: #FFFDF3;
+    --color-accent: #F9C56F; /* Màu vàng Avatar */
+    --font-main: 'Quicksand', sans-serif;
 }
 
+/* ================= CƠ BẢN ================= */
 body {
-  font-family: var(--font-main);
-  background-color: var(--color-bg-light);
+    font-family: var(--font-main);
+    background-color: var(--color-bg-light);
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
-/* --- Style cho Header --- */
-/* Đặt Header đè lên banner nền */
+/* ================= HEADER & FOOTER ================= */
 .main-header {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1030; /* Đảm bảo header luôn nổi lên trên cùng */
+    background-color: var(--color-primary-dark);
+    padding: 10px 0;
 }
 
-/* Hiệu ứng hover cho menu */
-.nav-link.hover-underline:hover {
-  text-decoration: underline;
-  text-decoration-thickness: 2px;
-  text-underline-offset: 4px;
-}
-
-/* --- Style cho Footer --- */
 .footer-section {
-  background-color: var(--color-primary-dark);
+    background-color: var(--color-primary-dark);
+    color: white;
 }
 
-.footer-section a.hover-white:hover {
-  color: #fff !important; /* Chuyển thành màu trắng khi di chuột */
+.footer-section a {
+    color: #ccc;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.footer-section a:hover {
+    color: white !important;
+}
+
+/* ================= MENU CHÍNH ================= */
+.nav-item .nav-link {
+    transition: all 0.3s ease;
+    padding: 8px 16px !important;
+    border-radius: 6px;
+}
+
+.nav-item .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.15) !important;
+    color: white !important;
+}
+
+/* ================= AVATAR & DROPDOWN 3 GẠCH ================= */
+.avatar-circle {
+    width: 42px;
+    height: 42px;
+    background-color: var(--color-accent);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hamburger-dropdown-menu {
+    background-color: #6a8c75;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    min-width: 140px;
+    padding: 0;
+}
+
+.hamburger-dropdown-menu .dropdown-item {
+    color: white;
+    padding: 8px 16px;
+    transition: 0.2s;
+}
+
+.hamburger-dropdown-menu .dropdown-item:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.hamburger-divider {
+    margin: 0 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.4);
 }
