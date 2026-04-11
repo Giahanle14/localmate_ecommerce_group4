@@ -1,0 +1,40 @@
+:root {
+  --color-primary-dark: #005A24;
+  --color-primary: #00712D;
+  --color-primary-light: #D5ED9F;
+  --color-bg-cream: #FFFBE6;
+  --color-bg-light: #FFFDF3;
+  --color-accent: #FF9100;
+  --font-main: 'Quicksand', sans-serif;
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--color-bg-light);
+}
+
+/* --- Style cho Header --- */
+/* Đặt Header đè lên banner nền */
+.main-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1030; /* Đảm bảo header luôn nổi lên trên cùng */
+}
+
+/* Hiệu ứng hover cho menu */
+.nav-link.hover-underline:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+/* --- Style cho Footer --- */
+.footer-section {
+  background-color: var(--color-primary-dark);
+}
+
+.footer-section a.hover-white:hover {
+  color: #fff !important; /* Chuyển thành màu trắng khi di chuột */
+}
