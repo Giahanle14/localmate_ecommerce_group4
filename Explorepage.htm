@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LocalMate - Khám Phá</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="Homepage_style.css">
+    <link rel="stylesheet" href="Explorepage.css">
+<body>
+
+    <!-- ================= HEADER ================= -->
+     <header class="main-header">
+        <nav class="navbar navbar-expand-xl navbar-dark py-0">
+            <div class="container-fluid px-4">
+                
+                <div class="d-flex align-items-center">
+                    <a class="navbar-brand me-4 d-inline-block py-0" href="#">
+                        <img src="image/logo.png" alt="LocalMate Logo" height="50">
+                    </a>
+
+                    <div class="dropdown d-none d-sm-block">
+                        <button class="btn text-white d-flex align-items-center rounded px-3 py-1 border-0" type="button" data-bs-toggle="dropdown" style="background-color: rgba(255, 255, 255, 0.25); font-size: 14px; font-weight: 500;">
+                            <img src="image/Flag_of_Vietnam.svg.png" alt="VN" class="me-2" style="width: 18px; border-radius: 2px;"> 
+                            VND | VI <i class="fa-solid fa-caret-down ms-2"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-dark shadow">
+                            <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="image/Flag_of_Vietnam.svg.png" width="18" class="me-2"> VND | VI</a></li>
+                            <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="image/global.png" width="18" class="me-2"> USD | EN</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="collapse navbar-collapse justify-content-center" id="mainNavbar">
+                    <ul class="navbar-nav mb-2 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link text-white fs-5 fw-semibold" href="#">Khám phá</a></li>
+                        <li class="nav-item"><a class="nav-link text-white fs-5 fw-semibold" href="#">Đặt chỗ của tôi</a></li>
+                        <li class="nav-item"><a class="nav-link text-white fs-5 fw-semibold" href="#">Hồ sơ</a></li>
+                    </ul>
+                </div>
+
+                <div class="d-flex align-items-center gap-2 gap-md-3">
+                    
+                    <div class="dropdown">
+                        <button class="btn p-0 border-0" type="button" data-bs-toggle="dropdown">
+                            <div class="avatar-circle">
+                                <i class="fa-solid fa-user text-white"></i>
+                            </div>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end shadow mt-2">
+                            <li><a class="dropdown-item" href="#">Hồ sơ của tôi</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="#">Đăng xuất</a></li>
+                        </ul>
+                    </div>
+                    
+                    <button class="btn rounded p-0 d-none d-md-flex align-items-center justify-content-center" style="background-color: var(--color-primary-light); color: var(--color-primary-dark); width: 42px; height: 42px;">
+                        <i class="fa-solid fa-phone fs-5"></i>
+                    </button>
+                    
+                    <div class="dropdown d-none d-md-flex">
+                        <button class="btn rounded p-0 d-flex align-items-center justify-content-center" type="button" data-bs-toggle="dropdown" style="background-color: rgba(255, 255, 255, 0.4); color: white; width: 42px; height: 42px; border: none;">
+                            <i class="fa-solid fa-bars fs-4"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end shadow hamburger-dropdown-menu mt-2">
+                            <li><a class="dropdown-item text-end" href="#">Nhắn tin</a></li>
+                            <li><div class="hamburger-divider"></div></li>
+                            <li><a class="dropdown-item text-end" href="#">Yêu thích</a></li>
+                            <li><div class="hamburger-divider"></div></li>
+                            <li><a class="dropdown-item text-end" href="#">Đánh giá</a></li>
+                            <li><div class="hamburger-divider"></div></li>
+                            <li><a class="dropdown-item text-end" href="#">Ghép đôi</a></li>
+                            <li><div class="hamburger-divider"></div></li>
+                            <li><a class="dropdown-item text-end" href="#">ChatbotAI</a></li>
+                        </ul>
+                    </div>
+
+                    <button class="navbar-toggler border-0 ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- ================= MAIN LAYOUT ================= -->
+    <main class="container-fluid px-4 py-4">
+        <div class="mb-3">
+            <a href="#" class="text-decoration-none text-muted"><i class="fa-solid fa-arrow-left"></i> Quay lại</a>
+        </div>
+
+        <div class="row">
+            <!-- ===== SIDEBAR ===== -->
+            <div class="col-lg-3 mb-4">
+                <div class="sidebar-filter">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="filter-title"><i class="fa-solid fa-filter"></i> Bộ lọc tìm kiếm</span>
+                        <a href="#" class="text-success text-decoration-none small"><i class="fa-solid fa-rotate-right"></i></a>
+                    </div>
+                    
+                    <!-- Form Bộ Lọc -->
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label text-muted small">Bạn muốn đi đâu?</label>
+                            <input type="text" class="form-control rounded-pill" placeholder="Chọn điểm đến phù hợp">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label text-muted small">Số ngày</label>
+                            <div class="d-flex gap-2 flex-wrap day-filter">
+                                <span class="badge filter-tag rounded-pill py-2 px-3 active">1 - 2 ngày</span>
+                                <span class="badge filter-tag rounded-pill py-2 px-3">2 - 3 ngày</span>
+                                <span class="badge filter-tag rounded-pill py-2 px-3">3 - 5 ngày</span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label text-muted small">Loại trải nghiệm</label>
+                            <div class="d-flex gap-2 flex-wrap exp-filter">
+                                <span class="badge filter-tag rounded-pill py-2 px-3 active">Văn hóa</span>
+                                <span class="badge filter-tag rounded-pill py-2 px-3">Sinh thái</span>
+                                <span class="badge filter-tag rounded-pill py-2 px-3">Ẩm thực</span>
+                                <span class="badge filter-tag rounded-pill py-2 px-3">Thăm thú</span>
+                                <span class="badge filter-tag rounded-pill py-2 px-3">Mua sắm</span>
+                                <span class="badge filter-tag rounded-pill py-2 px-3">Thể thao</span>
+                            </div>
+                            <div class="text-end mt-2"><a href="#" class="text-success small text-decoration-none">Xem thêm +</a></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label text-muted small">Ngân sách tối đa</label>
+                            <div class="d-flex justify-content-between small text-muted mb-1">
+                                <span>0 VNĐ</span>
+                                <span id="budgetDisplay">1.550.000 VNĐ</span>
+                            </div>
+                            <input type="range" class="form-range" id="budgetSlider" min="0" max="5000000" step="50000" value="1550000">
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- ===== MAIN CONTENT ===== -->
+            <div class="col-lg-9">
+                
+                <!-- Section 1: Tour Mới Nhất -->
+                <div class="mb-5">
+                    <h4 class="section-title">Tour Mới Nhất</h4>
+                    <div class="row g-4">
+                        <!-- Tour 1 -->
+                        <div class="col-md-4">
+                            <div class="card tour-card">
+                                <div class="tour-img-wrapper">
+                                    <img src="https://cdn.baogialai.com.vn/images/f4c793ae414c7709dde37c6d2a83f82a914c029a03c23dab2d8d608c1b6e8c00472eee30008037ef92bc717341952b4b178b17c33c42f5e0c754be353b22aa31b5d063796d0a1ac7e134c2d3278545fc9c00fd9c8c03bee5ecfb436e1695f2e0481e2fc525c184ff7398ced5988bde36/le-hoi-tay-son-thuong-dao-hang-nam-dien-ra-tai-an-khe-anh-nhat-hanh.jpg" alt="Hào khí Tây Sơn">
+                                    <span class="price-badge">699.000 VND</span>
+                                </div>
+                                <div class="tour-card-body">
+                                    <h5 class="tour-title">Hào khí Tây Sơn</h5>
+                                    <div class="tour-meta mb-2">
+                                        <span class="me-3"><i class="fa-solid fa-location-dot text-danger"></i> Võ đình võ thuật</span>
+                                        <span><i class="fa-regular fa-clock text-warning"></i> 1 ngày</span>
+                                    </div>
+                                    <p class="text-muted small">Khám phá vùng đất địa linh nhân kiệt Quang Trung - Nguyễn Huệ, tìm hiểu võ cổ truyền...</p>
+                                    
+                                    <hr class="text-muted">
+                                    
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="guide-info d-flex align-items-center">
+                                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Guide">
+                                            <span class="small fw-semibold">Chú Hải Kim</span>
+                                        </div>
+                                        <div>
+                                            <span class="text-muted small me-2"><i class="fa-regular fa-heart"></i> 50</span>
+                                            <button class="btn btn-sm btn-outline-success rounded-pill">Chi tiết</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tour 2 -->
+                        <div class="col-md-4">
+                            <div class="card tour-card">
+                                <div class="tour-img-wrapper">
+                                    <img src="https://dulichkhampha24.com/wp-content/uploads/2020/11/pho-co-hoi-an.jpg" alt="Lạc Bước Phố Cổ">
+                                    <span class="price-badge">1.299.000 VND</span>
+                                </div>
+                                <div class="tour-card-body">
+                                    <h5 class="tour-title">Lạc Bước Phố Cổ</h5>
+                                    <div class="tour-meta mb-2">
+                                        <span class="me-3"><i class="fa-solid fa-location-dot text-danger"></i> Hội An</span>
+                                        <span><i class="fa-regular fa-clock text-warning"></i> 1 ngày</span>
+                                    </div>
+                                    <p class="text-muted small">Tản bộ phố cổ Hội An, ngắm đèn lồng lấp lánh, thưởng thức ẩm thực đặc sắc địa phương...</p>
+                                    
+                                    <hr class="text-muted">
+                                    
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="guide-info d-flex align-items-center">
+                                            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Guide">
+                                            <span class="small fw-semibold">Han Le</span>
+                                        </div>
+                                        <div>
+                                            <span class="text-muted small me-2"><i class="fa-regular fa-heart"></i> 48</span>
+                                            <button class="btn btn-sm btn-outline-success rounded-pill">Chi tiết</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tour 3 -->
+                        <div class="col-md-4">
+                            <div class="card tour-card">
+                                <div class="tour-img-wrapper">
+                                    <img src="https://ik.imagekit.io/tvlk/blog/2022/06/thanh-dia-my-son-18-1024x683.jpg?tr=dpr-2,w-675" alt="Mỹ Sơn & Chăm Pa">
+                                    <span class="price-badge">1.350.000 VND</span>
+                                </div>
+                                <div class="tour-card-body">
+                                    <h5 class="tour-title">Mỹ Sơn & Chăm Pa</h5>
+                                    <div class="tour-meta mb-2">
+                                        <span class="me-3"><i class="fa-solid fa-location-dot text-danger"></i> Quảng Nam</span>
+                                        <span><i class="fa-regular fa-clock text-warning"></i> 2 ngày</span>
+                                    </div>
+                                    <p class="text-muted small">Khám phá di sản văn hóa thế giới thánh địa Mỹ Sơn, tìm hiểu vương quốc Chăm Pa cổ...</p>
+                                    
+                                    <hr class="text-muted">
+                                    
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="guide-info d-flex align-items-center">
+                                            <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="Guide">
+                                            <span class="small fw-semibold">Thế Hùng</span>
+                                        </div>
+                                        <div>
+                                            <span class="text-muted small me-2"><i class="fa-solid fa-star text-warning"></i> 4.7</span>
+                                            <button class="btn btn-sm btn-outline-success rounded-pill">Chi tiết</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 2: Danh mục Tour -->
+                <div class="mb-5">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4 class="section-title mb-0">Danh mục Tour</h4>
+                        <a href="#" class="text-success text-decoration-none small">Xem thêm ></a>
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <div class="card category-card">
+                                <img src="https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&w=600&q=80" alt="Tour Biển Đảo">
+                                <div class="category-overlay">
+                                    <h5>TOUR BIỂN ĐẢO</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card category-card">
+                                <img src="https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=600&q=80" alt="Tour Miền Núi">
+                                <div class="category-overlay mountain">
+                                    <h5>TOUR MIỀN NÚI</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card category-card">
+                                <img src="https://statics.vinpearl.com/du-lich-miet-vuon-2_1631758232.jpg" alt="Tour Miệt Vườn">
+                                <div class="category-overlay garden">
+                                    <h5>TOUR MIỆT VƯỜN</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 3: Tour theo vùng -->
+                <div class="mb-5">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4 class="section-title mb-0">Tour theo vùng</h4>
+                        <a href="#" class="text-success text-decoration-none small">Xem thêm ></a>
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-md-3 col-6">
+                            <div class="card category-card">
+                                <img src="image/Hội An.jpg" alt="Hội An">
+                                <div class="category-overlay region">
+                                    <h5 class="fs-6">TOUR HỘI AN</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-6">
+                            <div class="card category-card">
+                                <img src="https://images.unsplash.com/photo-1555921015-5532091f6026?auto=format&fit=crop&w=400&q=80" alt="Đà Nẵng">
+                                <div class="category-overlay region">
+                                    <h5 class="fs-6">TOUR ĐÀ NẴNG</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-6">
+                            <div class="card category-card">
+                                <img src="https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=400&q=80" alt="Sapa">
+                                <div class="category-overlay region">
+                                    <h5 class="fs-6">TOUR VỊNH HẠ LONG</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-6">
+                            <div class="card category-card">
+                                <img src="image/Huế.jpg" alt="Huế">
+                                <div class="category-overlay region">
+                                    <h5 class="fs-6">TOUR HUẾ</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 4: Câu hỏi thường gặp -->
+                <div class="mb-5">
+                    <h4 class="section-title">Câu hỏi thường gặp</h4>
+                    <div class="accordion" id="faqAccordion">
+                        <div class="accordion-item mb-2 border rounded">
+                            <h2 class="accordion-header" id="headingOne">
+                                <button class="accordion-button rounded" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    1. Giá Tour áp dụng cho trẻ em sẽ như thế nào?
+                                </button>
+                            </h2>
+                            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body text-muted small">
+                                    Giá tour cho trẻ em dưới 5 tuổi thường được miễn phí (ngủ chung với bố mẹ). Trẻ em từ 5-10 tuổi tính 50% - 75% giá tour người lớn tùy thuộc vào từng nhà cung cấp. Chi tiết cụ thể vui lòng xem ở phần lưu ý của mỗi tour.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item mb-2 border rounded">
+                            <h2 class="accordion-header" id="headingTwo">
+                                <button class="accordion-button collapsed rounded" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    2. Hủy tour trước ngày đi sẽ phải chịu bao nhiêu phí?
+                                </button>
+                            </h2>
+                            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body text-muted small">
+                                    Tùy thuộc vào chính sách của LocalMate, thông thường hủy trước 7 ngày sẽ được hoàn 100%, hủy từ 3-6 ngày hoàn 50%, hủy dưới 3 ngày sẽ không được hoàn tiền.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item mb-2 border rounded">
+                            <h2 class="accordion-header" id="headingThree">
+                                <button class="accordion-button collapsed rounded" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                    3. Tôi cần chuẩn bị những gì trước khi tham gia tour?
+                                </button>
+                            </h2>
+                            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body text-muted small">
+                                    Bạn nên mang theo giấy tờ tùy thân, trang phục phù hợp với thời tiết và địa hình điểm đến, thuốc men cá nhân cơ bản và tâm hồn cởi mở để trải nghiệm văn hóa địa phương.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="footer-section py-5">
+        <div class="container mt-3">
+            <div class="row gy-5">
+                
+                <div class="col-xl-4 col-lg-12">
+                    <div class="mb-4">
+                        <img src="image/logo.png" alt="LocalMate Logo" height="60">
+                    </div>
+                    <p class="small text-light" style="opacity: 0.85; text-align: justify; line-height: 1.8;">LocalMate là nền tảng thương mại điện tử theo mô hình kinh tế chia sẻ, kết nối trực tiếp du khách với người bản địa. Chúng tôi mang đến những trải nghiệm du lịch chân thực, an toàn và đậm đà bản sắc văn hóa.</p>
+                    
+                    <div class="row mt-4">
+                        <div class="col-6">
+                            <h6 class="fw-bold mb-3 fs-6">MẠNG XÃ HỘI</h6>
+                            <div class="d-flex gap-3 fs-4">
+                                <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                                <a href="#"><i class="fa-brands fa-tiktok"></i></a>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <h6 class="fw-bold mb-3 fs-6">THANH TOÁN</h6>
+                            <div class="d-flex gap-2 fs-4">
+                                <i class="fa-brands fa-cc-visa" style="color: white;"></i>
+                                <i class="fa-brands fa-cc-mastercard" style="color: white;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-2 col-lg-3 col-md-6">
+                    <h6 class="fw-bold mb-4">CÔNG TY CỔ PHẦN CÔNG NGHỆ DU LỊCH LOCALMATE</h6>
+                    <ul class="list-unstyled small text-light" style="opacity: 0.85; line-height: 1.8;">
+                        <li class="mb-3 d-flex align-items-start"><i class="fa-solid fa-location-dot mt-1 me-2 text-warning"></i> <span>Khu Công nghệ Phần mềm, ĐHQG TP. HCM, KP 6, P. Linh Trung, TP. Thủ Đức, TP. HCM.</span></li>
+                        <li class="mb-3 d-flex align-items-center"><i class="fa-solid fa-phone me-2 text-warning"></i> <span>+84 123 456 789</span></li>
+                        <li class="mb-3 d-flex align-items-center"><i class="fa-solid fa-envelope me-2 text-warning"></i> <span>hello@localmate.vn</span></li>
+                    </ul>
+                </div>
+
+                <div class="col-xl-2 col-lg-3 col-md-6">
+                    <h6 class="fw-bold mb-4">VỀ CHÚNG TÔI</h6>
+                    <ul class="list-unstyled small fw-medium" style="line-height: 2;">
+                        <li><a href="#">Giới thiệu về LocalMate</a></li>
+                        <li><a href="#">Cách thức hoạt động</a></li>
+                        <li><a href="#">Trở thành Local Mate</a></li>
+                        <li><a href="#">Cẩm nang du lịch (Blog)</a></li>
+                        <li><a href="#">Cơ hội nghề nghiệp</a></li>
+                        <li><a href="#">Liên hệ Hỗ trợ</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-xl-2 col-lg-3 col-md-6">
+                    <h6 class="fw-bold mb-4">KHÁM PHÁ</h6>
+                    <ul class="list-unstyled small fw-medium" style="line-height: 2;">
+                        <li><a href="#">Food Tour & Ẩm thực</a></li>
+                        <li><a href="#">Khám phá văn hóa & Lịch sử</a></li>
+                        <li><a href="#">Phượt xe máy trải nghiệm</a></li>
+                        <li><a href="#">Nghệ thuật & Làng nghề</a></li>
+                        <li><a href="#">Du lịch chữa lành (Healing)</a></li>
+                        <li><a href="#">Trợ lý AI - Gợi ý hành trình</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-xl-2 col-lg-3 col-md-6">
+                    <h6 class="fw-bold mb-4">CHÍNH SÁCH</h6>
+                    <ul class="list-unstyled small fw-medium" style="line-height: 2;">
+                        <li><a href="#">Quy chế hoạt động nền tảng</a></li>
+                        <li><a href="#">Điều khoản sử dụng dịch vụ</a></li>
+                        <li><a href="#">Chính sách bảo mật thông tin</a></li>
+                        <li><a href="#">Quy định thanh toán & Tạm giữ</a></li>
+                        <li><a href="#">Chính sách hủy tour & Hoàn tiền</a></li>
+                        <li><a href="#">Cơ chế giải quyết tranh chấp</a></li>
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+    </footer>
+    <script>
+            // Xử lý tương tác Bộ lọc (Số ngày)
+            // Nhóm này tương tự radio button (chỉ chọn 1)
+            const dayTags = document.querySelectorAll('.day-filter .filter-tag');
+            dayTags.forEach(tag => {
+                tag.addEventListener('click', function() {
+                    dayTags.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            // Xử lý tương tác Bộ lọc (Loại trải nghiệm)
+            // Nhóm này tương tự checkbox (chọn nhiều)
+            const expTags = document.querySelectorAll('.exp-filter .filter-tag');
+            expTags.forEach(tag => {
+                tag.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                });
+            });
+
+            // Xử lý tương tác Thanh kéo Ngân sách 
+            const budgetSlider = document.getElementById('budgetSlider');
+            const budgetDisplay = document.getElementById('budgetDisplay');
+            if(budgetSlider && budgetDisplay) {
+                budgetSlider.addEventListener('input', function() {
+                    // Định dạng số thành chuẩn VNĐ
+                    let formattedValue = parseInt(this.value).toLocaleString('vi-VN');
+                    budgetDisplay.textContent = formattedValue + ' VNĐ';
+                });
+            }
+    </script>
+</body>
+</html>
