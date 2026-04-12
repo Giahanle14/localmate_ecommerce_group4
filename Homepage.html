@@ -3,18 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LocalMate - Khung Giao Diện</title>
+    <title>LocalMate - Khám phá Việt Nam theo cách của người bản địa</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* ================= BIẾN MÀU SẮC ================= */
+        /* ================= BIẾN MÀU SẮC CHUNG ================= */
         :root {
             --color-primary-dark: #005A24;
             --color-primary: #00712D;
@@ -25,7 +24,6 @@
             --font-main: 'Quicksand', sans-serif;
         }
 
-        /* ================= CƠ BẢN ================= */
         body {
             font-family: var(--font-main);
             background-color: var(--color-bg-light);
@@ -45,12 +43,8 @@
             padding-bottom: 10px;
         }
 
-        .navbar-brand img {
-            max-width: 100%;
-            height: auto;
-        }
+        .navbar-brand img { max-width: 100%; height: auto; }
 
-        /* ================= HIỆU ỨNG MENU CHÍNH ================= */
         .nav-item .nav-link {
             transition: all 0.3s ease;
             padding: 8px 16px !important; 
@@ -63,7 +57,6 @@
             color: white !important;
         }
 
-        /* ================= HIỆU ỨNG NÚT BẤM (LOGIN & REGISTER) ================= */
         .btn-login {
             background-color: var(--color-bg-cream);
             color: var(--color-primary-dark);
@@ -72,10 +65,10 @@
         }
 
         .btn-login:hover {
-            background-color: white; /* Đổi màu nền sáng hơn */
-            color: var(--color-primary); /* Đổi màu chữ */
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15); /* Thêm đổ bóng */
-            transform: translateY(-2px); /* Hiệu ứng nổi lên nhẹ */
+            background-color: white; 
+            color: var(--color-primary); 
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15); 
+            transform: translateY(-2px); 
         }
 
         .btn-register {
@@ -86,13 +79,12 @@
         }
 
         .btn-register:hover {
-            background-color: #e68200; /* Chuyển sang màu cam đậm hơn một chút */
+            background-color: #e68200; 
             color: white;
             box-shadow: 0 4px 8px rgba(0,0,0,0.15);
             transform: translateY(-2px);
         }
 
-        /* ================= DROPDOWN MENU HAMBURGER ================= */
         .hamburger-dropdown-menu {
             background-color: #6a8c75; 
             border: 1px solid rgba(255, 255, 255, 0.3);
@@ -102,10 +94,7 @@
         }
 
         .hamburger-dropdown-menu .dropdown-item {
-            color: white;
-            padding: 8px 16px;
-            font-size: 1.1rem;
-            transition: background-color 0.2s;
+            color: white; padding: 8px 16px; font-size: 1.1rem; transition: 0.2s;
         }
 
         .hamburger-dropdown-menu .dropdown-item:hover {
@@ -118,28 +107,125 @@
             border-top: 1px solid rgba(255, 255, 255, 0.4);
         }
 
-        /* ================= NỘI DUNG CHÍNH (MAIN) ================= */
-        .main-content {
-            flex: 1;
-            padding: 40px 0;
+        /* ================= HERO BANNER ================= */
+        .hero-section {
+            background: linear-gradient(rgba(213, 237, 159, 0.85), rgba(213, 237, 159, 0.9)), 
+                        url('image/homepage_background.png') center/cover;
+            padding: 100px 0 140px;
+            position: relative;
+        }
+        .hero-title { color: var(--color-primary-dark); font-weight: 700; font-size: 3.5rem; }
+        .hero-subtitle { color: var(--color-primary); font-weight: 500; font-size: 1.2rem; }
+
+        /* ================= THANH TÌM KIẾM ================= */
+        .search-container {
+            background: white; border-radius: 50px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            max-width: 1000px; margin: -40px auto 40px; 
+            position: relative; z-index: 10;
+        }
+        .search-input-group {
+            display: flex; align-items: center;
+            border-right: 1px solid #eaeaea; padding: 15px 20px;
+            cursor: pointer;
+        }
+        .search-input-group:last-child { border-right: none; }
+        .search-input-group i { color: var(--color-primary); font-size: 1.2rem; margin-right: 15px; }
+        .search-input-group input { 
+            border: none; outline: none; width: 100%; color: #555; 
+            font-family: var(--font-main); background: transparent; cursor: pointer;
+        }
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            cursor: pointer; opacity: 0; position: absolute; right: 0; width: 100%; height: 100%;
+        }
+
+        /* ================= ICON TÍNH NĂNG ================= */
+        .feature-icon-box { text-align: center; margin: 0 25px; cursor: pointer; }
+        .feature-icon-circle {
+            width: 65px; height: 65px; background: white; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin: 0 auto 10px;
+            color: var(--color-accent); font-size: 1.8rem; transition: 0.3s;
+        }
+        .feature-icon-box:hover .feature-icon-circle { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+
+        /* ================= CARD STYLE CHUNG ================= */
+        .section-title { color: var(--color-primary-dark); font-weight: 700; }
+        .view-more { color: var(--color-accent); text-decoration: none; font-weight: 600; transition: 0.2s; }
+        .view-more:hover { color: #e68200; }
+        
+        .custom-card {
+            border: none; border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.04);
+            transition: transform 0.3s;
+            background: white; height: 100%; overflow: hidden;
+        }
+        .custom-card:hover { transform: translateY(-8px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        
+        .card-img-wrapper { position: relative; }
+        .card-img-wrapper img.card-banner { width: 100%; height: 200px; object-fit: cover; }
+        
+        .price-tag {
+            position: absolute; top: 15px; right: 15px;
+            background: var(--color-primary); color: white;
+            padding: 6px 16px; border-radius: 20px; font-weight: 700; font-size: 0.95rem;
+            z-index: 3;
+        }
+        .verified-tag {
+            position: absolute; top: 15px; right: 15px;
+            background: var(--color-primary-dark); color: white;
+            padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 0.8rem;
+            z-index: 3;
+        }
+
+        .card-avatar-corner {
+            width: 55px !important; 
+            height: 55px !important; 
+            border-radius: 50% !important; 
+            border: 3px solid white !important; 
+            position: absolute !important; 
+            bottom: -20px !important; 
+            left: 20px !important; 
+            object-fit: cover; 
+            z-index: 5 !important; 
+            background-color: white;
+        }
+        
+        .custom-tag-badge {
+            background-color: #EAF9DE; color: var(--color-primary-dark);
+            border: none; border-radius: 20px;
+            padding: 4px 10px; font-size: 0.75rem; font-weight: 600;
+            display: inline-flex; align-items: center; gap: 5px;
+        }
+        .custom-tag-badge i { font-size: 0.85rem; color: var(--color-accent); }
+
+        /* ================= STYLE RIÊNG CHO NGƯỜI BẢN ĐỊA & BLOG ================= */
+        .local-card { background-color: var(--color-bg-cream) !important; }
+        
+        .local-avatar-corner {
+            width: 70px !important; 
+            height: 70px !important; 
+            border-radius: 50% !important;
+            border: 4px solid var(--color-bg-cream) !important;
+            position: absolute !important; 
+            bottom: -35px !important; 
+            left: 20px !important; 
+            object-fit: cover; 
+            z-index: 5 !important;
+        }
+        .local-info-row { margin-left: 85px; min-height: 45px; }
+
+        /* Blog Gallery */
+        .blog-img-gallery { height: 120px; }
+        .blog-img-item {
+            width: calc(33.33% - 2.67px); height: 100%;
+            object-fit: cover; border-radius: 8px;
         }
 
         /* ================= FOOTER ================= */
-        .footer-section {
-            background-color: var(--color-primary-dark);
-            color: white;
-            margin-top: auto;
-        }
-        
-        .footer-section a {
-            color: #ccc;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-        
-        .footer-section a:hover {
-            color: white !important;
-        }
+        .footer-section { background-color: var(--color-primary-dark); color: white; margin-top: auto; }
+        .footer-section a { color: #ccc; text-decoration: none; transition: 0.3s; }
+        .footer-section a:hover { color: white !important; }
     </style>
 </head>
 <body>
@@ -147,64 +233,37 @@
     <header class="main-header">
         <nav class="navbar navbar-expand-xl navbar-dark py-0">
             <div class="container-fluid px-4">
-                
                 <div class="d-flex align-items-center">
                     <a class="navbar-brand me-4 d-inline-block py-0" href="#">
                         <img src="image/logo.png" alt="LocalMate Logo" height="50">
                     </a>
-
                     <div class="dropdown d-none d-sm-block">
-                        <button class="btn text-white d-flex align-items-center rounded px-3 py-1 border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: rgba(255, 255, 255, 0.25); font-size: 14px; font-weight: 500;">
-                            <img src="image/Flag_of_Vietnam.svg.png" alt="VN" class="me-2" style="width: 18px; height: auto; border-radius: 2px;"> 
-                            VND | VI 
-                            <i class="fa-solid fa-caret-down ms-2"></i>
+                        <button class="btn text-white d-flex align-items-center rounded px-3 py-1 border-0" type="button" data-bs-toggle="dropdown" style="background-color: rgba(255, 255, 255, 0.25); font-size: 14px; font-weight: 500;">
+                            <img src="image/Flag_of_Vietnam.svg.png" alt="VN" class="me-2" style="width: 18px;"> VND | VI <i class="fa-solid fa-caret-down ms-2"></i>
                         </button>
-                        
-                        <ul class="dropdown-menu dropdown-menu-dark shadow" style="min-width: auto;">
-                            <li>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <img src="image/Flag_of_Vietnam.svg.png" alt="VN" class="me-2" style="width: 18px; height: auto; border-radius: 2px;"> VND | VI
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <img src="image/global.png" alt="Global" class="me-2" style="width: 18px; height: auto; border-radius: 2px;"> USD | EN
-                                </a>
-                            </li>
+                        <ul class="dropdown-menu dropdown-menu-dark shadow">
+                            <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="image/Flag_of_Vietnam.svg.png" class="me-2" style="width: 18px;"> VND | VI</a></li>
+                            <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="image/global.png" class="me-2" style="width: 18px;"> USD | EN</a></li>
                         </ul>
                     </div>
                 </div>
 
                 <div class="collapse navbar-collapse justify-content-center" id="mainNavbar">
                     <ul class="navbar-nav mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link text-white fs-5 fw-semibold" href="#">Khám phá</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white fs-5 fw-semibold" href="#">Đặt chỗ của tôi</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white fs-5 fw-semibold" href="#">Hồ sơ</a>
-                        </li>
+                        <li class="nav-item"><a class="nav-link text-white fs-5 fw-semibold" href="#">Khám phá</a></li>
+                        <li class="nav-item"><a class="nav-link text-white fs-5 fw-semibold" href="#">Đặt chỗ của tôi</a></li>
+                        <li class="nav-item"><a class="nav-link text-white fs-5 fw-semibold" href="#">Hồ sơ</a></li>
                     </ul>
                 </div>
 
                 <div class="d-flex align-items-center gap-2 gap-md-3">
-                    
-                    <a href="#" class="btn btn-login rounded-pill px-3 px-md-4 py-2 d-flex align-items-center">
-                        Đăng nhập <i class="fa-solid fa-arrow-right-to-bracket ms-2 fs-5"></i>
-                    </a>
-                    
-                    <a href="#" class="btn btn-register rounded-pill px-3 px-md-4 py-2">
-                        Đăng ký
-                    </a>
-                    
+                    <a href="#" class="btn btn-login rounded-pill px-3 px-md-4 py-2">Đăng nhập <i class="fa-solid fa-arrow-right-to-bracket ms-2"></i></a>
+                    <a href="#" class="btn btn-register rounded-pill px-3 px-md-4 py-2">Đăng ký</a>
                     <button class="btn rounded p-0 d-none d-md-flex align-items-center justify-content-center" style="background-color: var(--color-primary-light); color: var(--color-primary-dark); width: 42px; height: 42px;">
                         <i class="fa-solid fa-phone fs-5"></i>
                     </button>
-                    
                     <div class="dropdown d-none d-md-flex">
-                        <button class="btn rounded p-0 d-flex align-items-center justify-content-center" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: rgba(255, 255, 255, 0.4); color: white; width: 42px; height: 42px; border: none;">
+                        <button class="btn rounded p-0 d-flex align-items-center justify-content-center" type="button" data-bs-toggle="dropdown" style="background-color: rgba(255, 255, 255, 0.4); color: white; width: 42px; height: 42px; border: none;">
                             <i class="fa-solid fa-bars fs-4"></i>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end shadow hamburger-dropdown-menu mt-2">
@@ -219,20 +278,163 @@
                             <li><a class="dropdown-item text-end" href="#">ChatbotAI</a></li>
                         </ul>
                     </div>
-
-                    <button class="navbar-toggler border-0 ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
                 </div>
-                
             </div>
         </nav>
     </header>
 
-    <main class="main-content container text-center">
-        <h2 class="text-muted mt-5 border p-5 border-dashed rounded">
-            Các Teammate code nội dung từng trang vào khu vực này nhé!
-        </h2>
+    <main class="main-content">
+        <section class="hero-section text-center">
+            <div class="container">
+                <h1 class="hero-title mb-3">Khám phá Việt Nam<br>theo cách của người bản địa</h1>
+                <p class="hero-subtitle">Kết nối với những người bạn đồng hành địa phương để có những trải nghiệm văn hóa chân thực nhất.</p>
+            </div>
+        </section>
+
+        <div class="container">
+            <div class="search-container row align-items-center g-0">
+                <div class="col-md-4 search-input-group">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" placeholder="Bạn muốn đi đâu ?">
+                </div>
+                
+                <div class="col-md-3 search-input-group position-relative" onclick="document.getElementById('dateInput').focus(); document.getElementById('dateInput').click();">
+                    <i class="fa-regular fa-calendar"></i>
+                    <input type="text" id="dateInput" placeholder="Thời gian" onfocus="(this.type='date'); this.showPicker ? this.showPicker() : null;" onblur="if(!this.value) this.type='text'">
+                </div>
+
+                <div class="col-md-3 search-input-group border-right-0">
+                    <i class="fa-solid fa-sliders"></i>
+                    <input type="text" placeholder="Sở thích">
+                </div>
+                <div class="col-md-2 p-2">
+                    <button class="btn w-100 rounded-pill py-2 fw-bold text-white" style="background-color: var(--color-primary);">Tìm Kiếm</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="container mb-5 pb-4 mt-4">
+            <div class="d-flex justify-content-center flex-wrap">
+                <div class="feature-icon-box"><div class="feature-icon-circle"><i class="fa-regular fa-comment-dots"></i></div><span class="fw-semibold text-muted">Nhắn tin</span></div>
+                <div class="feature-icon-box"><div class="feature-icon-circle"><i class="fa-regular fa-face-smile"></i></div><span class="fw-semibold text-muted">Yêu thích</span></div>
+                <div class="feature-icon-box"><div class="feature-icon-circle"><i class="fa-regular fa-star"></i></div><span class="fw-semibold text-muted">Đánh giá</span></div>
+                <div class="feature-icon-box"><div class="feature-icon-circle"><i class="fa-solid fa-robot"></i></div><span class="fw-semibold text-muted">ChatbotAI</span></div>
+            </div>
+        </div>
+
+        <div class="container mb-5 pb-3">
+            <div class="d-flex justify-content-between align-items-end mb-4">
+                <h3 class="section-title mb-0">Tour Trải Nghiệm Nổi Bật <i class="fa-solid fa-fire text-warning ms-1"></i></h3>
+                <a href="#" class="view-more">Xem thêm ></a>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="custom-card card">
+                        <div class="card-img-wrapper">
+                            <img src="image/hoiantown.jpg" class="card-banner" alt="Hội An">
+                            <div class="price-tag">1.299.000 VNĐ</div>
+                            <img src="https://ui-avatars.com/api/?name=L&background=random&rounded=true" class="card-avatar-corner" alt="Avatar">
+                        </div>
+                        <div class="card-body pt-4">
+                            <div class="d-flex justify-content-between align-items-start mb-2"><h5 class="fw-bold mb-0">Lạc bước Phố Cổ</h5><span class="text-warning fw-semibold"><i class="fa-solid fa-star"></i> 5.0 <span class="text-muted fw-normal">(120)</span></span></div>
+                            <p class="small text-muted mb-3"><i class="fa-solid fa-location-dot me-1 text-danger"></i> Hội An, Quảng Nam</p>
+                            <div class="d-flex flex-wrap gap-2 mb-3"><span class="custom-tag-badge"><i class="fa-solid fa-utensils"></i> Ẩm thực</span><span class="custom-tag-badge"><i class="fa-solid fa-camera"></i> Check in</span><span class="custom-tag-badge"><i class="fa-solid fa-masks-theater"></i> Văn hóa</span></div>
+                            <p class="small text-muted" style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">Cùng đạp xe xuyên qua những cánh đồng lúa chín, tự tay chuốt gốm cùng nghệ nhân bản địa và kết thúc ngày dài bằng trà mót ngắm sông Hoài.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="custom-card card">
+                        <div class="card-img-wrapper">
+                            <img src="image/mientay.jpg" class="card-banner" alt="Miền Tây">
+                            <div class="price-tag">899.000 VNĐ</div>
+                            <img src="https://ui-avatars.com/api/?name=M&background=random&rounded=true" class="card-avatar-corner" alt="Avatar">
+                        </div>
+                        <div class="card-body pt-4">
+                            <div class="d-flex justify-content-between align-items-start mb-2"><h5 class="fw-bold mb-0">Khám phá miệt vườn</h5><span class="text-warning fw-semibold"><i class="fa-solid fa-star"></i> 4.7 <span class="text-muted fw-normal">(82)</span></span></div>
+                            <p class="small text-muted mb-3"><i class="fa-solid fa-location-dot me-1 text-danger"></i> Cái Răng, Cần Thơ</p>
+                            <div class="d-flex flex-wrap gap-2 mb-3"><span class="custom-tag-badge"><i class="fa-solid fa-water"></i> Sông nước</span><span class="custom-tag-badge"><i class="fa-solid fa-ship"></i> Chèo thuyền</span></div>
+                            <p class="small text-muted" style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">Hòa mình vào không khí nhộn nhịp trên chợ nổi, thưởng thức tô hủ tiếu lắc ngay giữa sông và nghe đờn ca tài tử.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="custom-card card">
+                        <div class="card-img-wrapper">
+                            <img src="image/sapa.jpg" class="card-banner" alt="Sapa">
+                            <div class="price-tag">2.159.000 VNĐ</div>
+                            <img src="https://ui-avatars.com/api/?name=T&background=random&rounded=true" class="card-avatar-corner" alt="Avatar">
+                        </div>
+                        <div class="card-body pt-4">
+                            <div class="d-flex justify-content-between align-items-start mb-2"><h5 class="fw-bold mb-0">Trekking Tả Van</h5><span class="text-warning fw-semibold"><i class="fa-solid fa-star"></i> 4.9 <span class="text-muted fw-normal">(93)</span></span></div>
+                            <p class="small text-muted mb-3"><i class="fa-solid fa-location-dot me-1 text-danger"></i> Sapa, Lào Cai</p>
+                            <div class="d-flex flex-wrap gap-2 mb-3"><span class="custom-tag-badge"><i class="fa-solid fa-mountain"></i> Leo núi</span><span class="custom-tag-badge"><i class="fa-solid fa-compass"></i> Khám phá</span></div>
+                            <p class="small text-muted" style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">Rời xa thành phố ồn ào để đi bộ xuyên qua những thửa ruộng bậc thang kỳ vĩ và tắm lá thuốc người Dao Đỏ.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container mb-5 pb-3">
+            <div class="d-flex justify-content-between align-items-end mb-4"><h3 class="section-title mb-0">Người Bản Địa Nổi Bật <i class="fa-solid fa-heart text-warning ms-1"></i></h3><a href="#" class="view-more">Xem thêm ></a></div>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="custom-card card local-card"><div class="card-img-wrapper"><img src="image/Lặn.png" style="height: 180px; width: 100%; object-fit: cover;"><div class="verified-tag">Đã xác thực <i class="fa-solid fa-circle-check ms-1"></i></div><img src="image/Trâm Nguyễn.png" class="local-avatar-corner"></div><div class="card-body pt-2 text-start"><div class="d-flex justify-content-between align-items-start local-info-row mb-2"><div><h5 class="fw-bold mb-1">Trâm Nguyễn</h5><div class="d-flex align-items-center flex-wrap gap-1"><span class="small text-muted"><i class="fa-solid fa-location-dot text-danger"></i> Phú Quốc</span></div></div><span class="text-warning small fw-semibold">359 followers</span></div><p class="small text-muted mb-0 mt-3" style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">Sinh ra và lớn lên ở đảo ngọc. Mình biết những bãi tắm giấu tên không có trên bản đồ.</p></div></div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="custom-card card local-card"><div class="card-img-wrapper"><img src="image/Xinh_background.png" style="height: 180px; width: 100%; object-fit: cover;"><div class="verified-tag">Đã xác thực <i class="fa-solid fa-circle-check ms-1"></i></div><img src="image/Xink.png" class="local-avatar-corner"></div><div class="card-body pt-2 text-start"><div class="d-flex justify-content-between align-items-start local-info-row mb-2"><div><h5 class="fw-bold mb-1">Xinkookie</h5><div class="d-flex align-items-center flex-wrap gap-1"><span class="small text-muted"><i class="fa-solid fa-location-dot text-danger"></i> Đồng Nai</span></div></div><span class="text-warning small fw-semibold">197 followers</span></div><p class="small text-muted mb-0 mt-3" style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">Bỏ phố xá ồn ào về ngoại ô một ngày không? Mình sẽ dẫn bạn đạp xe dạo quanh rợp bóng cây.</p></div></div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="custom-card card local-card"><div class="card-img-wrapper"><img src="image/oanh_background.png" style="height: 180px; width: 100%; object-fit: cover;"><div class="verified-tag">Đã xác thực <i class="fa-solid fa-circle-check ms-1"></i></div><img src="image/oanh.png" class="local-avatar-corner"></div><div class="card-body pt-2 text-start"><div class="d-flex justify-content-between align-items-start local-info-row mb-2"><div><h5 class="fw-bold mb-1">Jessica Oanh</h5><div class="d-flex align-items-center flex-wrap gap-1"><span class="small text-muted"><i class="fa-solid fa-location-dot text-danger"></i> TP.HCM</span></div></div><span class="text-warning small fw-semibold">235 followers</span></div><p class="small text-muted mb-0 mt-3" style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">Không chỉ có địa đạo, Củ Chi quê mình còn cực kỳ xanh mát. Cùng mình đi thu hoạch rau organic.</p></div></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container mb-5 pb-5">
+            <div class="d-flex justify-content-between align-items-end mb-4"><h3 class="section-title mb-0">Kinh Nghiệm Đi Tour <i class="fa-solid fa-circle-check text-warning ms-1"></i></h3><a href="#" class="view-more">Xem thêm ></a></div>
+            <div class="row g-4">
+                <div class="col-lg-3 col-md-6">
+                    <div class="custom-card card h-100 p-2 local-card">
+                        <div class="blog-img-gallery d-flex gap-1 mb-2"><img src="image/hoian1.jpeg" class="blog-img-item"><img src="image/hoian2.png" class="blog-img-item"><img src="image/hoian3.jpg" class="blog-img-item"></div>
+                        <div class="card-body p-2 mt-0 text-start">
+                            <div class="d-flex justify-content-between align-items-center mb-1 local-info-row ms-0"><div><h6 class="fw-bold mb-0">Lạc bước Phố Cổ</h6><div class="d-flex align-items-center mt-1"><img src="https://ui-avatars.com/api/?name=Linh+Le&background=random" width="30" class="rounded-circle me-2"><p class="small fw-bold mb-0">LinhLe</p></div></div><span class="text-warning small"><i class="fa-solid fa-thumbs-up"></i> 123</span></div>
+                            <p class="small text-muted mt-2 mb-0" style="line-height: 1.5; font-size: 0.75rem;">Tour này gặp người bản địa thân thiện hỗ trợ nhiệt tình lắm, chuyến đi rất đáng nhớ...</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="custom-card card h-100 p-2 local-card">
+                        <div class="blog-img-gallery d-flex gap-1 mb-2"><img src="image/mientay1.jpg" class="blog-img-item"><img src="image/mientay2.jpg" class="blog-img-item"><img src="image/mientay3.jpg" class="blog-img-item"></div>
+                        <div class="card-body p-2 mt-0 text-start">
+                            <div class="d-flex justify-content-between align-items-center mb-1 local-info-row ms-0"><div><h6 class="fw-bold mb-0">Khám Phá Miệt Vườn</h6><div class="d-flex align-items-center mt-1"><img src="https://ui-avatars.com/api/?name=Thie&background=random" width="30" class="rounded-circle me-2"><p class="small fw-bold mb-0">Thie</p></div></div><span class="text-warning small"><i class="fa-solid fa-thumbs-up"></i> 86</span></div>
+                            <p class="small text-muted mt-2 mb-0" style="line-height: 1.5; font-size: 0.75rem;">Mình vừa rủ cả nhà book tour này, đi siêu ưng ý luôn. Sông nước hữu tình...</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="custom-card card h-100 p-2 local-card">
+                        <div class="blog-img-gallery d-flex gap-1 mb-2"><img src="image/nongdan1.jpg" class="blog-img-item"><img src="image/nongdan2.jpg" class="blog-img-item"><img src="image/nongdan3.jpg" class="blog-img-item"></div>
+                        <div class="card-body p-2 mt-0 text-start">
+                            <div class="d-flex justify-content-between align-items-center mb-1 local-info-row ms-0"><div><h6 class="fw-bold mb-0">1 ngày làm nông dân</h6><div class="d-flex align-items-center mt-1"><img src="https://ui-avatars.com/api/?name=Hiu&background=random" width="30" class="rounded-circle me-2"><p class="small fw-bold mb-0">Híu</p></div></div><span class="text-warning small"><i class="fa-solid fa-thumbs-up"></i> 93</span></div>
+                            <p class="small text-muted mt-2 mb-0" style="line-height: 1.5; font-size: 0.75rem;">Cảm giác lội bùn bắt cá thật sự sảng khoái, gia đình mình ai cũng thích mê...</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="custom-card card h-100 p-2 local-card">
+                        <div class="blog-img-gallery d-flex gap-1 mb-2"><img src="image/battrang1.jpg" class="blog-img-item"><img src="image/battrang2.jpg" class="blog-img-item"><img src="image/battrang3.png" class="blog-img-item"></div>
+                        <div class="card-body p-2 mt-0 text-start">
+                            <div class="d-flex justify-content-between align-items-center mb-1 local-info-row ms-0">
+                                <div><h6 class="fw-bold mb-0">Tinh hoa Bát Tràng</h6><div class="d-flex align-items-center mt-1"><img src="https://ui-avatars.com/api/?name=Zang&background=random" width="30" class="rounded-circle me-2"><p class="small fw-bold mb-0">Zang</p></div></div>
+                                <span class="text-warning small"><i class="fa-solid fa-thumbs-up"></i> 77</span>
+                            </div>
+                            <p class="small text-muted mt-2 mb-0" style="line-height: 1.5; font-size: 0.75rem;">Tour này thực sự là mảnh ghép hoàn hảo. Cứ ngồi ngắm mọi người nặn gốm thật thư giãn...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 
     <footer class="footer-section py-5">
