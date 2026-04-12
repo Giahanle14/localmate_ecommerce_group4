@@ -1,0 +1,260 @@
+/* ================= BIẾN MÀU SẮC ================= */
+:root {
+    --color-primary-dark: #005A24;
+    --color-primary: #00712D;
+    --color-primary-light: #D5ED9F;
+    --color-bg-cream: #FFFBE6;
+    --color-bg-light: #FFFDF3;
+    --color-accent: #F9C56F; /* Màu vàng Avatar */
+    --color-accent-orange: #FF9100; /* Màu cam nút đăng ký */
+    --font-main: 'Quicksand', sans-serif;
+    --color-tab-active: #6A8C75; 
+    --text-muted: #6c757d;
+}
+
+/* ================= CƠ BẢN ================= */
+body {
+    font-family: var(--font-main);
+    background-color: var(--color-bg-light);
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* ================= HEADER & FOOTER ================= */
+.main-header {
+    background-color: var(--color-primary-dark);
+    padding: 10px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+}
+
+.footer-section {
+    background-color: var(--color-primary-dark);
+    color: white;
+    margin-top: auto;
+}
+
+.footer-section a {
+    color: #ccc;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.footer-section a:hover {
+    color: white !important;
+}
+
+/* ================= MENU CHÍNH ================= */
+.nav-item .nav-link {
+    transition: all 0.3s ease;
+    padding: 8px 16px !important;
+    border-radius: 6px;
+    margin: 0 4px;
+}
+
+.nav-item .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.15) !important;
+    color: white !important;
+}
+
+.nav-item .nav-link.active-nav {
+    background-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* ================= NÚT LOGIN & REGISTER ================= */
+.btn-login {
+    background-color: var(--color-bg-cream);
+    color: var(--color-primary-dark);
+    font-weight: 700;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.btn-login:hover {
+    background-color: white;
+    color: var(--color-primary);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    transform: translateY(-2px);
+}
+
+.btn-register {
+    background-color: var(--color-accent-orange);
+    color: white;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.btn-register:hover {
+    background-color: #e68200;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    transform: translateY(-2px);
+}
+
+/* ================= AVATAR & DROPDOWN ================= */
+.avatar-circle {
+    width: 42px;
+    height: 42px;
+    background-color: var(--color-accent);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hamburger-dropdown-menu {
+    background-color: #6a8c75;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    min-width: 140px;
+    padding: 0;
+}
+
+.hamburger-dropdown-menu .dropdown-item {
+    color: white;
+    padding: 8px 16px;
+    transition: 0.2s;
+}
+
+.hamburger-dropdown-menu .dropdown-item:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* ================= MAIN CONTENT & TABS (FIX CONTRAST) ================= */
+.main-content {
+    flex: 1;
+    padding: 40px 0 80px 0;
+}
+
+.page-title {
+    color: var(--color-primary-dark);
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.custom-nav-pills {
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 40px;
+}
+
+/* Tab trạng thái bình thường */
+.custom-nav-pills .nav-link {
+    border-radius: 30px;
+    padding: 10px 30px;
+    color: var(--color-primary-dark) !important; /* Luôn ép màu xanh đậm cho dễ nhìn */
+    background-color: var(--color-primary-light);
+    font-weight: 700;
+    font-size: 16px;
+    transition: all 0.2s ease;
+    border: none;
+}
+
+/* Tab trạng thái Hover (Rê chuột) */
+.custom-nav-pills .nav-link:hover {
+    background-color: #C0E685; /* Xanh đậm hơn nền một chút */
+    color: #003315 !important;  /* Chữ cực đậm để không bị lóa */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* Tab trạng thái Active (Đang được chọn) */
+.custom-nav-pills .nav-link.active {
+    background-color: var(--color-tab-active) !important;
+    color: white !important; /* Chữ trắng trên nền xanh xám đậm */
+    box-shadow: 0 4px 15px rgba(106, 140, 117, 0.3);
+}
+
+/* ================= THẺ TOUR (CARD) ================= */
+.lm-card {
+    background: white;
+    border-radius: 16px;
+    padding: 25px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+    margin-bottom: 25px;
+}
+
+.trip-item {
+    display: flex;
+    gap: 20px;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px dashed #eee;
+    align-items: center;
+}
+
+.trip-img {
+    width: 160px;
+    height: 110px;
+    border-radius: 12px;
+    object-fit: cover;
+}
+
+.trip-info h5 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--color-primary-dark);
+    margin-bottom: 8px;
+}
+
+.badge-status {
+    font-size: 12px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+/* Nút Đánh giá (Đồng bộ hiệu ứng mới) */
+.btn-review {
+    background-color: transparent;
+    border: 2px solid var(--color-primary);
+    color: var(--color-primary);
+    font-weight: 700;
+    border-radius: 20px;
+    padding: 8px 25px;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-review:hover {
+    background-color: var(--color-primary-light);
+    color: var(--color-primary-dark);
+    border-color: var(--color-primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 113, 45, 0.15);
+}
+
+/* ================= MODAL ĐÁNH GIÁ ================= */
+.modal-header-custom {
+    background-color: var(--color-primary-dark);
+    color: white;
+}
+
+.star-rating {
+    font-size: 32px;
+    color: #ddd;
+    text-align: center;
+    margin: 15px 0;
+}
+
+.star-rating i.active {
+    color: #FFC107;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .trip-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .trip-img {
+        width: 100%;
+        height: 180px;
+    }
+}

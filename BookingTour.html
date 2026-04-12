@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LocalMate - Các chuyến đi (Đã đăng nhập)</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Liên kết đến tệp CSS đã tách -->
+    <link rel="stylesheet" href="BookingTour.css">
+</head>
+<body>
+
+    <!-- HEADER (Trạng thái ĐÃ ĐĂNG NHẬP) -->
+    <header class="main-header">
+        <nav class="navbar navbar-expand-xl navbar-dark py-0">
+            <div class="container-fluid px-4">
+                
+                <div class="d-flex align-items-center">
+                    <a class="navbar-brand me-4 d-inline-block py-0" href="#">
+                        <img src="image/logo.png" alt="LocalMate Logo" height="50">
+                    </a>
+
+                    <div class="dropdown d-none d-sm-block">
+                        <button class="btn text-white d-flex align-items-center rounded px-3 py-1 border-0" type="button" data-bs-toggle="dropdown" style="background-color: rgba(255, 255, 255, 0.25); font-size: 14px; font-weight: 500;">
+                            <img src="image/Flag_of_Vietnam.svg.png" alt="VN" class="me-2" style="width: 18px; border-radius: 2px;"> 
+                            VND | VI <i class="fa-solid fa-caret-down ms-2"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-dark shadow">
+                            <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="image/Flag_of_Vietnam.svg.png" width="18" class="me-2"> VND | VI</a></li>
+                            <li><a class="dropdown-item d-flex align-items-center" href="#"><img src="image/global.png" width="18" class="me-2"> USD | EN</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="collapse navbar-collapse justify-content-center" id="mainNavbar">
+                    <ul class="navbar-nav mb-2 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link text-white fs-5 fw-semibold" href="#">Khám phá</a></li>
+                        <li class="nav-item"><a class="nav-link text-white fs-5 fw-semibold active-nav" href="#">Các chuyến đi</a></li>
+                        <li class="nav-item"><a class="nav-link text-white fs-5 fw-semibold" href="#">Hồ sơ</a></li>
+                    </ul>
+                </div>
+
+                <div class="d-flex align-items-center gap-2 gap-md-3">
+                    
+                    <div class="dropdown">
+                        <button class="btn p-0 border-0" type="button" data-bs-toggle="dropdown">
+                            <div class="avatar-circle">
+                                <i class="fa-solid fa-user text-white"></i>
+                            </div>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end shadow mt-2">
+                            <li><a class="dropdown-item" href="#">Hồ sơ của tôi</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="#">Đăng xuất</a></li>
+                        </ul>
+                    </div>
+                    
+                    <button class="btn rounded p-0 d-none d-md-flex align-items-center justify-content-center" style="background-color: var(--color-primary-light); color: var(--color-primary-dark); width: 42px; height: 42px;">
+                        <i class="fa-solid fa-phone fs-5"></i>
+                    </button>
+                    
+                    <div class="dropdown d-none d-md-flex">
+                        <button class="btn rounded p-0 d-flex align-items-center justify-content-center" type="button" data-bs-toggle="dropdown" style="background-color: rgba(255, 255, 255, 0.4); color: white; width: 42px; height: 42px; border: none;">
+                            <i class="fa-solid fa-bars fs-4"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end shadow hamburger-dropdown-menu mt-2">
+                            <li><a class="dropdown-item text-end" href="#">Nhắn tin</a></li>
+                            <li><div class="hamburger-divider"></div></li>
+                            <li><a class="dropdown-item text-end" href="#">Yêu thích</a></li>
+                            <li><div class="hamburger-divider"></div></li>
+                            <li><a class="dropdown-item text-end" href="#">Đánh giá</a></li>
+                            <li><div class="hamburger-divider"></div></li>
+                            <li><a class="dropdown-item text-end" href="#">Ghép đôi</a></li>
+                            <li><div class="hamburger-divider"></div></li>
+                            <li><a class="dropdown-item text-end" href="#">ChatbotAI</a></li>
+                        </ul>
+                    </div>
+
+                    <button class="navbar-toggler border-0 ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- NỘI DUNG CHÍNH -->
+    <main class="main-content container">
+        <h2 class="page-title">Các chuyến đi</h2>
+
+        <!-- Tabs Navigation -->
+        <ul class="nav nav-pills custom-nav-pills" id="bookingTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="upcoming-tab" data-bs-toggle="pill" data-bs-target="#upcoming" type="button" role="tab">
+                    Chưa hoàn thành
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="completed-tab" data-bs-toggle="pill" data-bs-target="#completed" type="button" role="tab">
+                    Hoàn thành
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="wishlist-tab" data-bs-toggle="pill" data-bs-target="#wishlist" type="button" role="tab">
+                    Danh sách yêu thích
+                </button>
+            </li>
+        </ul>
+
+        <!-- Tabs Content -->
+        <div class="tab-content" id="bookingTabsContent">
+            
+            <!-- Tab 1: CHƯA HOÀN THÀNH -->
+            <div class="tab-pane fade show active" id="upcoming" role="tabpanel">
+                <div class="row justify-content-center">
+                    <div class="col-lg-10">
+                        <div class="lm-card">
+                            <div class="trip-item">
+                                <img src="image/Củ Chi.jpg" alt="Củ Chi" class="trip-img">
+                                <div class="trip-info">
+                                    <h5>Huyền Thoại Đất Thép <span class="badge-status badge-upcoming">Sắp diễn ra</span></h5>
+                                    <p><i class="fa-solid fa-circle-user"></i> Jessica Oanh</p>
+                                    <p><i class="fa-solid fa-location-dot"></i> Củ Chi, TP.HCM</p>
+                                    <p><i class="fa-regular fa-calendar"></i> 12/04/2026 - 08:00 AM</p>
+                                    <p><i class="fa-solid fa-user-group"></i> Số lượng: 2 người</p>
+                                </div>
+                                <div class="d-flex flex-column gap-2">
+                                    <button class="btn btn-outline-secondary rounded-pill px-4">Liên hệ</button>
+                                    <button class="btn btn-review px-4">Chi tiết</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 2: HOÀN THÀNH -->
+            <div class="tab-pane fade" id="completed" role="tabpanel">
+                <div class="row justify-content-center">
+                    <div class="col-lg-10">
+                        <div class="lm-card">
+                            <div class="trip-item">
+                                <img src="image/Huế.jpg" alt="Huế" class="trip-img">
+                                <div class="trip-info">
+                                    <h5>Dấu ấn Cố Đô <span class="badge-status badge-completed">Đã hoàn thành</span></h5>
+                                    <p><i class="fa-solid fa-circle-user"></i> Cô bé Chi</p>
+                                    <p><i class="fa-solid fa-location-dot"></i> Phú Xuân, Huế</p>
+                                    <p><i class="fa-regular fa-calendar"></i> 10/03/2026</p>
+                                </div>
+                                <button class="btn btn-review" data-bs-toggle="modal" data-bs-target="#reviewModal" onclick="setModalData('Dấu ấn Cố Đô', 'Cô bé Chi', 'https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?auto=format&fit=crop&q=80&w=100')">
+                                    <i class="fa-regular fa-star me-1"></i> Đánh giá
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 3: YÊU THÍCH -->
+            <div class="tab-pane fade" id="wishlist" role="tabpanel">
+                <div class="row justify-content-center">
+                    <div class="col-lg-10">
+                        <div class="lm-card">
+                            <div class="trip-item">
+                                <img src="image/ThapNhan.jpg" alt="Phú Yên" class="trip-img">
+                                <div class="trip-info">
+                                    <h5>Về xứ Nẫu thăm Tháp Nhạn</h5>
+                                    <p><i class="fa-solid fa-circle-user"></i> Anh 2 làng chài</p>
+                                    <p><i class="fa-solid fa-location-dot"></i> Tuy Hòa, Phú Yên</p>
+                                    <p class="text-success fw-bold mt-2">1,200,000 VND / Người</p>
+                                </div>
+                                <div class="d-flex flex-column gap-2">
+                                    <button class="btn btn-danger-outline"><i class="fa-solid fa-heart-crack me-1"></i> Bỏ thích</button>
+                                    <button class="btn btn-review">Đặt ngay</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- MODAL ĐÁNH GIÁ -->
+    <div class="modal fade" id="reviewModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header modal-header-custom">
+                    <h5 class="modal-title fw-bold">Đánh giá trải nghiệm</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <div class="tour-preview-modal">
+                        <img id="modalTourImg" src="" alt="Tour">
+                        <div>
+                            <h6 id="modalTourName">Tên Tour</h6>
+                            <p class="mb-0 small text-muted">LocalMate: <span id="modalHostName" class="fw-bold">Tên Host</span></p>
+                        </div>
+                    </div>
+                    <form id="reviewForm">
+                        <div class="text-center mb-3">
+                            <p class="mb-1 fw-bold">Trải nghiệm của bạn như thế nào?</p>
+                            <div class="star-rating" id="starRatingContainer">
+                                <i class="fa-solid fa-star" data-value="1"></i>
+                                <i class="fa-solid fa-star" data-value="2"></i>
+                                <i class="fa-solid fa-star" data-value="3"></i>
+                                <i class="fa-solid fa-star" data-value="4"></i>
+                                <i class="fa-solid fa-star" data-value="5"></i>
+                            </div>
+                            <input type="hidden" id="ratingValue" required>
+                            <div id="ratingText" class="text-success fw-bold small" style="height: 20px;"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Chia sẻ thêm về chuyến đi (Tùy chọn)</label>
+                            <textarea class="form-control" id="reviewComment" rows="4" placeholder="Điều gì làm bạn thích nhất ở chuyến đi này?"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer border-0 pb-4 justify-content-center">
+                    <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Hủy bỏ</button>
+                    <button type="button" class="btn rounded-pill px-4" style="background-color: var(--color-accent); color: white; font-weight: 600;" onclick="submitReview()">Gửi đánh giá</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER (Đồng bộ với Homepage_LoggedIn.html) -->
+    <footer class="footer-section py-5">
+        <div class="container mt-3">
+            <div class="row gy-5">
+                
+                <div class="col-xl-4 col-lg-12">
+                    <div class="mb-4">
+                        <img src="image/logo.png" alt="LocalMate Logo" height="60">
+                    </div>
+                    <p class="small text-light" style="opacity: 0.85; text-align: justify; line-height: 1.8;">LocalMate là nền tảng thương mại điện tử theo mô hình kinh tế chia sẻ, kết nối trực tiếp du khách với người bản địa. Chúng tôi mang đến những trải nghiệm du lịch chân thực, an toàn và đậm đà bản sắc văn hóa.</p>
+                    
+                    <div class="row mt-4">
+                        <div class="col-6">
+                            <h6 class="fw-bold mb-3 fs-6">MẠNG XÃ HỘI</h6>
+                            <div class="d-flex gap-3 fs-4">
+                                <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                                <a href="#"><i class="fa-brands fa-tiktok"></i></a>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <h6 class="fw-bold mb-3 fs-6">THANH TOÁN</h6>
+                            <div class="d-flex gap-2 fs-4">
+                                <i class="fa-brands fa-cc-visa" style="color: white;"></i>
+                                <i class="fa-brands fa-cc-mastercard" style="color: white;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-2 col-lg-3 col-md-6">
+                    <h6 class="fw-bold mb-4">CÔNG TY CỔ PHẦN CÔNG NGHỆ DU LỊCH LOCALMATE</h6>
+                    <ul class="list-unstyled small text-light" style="opacity: 0.85; line-height: 1.8;">
+                        <li class="mb-3 d-flex align-items-start"><i class="fa-solid fa-location-dot mt-1 me-2 text-warning"></i> <span>Khu Công nghệ Phần mềm, ĐHQG TP. HCM, KP 6, P. Linh Trung, TP. Thủ Đức, TP. HCM.</span></li>
+                        <li class="mb-3 d-flex align-items-center"><i class="fa-solid fa-phone me-2 text-warning"></i> <span>+84 123 456 789</span></li>
+                        <li class="mb-3 d-flex align-items-center"><i class="fa-solid fa-envelope me-2 text-warning"></i> <span>hello@localmate.vn</span></li>
+                    </ul>
+                </div>
+
+                <div class="col-xl-2 col-lg-3 col-md-6">
+                    <h6 class="fw-bold mb-4">VỀ CHÚNG TÔI</h6>
+                    <ul class="list-unstyled small fw-medium" style="line-height: 2;">
+                        <li><a href="#">Giới thiệu về LocalMate</a></li>
+                        <li><a href="#">Cách thức hoạt động</a></li>
+                        <li><a href="#">Trở thành Local Mate</a></li>
+                        <li><a href="#">Cẩm nang du lịch (Blog)</a></li>
+                        <li><a href="#">Cơ hội nghề nghiệp</a></li>
+                        <li><a href="#">Liên hệ Hỗ trợ</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-xl-2 col-lg-3 col-md-6">
+                    <h6 class="fw-bold mb-4">KHÁM PHÁ</h6>
+                    <ul class="list-unstyled small fw-medium" style="line-height: 2;">
+                        <li><a href="#">Food Tour & Ẩm thực</a></li>
+                        <li><a href="#">Khám phá văn hóa & Lịch sử</a></li>
+                        <li><a href="#">Phượt xe máy trải nghiệm</a></li>
+                        <li><a href="#">Nghệ thuật & Làng nghề</a></li>
+                        <li><a href="#">Du lịch chữa lành (Healing)</a></li>
+                        <li><a href="#">Trợ lý AI - Gợi ý hành trình</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-xl-2 col-lg-3 col-md-6">
+                    <h6 class="fw-bold mb-4">CHÍNH SÁCH</h6>
+                    <ul class="list-unstyled small fw-medium" style="line-height: 2;">
+                        <li><a href="#">Quy chế hoạt động nền tảng</a></li>
+                        <li><a href="#">Điều khoản sử dụng dịch vụ</a></li>
+                        <li><a href="#">Chính sách bảo mật thông tin</a></li>
+                        <li><a href="#">Quy định thanh toán & Tạm giữ</a></li>
+                        <li><a href="#">Chính sách hủy tour & Hoàn tiền</a></li>
+                        <li><a href="#">Cơ chế giải quyết tranh chấp</a></li>
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function setModalData(tourName, hostName, imgSrc) {
+            document.getElementById('modalTourName').innerText = tourName;
+            document.getElementById('modalHostName').innerText = hostName;
+            document.getElementById('modalTourImg').src = imgSrc;
+            resetStars();
+            document.getElementById('reviewComment').value = '';
+        }
+
+        const stars = document.querySelectorAll('#starRatingContainer i');
+        const ratingInput = document.getElementById('ratingValue');
+        const ratingText = document.getElementById('ratingText');
+        const ratingMessages = { 1: "Rất tệ", 2: "Tệ", 3: "Bình thường", 4: "Tốt", 5: "Tuyệt vời!" };
+        let currentSelectedRating = 0;
+
+        function resetStars() {
+            currentSelectedRating = 0;
+            ratingInput.value = '';
+            ratingText.innerText = '';
+            updateStarsVisual(0);
+        }
+
+        function updateStarsVisual(value) {
+            stars.forEach(star => {
+                const starValue = parseInt(star.getAttribute('data-value'));
+                if (starValue <= value) {
+                    star.classList.add('active');
+                    star.classList.remove('fa-regular');
+                    star.classList.add('fa-solid');
+                } else {
+                    star.classList.remove('active');
+                }
+            });
+        }
+
+        stars.forEach(star => {
+            star.addEventListener('mouseover', function() {
+                const value = parseInt(this.getAttribute('data-value'));
+                updateStarsVisual(value);
+                ratingText.innerText = ratingMessages[value];
+            });
+            star.addEventListener('mouseout', function() {
+                updateStarsVisual(currentSelectedRating);
+                ratingText.innerText = currentSelectedRating ? ratingMessages[currentSelectedRating] : '';
+            });
+            star.addEventListener('click', function() {
+                currentSelectedRating = parseInt(this.getAttribute('data-value'));
+                ratingInput.value = currentSelectedRating;
+                updateStarsVisual(currentSelectedRating);
+                ratingText.innerText = ratingMessages[currentSelectedRating];
+            });
+        });
+
+        function submitReview() {
+            if (!ratingInput.value) { alert("Vui lòng chọn số sao!"); return; }
+            alert("Cảm ơn bạn đã đánh giá " + ratingInput.value + " sao!");
+            const modalInstance = bootstrap.Modal.getInstance(document.getElementById('reviewModal'));
+            modalInstance.hide();
+        }
+    </script>
+</body>
+</html>
