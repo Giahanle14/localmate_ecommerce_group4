@@ -1,0 +1,157 @@
+/* ================= SIDEBAR (BỘ LỌC) ================= */
+.sidebar-filter {
+    background-color: white;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.filter-title {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--color-primary-dark);
+}
+
+.filter-tag {
+    cursor: pointer;
+    border: 1px solid #ddd;
+    color: #666;
+    background: white;
+    transition: 0.3s;
+}
+
+.filter-tag:hover, .filter-tag.active {
+    background-color: var(--color-primary-light);
+    color: var(--color-primary-dark);
+    border-color: var(--color-primary);
+}
+
+/* ================= MAIN CONTENT (CARD TOUR) ================= */
+.section-title {
+    background-color: var(--color-primary);
+    color: white;
+    display: inline-block;
+    padding: 8px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.tour-card {
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+}
+
+.tour-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+.tour-img-wrapper {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+}
+
+.tour-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.price-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: var(--color-primary);
+    color: white;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.tour-card-body {
+    padding: 15px;
+}
+
+.tour-title {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--color-primary-dark);
+    margin-bottom: 5px;
+}
+
+.tour-meta {
+    font-size: 0.85rem;
+    color: #666;
+}
+
+.guide-info img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 8px;
+}
+
+/* ================= CATEGORY CARDS ================= */
+.category-card {
+    border-radius: 15px;
+    overflow: hidden;
+    border: none;
+    height: 150px;
+    position: relative;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.category-card:hover {
+    transform: scale(1.03);
+}
+
+.category-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.category-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(255, 100, 100, 0.8), transparent);
+    padding: 15px;
+    text-align: center;
+}
+
+.category-overlay.mountain { background: linear-gradient(to top, rgba(200, 50, 50, 0.8), transparent); }
+.category-overlay.garden { background: linear-gradient(to top, rgba(255, 50, 100, 0.8), transparent); }
+.category-overlay.region { background: linear-gradient(to top, rgba(255, 100, 50, 0.8), transparent); }
+
+
+.category-card h5 {
+    color: white;
+    margin: 0;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 1rem;
+}
+
+/* ================= ACCORDION FAQ ================= */
+.accordion-button:not(.collapsed) {
+    background-color: var(--color-primary-light);
+    color: var(--color-primary-dark);
+    font-weight: 600;
+}
+
+.accordion-button {
+    font-weight: 500;
+    color: #333;
+}
