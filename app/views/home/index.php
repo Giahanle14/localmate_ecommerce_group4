@@ -4,64 +4,67 @@
 
 <section class="hero-section"></section>
 
-<div class="container">
-    <div class="search-container">
-        <form id="searchForm" action="" method="GET" class="d-flex align-items-center flex-nowrap w-100 bg-white" style="border-radius: 50px;">
-            <div class="search-input-group position-relative">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" id="destination" name="destination" placeholder="Bạn muốn đi đâu ?" class="form-control border-0 shadow-none bg-transparent">
-                <div id="destError" class="error-tooltip d-none">
-                    Bạn phải nhập thông tin này <i class="fa-solid fa-circle-exclamation text-danger ms-2"></i>
+<div class="search-bar-wrapper">
+    <div class="container">
+        <div class="search-container">
+            <form id="searchForm" action="" method="GET" class="d-flex align-items-center flex-nowrap w-100 bg-white" style="border-radius: 50px;">
+                <div class="search-input-group position-relative">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="destination" name="destination" placeholder="Bạn muốn đi đâu ?" class="form-control border-0 shadow-none bg-transparent">
+                    <div id="destError" class="error-tooltip d-none">
+                        Bạn phải nhập thông tin này <i class="fa-solid fa-circle-exclamation text-danger ms-2"></i>
+                    </div>
                 </div>
-            </div>
-            <div class="search-input-group">
-                <i class="fa-regular fa-calendar"></i>
-                <input type="text" id="datePicker" name="date" placeholder="Thời gian" class="form-control border-0 shadow-none bg-transparent" readonly style="cursor: pointer; background-color: transparent !important;">
-            </div>
-            <div class="search-input-group border-end-0 position-relative" id="guestDropdownWrapper">
-                <i class="fa-solid fa-user-group"></i>
-                <input type="text" id="guestInput" name="guests" placeholder="Số lượng khách" value="1 Người lớn" class="form-control border-0 shadow-none bg-transparent" readonly style="cursor: pointer;">
-                <i class="fa-solid fa-chevron-down ms-2" id="guestIcon" style="font-size: 0.8rem; cursor: pointer;"></i>
+                <div class="search-input-group">
+                    <i class="fa-regular fa-calendar"></i>
+                    <input type="text" id="datePicker" name="date" placeholder="Thời gian" class="form-control border-0 shadow-none bg-transparent" readonly style="cursor: pointer; background-color: transparent !important;">
+                </div>
+                <div class="search-input-group border-end-0 position-relative" id="guestDropdownWrapper">
+                    <i class="fa-solid fa-user-group"></i>
+                    <input type="text" id="guestInput" name="guests" placeholder="Số lượng khách" value="1 Người lớn" class="form-control border-0 shadow-none bg-transparent" readonly style="cursor: pointer;">
+                    <i class="fa-solid fa-chevron-down ms-2" id="guestIcon" style="font-size: 0.8rem; cursor: pointer;"></i>
 
-                <div id="guestPopup" class="guest-popup d-none">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <div class="fw-bold text-dark"><i class="fa-solid fa-user-tie me-2" style="color: var(--color-primary-dark)"></i>Người lớn</div>
-                        <div class="d-flex align-items-center gap-2">
-                            <i class="fa-solid fa-circle-minus text-muted guest-btn" onclick="updateGuest('adult', -1)"></i>
-                            <span id="adultCount" class="fw-bold px-2 bg-light rounded" style="font-size: 1.1rem; min-width: 25px; text-align: center;">1</span>
-                            <i class="fa-solid fa-circle-plus guest-btn" style="color: var(--color-primary-dark)" onclick="updateGuest('adult', 1)"></i>
+                    <div id="guestPopup" class="guest-popup d-none">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div class="fw-bold text-dark"><i class="fa-solid fa-user-tie me-2" style="color: var(--color-primary-dark)"></i>Người lớn</div>
+                            <div class="d-flex align-items-center gap-2">
+                                <i class="fa-solid fa-circle-minus text-muted guest-btn" onclick="updateGuest('adult', -1)"></i>
+                                <span id="adultCount" class="fw-bold px-2 bg-light rounded" style="font-size: 1.1rem; min-width: 25px; text-align: center;">1</span>
+                                <i class="fa-solid fa-circle-plus guest-btn" style="color: var(--color-primary-dark)" onclick="updateGuest('adult', 1)"></i>
+                            </div>
                         </div>
-                    </div>
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <div class="fw-bold text-dark"><i class="fa-solid fa-baby me-2" style="color: var(--color-primary-dark)"></i>Trẻ em</div>
-                        <div class="d-flex align-items-center gap-2">
-                            <i class="fa-solid fa-circle-minus text-muted guest-btn" onclick="updateGuest('child', -1)"></i>
-                            <span id="childCount" class="fw-bold px-2 bg-light rounded" style="font-size: 1.1rem; min-width: 25px; text-align: center;">0</span>
-                            <i class="fa-solid fa-circle-plus guest-btn" style="color: var(--color-primary-dark)" onclick="updateGuest('child', 1)"></i>
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <div class="fw-bold text-dark"><i class="fa-solid fa-baby me-2" style="color: var(--color-primary-dark)"></i>Trẻ em</div>
+                            <div class="d-flex align-items-center gap-2">
+                                <i class="fa-solid fa-circle-minus text-muted guest-btn" onclick="updateGuest('child', -1)"></i>
+                                <span id="childCount" class="fw-bold px-2 bg-light rounded" style="font-size: 1.1rem; min-width: 25px; text-align: center;">0</span>
+                                <i class="fa-solid fa-circle-plus guest-btn" style="color: var(--color-primary-dark)" onclick="updateGuest('child', 1)"></i>
+                            </div>
                         </div>
-                    </div>
-                    <div class="text-end">
-                        <button type="button" class="btn btn-sm px-3 fw-bold" style="background-color: var(--color-primary-light); color: var(--color-primary-dark); border: 1px solid var(--color-primary);" onclick="toggleGuestPopup()">Xong</button>
+                        <div class="text-end">
+                            <button type="button" class="btn btn-sm px-3 fw-bold" style="background-color: var(--color-primary-light); color: var(--color-primary-dark); border: 1px solid var(--color-primary);" onclick="toggleGuestPopup()">Xong</button>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="px-2">
-                <button type="submit" class="btn btn-search">Tìm Kiếm</button>
-            </div>
-        </form>
+                <div class="px-2">
+                    <button type="submit" class="btn btn-search">Tìm Kiếm</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
 <div class="container mt-5 mb-5 pb-2">
     <div class="d-flex justify-content-between align-items-end mb-4">
         <h3 class="section-title">Tour Trải Nghiệm Nổi Bật <i class="fa-solid fa-fire text-warning" style="font-size: 1.2rem;"></i></h3>
-        <a href="#" class="view-more">Xem thêm <i class="fa-solid fa-angle-right ms-1"></i></a>
+        <a href="javascript:void(0)" class="view-more" onclick="slideTours('sliderNoiBat')">Xem thêm <i class="fa-solid fa-angle-right ms-1"></i></a>
     </div>
-    <div class="row g-4">
+
+    <div class="tour-slider-container" id="sliderNoiBat">
         <?php if(!empty($toursNoiBat)): ?>
             <?php foreach($toursNoiBat as $tour): ?>
-            <div class="col-12 col-md-6 col-lg-4">
-                <div class="card custom-card">
+            <div class="tour-slider-item">
+                <div class="card custom-card favorite-card">
                     <div class="card-img-wrapper">
                         <img src="public/image/location/<?= htmlspecialchars($tour['HinhAnh']) ?>" class="card-banner" alt="<?= htmlspecialchars($tour['TenTour']) ?>">
                         <span class="price-tag"><?= number_format($tour['Gia'], 0, ',', '.') ?> VNĐ</span>
@@ -105,12 +108,13 @@
 <div class="container mb-5 pb-2">
     <div class="d-flex justify-content-between align-items-end mb-4">
         <h3 class="section-title">Tour Được Yêu Thích Nhất <span style="background-color: #FFB800; color: white; width: 28px; height: 28px; border-radius: 50%; display: inline-flex; justify-content: center; align-items: center; font-size: 0.9rem;"><i class="fa-solid fa-heart"></i></span></h3>
-        <a href="#" class="view-more">Xem thêm <i class="fa-solid fa-angle-right ms-1"></i></a>
+        <a href="javascript:void(0)" class="view-more" onclick="slideTours('sliderYeuThich')">Xem thêm <i class="fa-solid fa-angle-right ms-1"></i></a>
     </div>
-    <div class="row g-4">
+
+    <div class="tour-slider-container" id="sliderYeuThich">
         <?php if(!empty($toursYeuThich)): ?>
             <?php foreach($toursYeuThich as $tour): ?>
-            <div class="col-12 col-md-6 col-lg-4">
+            <div class="tour-slider-item">
                 <div class="card custom-card favorite-card">
                     <div class="card-img-wrapper">
                         <img src="public/image/location/<?= htmlspecialchars($tour['HinhAnh']) ?>" class="card-banner" alt="<?= htmlspecialchars($tour['TenTour']) ?>">
@@ -329,4 +333,15 @@
     destInput.addEventListener('input', function() {
         destError.classList.add('d-none'); 
     });
+
+    function slideTours(containerId) {
+        const container = document.getElementById(containerId);
+        const scrollAmount = container.clientWidth; 
+        
+        if (container.scrollLeft + container.clientWidth >= container.scrollWidth - 10) {
+            container.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+            container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        }
+    }
 </script>

@@ -146,7 +146,6 @@ a {
     text-decoration: underline !important;
 }
 
-/* CSS bổ sung cho Dropdown sau khi đăng nhập */
 .logged-in-dropdown .dropdown-menu {
     border-radius: 12px;
     border: 1px solid #eaeaea;
@@ -178,12 +177,21 @@ a {
     background-color: #E2F4FA; 
 }
 
+/* Tuyệt chiêu dải nền vàng nhạt, lấp kín khe hở */
+.search-bar-wrapper {
+    margin-top: -35px; 
+    background: linear-gradient(to bottom, transparent 35px, #FFFDF0 35px); 
+    position: relative;
+    z-index: 5;
+    padding-bottom: 20px; 
+}
+
 .search-container {
     background: white;
     border-radius: 50px;
     box-shadow: 0 8px 25px rgba(0,0,0,0.08);
     max-width: 1000px;
-    margin: -40px auto 50px;
+    margin: 0 auto 30px auto; 
     position: relative;
     z-index: 10;
     padding: 8px;
@@ -277,7 +285,7 @@ a {
 }
 
 /* ==========================================================================
-   4. CẤU TRÚC GIAO DIỆN CÁC CARD TOUR (CHUẨN FIGMA)
+   4. CẤU TRÚC GIAO DIỆN CÁC CARD TOUR 
    ========================================================================== */
 .section-title {
     color: #222;
@@ -403,6 +411,7 @@ a {
     overflow: hidden;
 }
 
+/* Nền vàng nhạt cho card */
 .favorite-card {
     background-color: #FFFDF0 !important; 
 }
@@ -424,7 +433,43 @@ a {
 }
 
 /* ==========================================================================
-   5. CẤU TRÚC GIAO DIỆN KINH NGHIỆM ĐI TOUR (REVIEW)
+   5. HIỆU ỨNG LƯỚT NGANG (SLIDER) CHO CARD TOUR
+   ========================================================================== */
+.tour-slider-container {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    gap: 1.5rem;
+    padding-bottom: 15px;
+    scroll-snap-type: x mandatory; 
+}
+
+.tour-slider-container::-webkit-scrollbar {
+    height: 6px;
+}
+.tour-slider-container::-webkit-scrollbar-thumb {
+    background-color: #ddd;
+    border-radius: 10px;
+}
+.tour-slider-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.tour-slider-item {
+    flex: 0 0 auto;
+    width: calc(33.333% - 1rem); 
+    scroll-snap-align: start;
+}
+
+@media (max-width: 992px) {
+    .tour-slider-item { width: calc(50% - 0.75rem); } 
+}
+@media (max-width: 768px) {
+    .tour-slider-item { width: 85%; } 
+}
+
+/* ==========================================================================
+   6. CẤU TRÚC GIAO DIỆN KINH NGHIỆM ĐI TOUR (REVIEW)
    ========================================================================== */
 .review-card {
     background-color: var(--color-bg-light) !important; 
@@ -526,7 +571,7 @@ a {
 }
 
 /* ==========================================================================
-   6. GIAO DIỆN HỘP POPUP ĐĂNG NHẬP CHUẨN FIGMA TRÁI ĐẤT
+   7. GIAO DIỆN HỘP POPUP ĐĂNG NHẬP 
    ========================================================================== */
 .login-modal-content {
     border-radius: 24px !important;
@@ -544,7 +589,6 @@ a {
     background: transparent; 
 }
 
-/* Nền mây cắt xéo */
 .login-modal-header::before {
     content: '';
     position: absolute;
@@ -679,7 +723,7 @@ a {
 }
 
 /* ==========================================================================
-   7. FOOTER CHÂN TRANG
+   8. FOOTER CHÂN TRANG
    ========================================================================== */
 .lm-footer {
     background-color: var(--color-primary-dark); 
@@ -778,8 +822,16 @@ a {
     border-radius: 4px;
 }
 
+@media (max-width: 1200px) {
+    .footer-container { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 768px) {
+    .footer-container { grid-template-columns: 1fr; }
+    .bottom-actions { flex-direction: column; gap: 20px; }
+}
+
 /* ==========================================================================
-   8. TÙY CHỈNH GIAO DIỆN LỊCH FLATPICKR (HỆ LƯỚI GRID THẲNG TẮP)
+   9. TÙY CHỈNH GIAO DIỆN LỊCH FLATPICKR
    ========================================================================== */
 .flatpickr-calendar {
     font-family: var(--font-main) !important;
@@ -814,8 +866,6 @@ a {
     color: var(--color-primary-dark) !important;
     font-size: 1.15rem !important;
     appearance: none !important; 
-    -moz-appearance: none !important;
-    -webkit-appearance: none !important;
     border: none !important;
     background: transparent !important;
 }
