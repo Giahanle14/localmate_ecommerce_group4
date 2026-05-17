@@ -1,0 +1,797 @@
+/* ==========================================================================
+   1. CẤU HÌNH BIẾN MÀU SẮC & FONT CHỮ CHỦ ĐẠO
+   ========================================================================== */
+:root {
+    --color-primary-dark: #005A24;  
+    --color-primary: #00712D;       
+    --color-primary-light: #EAF9DE; 
+    
+    --color-bg-cream: #FFFBE6;      
+    --color-bg-light: #FFFDF3;      
+    --color-accent: #FFB800;        
+    
+    --font-main: 'Quicksand', sans-serif;
+    
+    --border-radius-lg: 20px;
+    --border-radius-md: 10px;
+    --shadow-sm: 0 2px 8px rgba(0,0,0,0.05);
+    --shadow-md: 0 5px 15px rgba(0,0,0,0.08);
+}
+
+body {
+    font-family: var(--font-main);
+    background-color: #FAFAFA; 
+    color: #333;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+a {
+    text-decoration: none;
+    transition: all 0.3s ease;
+    color: inherit;
+}
+
+/* ==========================================================================
+   2. THANH HEADER
+   ========================================================================== */
+.main-header {
+    background-color: var(--color-primary-dark);
+    padding: 5px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+    box-shadow: var(--shadow-sm);
+}
+
+.navbar-nav .nav-link {
+    color: rgba(255, 255, 255, 0.9) !important;
+    font-weight: 600;
+    font-size: 1.05rem;
+    padding: 8px 18px !important;
+    border-radius: 25px; 
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important; 
+    transition: 0.3s;
+}
+
+.navbar-nav .nav-link:hover {
+    color: var(--color-bg-cream) !important;
+    background-color: rgba(255,255,255,0.1); 
+}
+
+.navbar-nav .nav-link.active-nav-pill,
+.navbar-nav .nav-link.active-nav-pill i {
+    background-color: var(--color-bg-cream) !important;
+    color: var(--color-primary-dark) !important;
+    font-weight: 700;
+}
+
+.icon-nonla {
+    height: 18px;
+    object-fit: contain;
+}
+
+.active-nav-pill .icon-nonla {
+    filter: brightness(0) saturate(100%) invert(23%) sepia(85%) saturate(1912%) hue-rotate(135deg) brightness(96%) contrast(101%);
+}
+
+.user-dropdown-toggle {
+    position: relative; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px; 
+    height: 40px;
+    color: white !important;
+}
+
+.user-dropdown-toggle .dropdown-indicator-container {
+    display: none !important; 
+    position: absolute;
+    top: 100%; 
+    left: 50%;
+    transform: translateX(-50%); 
+    z-index: 1050; 
+}
+
+.user-dropdown-toggle[aria-expanded="true"] .dropdown-indicator-container {
+    display: flex !important; 
+}
+
+.custom-dropdown-menu {
+    width: 320px;
+    border-radius: 15px;
+    margin-top: 15px !important;
+    border: 1px solid #eee;
+    padding: 20px 25px;
+    box-shadow: var(--shadow-md);
+    background-color: white;
+}
+
+.btn-dropdown-login {
+    background-color: var(--color-primary-dark);
+    color: white !important;
+    border-radius: 30px; 
+    padding: 12px 0;
+    font-size: 1.15rem;
+    margin-bottom: 15px;
+    width: 100%;
+    border: none;
+    font-weight: 700;
+    transition: all 0.3s ease;
+}
+
+.btn-dropdown-login:hover {
+    background-color: var(--color-primary);
+    box-shadow: var(--shadow-sm);
+}
+
+.dropdown-text {
+    color: var(--color-primary-dark);
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.dropdown-link {
+    color: #F29A2E !important; 
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.dropdown-link:hover {
+    color: #d18222 !important;
+    text-decoration: underline !important;
+}
+
+/* ==========================================================================
+   3. HERO BANNER
+   ========================================================================== */
+.hero-section {
+    background: url('../image/banner/Banner_LocalMate_1.png') top center no-repeat;
+    background-size: 100% auto; 
+    width: 100%;
+    aspect-ratio: 3.2 / 1; 
+    position: relative;
+    background-color: #E2F4FA; 
+}
+
+.hero-title, .hero-subtitle {
+    display: none !important;
+}
+
+/* ==========================================================================
+   4. THANH TÌM KIẾM ĐÈ BANNER
+   ========================================================================== */
+.search-container {
+    background: white;
+    border-radius: 50px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+    max-width: 1000px;
+    margin: -40px auto 50px;
+    position: relative;
+    z-index: 10;
+    padding: 8px;
+}
+
+.search-input-group {
+    display: flex;
+    align-items: center;
+    border-right: 1px solid #e0e0e0;
+    padding: 10px 25px;
+    flex-grow: 1; 
+}
+
+.search-input-group:last-of-type {
+    border-right: none;
+}
+
+.search-input-group i {
+    color: var(--color-primary-dark); 
+    font-size: 1.2rem;
+    margin-right: 12px;
+}
+
+.search-input-group input {
+    border: none;
+    outline: none;
+    width: 100%;
+    font-weight: 500;
+    font-family: var(--font-main);
+    color: #444;
+}
+
+.btn-search {
+    background-color: var(--color-primary-dark);
+    color: white;
+    font-weight: 700;
+    border-radius: 50px;
+    padding: 12px 30px;
+    border: none;
+    white-space: nowrap; 
+    transition: all 0.3s;
+}
+
+.btn-search:hover {
+    background-color: var(--color-primary);
+    transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   5. CẤU TRÚC GIAO DIỆN CÁC CARD TOUR (CHUẨN FIGMA)
+   ========================================================================== */
+.section-title {
+    color: #222;
+    font-weight: 800;
+    font-size: 1.6rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.view-more {
+    color: #F29A2E;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.view-more:hover {
+    color: #d18222;
+}
+
+.custom-card {
+    border: 1px solid #f0f0f0 !important;
+    border-radius: 16px !important;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    transition: all 0.3s ease;
+    background: white;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.custom-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+.card-img-wrapper {
+    position: relative;
+    overflow: hidden;
+    height: 190px; 
+}
+
+.card-banner {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Thẻ giá cho Card Thường (Nằm lơ lửng) */
+.price-tag {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background-color: var(--color-primary-dark);
+    color: white;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    z-index: 2;
+}
+
+.card-body-tour {
+    padding: 15px 20px 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.tour-title {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #222;
+    margin-bottom: 5px;
+    display: -webkit-box;
+    -webkit-line-clamp: 1; 
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.tour-rating {
+    color: #FFB800;
+    font-weight: 600;
+    font-size: 0.9rem;
+    white-space: nowrap;
+}
+
+.tour-location {
+    color: #777;
+    font-size: 0.8rem;
+    font-weight: 500;
+    white-space: nowrap;
+}
+.tour-location i {
+    color: #E74C3C; 
+    margin-right: 4px;
+}
+
+/* Khung bọc Tag Loại Trải Nghiệm (Nằm ngang với location) */
+.tour-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+.tour-tag-item {
+    background-color: #F1F8E4; /* Nền xanh vàng nhạt */
+    color: #4A7A3A; /* Chữ màu xanh lá */
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+}
+
+.tour-desc {
+    color: #666;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    margin-bottom: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; 
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* ==========================================================================
+   * CLASS ĐẶC BIỆT DÀNH RIÊNG CHO CARD YÊU THÍCH NHẤT *
+   ========================================================================== */
+.favorite-card {
+    background-color: #FFFDF0 !important; /* Nền màu kem nhạt */
+}
+
+/* Đổi màu tiêu đề và mô tả sang xanh lá đậm */
+.favorite-card .tour-title {
+    color: var(--color-primary-dark);
+    font-weight: 800;
+    font-size: 1.15rem;
+}
+.favorite-card .tour-desc {
+    color: var(--color-primary-dark);
+    opacity: 0.85;
+}
+
+/* Ép thẻ giá nằm dính chặt vào góc phải trên cùng */
+.favorite-card .price-tag {
+    top: 0;
+    right: 0;
+    border-radius: 0 16px 0 16px; /* Khớp góc bo của thẻ Card */
+    padding: 8px 16px;
+    font-size: 0.95rem;
+}
+
+/* ==========================================================================
+   6. CẤU TRÚC GIAO DIỆN KINH NGHIỆM ĐI TOUR (CHUẨN FORM MÀU, AVATAR, FONT)
+   ========================================================================== */
+.review-card {
+    background-color: var(--color-bg-light) !important; 
+    padding: 0 !important;
+    border: none !important;
+    display: flex;
+    flex-direction: column;
+}
+
+.review-top {
+    background-color: var(--color-primary-light);
+    padding: 12px;
+    border-radius: 16px 16px 0 0;
+}
+
+.review-images-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+}
+
+.review-images-grid img {
+    width: 100%;
+    aspect-ratio: 1 / 1; 
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.review-bottom {
+    display: flex;
+    gap: 10px; 
+    padding: 0 15px 15px 15px;
+}
+
+.review-author-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 60px; 
+    flex-shrink: 0;
+}
+
+.review-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 3.5px solid white; 
+    object-fit: cover;
+    margin-top: -30px; 
+    margin-bottom: 8px;
+    position: relative;
+    z-index: 2;
+    background-color: white;
+}
+
+.review-author-name {
+    font-weight: 800;
+    font-size: 0.95rem;
+    color: var(--color-primary-dark); 
+    text-align: center;
+}
+
+.review-content-col {
+    flex-grow: 1;
+    padding-top: 10px; 
+    min-width: 0; 
+}
+
+.review-title {
+    font-weight: 800;
+    font-size: 0.9rem; 
+    color: #F29A2E; 
+    margin-bottom: 0;
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    padding-right: 5px; 
+}
+
+.review-date {
+    color: #F29A2E; 
+    font-size: 0.65rem; 
+    font-weight: 500;
+    opacity: 0.8;
+    white-space: nowrap; 
+    flex-shrink: 0; 
+}
+
+.review-desc {
+    color: #555;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    margin-top: 5px;
+    margin-bottom: 0;
+    text-align: justify;
+    display: -webkit-box;
+    -webkit-line-clamp: 4; 
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* ==========================================================================
+   7. FOOTER CHÂN TRANG
+   ========================================================================== */
+.lm-footer {
+    background-color: var(--color-primary-dark); 
+    color: white;
+    padding: 50px 40px;
+    font-size: 13px;
+    font-family: var(--font-main);
+    margin-top: 50px;
+}
+.footer-container {
+    display: grid;
+    grid-template-columns: 2fr 3fr 1.5fr 1.8fr 2fr; 
+    gap: 30px;
+}
+
+.lm-footer-col1 img {
+    height: 70px; 
+    margin-bottom: 20px;
+}
+.lm-footer-col1 p {
+    line-height: 1.8;
+    opacity: 0.9;
+}
+
+.lm-footer h5 {
+    font-weight: bold;
+    margin-bottom: 25px;
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+.lm-footer ul {
+    list-style-type: disc; 
+    padding-left: 15px; 
+    line-height: 2.2;
+    margin: 0;
+}
+.lm-footer a {
+    color: white;
+    text-decoration: none;
+    opacity: 0.9;
+    transition: 0.3s;
+}
+.lm-footer a:hover {
+    text-decoration: underline;
+    opacity: 1;
+    color: var(--color-accent);
+}
+
+.company-info {
+    list-style: none !important;
+    padding-left: 0 !important;
+}
+.company-info li {
+    position: relative;
+    padding-left: 15px;
+    margin-bottom: 8px;
+    line-height: 1.6;
+}
+.company-info li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 16px;
+}
+
+.bottom-actions {
+    display: flex;
+    gap: 60px;
+    margin-top: 25px;
+}
+.bottom-actions-block {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.bottom-actions-block b {
+    font-size: 13px;
+}
+.social-icons {
+    display: flex;
+    gap: 15px;
+    font-size: 22px;
+}
+.payment-icons {
+    display: flex;
+    gap: 10px;
+}
+.payment-icons img {
+    height: 25px;
+    width: 25px;
+    object-fit: contain;
+    background: white;
+    padding: 3px;
+    border-radius: 4px;
+}
+
+@media (max-width: 1200px) {
+    .footer-container { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 768px) {
+    .footer-container { grid-template-columns: 1fr; }
+    .bottom-actions { flex-direction: column; gap: 20px; }
+}
+
+/* ==========================================================================
+   8. CSS CHO CHỨC NĂNG THANH TÌM KIẾM (TOOLTIP LỖI, POPUP SỐ KHÁCH)
+   ========================================================================== */
+/* Tooltip cảnh báo lỗi chưa nhập điểm đến */
+.error-tooltip {
+    position: absolute;
+    top: 110%; /* Nằm rớt ngay dưới ô input */
+    left: 20px;
+    background: white;
+    border: 1px solid #dc3545; /* Viền đỏ */
+    color: #333;
+    padding: 8px 15px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    z-index: 1050;
+    white-space: nowrap;
+    animation: fadeIn 0.3s ease;
+}
+
+/* Khung popup chọn số lượng khách */
+.guest-popup {
+    position: absolute;
+    top: 110%;
+    right: 0;
+    background: white;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    padding: 20px;
+    width: 250px;
+    z-index: 1050;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    animation: fadeIn 0.2s ease;
+}
+
+/* Nút cộng trừ khách */
+.guest-btn {
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.guest-btn:hover {
+    opacity: 0.7;
+    transform: scale(1.1);
+}
+/* Hiệu ứng mượt khi mở popup */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Tùy chỉnh nhẹ lịch Flatpickr cho giống màu LocalMate */
+.flatpickr-calendar.arrowTop:before, .flatpickr-calendar.arrowTop:after { display: none !important; }
+.flatpickr-day.selected { background-color: var(--color-primary-dark) !important; border-color: var(--color-primary-dark) !important; }
+
+/* ==========================================================================
+   9. TÙY CHỈNH GIAO DIỆN LỊCH FLATPICKR CHUẨN FIGMA LOCALMATE (ĐÃ FIX LƯỚI THẲNG HÀNG)
+   ========================================================================== */
+/* Form tổng thể của popup lịch */
+.flatpickr-calendar {
+    font-family: var(--font-main) !important;
+    border-radius: 16px !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1) !important;
+    border: none !important;
+    padding: 20px 15px !important; 
+    width: 350px !important; 
+    box-sizing: border-box !important;
+}
+
+/* Ẩn cái mũi tên tam giác nhọn chĩa lên mặc định của thư viện */
+.flatpickr-calendar.arrowTop:before, .flatpickr-calendar.arrowTop:after { display: none !important; }
+
+/* Chỉnh Header Lịch (Khu vực chứa Tháng Năm và Mũi tên) */
+.flatpickr-months {
+    margin-bottom: 20px !important;
+    position: relative !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+/* Đưa cụm Tháng - Năm qua trái */
+.flatpickr-current-month {
+    left: 0 !important;
+    text-align: left !important;
+    width: 100% !important;
+    padding: 0 0 0 10px !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+/* Ép chữ tháng năm màu xanh đậm, in đậm, ẩn mũi tên dropdown mặc định cho sạch sẽ */
+.flatpickr-current-month .flatpickr-monthDropdown-months,
+.flatpickr-current-month input.cur-year {
+    font-weight: 800 !important;
+    color: var(--color-primary-dark) !important;
+    font-size: 1.15rem !important;
+    appearance: none !important; 
+    -moz-appearance: none !important;
+    -webkit-appearance: none !important;
+    border: none !important;
+    background: transparent !important;
+}
+
+/* Ép khung chứa Năm nhỏ lại để nhường chỗ cho mũi tên */
+.flatpickr-current-month .numInputWrapper {
+    width: 6ch !important;
+    margin-left: 5px !important;
+}
+
+/* Định vị 2 mũi tên qua tuốt mép phải, canh giữa theo trục dọc để không đè lên số 2026 */
+.flatpickr-prev-month, .flatpickr-next-month {
+    position: absolute !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    height: 35px !important;
+    width: 35px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+    border-radius: 50% !important;
+    z-index: 5 !important;
+}
+.flatpickr-prev-month {
+    right: 45px !important; 
+    left: auto !important;
+}
+.flatpickr-next-month {
+    right: 5px !important; 
+}
+
+/* Hiệu ứng hover tròn mờ cho 2 nút mũi tên */
+.flatpickr-prev-month:hover, .flatpickr-next-month:hover {
+    background-color: #f0f0f0 !important;
+}
+.flatpickr-prev-month svg, .flatpickr-next-month svg {
+    fill: var(--color-primary-dark) !important;
+    width: 14px !important;
+    height: 14px !important;
+}
+
+/* ĐỒNG BỘ LƯỚI 7 CỘT CỐ ĐỊNH CHO HÀNG "THỨ" VÀ "NGÀY" ĐỂ CHÚNG THẲNG TẮP VỚI NHAU */
+.flatpickr-weekdays {
+    height: auto !important;
+}
+.flatpickr-weekdaycontainer {
+    display: grid !important;
+    grid-template-columns: repeat(7, 1fr) !important; /* Ép cứng 7 cột bằng nhau */
+    width: 100% !important;
+}
+span.flatpickr-weekday {
+    font-weight: 700 !important;
+    color: #666 !important;
+    font-size: 0.85rem !important;
+    width: 100% !important;
+    text-align: center !important;
+}
+/* Chủ nhật màu đỏ */
+span.flatpickr-weekday:nth-child(7) {
+    color: #D32F2F !important; 
+}
+
+/* Lưới chứa các ngày */
+.flatpickr-days {
+    width: 100% !important;
+}
+.dayContainer {
+    display: grid !important;
+    grid-template-columns: repeat(7, 1fr) !important; /* Ép cứng 7 cột giống hệt hàng Thứ */
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+    gap: 5px 0 !important; /* Tạo khoảng cách dọc giữa các tuần */
+    justify-items: center !important; /* Canh giữa từng ô ngày vào trong cột của nó */
+}
+
+/* Hình dáng của một ô Ngày */
+.flatpickr-day {
+    font-weight: 600;
+    color: #333;
+    border-radius: 10px !important; 
+    width: 36px !important;
+    max-width: 36px !important;
+    height: 36px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border: 2px solid transparent !important;
+    margin: 0 !important; /* Bỏ margin đi vì đã có gap của grid lo */
+}
+
+/* Khi ngày được chọn (Viền xanh đậm, nền kem xanh nhạt) */
+.flatpickr-day.selected, .flatpickr-day.selected:hover {
+    background: var(--color-primary-light) !important; 
+    border: 2px solid var(--color-primary-dark) !important; 
+    color: var(--color-primary-dark) !important;
+    font-weight: 800 !important;
+}
+
+/* Lúc rê chuột lên ngày chưa chọn */
+.flatpickr-day:hover:not(.selected) {
+    background: #f0f0f0 !important;
+    border-color: #f0f0f0 !important;
+}
+
+/* Ẩn viền ngày hiện tại (nếu chưa chọn) để nhìn sạch sẽ hơn */
+.flatpickr-day.today {
+    border-color: #eee !important;
+}
