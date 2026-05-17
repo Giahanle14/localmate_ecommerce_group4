@@ -49,13 +49,7 @@
 </head>
 <body>
 
-    <header class="main-header">
-        <nav class="navbar navbar-expand-xl navbar-dark py-3">
-            <div class="container-fluid px-4">
-                <a class="navbar-brand fw-bold fs-3" href="explore_controller.php">LocalMate</a>
-            </div>
-        </nav>
-    </header>
+    <?php include 'partial/header.php'; ?>
 
     <main class="container-fluid px-4 py-4">
         <div class="mb-3">
@@ -296,9 +290,7 @@
         </div>
     </main>
 
-    <footer class="footer-section py-4 mt-5 text-center">
-        <p class="mb-0">© 2026 LocalMate. Đồ án Phát Triển Ứng Dụng Web.</p>
-    </footer>
+    <?php include 'partial/footer.php'; ?>
 
     <script>
         // Xử lý mũi tên trượt ngang Carousel
