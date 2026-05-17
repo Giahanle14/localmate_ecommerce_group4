@@ -39,7 +39,7 @@
     <nav class="lm-nav">
         <a href="trangchu.php" class="<?= ($current_page == 'trangchu.php') ? 'active' : '' ?>"><i class="fa-solid fa-house"></i> TRANG CHỦ</a>
         <a href="about.php" class="<?= ($current_page == 'about.php') ? 'active' : '' ?>"><i class="fa-solid fa-hat-leaf"></i> VỀ LOCALMATE</a>
-        <a href="Explorepage.php" class="<?= ($current_page == 'Explorepage.php') ? 'active' : '' ?>"><i class="fa-solid fa-suitcase"></i> TOUR</a>
+        <a href="Explorepage.php" class="<?= ($current_page == 'explore_controller.php') ? 'active' : '' ?>"><i class="fa-solid fa-suitcase"></i> TOUR</a>
         <a href="BookingTour.php" class="<?= ($current_page == 'BookingTour.php') ? 'active' : '' ?>"><i class="fa-solid fa-location-dot"></i> CHUYẾN ĐI CỦA TÔI</a>
         <a href="wishlist.php" class="<?= ($current_page == 'wishlist.php') ? 'active' : '' ?>"><i class="fa-solid fa-heart"></i> YÊU THÍCH</a>
     </nav>
