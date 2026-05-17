@@ -33,4 +33,5 @@ if (file_exists($controllerFile)) {
 } else {
     echo "<h1>Lỗi 404: Không tìm thấy file tại đường dẫn: $controllerFile</h1>";
 }
+
 ?>
