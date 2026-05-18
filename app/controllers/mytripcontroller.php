@@ -1,26 +1,28 @@
 <?php
 class MytripController {
     public function index() {
-        
+
         // Tận dụng kết nối PDO toàn cục đã khai báo tại hệ thống
-        global $conn; 
+        global $conn;
         require_once 'db_connect.php';
 
         // Định danh tài khoản khách hàng cần lấy dữ liệu
-        $maDuKhach = 'KH00000004'; 
+        $maDuKhach = 'KH00000004';
 
         // 1. Tải danh sách chuyến đi chưa hoàn thành
-        $sql_chua_hoan_thanh = "SELECT c.MaChuyenDi, c.NgayBatDau, c.NgayKetThuc, c.TongGiaTien, c.SoLuongKhach, t.TenTour, t.VungDiaLy 
-                                FROM ChuyenDi c JOIN Tour t ON c.MaTour = t.MaTour 
-                                WHERE c.MaDK = :madk AND c.TrangThai = 'Chưa hoàn thành'";
+        $sql_chua_hoan_thanh = "SELECT c.MaChuyenDi, c.NgayBatDau, c.NgayKetThuc, c.TongGiaTien, c.SoLuongKhach, t.TenTour, t.VungDiaLy
+        FROM ChuyenDi c JOIN Tour t ON c.MaTour = t.MaTour
+        WHERE c.MaDK = :madk AND c.TrangThai = 'Chưa hoàn thành'";
         $stmt1 = $conn->prepare($sql_chua_hoan_thanh);
         $stmt1->execute([':madk' => $maDuKhach]);
         $rs_chua_hoan_thanh = $stmt1->fetchAll(PDO::FETCH_ASSOC);
 
-        // 2. Tải danh sách chuyến đi đã hoàn thành
-        $sql_da_hoan_thanh = "SELECT c.MaChuyenDi, c.NgayBatDau, c.NgayKetThuc, c.TongGiaTien, c.SoLuongKhach, t.TenTour, t.VungDiaLy 
-                              FROM ChuyenDi c JOIN Tour t ON c.MaTour = t.MaTour 
-                              WHERE c.MaDK = :madk AND c.TrangThai = 'Đã hoàn thành'";
+        // 2. Tải danh sách chuyến đi đã hoàn thành (QUAN TRỌNG: Đã thêm LEFT JOIN PhieuDanhGia)
+        $sql_da_hoan_thanh = "SELECT c.MaChuyenDi, c.NgayBatDau, c.NgayKetThuc, c.TongGiaTien, c.SoLuongKhach, t.TenTour, t.VungDiaLy, dg.MaDG, dg.SoSao
+        FROM ChuyenDi c 
+        JOIN Tour t ON c.MaTour = t.MaTour
+        LEFT JOIN PhieuDanhGia dg ON c.MaChuyenDi = dg.MaChuyenDi
+        WHERE c.MaDK = :madk AND c.TrangThai = 'Đã hoàn thành'";
         $stmt2 = $conn->prepare($sql_da_hoan_thanh);
         $stmt2->execute([':madk' => $maDuKhach]);
         $rs_da_hoan_thanh = $stmt2->fetchAll(PDO::FETCH_ASSOC);
