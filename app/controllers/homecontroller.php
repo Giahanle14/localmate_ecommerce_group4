@@ -22,6 +22,14 @@ class HomeController {
         } catch(PDOException $e) {
             echo "<script>console.log('Lỗi DB: " . addslashes($e->getMessage()) . "');</script>";
         }
+        
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        if (isset($_SESSION['user']) && $_SESSION['user']['LoaiTK'] === 'Quản trị viên') {
+            header("Location: index.php?controller=adminhome");
+            exit();
+        }
 
         // Gọi View
         require_once __DIR__ . '/../views/layouts/header.php';

@@ -38,19 +38,22 @@ a {
    ========================================================================== */
 .main-header {
     background-color: var(--color-primary-dark);
-    padding: 5px 0;
+    padding: 6px 0; /* Thu nhỏ padding trên dưới */
     position: sticky;
     top: 0;
     z-index: 1030;
     box-shadow: var(--shadow-sm);
+    min-height: 60px; /* Ép độ cao tối thiểu cho thon gọn */
+    display: flex;
+    align-items: center;
 }
 
 .navbar-nav .nav-link {
     color: rgba(255, 255, 255, 0.9) !important;
     font-weight: 600;
-    font-size: 1.05rem;
-    padding: 8px 18px !important;
-    border-radius: 25px; 
+    font-size: 0.95rem; /* Giảm cỡ chữ xuống 1 chút cho cân đối */
+    padding: 6px 16px !important; /* Thu nhỏ padding của cái nút (pill) */
+    border-radius: 20px; /* Bo góc nhẹ lại cho thanh thoát */
     display: flex !important;
     align-items: center !important;
     gap: 8px !important; 

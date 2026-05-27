@@ -73,8 +73,8 @@
                         </div>
                         <div class="d-flex align-items-center flex-wrap gap-2 mb-2">
                             <div class="tour-location mb-0 pe-2 border-end">
-                                <i class="fa-solid fa-location-dot text-danger"></i> <?= htmlspecialchars($tour['VungDiaLy']) ?>
-                            </div>
+    <i class="fa-solid fa-location-dot text-danger"></i> <?= htmlspecialchars($tour['DiaDiem'] ?? 'Đang cập nhật') ?>
+</div>
                             <div class="tour-tags mb-0">
                                 <?php 
                                 if(!empty($tour['LoaiTraiNghiem'])):
