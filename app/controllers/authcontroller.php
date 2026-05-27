@@ -18,18 +18,23 @@ class AuthController {
                 $taiKhoan = $stmt->fetch(PDO::FETCH_ASSOC);
 
                 if ($taiKhoan) {
-                    $stmtDK = $conn->prepare("SELECT * FROM DuKhach WHERE Gmail = ?");
-                    $stmtDK->execute([$email]);
+                    $stmtDK = $conn->prepare("SELECT * FROM DuKhach WHERE MaTK_DK = ?");
+                    $stmtDK->execute([$taiKhoan['MaTK']]);
                     $duKhach = $stmtDK->fetch(PDO::FETCH_ASSOC);
 
                     $_SESSION['user'] = [
                         'MaTK' => $taiKhoan['MaTK'],
                         'Gmail' => $taiKhoan['Gmail'],
-                        'HoTen' => $duKhach ? $duKhach['HoTen'] : 'Du khách',
+                        'LoaiTK' => $taiKhoan['LoaiTK'], 
+                        'HoTen' => $taiKhoan['HoTen'], // Cột HoTen nằm ở bảng TaiKhoan
                         'MaDK' => $duKhach ? $duKhach['MaDK'] : null
                     ];
 
-                    header("Location: index.php?controller=home");
+                    if ($taiKhoan['LoaiTK'] === 'Quản trị viên') {
+                        header("Location: index.php?controller=adminhome");
+                    } else {
+                        header("Location: index.php?controller=home");
+                    }
                     exit();
                 } else {
                     echo "<script>alert('Sai Email hoặc Mật khẩu!'); window.location.href='index.php';</script>";
