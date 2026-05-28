@@ -11,11 +11,11 @@ class HomeController {
 
         try {
             if(isset($conn)) {
-                $stmt1 = $conn->prepare("SELECT * FROM tour LIMIT 3");
+                $stmt1 = $conn->prepare("SELECT * FROM tour LIMIT 6");
                 $stmt1->execute();
                 $toursNoiBat = $stmt1->fetchAll(PDO::FETCH_ASSOC);
 
-                $stmt2 = $conn->prepare("SELECT * FROM tour LIMIT 3 OFFSET 3");
+                $stmt2 = $conn->prepare("SELECT * FROM tour LIMIT 6 OFFSET 6");
                 $stmt2->execute();
                 $toursYeuThich = $stmt2->fetchAll(PDO::FETCH_ASSOC);
             }
