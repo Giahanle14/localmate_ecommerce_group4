@@ -1040,3 +1040,4 @@ span.flatpickr-weekday:nth-child(7) { color: #D32F2F !important; }
 .btn-detail-outline { border: 1px solid var(--color-primary); color: var(--color-primary); background: transparent; border-radius: 6px; padding: 6px 16px; font-weight: 600; }
 .btn-action-orange { background: #f39c12; color: white; font-weight: bold; border: none; border-radius: 20px; padding: 6px 20px; }
 .btn-action-green { background: var(--color-primary-dark); color: white; font-weight: bold; border: none; border-radius: 20px; padding: 6px 20px; }
+
