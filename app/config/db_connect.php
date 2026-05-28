@@ -1,5 +1,4 @@
 <?php
-
 $host = '26.211.116.140'; // IP VPN máy chủ (Giữ nguyên nếu nhóm đang dùng chung mạng ảo)
 $dbname = 'LocalMate_db'; 
 $username = 'LocalMateData';
