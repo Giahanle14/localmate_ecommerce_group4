@@ -5,42 +5,36 @@ if (session_status() === PHP_SESSION_NONE) {
 
 class MytripController {
     public function index() {
+        // 1. KIỂM TRA BẢO MẬT: Nếu khách chưa đăng nhập, đá văng về trang chủ
         if (!isset($_SESSION['user'])) {
             header("Location: index.php?controller=home");
             exit();
         }
 
+        // 2. Nhúng kết nối CSDL toàn cục của hệ thống
         global $conn;
         require_once __DIR__ . '/../config/db_connect.php';
 
+        // 3. Nhúng và khởi tạo lớp Model
+        require_once __DIR__ . '/../models/mytripmodel.php';
+
+        $tripModel = new MytripModel($conn);
+        // 4. Lấy mã tài khoản tự động từ Session của người dùng hiện tại
         $maTK = $_SESSION['user']['MaTK'];
 
-        // 1. Tải danh sách chuyến đi chưa hoàn thành (ĐÃ THÊM t.HinhAnh)
-        $sql_chua_hoan_thanh = "SELECT c.MaChuyenDi, c.NgayBatDau, c.NgayKetThuc, c.TongGiaTien, c.SoLuongKhach, t.TenTour, t.VungDiaLy, t.HinhAnh
-        FROM ChuyenDi c JOIN Tour t ON c.MaTour = t.MaTour
-        WHERE c.MaTK_DK = :matk AND c.TrangThai = 'Chưa hoàn thành'";
-        $stmt1 = $conn->prepare($sql_chua_hoan_thanh);
-        $stmt1->execute([':matk' => $maTK]);
-        $rs_chua_hoan_thanh = $stmt1->fetchAll(PDO::FETCH_ASSOC);
+        // 5. Triệu gọi dữ liệu từ Model xử lý
+        // - Danh sách chuyến đi chưa hoàn thành
+        $rs_chua_hoan_thanh = $tripModel->getTripsByCustomer($maTK, 'Chưa hoàn thành');
+        // - Danh sách chuyến đi đã hoàn thành
+        $rs_da_hoan_thanh = $tripModel->getTripsByCustomer($maTK, 'Đã hoàn thành');
+        // - Danh sách chuyến đi đã đã hủy
+        $rs_da_huy = $tripModel->getTripsByCustomer($maTK, 'Đã hủy');
+        // - Danh sách 3 tour gợi ý thông minh dựa trên lịch sử trải nghiệm của khách
+        $rs_goi_y = $tripModel->getSuggestedTours($maTK, 3);
+        // - Danh sách 3 tour đang có tỷ lệ ưu đãi cao nhất hệ thống
+        $rs_uu_dai = $tripModel->getTopPromotionalTours(3);
 
-        // 2. Tải danh sách chuyến đi đã hoàn thành (ĐÃ THÊM t.HinhAnh)
-        $sql_da_hoan_thanh = "SELECT c.MaChuyenDi, c.NgayBatDau, c.NgayKetThuc, c.TongGiaTien, c.SoLuongKhach, t.TenTour, t.VungDiaLy, t.HinhAnh, dg.MaDG, dg.SoSao
-        FROM ChuyenDi c 
-        JOIN Tour t ON c.MaTour = t.MaTour
-        LEFT JOIN PhieuDanhGia dg ON c.MaChuyenDi = dg.MaChuyenDi
-        WHERE c.MaTK_DK = :matk AND c.TrangThai = 'Đã hoàn thành'";
-        $stmt2 = $conn->prepare($sql_da_hoan_thanh);
-        $stmt2->execute([':matk' => $maTK]);
-        $rs_da_hoan_thanh = $stmt2->fetchAll(PDO::FETCH_ASSOC);
-
-        // 3. Tải danh sách các tour ngẫu nhiên gợi ý
-        $sql_goi_y = "SELECT * FROM Tour ORDER BY RAND() LIMIT 3";
-        $rs_goi_y = $conn->query($sql_goi_y)->fetchAll(PDO::FETCH_ASSOC);
-
-        // 4. Tải danh sách các tour đang có ưu đãi lớn
-        $sql_uu_dai = "SELECT * FROM Tour ORDER BY Gia ASC LIMIT 3";
-        $rs_uu_dai = $conn->query($sql_uu_dai)->fetchAll(PDO::FETCH_ASSOC);
-
+        // 6. Chuyển tiếp toàn bộ mảng dữ liệu sạch sang giao diện View hiển thị
         require_once __DIR__ . '/../views/layouts/header.php';
         require_once __DIR__ . '/../views/mytripview.php';
         require_once __DIR__ . '/../views/layouts/footer.php';

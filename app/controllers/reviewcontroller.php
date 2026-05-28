@@ -1,73 +1,144 @@
 <?php
-require_once 'app/models/rate_model.php';
+require_once __DIR__ . '/../models/reviewmodel.php';
 
-class RateController {
+class ReviewController {
     
-    // Giao diện Thêm mới Đánh giá
+    // 1. Hàm hiển thị Form Thêm Đánh Giá
     public function create() {
         $maChuyenDi = $_GET['id'] ?? '';
         if (empty($maChuyenDi)) die("Không tìm thấy mã chuyến đi.");
 
-        $trip = RateModel::getTripDetails($maChuyenDi);
+        $trip = ReviewModel::getTripDetails($maChuyenDi);
         if (!$trip) die("Chuyến đi không tồn tại.");
 
-        require_once 'app/views/rate/index.php';
+        // Khai báo rỗng để View hiểu là đang thêm mới
+        $review = null;
+        $images = [];
+
+        require_once __DIR__ . '/../views/reviewview.php';
     }
 
-    // Xử lý Lưu Đánh giá mới vào DB
+    // 2. Hàm lưu dữ liệu đánh giá MỚI
     public function store() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $maChuyenDi = $_POST['ma_chuyen_di'] ?? '';
-            $maDK = $_POST['ma_dk'] ?? '';
+            $maTK_DK = $_POST['ma_dk'] ?? ''; 
             $soSao = $_POST['so_sao'] ?? 5;
-            $noiDung = $_POST['noi_dung'] ?? '';
+            $noiDung = !empty($_POST['noi_dung']) ? $_POST['noi_dung'] : NULL;
+            
+            $dieuAnTuongArr = $_POST['dieu_an_tuong'] ?? [];
+            $dieuAnTuong = !empty($dieuAnTuongArr) ? implode(',', $dieuAnTuongArr) : NULL;
 
-            // Gọi hàm sinh mã tự động tăng dần thay vì dùng rand()
-            $maDG = RateModel::generateNextMaDG();
-
-            $result = RateModel::saveRating($maDG, $noiDung, $soSao, $maDK, $maChuyenDi);
+            $maDG = ReviewModel::generateNextMaDG();
+            $result = ReviewModel::saveRating($maDG, $noiDung, $soSao, $dieuAnTuong, $maTK_DK, $maChuyenDi);
 
             if ($result) {
-                // Thông báo thành công bằng JavaScript Alert
-                echo "<script>alert('Đánh giá chuyến đi thành công! Cảm ơn ý kiến đóng góp của bạn.'); window.location.href='index.php?controller=mytrip&action=index';</script>";
+                if (!empty($_FILES['hinh_anh']['name'][0])) {
+                    $uploadDir = 'public/image/reviews/';
+                    if (!is_dir($uploadDir)) mkdir($uploadDir, 0777, true);
+
+                    foreach ($_FILES['hinh_anh']['name'] as $key => $name) {
+                        if ($_FILES['hinh_anh']['error'][$key] == 0) {
+                            $tmpName = $_FILES['hinh_anh']['tmp_name'][$key];
+                            $ext = pathinfo($name, PATHINFO_EXTENSION);
+                            $newName = 'rev_' . $maDG . '_' . time() . '_' . $key . '.' . $ext;
+                            $targetFilePath = $uploadDir . $newName;
+                            
+                            if (move_uploaded_file($tmpName, $targetFilePath)) {
+                                $maHA = ReviewModel::generateNextMaHinhAnh();
+                                ReviewModel::saveReviewImage($maHA, $targetFilePath, $maDG);
+                            }
+                        }
+                    }
+                }
+                echo "<script>alert('Đánh giá thành công!'); window.location.href='index.php?controller=mytrip';</script>";
                 exit();
             } else {
-                echo "<script>alert('Gửi đánh giá thất bại. Vui lòng thử lại.'); window.history.back();</script>";
+                echo "<script>alert('Gửi đánh giá thất bại.'); window.history.back();</script>";
             }
         }
     }
 
-    // Giao diện Sửa đánh giá đã có
+    // 3. Hàm hiển thị Form SỬA Đánh Giá
     public function edit() {
         $maChuyenDi = $_GET['id'] ?? '';
         if (empty($maChuyenDi)) die("Không tìm thấy mã chuyến đi.");
 
-        $trip = RateModel::getTripDetails($maChuyenDi);
-        $rating = RateModel::getRatingByTrip($maChuyenDi); // Lấy nội dung cũ từ DB
+        $trip = ReviewModel::getTripDetails($maChuyenDi);
+        if (!$trip) die("Chuyến đi không tồn tại.");
 
-        if (!$trip || !$rating) {
-            die("Không tìm thấy thông tin đánh giá cũ.");
-        }
+        // Lấy dữ liệu cũ truyền ra view để View hiểu là đang sửa
+        $review = ReviewModel::getReviewByTripId($maChuyenDi);
+        if (!$review) die("Không tìm thấy đánh giá nào cho chuyến đi này.");
+        $images = ReviewModel::getReviewImages($review['MaDG']);
 
-        // Gọi View sửa đánh giá (file mới tạo ở bước dưới)
-        require_once 'app/views/rate/edit.php';
+        require_once __DIR__ . '/../views/reviewview.php';
     }
 
-    // Xử lý Cập nhật thay đổi vào DB
+    // 4. Hàm lưu dữ liệu đánh giá SAU KHI SỬA
     public function update() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $maDG = $_POST['ma_dg'] ?? '';
+            $maDG = $_POST['ma_dg'] ?? ''; 
             $soSao = $_POST['so_sao'] ?? 5;
-            $noiDung = $_POST['noi_dung'] ?? '';
+            $noiDung = !empty($_POST['noi_dung']) ? $_POST['noi_dung'] : NULL;
+            
+            $dieuAnTuongArr = $_POST['dieu_an_tuong'] ?? [];
+            $dieuAnTuong = !empty($dieuAnTuongArr) ? implode(',', $dieuAnTuongArr) : NULL;
 
-            $result = RateModel::updateRating($maDG, $noiDung, $soSao);
+            if (empty($maDG)) {
+                echo "<script>alert('Lỗi dữ liệu.'); window.history.back();</script>";
+                exit();
+            }
+
+            $result = ReviewModel::updateRating($maDG, $noiDung, $soSao, $dieuAnTuong);
 
             if ($result) {
-                echo "<script>alert('Cập nhật nội dung đánh giá thành công!'); window.location.href='index.php?controller=mytrip&action=index';</script>";
+                // Xử lý thêm ảnh mới (ảnh cũ vẫn giữ nguyên trong DB)
+                if (!empty($_FILES['hinh_anh']['name'][0])) {
+                    $uploadDir = 'public/image/reviews/';
+                    if (!is_dir($uploadDir)) mkdir($uploadDir, 0777, true);
+
+                    foreach ($_FILES['hinh_anh']['name'] as $key => $name) {
+                        if ($_FILES['hinh_anh']['error'][$key] == 0) {
+                            $tmpName = $_FILES['hinh_anh']['tmp_name'][$key];
+                            $ext = pathinfo($name, PATHINFO_EXTENSION);
+                            $newName = 'rev_' . $maDG . '_' . time() . '_' . $key . '.' . $ext;
+                            $targetFilePath = $uploadDir . $newName;
+                            
+                            if (move_uploaded_file($tmpName, $targetFilePath)) {
+                                $maHA = ReviewModel::generateNextMaHinhAnh();
+                                ReviewModel::saveReviewImage($maHA, $targetFilePath, $maDG);
+                            }
+                        }
+                    }
+                }
+                echo "<script>alert('Cập nhật đánh giá thành công!'); window.location.href='index.php?controller=mytrip';</script>";
                 exit();
             } else {
-                echo "<script>alert('Cập nhật thất bại. Vui lòng kiểm tra lại.'); window.history.back();</script>";
+                echo "<script>alert('Cập nhật thất bại. Vui lòng thử lại.'); window.history.back();</script>";
             }
+        }
+    }
+
+    // 5. Hàm XÓA đánh giá
+    public function delete() {
+        $maChuyenDi = $_GET['id'] ?? ''; 
+        if (empty($maChuyenDi)) {
+            echo "<script>alert('Không tìm thấy chuyến đi.'); window.location.href='index.php?controller=mytrip';</script>";
+            exit();
+        }
+
+        $review = ReviewModel::getReviewByTripId($maChuyenDi);
+        
+        if ($review) {
+            $result = ReviewModel::deleteReview($review['MaDG']);
+            if ($result) {
+                echo "<script>alert('Đã xóa đánh giá thành công!'); window.location.href='index.php?controller=mytrip';</script>";
+            } else {
+                echo "<script>alert('Xóa đánh giá thất bại.'); window.history.back();</script>";
+            }
+        } else {
+            echo "<script>alert('Đánh giá không tồn tại.'); window.history.back();</script>";
         }
     }
 }

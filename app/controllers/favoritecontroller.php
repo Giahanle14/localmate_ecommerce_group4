@@ -1,4 +1,6 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) { session_start(); }
+
 class FavoriteController {
     public function index() {
         require_once __DIR__ . '/../views/layouts/header.php';
