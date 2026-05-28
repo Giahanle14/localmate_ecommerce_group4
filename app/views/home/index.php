@@ -1,16 +1,211 @@
+<?php require_once 'app/views/layouts/header.php'; ?>
+
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/vn.js"></script>
 
-<section class="hero-section"></section>
+<style>
+    /* ========================================================
+       CSS DÀNH RIÊNG CHO CARD TOUR TRANG CHỦ
+       ======================================================== */
+    .tour-new-card {
+        background: #fff;
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid #eaeaea;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        position: relative;
+    }
+    .tour-new-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+    }
+    .tour-new-img-wrap {
+        position: relative;
+        height: 220px;
+        width: 100%;
+    }
+    .tour-new-img-wrap img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    .badge-discount {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        background-color: #E74C3C;
+        color: white;
+        font-weight: 700;
+        font-size: 0.85rem;
+        padding: 5px 12px;
+        border-radius: 6px;
+        z-index: 2;
+    }
+    .badge-price {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        color: white;
+        font-weight: 700;
+        padding: 6px 12px;
+        border-radius: 6px;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .badge-price.normal-price {
+        background-color: #167A3B; 
+        font-size: 0.95rem;
+    }
+    .badge-price.discount-price {
+        background-color: #E67E22; 
+    }
+    .badge-price .old-price {
+        text-decoration: line-through;
+        font-size: 0.75rem;
+        opacity: 0.8;
+        font-weight: 500;
+    }
+    .badge-price .new-price {
+        font-size: 0.95rem;
+    }
 
-<div class="search-bar-wrapper">
+    .tour-new-body {
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+    }
+    .tour-meta-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+        font-size: 0.85rem;
+    }
+    .tour-location-text {
+        color: #777;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+    .tour-location-text i {
+        color: #D32F2F;
+        margin-right: 4px;
+    }
+    .tour-heart {
+        color: #777;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+    .tour-heart i.fa-solid { color: #E74C3C; } 
+    
+    .tour-new-title {
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: #167A3B;
+        margin-bottom: 8px;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    .tour-pax-time {
+        color: #E67E22;
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-bottom: 12px;
+        display: flex;
+        gap: 15px;
+    }
+    .tour-pax-time i { margin-right: 5px; }
+    .tour-new-desc {
+        color: #777;
+        font-size: 0.9rem;
+        line-height: 1.5;
+        margin-bottom: 20px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        flex-grow: 1;
+    }
+    .tour-new-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-top: 1px solid #f0f0f0;
+        padding-top: 12px;
+    }
+    .tour-rating-stars {
+        color: #333;
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
+    .tour-rating-stars i {
+        color: #F1C40F;
+        margin-right: 5px;
+    }
+    .btn-chi-tiet {
+        background-color: #fff;
+        color: #167A3B;
+        border: 1px solid #167A3B;
+        border-radius: 6px;
+        padding: 5px 15px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        text-decoration: none;
+        transition: 0.2s;
+    }
+    .btn-chi-tiet:hover {
+        background-color: #167A3B;
+        color: #fff;
+    }
+</style>
+
+<section class="hero-section position-relative p-0">
+    <div id="homeBannerCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="3500">
+        <div class="carousel-indicators">
+            <?php for($i = 0; $i < 6; $i++): ?>
+                <button type="button" data-bs-target="#homeBannerCarousel" data-bs-slide-to="<?= $i ?>" class="<?= $i == 0 ? 'active' : '' ?>" aria-current="<?= $i == 0 ? 'true' : 'false' ?>"></button>
+            <?php endfor; ?>
+        </div>
+        
+        <div class="carousel-inner">
+            <?php for($i = 1; $i <= 6; $i++): ?>
+                <div class="carousel-item <?= $i == 1 ? 'active' : '' ?>">
+                    <img src="public/image/banner/Banner_LocalMate_<?= $i ?>.png" class="d-block w-100" alt="Banner LocalMate <?= $i ?>" style="height: 500px; object-fit: cover; object-position: center;">
+                    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.4) 100%); pointer-events: none;"></div>
+                </div>
+            <?php endfor; ?>
+        </div>
+        
+        <button class="carousel-control-prev" type="button" data-bs-target="#homeBannerCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#homeBannerCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+</section>
+
+<div class="search-bar-wrapper" style="position: relative; z-index: 10; margin-top: -15px; padding-bottom: 20px;">
     <div class="container">
-        <div class="search-container">
-            <form id="searchForm" action="" method="GET" class="d-flex align-items-center flex-nowrap w-100 bg-white" style="border-radius: 50px;">
+        <div class="search-container shadow-lg" style="border-radius: 50px; background: white;">
+            <form id="searchForm" action="index.php" method="GET" class="d-flex align-items-center flex-nowrap w-100 bg-white" style="border-radius: 50px;">
+                <input type="hidden" name="controller" value="tour">
                 <div class="search-input-group position-relative">
                     <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" id="destination" name="destination" placeholder="Bạn muốn đi đâu ?" class="form-control border-0 shadow-none bg-transparent">
+                    <input type="text" id="destination" name="search" placeholder="Bạn muốn đi đâu ?" class="form-control border-0 shadow-none bg-transparent">
                     <div id="destError" class="error-tooltip d-none">
                         Bạn phải nhập thông tin này <i class="fa-solid fa-circle-exclamation text-danger ms-2"></i>
                     </div>
@@ -24,7 +219,7 @@
                     <input type="text" id="guestInput" name="guests" placeholder="Số lượng khách" value="1 Người lớn" class="form-control border-0 shadow-none bg-transparent" readonly style="cursor: pointer;">
                     <i class="fa-solid fa-chevron-down ms-2" id="guestIcon" style="font-size: 0.8rem; cursor: pointer;"></i>
 
-                    <div id="guestPopup" class="guest-popup d-none">
+                    <div id="guestPopup" class="guest-popup d-none shadow">
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <div class="fw-bold text-dark"><i class="fa-solid fa-user-tie me-2" style="color: var(--color-primary-dark)"></i>Người lớn</div>
                             <div class="d-flex align-items-center gap-2">
@@ -46,8 +241,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="px-2">
-                    <button type="submit" class="btn btn-search">Tìm Kiếm</button>
+                <div class="px-2 py-1">
+                    <button type="submit" class="btn btn-search text-white rounded-pill px-4">Tìm Kiếm</button>
                 </div>
             </form>
         </div>
@@ -57,50 +252,70 @@
 <div class="container mt-5 mb-5 pb-2">
     <div class="d-flex justify-content-between align-items-end mb-4">
         <h3 class="section-title">Tour Trải Nghiệm Nổi Bật <i class="fa-solid fa-fire text-warning" style="font-size: 1.2rem;"></i></h3>
-        <a href="javascript:void(0)" class="view-more" onclick="slideTours('sliderNoiBat')">Xem thêm <i class="fa-solid fa-angle-right ms-1"></i></a>
+        <a href="index.php?controller=tour&sort=moi_nhat" class="view-more">Xem thêm <i class="fa-solid fa-angle-right ms-1"></i></a>
     </div>
 
-    <div class="tour-slider-container" id="sliderNoiBat">
+    <div class="row g-4">
         <?php if(!empty($toursNoiBat)): ?>
             <?php foreach($toursNoiBat as $tour): ?>
-            <div class="tour-slider-item">
-                <div class="card custom-card favorite-card">
-                    <div class="card-img-wrapper">
-                        <img src="public/image/location/<?= htmlspecialchars($tour['HinhAnh']) ?>" class="card-banner" alt="<?= htmlspecialchars($tour['TenTour']) ?>">
-                        <span class="price-tag"><?= number_format($tour['Gia'], 0, ',', '.') ?> VNĐ</span>
-                    </div>
-                    <div class="card-body-tour">
-                        <div class="d-flex justify-content-between align-items-center mb-1">
-                            <h5 class="tour-title pe-2 mb-0"><?= htmlspecialchars($tour['TenTour']) ?></h5>
-                            <div class="tour-rating"><i class="fa-solid fa-star"></i> 5.0 (120)</div>
+                <?php 
+                    $giaGoc = $tour['Gia'];
+                    $uuDai = $tour['UuDai'] ?? 0;
+                    $coUuDai = ($uuDai > 0);
+                    $giaDaGiam = $coUuDai ? $giaGoc * (1 - $uuDai) : $giaGoc;
+                    $phanTramGiam = $coUuDai ? round($uuDai * 100) : 0;
+                    $locationText = !empty($tour['DiaDiem']) ? htmlspecialchars($tour['DiaDiem']) : htmlspecialchars($tour['VungDiaLy']);
+                ?>
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="tour-new-card">
+                        <div class="tour-new-img-wrap">
+                            <?php if($coUuDai): ?>
+                                <span class="badge-discount">-<?= $phanTramGiam ?>%</span>
+                                <div class="badge-price discount-price">
+                                    <span class="old-price"><?= number_format($giaGoc, 0, ',', '.') ?>đ</span>
+                                    <span class="new-price"><?= number_format($giaDaGiam, 0, ',', '.') ?>đ</span>
+                                </div>
+                            <?php else: ?>
+                                <div class="badge-price normal-price">
+                                    <?= number_format($giaGoc, 0, ',', '.') ?> VNĐ
+                                </div>
+                            <?php endif; ?>
+                            
+                            <img src="<?= htmlspecialchars($tour['HinhAnh']) ?>" alt="<?= htmlspecialchars($tour['TenTour']) ?>">
                         </div>
-                        <div class="d-flex align-items-center flex-wrap gap-2 mb-2">
-                            <div class="tour-location mb-0 pe-2 border-end">
-    <i class="fa-solid fa-location-dot text-danger"></i> <?= htmlspecialchars($tour['DiaDiem'] ?? 'Đang cập nhật') ?>
-</div>
-                            <div class="tour-tags mb-0">
-                                <?php 
-                                if(!empty($tour['LoaiTraiNghiem'])):
-                                    $tags = explode(',', $tour['LoaiTraiNghiem']);
-                                    foreach($tags as $tag): 
-                                        $tag = trim($tag);
-                                        if($tag != ''):
-                                ?>
-                                    <span class="tour-tag-item"><?= htmlspecialchars($tag) ?></span>
-                                <?php 
-                                        endif; 
-                                    endforeach; 
-                                endif; 
-                                ?>
+                        
+                        <div class="tour-new-body">
+                            <div class="tour-meta-top">
+                                <span class="tour-location-text"><i class="fa-solid fa-location-dot"></i> <?= $locationText ?></span>
+                                <span class="tour-heart" onclick="toggleHeartHome(this, '<?= $tour['MaTour'] ?>')">
+                                    <i class="<?= ($tour['IsLiked'] > 0) ? 'fa-solid' : 'fa-regular' ?> fa-heart fs-6"></i> 
+                                    <span class="like-count"><?= $tour['SoLuotThich'] ?></span>
+                                </span>
+                            </div>
+                            
+                            <h3 class="tour-new-title"><?= htmlspecialchars($tour['TenTour']) ?></h3>
+                            
+                            <div class="tour-pax-time">
+                                <span><i class="fa-solid fa-user-group"></i> Tối đa <?= $tour['SoKhachToiDa'] ?> người</span>
+                                <span><i class="fa-regular fa-clock"></i> <?= $tour['SoNgay'] ?> ngày</span>
+                            </div>
+                            
+                            <p class="tour-new-desc"><?= htmlspecialchars($tour['MoTa']) ?></p>
+                            
+                            <div class="tour-new-footer">
+                                <div class="tour-rating-stars">
+                                    <i class="fa-solid fa-star"></i> 
+                                    <?= $tour['SaoTrungBinh'] ? round($tour['SaoTrungBinh'], 1) : '5.0' ?> 
+                                    <span style="color:#777; font-weight: 500;">(<?= $tour['SoDanhGia'] > 0 ? $tour['SoDanhGia'] : '0' ?>)</span>
+                                </div>
+                                <a href="index.php?controller=tourdetail&id=<?= $tour['MaTour'] ?>" class="btn-chi-tiet">Chi tiết</a>
                             </div>
                         </div>
-                        <p class="tour-desc"><?= htmlspecialchars($tour['MoTa']) ?></p>
                     </div>
                 </div>
-            </div>
             <?php endforeach; ?>
         <?php else: ?>
-            <div class="col-12"><p class="text-center text-muted">Chưa load được dữ liệu Database Tour Nổi bật.</p></div>
+            <div class="col-12"><p class="text-center text-muted">Chưa có dữ liệu Tour Nổi bật.</p></div>
         <?php endif; ?>
     </div>
 </div>
@@ -108,50 +323,70 @@
 <div class="container mb-5 pb-2">
     <div class="d-flex justify-content-between align-items-end mb-4">
         <h3 class="section-title">Tour Được Yêu Thích Nhất <span style="background-color: #FFB800; color: white; width: 28px; height: 28px; border-radius: 50%; display: inline-flex; justify-content: center; align-items: center; font-size: 0.9rem;"><i class="fa-solid fa-heart"></i></span></h3>
-        <a href="javascript:void(0)" class="view-more" onclick="slideTours('sliderYeuThich')">Xem thêm <i class="fa-solid fa-angle-right ms-1"></i></a>
+        <a href="index.php?controller=tour&sort=yeu_thich" class="view-more">Xem thêm <i class="fa-solid fa-angle-right ms-1"></i></a>
     </div>
 
-    <div class="tour-slider-container" id="sliderYeuThich">
+    <div class="row g-4">
         <?php if(!empty($toursYeuThich)): ?>
             <?php foreach($toursYeuThich as $tour): ?>
-            <div class="tour-slider-item">
-                <div class="card custom-card favorite-card">
-                    <div class="card-img-wrapper">
-                        <img src="public/image/location/<?= htmlspecialchars($tour['HinhAnh']) ?>" class="card-banner" alt="<?= htmlspecialchars($tour['TenTour']) ?>">
-                        <span class="price-tag"><?= number_format($tour['Gia'], 0, ',', '.') ?> VNĐ</span>
-                    </div>
-                    <div class="card-body-tour">
-                        <div class="d-flex justify-content-between align-items-center mb-1">
-                            <h5 class="tour-title pe-2 mb-0"><?= htmlspecialchars($tour['TenTour']) ?></h5>
-                            <div class="tour-rating" style="color: #F29A2E;"><i class="fa-solid fa-heart"></i> 210 lượt</div>
+                <?php 
+                    $giaGoc = $tour['Gia'];
+                    $uuDai = $tour['UuDai'] ?? 0;
+                    $coUuDai = ($uuDai > 0);
+                    $giaDaGiam = $coUuDai ? $giaGoc * (1 - $uuDai) : $giaGoc;
+                    $phanTramGiam = $coUuDai ? round($uuDai * 100) : 0;
+                    $locationText = !empty($tour['DiaDiem']) ? htmlspecialchars($tour['DiaDiem']) : htmlspecialchars($tour['VungDiaLy']);
+                ?>
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="tour-new-card">
+                        <div class="tour-new-img-wrap">
+                            <?php if($coUuDai): ?>
+                                <span class="badge-discount">-<?= $phanTramGiam ?>%</span>
+                                <div class="badge-price discount-price">
+                                    <span class="old-price"><?= number_format($giaGoc, 0, ',', '.') ?>đ</span>
+                                    <span class="new-price"><?= number_format($giaDaGiam, 0, ',', '.') ?>đ</span>
+                                </div>
+                            <?php else: ?>
+                                <div class="badge-price normal-price">
+                                    <?= number_format($giaGoc, 0, ',', '.') ?> VNĐ
+                                </div>
+                            <?php endif; ?>
+                            
+                            <img src="<?= htmlspecialchars($tour['HinhAnh']) ?>" alt="<?= htmlspecialchars($tour['TenTour']) ?>">
                         </div>
-                        <div class="d-flex align-items-center flex-wrap gap-2 mb-2">
-                            <div class="tour-location mb-0 pe-2 border-end">
-                                <i class="fa-solid fa-location-dot text-danger"></i> <?= htmlspecialchars($tour['VungDiaLy']) ?>
+                        
+                        <div class="tour-new-body">
+                            <div class="tour-meta-top">
+                                <span class="tour-location-text"><i class="fa-solid fa-location-dot"></i> <?= $locationText ?></span>
+                                <span class="tour-heart" onclick="toggleHeartHome(this, '<?= $tour['MaTour'] ?>')">
+                                    <i class="<?= ($tour['IsLiked'] > 0) ? 'fa-solid' : 'fa-regular' ?> fa-heart fs-6"></i> 
+                                    <span class="like-count"><?= $tour['SoLuotThich'] ?></span>
+                                </span>
                             </div>
-                            <div class="tour-tags mb-0">
-                                <?php 
-                                if(!empty($tour['LoaiTraiNghiem'])):
-                                    $tags = explode(',', $tour['LoaiTraiNghiem']);
-                                    foreach($tags as $tag): 
-                                        $tag = trim($tag);
-                                        if($tag != ''):
-                                ?>
-                                    <span class="tour-tag-item"><?= htmlspecialchars($tag) ?></span>
-                                <?php 
-                                        endif; 
-                                    endforeach; 
-                                endif; 
-                                ?>
+                            
+                            <h3 class="tour-new-title"><?= htmlspecialchars($tour['TenTour']) ?></h3>
+                            
+                            <div class="tour-pax-time">
+                                <span><i class="fa-solid fa-user-group"></i> Tối đa <?= $tour['SoKhachToiDa'] ?> người</span>
+                                <span><i class="fa-regular fa-clock"></i> <?= $tour['SoNgay'] ?> ngày</span>
+                            </div>
+                            
+                            <p class="tour-new-desc"><?= htmlspecialchars($tour['MoTa']) ?></p>
+                            
+                            <div class="tour-new-footer">
+                                <div class="tour-rating-stars">
+                                    <i class="fa-solid fa-star"></i> 
+                                    <?= $tour['SaoTrungBinh'] ? round($tour['SaoTrungBinh'], 1) : '5.0' ?> 
+                                    <span style="color:#777; font-weight: 500;">(<?= $tour['SoDanhGia'] > 0 ? $tour['SoDanhGia'] : '0' ?>)</span>
+                                </div>
+                                <a href="index.php?controller=tourdetail&id=<?= $tour['MaTour'] ?>" class="btn-chi-tiet">Chi tiết</a>
                             </div>
                         </div>
-                        <p class="tour-desc"><?= htmlspecialchars($tour['MoTa']) ?></p>
                     </div>
                 </div>
-            </div>
             <?php endforeach; ?>
         <?php else: ?>
-             <div class="col-12"><p class="text-center text-muted">Chưa load được dữ liệu Database Tour Yêu Thích.</p></div>
+             <div class="col-12"><p class="text-center text-muted">Chưa có dữ liệu Tour Yêu Thích.</p></div>
         <?php endif; ?>
     </div>
 </div>
@@ -163,115 +398,81 @@
     </div>
 
     <div class="row g-3">
-        <div class="col-12 col-md-6 col-lg-3">
-            <div class="card custom-card review-card h-100">
-                <div class="review-top">
-                    <div class="review-images-grid">
-                        <img src="public/image/location/hoian1.jpeg" alt="Review 1">
-                        <img src="public/image/location/hoian2.png" alt="Review 2">
-                        <img src="public/image/location/hoian3.jpg" alt="Review 3">
-                    </div>
-                </div>
-                <div class="review-bottom">
-                    <div class="review-author-col">
-                        <img src="public/image/avatar/Xink.png" class="review-avatar" alt="Avatar">
-                        <div class="review-author-name">LinhLe</div>
-                    </div>
-                    <div class="review-content-col">
-                        <div class="d-flex justify-content-between align-items-center mb-1">
-                            <h5 class="review-title">Lạc bước Phố Cổ</h5>
-                            <span class="review-date">15:07 - 30/04/2026</span>
+        <?php if(!empty($latestReviews)): ?>
+            <?php foreach($latestReviews as $review): ?>
+                <div class="col-12 col-md-6 col-lg-3">
+                    <div class="card custom-card review-card h-100">
+                        
+                        <div class="review-top">
+                            <div class="review-images-grid">
+                                <?php if(!empty($review['HinhAnh'])): ?>
+                                    <?php 
+                                    $imgCount = 0;
+                                    foreach($review['HinhAnh'] as $img): 
+                                        if($imgCount >= 3) break;
+                                    ?>
+                                        <img src="<?= htmlspecialchars($img) ?>" alt="Hình ảnh đánh giá">
+                                    <?php 
+                                        $imgCount++;
+                                    endforeach; 
+                                    ?>
+                                <?php else: ?>
+                                    <div style="grid-column: span 3; background: #eee; width: 100%; height: 100%; display:flex; align-items:center; justify-content:center;">
+                                        <i class="fa-solid fa-image text-muted" style="font-size: 2rem; opacity: 0.3;"></i>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
                         </div>
-                        <p class="review-desc">Tour này gặp người bản địa thân thiện mà hỗ trợ mình nhiệt tình lắm luôn á, chuyến đi rất đáng nhớ, có cơ hội sẽ quay lại lần nữa. Mình đã ăn nhiều món ăn ở đây ...</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-12 col-md-6 col-lg-3">
-            <div class="card custom-card review-card h-100">
-                <div class="review-top">
-                    <div class="review-images-grid">
-                        <img src="public/image/location/mientay1.jpg" alt="Review 1">
-                        <img src="public/image/location/mientay2.jpg" alt="Review 2">
-                        <img src="public/image/location/mientay3.jpg" alt="Review 3">
-                    </div>
-                </div>
-                <div class="review-bottom">
-                    <div class="review-author-col">
-                        <img src="public/image/avatar/Trâm Nguyễn.png" class="review-avatar" alt="Avatar">
-                        <div class="review-author-name">Thie</div>
-                    </div>
-                    <div class="review-content-col">
-                        <div class="d-flex justify-content-between align-items-center mb-1">
-                            <h5 class="review-title">Khám Phá Miệt Vườn</h5>
-                            <span class="review-date">13:06 - 24/03/2026</span>
+                        
+                        <div class="review-bottom">
+                            <div class="review-author-col">
+                                <?php $avatar = !empty($review['AnhDaiDien']) ? $review['AnhDaiDien'] : 'public/image/avatar/R.jpg'; ?>
+                                <img src="<?= htmlspecialchars($avatar) ?>" class="review-avatar" alt="Avatar">
+                                <?php 
+                                    $nameParts = explode(' ', trim($review['HoTen']));
+                                    $shortName = end($nameParts);
+                                ?>
+                                <div class="review-author-name" title="<?= htmlspecialchars($review['HoTen']) ?>">
+                                    <?= htmlspecialchars($shortName) ?>
+                                </div>
+                            </div>
+                            
+                            <div class="review-content-col">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <h5 class="review-title" title="<?= htmlspecialchars($review['TenTour']) ?>">
+                                        <?= htmlspecialchars(mb_substr($review['TenTour'], 0, 22)) ?>...
+                                    </h5>
+                                    <span class="review-date"><?= date('H:i - d/m/Y', strtotime($review['NgayDG'])) ?></span>
+                                </div>
+                                
+                                <div class="mb-1 text-warning" style="font-size: 0.8rem;">
+                                    <?php for($i=1; $i<=5; $i++): ?>
+                                        <i class="<?= ($i <= $review['SoSao']) ? 'fa-solid' : 'fa-regular' ?> fa-star"></i>
+                                    <?php endfor; ?>
+                                </div>
+                                
+                                <p class="review-desc"><?= htmlspecialchars(mb_substr($review['NoiDung'], 0, 95)) ?>...</p>
+                            </div>
                         </div>
-                        <p class="review-desc">Mình với nhỏ cot đã có một chuyến đi siêu duiii ở chợ nổi Cái Răng. Theo kinh nghiệm của tui thì mọi người không cần mang gì chỉ cần mang cái bụng đói tới ăn...</p>
+                        
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <div class="col-12 col-md-6 col-lg-3">
-            <div class="card custom-card review-card h-100">
-                <div class="review-top">
-                    <div class="review-images-grid">
-                        <img src="public/image/location/nongdan1.jpg" alt="Review 1">
-                        <img src="public/image/location/nongdan2.jpg" alt="Review 2">
-                        <img src="public/image/location/nongdan3.jpg" alt="Review 3">
-                    </div>
-                </div>
-                <div class="review-bottom">
-                    <div class="review-author-col">
-                        <img src="public/image/avatar/oanh.png" class="review-avatar" alt="Avatar">
-                        <div class="review-author-name">Hiu</div>
-                    </div>
-                    <div class="review-content-col">
-                        <div class="d-flex justify-content-between align-items-center mb-1">
-                            <h5 class="review-title">1 ngày làm nông dân</h5>
-                            <span class="review-date">12:59 - 08/03/2026</span>
-                        </div>
-                        <p class="review-desc">Hai vợ chồng mình sống ở thành thị bao năm nay mới được trải nghiệm hoạt động thú vị tới vậy. Thì ra làm nông cũng có cái vui. Mình được thử gọt lúa, hái rau, ...</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-12 col-md-6 col-lg-3">
-            <div class="card custom-card review-card h-100">
-                <div class="review-top">
-                    <div class="review-images-grid">
-                        <img src="public/image/location/battrang1.jpg" alt="Review 1">
-                        <img src="public/image/location/battrang2.jpg" alt="Review 2">
-                        <img src="public/image/location/battrang3.png" alt="Review 3">
-                    </div>
-                </div>
-                <div class="review-bottom">
-                    <div class="review-author-col">
-                        <img src="public/image/avatar/Tuyết Nhiên.jpg" class="review-avatar" alt="Avatar">
-                        <div class="review-author-name">Zang</div>
-                    </div>
-                    <div class="review-content-col">
-                        <div class="d-flex justify-content-between align-items-center mb-1">
-                            <h5 class="review-title">Tinh hoa Bát Tràng</h5>
-                            <span class="review-date">11:37 - 14/02/2026</span>
-                        </div>
-                        <p class="review-desc">Tour này thiệt sự giúp mình chữa lành rất là nhiều. Cứ nghĩ ngồi làm gốm bình thường thôi nhưng mà cảm giác rất thư giãn. Mình còn được mang cả gốm về ...</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <div class="col-12"><p class="text-center text-muted">Hiện tại chưa có bài đánh giá nào từ khách hàng.</p></div>
+        <?php endif; ?>
     </div>
 </div>
 
 <script>
+    // Khởi tạo lịch
     flatpickr("#datePicker", {
         dateFormat: "d/m/Y",
         locale: "vn",
         minDate: "today"
     });
 
+    // Logic chọn số lượng hành khách
     let adults = 1;
     let children = 0;
     const guestInput = document.getElementById('guestInput');
@@ -318,6 +519,7 @@
         }
     });
 
+    // Validation
     const searchForm = document.getElementById('searchForm');
     const destInput = document.getElementById('destination');
     const destError = document.getElementById('destError');
@@ -334,14 +536,47 @@
         destError.classList.add('d-none'); 
     });
 
-    function slideTours(containerId) {
-        const container = document.getElementById(containerId);
-        const scrollAmount = container.clientWidth; 
-        
-        if (container.scrollLeft + container.clientWidth >= container.scrollWidth - 10) {
-            container.scrollTo({ left: 0, behavior: 'smooth' });
-        } else {
-            container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-        }
+    // AJAX xử lý thả tim
+    function toggleHeartHome(element, maTour) {
+        const icon = element.querySelector('i');
+        const countSpan = element.querySelector('.like-count');
+        let count = parseInt(countSpan.innerText);
+
+        element.style.pointerEvents = 'none'; 
+        element.style.opacity = '0.5';
+
+        fetch('index.php?controller=home', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: 'action=toggle_heart&ma_tour=' + encodeURIComponent(maTour)
+        })
+        .then(r => r.json())
+        .then(data => {
+            element.style.pointerEvents = 'auto';
+            element.style.opacity = '1';
+
+            if (data.success) {
+                if (data.action === 'added') {
+                    icon.classList.replace('fa-regular', 'fa-solid');
+                    countSpan.innerText = count + 1;
+                } else if (data.action === 'removed') {
+                    icon.classList.replace('fa-solid', 'fa-regular');
+                    countSpan.innerText = count - 1;
+                }
+            } else {
+                alert(data.message);
+                if(data.message.includes("đăng nhập")) {
+                    var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+                    loginModal.show();
+                }
+            }
+        })
+        .catch(e => {
+            element.style.pointerEvents = 'auto';
+            element.style.opacity = '1';
+            console.error("Lỗi fetch: ", e);
+        });
     }
 </script>
+
+<?php require_once 'app/views/layouts/footer.php'; ?>

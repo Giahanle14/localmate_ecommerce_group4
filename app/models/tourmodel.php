@@ -1,165 +1,163 @@
 <?php
-// app/models/tourmodel.php
-require_once __DIR__ . '/../config/db_connect.php';
+require_once 'app/config/db_connect.php';
 
 class TourModel {
     private $conn;
-    private $table_name = "Tour";
 
-    // Khởi tạo connection: hỗ trợ cả truyền $db (của nhóm) hoặc lấy global $conn
-    public function __construct($db = null) {
-        if ($db !== null) {
-            $this->conn = $db;
+    public function __construct() {
+        global $conn;
+        $this->conn = $conn;
+    }
+
+    // --- HÀM CŨ CỦA BẠN BẠN: HÀM THẢ TIM ĐƯỢC GIỮ NGUYÊN ---
+    public function toggleFavorite($maTK_DK, $maTour) {
+        $checkSql = "SELECT * FROM DanhSachYeuThich WHERE MaTK_DK = :ma_tk AND MaTour = :ma_tour";
+        $stmt = $this->conn->prepare($checkSql);
+        $stmt->execute([':ma_tk' => $maTK_DK, ':ma_tour' => $maTour]);
+        
+        if ($stmt->rowCount() > 0) {
+            $delSql = "DELETE FROM DanhSachYeuThich WHERE MaTK_DK = :ma_tk AND MaTour = :ma_tour";
+            $this->conn->prepare($delSql)->execute([':ma_tk' => $maTK_DK, ':ma_tour' => $maTour]);
+            return 'removed';
         } else {
-            global $conn;
-            $this->conn = $conn;
+            $insertSql = "INSERT INTO DanhSachYeuThich (MaTK_DK, MaTour) VALUES (:ma_tk, :ma_tour)";
+            $this->conn->prepare($insertSql)->execute([':ma_tk' => $maTK_DK, ':ma_tour' => $maTour]);
+            return 'added';
         }
     }
 
-    // Hàm lấy danh sách toàn bộ các Tour đang có trong hệ thống CSDL (Của nhóm)
-    public function getAllTours() {
-        $query = "SELECT t.*, q.HoTen as TenQTV, q.Avatar as AvatarQTV 
-                  FROM " . $this->table_name . " t
-                  LEFT JOIN QTV q ON t.MaQTV = q.MaQTV 
-                  ORDER BY t.NgayTao DESC";
-                  
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-        return $stmt;
-    }
-
-    // Hàm lấy danh sách Tour có Phân trang và Lọc (Của chúng ta)
-    public function getDanhSachTour($loaiTraiNghiemArr, $vungDiaLy, $soNgay, $giaMax, $sortBy, $limit, $offset, $currentUser) {
-        
-        // CHỈNH SỬA: Nếu currentUser lưu mã Du Khách (bắt đầu bằng DK), ta phải lấy mã TK_DK tương ứng
-        if (strpos($currentUser, 'DK') === 0) {
-            $stmtDK = $this->conn->prepare("SELECT MaTK_DK FROM DuKhach WHERE MaDK = :maDK");
-            $stmtDK->execute([':maDK' => $currentUser]);
-            $res = $stmtDK->fetch(PDO::FETCH_ASSOC);
-            if ($res) {
-                $currentUser = $res['MaTK_DK'];
-            }
-        }
-        
-        $params = [':currentUser' => $currentUser];
+    // --- HÀM ĐÃ ĐƯỢC CẬP NHẬT: GỘP LỌC VÀ TÌM KIẾM ---
+    public function getFilteredTours($params, $maTK_DK = null, $limit = 9, $offset = 0) {
         $sql = "SELECT t.*, 
-                    (SELECT COUNT(*) FROM DanhSachYeuThich WHERE MaTour = t.MaTour) as SoLuotThich,
-                    (SELECT AVG(pdg.SoSao) FROM PhieuDanhGia pdg JOIN ChuyenDi cd ON pdg.MaChuyenDi = cd.MaChuyenDi WHERE cd.MaTour = t.MaTour) as SaoTrungBinh,
-                    (SELECT COUNT(*) FROM PhieuDanhGia pdg JOIN ChuyenDi cd ON pdg.MaChuyenDi = cd.MaChuyenDi WHERE cd.MaTour = t.MaTour) as SoDanhGia,
-                    (SELECT COUNT(*) FROM DanhSachYeuThich WHERE MaTour = t.MaTour AND MaTK_DK = :currentUser) as IsLiked
-                FROM Tour t 
-                WHERE 1=1";
-
-        if (!empty($loaiTraiNghiemArr) && is_array($loaiTraiNghiemArr)) {
-            $loaiConditions = [];
-            foreach ($loaiTraiNghiemArr as $k => $v) {
-                $key = ':loai' . $k;
-                $loaiConditions[] = "t.LoaiTraiNghiem LIKE " . $key;
-                $params[$key] = '%' . $v . '%';
-            }
-            $sql .= " AND (" . implode(' OR ', $loaiConditions) . ")";
-        }
-
-        if (!empty($vungDiaLy)) {
-            $sql .= " AND t.VungDiaLy = :vung";
-            $params[':vung'] = $vungDiaLy;
-        }
-
-        if (!empty($soNgay)) {
-            if ($soNgay == '1-2') $sql .= " AND t.SoNgay BETWEEN 1 AND 2";
-            elseif ($soNgay == '2-3') $sql .= " AND t.SoNgay BETWEEN 2 AND 3";
-            elseif ($soNgay == '3-5') $sql .= " AND t.SoNgay BETWEEN 3 AND 5";
-        }
-
-        if (!empty($giaMax)) {
-            $sql .= " AND t.Gia <= :giaMax";
-            $params[':giaMax'] = $giaMax;
-        }
-
-        if ($sortBy == 'yeu_thich') {
-            $sql .= " ORDER BY SoLuotThich DESC, t.NgayTao DESC";
-        } elseif ($sortBy == 'gia_thap') {
-            $sql .= " ORDER BY t.Gia ASC, t.NgayTao DESC";
-        } elseif ($sortBy == 'gia_cao') {
-            $sql .= " ORDER BY t.Gia DESC, t.NgayTao DESC";
-        } elseif ($sortBy == 'moi_nhat') {
-            $sql .= " ORDER BY t.NgayTao DESC";
-        } 
-
-        $sql .= " LIMIT " . (int)$limit . " OFFSET " . (int)$offset;
+                (SELECT COUNT(*) FROM DanhSachYeuThich d WHERE d.MaTour = t.MaTour) as SoLuotThich,
+                (SELECT COUNT(*) FROM PhieuDanhGia p JOIN ChuyenDi c ON p.MaChuyenDi = c.MaChuyenDi WHERE c.MaTour = t.MaTour) as SoDanhGia,
+                (SELECT AVG(SoSao) FROM PhieuDanhGia p JOIN ChuyenDi c ON p.MaChuyenDi = c.MaChuyenDi WHERE c.MaTour = t.MaTour) as SaoTrungBinh";
         
-        $stmt = $this->conn->prepare($sql);
-        foreach ($params as $key => $val) {
-            $stmt->bindValue($key, $val);
+        if ($maTK_DK) {
+            $sql .= ", (SELECT COUNT(*) FROM DanhSachYeuThich d2 WHERE d2.MaTour = t.MaTour AND d2.MaTK_DK = :ma_tk) as IsLiked";
+        } else {
+            $sql .= ", 0 as IsLiked";
         }
+
+        $sql .= " FROM Tour t WHERE 1=1";
+        $binds = [];
+
+        // 1. TÍCH HỢP MỚI: Lọc từ khóa tìm kiếm từ Trang chủ
+        if (!empty($params['search'])) {
+            $sql .= " AND (t.TenTour LIKE :search OR t.DiaDiem LIKE :search OR t.VungDiaLy LIKE :search)";
+            $binds[':search'] = '%' . $params['search'] . '%';
+        }
+
+        // 2. TÍCH HỢP MỚI: Lọc số khách từ Trang chủ
+        if (!empty($params['guests_count']) && $params['guests_count'] > 0) {
+            $sql .= " AND t.SoKhachToiDa >= :guests_count";
+            $binds[':guests_count'] = $params['guests_count'];
+        }
+
+        // 3. CODE CŨ: Lọc vùng
+        if (!empty($params['vung'])) {
+            $sql .= " AND t.VungDiaLy = :vung";
+            $binds[':vung'] = $params['vung'];
+        }
+
+        // 4. CODE CŨ: Lọc số ngày
+        if (!empty($params['ngay'])) {
+            if ($params['ngay'] == '1-2') $sql .= " AND t.SoNgay BETWEEN 1 AND 2";
+            elseif ($params['ngay'] == '2-3') $sql .= " AND t.SoNgay BETWEEN 2 AND 3";
+            elseif ($params['ngay'] == '3-5') $sql .= " AND t.SoNgay BETWEEN 3 AND 5";
+        }
+
+        // 5. CODE CŨ: Lọc giá
+        if (!empty($params['gia_max'])) {
+            $sql .= " AND (t.Gia * (1 - IFNULL(t.UuDai, 0))) <= :gia_max";
+            $binds[':gia_max'] = $params['gia_max'];
+        }
+
+        // 6. CODE CŨ: Lọc loại trải nghiệm
+        if (!empty($params['loai']) && is_array($params['loai'])) {
+            $loaiConditions = [];
+            foreach ($params['loai'] as $key => $loai) {
+                $paramKey = ':loai_' . $key;
+                $loaiConditions[] = "FIND_IN_SET($paramKey, t.LoaiTraiNghiem)";
+                $binds[$paramKey] = $loai;
+            }
+            $sql .= " AND (" . implode(" OR ", $loaiConditions) . ")";
+        }
+
+        // 7. CODE CŨ: Sắp xếp
+        $sort = $params['sort'] ?? 'moi_nhat';
+        if ($sort == 'yeu_thich') {
+            $sql .= " ORDER BY SoLuotThich DESC, t.NgayTao DESC";
+        } elseif ($sort == 'gia_thap') {
+            $sql .= " ORDER BY (t.Gia * (1 - IFNULL(t.UuDai, 0))) ASC";
+        } elseif ($sort == 'gia_cao') {
+            $sql .= " ORDER BY (t.Gia * (1 - IFNULL(t.UuDai, 0))) DESC";
+        } else { 
+            $sql .= " ORDER BY t.NgayTao DESC";
+        }
+
+        $sql .= " LIMIT :limit OFFSET :offset";
+
+        $stmt = $this->conn->prepare($sql);
+        
+        if ($maTK_DK) $stmt->bindParam(':ma_tk', $maTK_DK, PDO::PARAM_STR);
+        foreach ($binds as $key => &$val) {
+            $stmt->bindParam($key, $val);
+        }
+        $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+        $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+        
         $stmt->execute();
-        return $stmt->fetchAll();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Hàm đếm tổng số tour cho Phân trang
-    public function getTotalTours($loaiTraiNghiemArr, $vungDiaLy, $soNgay, $giaMax) {
-        $params = [];
+    // --- HÀM CẬP NHẬT: Đếm số lượng để phân trang ---
+    public function countFilteredTours($params) {
         $sql = "SELECT COUNT(*) FROM Tour t WHERE 1=1";
-        
-        if (!empty($loaiTraiNghiemArr) && is_array($loaiTraiNghiemArr)) {
-            $loaiConditions = [];
-            foreach ($loaiTraiNghiemArr as $k => $v) {
-                $key = ':loai' . $k;
-                $loaiConditions[] = "t.LoaiTraiNghiem LIKE " . $key;
-                $params[$key] = '%' . $v . '%';
-            }
-            $sql .= " AND (" . implode(' OR ', $loaiConditions) . ")";
-        }
+        $binds = [];
 
-        if (!empty($vungDiaLy)) {
+        if (!empty($params['search'])) {
+            $sql .= " AND (t.TenTour LIKE :search OR t.DiaDiem LIKE :search OR t.VungDiaLy LIKE :search)";
+            $binds[':search'] = '%' . $params['search'] . '%';
+        }
+        if (!empty($params['guests_count']) && $params['guests_count'] > 0) {
+            $sql .= " AND t.SoKhachToiDa >= :guests_count";
+            $binds[':guests_count'] = $params['guests_count'];
+        }
+        if (!empty($params['vung'])) {
             $sql .= " AND t.VungDiaLy = :vung";
-            $params[':vung'] = $vungDiaLy;
+            $binds[':vung'] = $params['vung'];
+        }
+        if (!empty($params['ngay'])) {
+            if ($params['ngay'] == '1-2') $sql .= " AND t.SoNgay BETWEEN 1 AND 2";
+            elseif ($params['ngay'] == '2-3') $sql .= " AND t.SoNgay BETWEEN 2 AND 3";
+            elseif ($params['ngay'] == '3-5') $sql .= " AND t.SoNgay BETWEEN 3 AND 5";
+        }
+        if (!empty($params['gia_max'])) {
+            $sql .= " AND (t.Gia * (1 - IFNULL(t.UuDai, 0))) <= :gia_max";
+            $binds[':gia_max'] = $params['gia_max'];
+        }
+        if (!empty($params['loai']) && is_array($params['loai'])) {
+            $loaiConditions = [];
+            foreach ($params['loai'] as $key => $loai) {
+                $paramKey = ':loai_' . $key;
+                $loaiConditions[] = "FIND_IN_SET($paramKey, t.LoaiTraiNghiem)";
+                $binds[$paramKey] = $loai;
+            }
+            $sql .= " AND (" . implode(" OR ", $loaiConditions) . ")";
         }
 
-        if (!empty($soNgay)) {
-            if ($soNgay == '1-2') $sql .= " AND t.SoNgay BETWEEN 1 AND 2";
-            elseif ($soNgay == '2-3') $sql .= " AND t.SoNgay BETWEEN 2 AND 3";
-            elseif ($soNgay == '3-5') $sql .= " AND t.SoNgay BETWEEN 3 AND 5";
-        }
-
-        if (!empty($giaMax)) {
-            $sql .= " AND t.Gia <= :giaMax";
-            $params[':giaMax'] = $giaMax;
-        }
-        
         $stmt = $this->conn->prepare($sql);
-        foreach ($params as $key => $val) {
-            $stmt->bindValue($key, $val);
+        foreach ($binds as $key => &$val) {
+            $stmt->bindParam($key, $val);
         }
         $stmt->execute();
         return $stmt->fetchColumn();
     }
 
-    // Hàm xử lý Thả tim 
-    public function toggleHeart($maTK_DK, $maTour) {
-        // CHỈNH SỬA: Map MaDK sang MaTK_DK nếu Controller lỡ truyền chuỗi bắt đầu bằng DK...
-        if (strpos($maTK_DK, 'DK') === 0) {
-            $stmtDK = $this->conn->prepare("SELECT MaTK_DK FROM DuKhach WHERE MaDK = :maDK");
-            $stmtDK->execute([':maDK' => $maTK_DK]);
-            $res = $stmtDK->fetch(PDO::FETCH_ASSOC);
-            if ($res) {
-                $maTK_DK = $res['MaTK_DK'];
-            }
-        }
-        
-        $checkSql = "SELECT * FROM DanhSachYeuThich WHERE MaTK_DK = :maTK_DK AND MaTour = :maTour";
-        $stmt = $this->conn->prepare($checkSql);
-        $stmt->execute([':maTK_DK' => $maTK_DK, ':maTour' => $maTour]);
-        
-        if($stmt->rowCount() > 0) {
-            $delSql = "DELETE FROM DanhSachYeuThich WHERE MaTK_DK = :maTK_DK AND MaTour = :maTour";
-            $this->conn->prepare($delSql)->execute([':maTK_DK' => $maTK_DK, ':maTour' => $maTour]);
-            return 'removed';
-        } else {
-            $insSql = "INSERT INTO DanhSachYeuThich(MaTK_DK, MaTour) VALUES(:maTK_DK, :maTour)";
-            $this->conn->prepare($insSql)->execute([':maTK_DK' => $maTK_DK, ':maTour' => $maTour]);
-            return 'added';
-        }
+    // --- HÀM CŨ ĐƯỢC GIỮ NGUYÊN ---
+    public function getLatestTours($maTK_DK = null, $limit = 6) {
+        return $this->getFilteredTours(['sort' => 'moi_nhat'], $maTK_DK, $limit, 0);
     }
 }
 ?>
