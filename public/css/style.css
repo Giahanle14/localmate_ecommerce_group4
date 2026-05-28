@@ -34,23 +34,43 @@ a {
 }
 
 /* ==========================================================================
+<<<<<<< HEAD
    2. THANH HEADER
    ========================================================================== */
 .main-header {
     background-color: var(--color-primary-dark);
     padding: 5px 0;
+=======
+   2. THANH HEADER / NAVBAR
+   ========================================================================== */
+.main-header {
+    background-color: var(--color-primary-dark);
+    padding: 6px 0; /* Thu nhỏ padding trên dưới */
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
     position: sticky;
     top: 0;
     z-index: 1030;
     box-shadow: var(--shadow-sm);
+<<<<<<< HEAD
+=======
+    min-height: 60px; /* Ép độ cao tối thiểu cho thon gọn */
+    display: flex;
+    align-items: center;
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
 }
 
 .navbar-nav .nav-link {
     color: rgba(255, 255, 255, 0.9) !important;
     font-weight: 600;
+<<<<<<< HEAD
     font-size: 1.05rem;
     padding: 8px 18px !important;
     border-radius: 25px; 
+=======
+    font-size: 0.95rem; /* Giảm cỡ chữ xuống 1 chút cho cân đối */
+    padding: 6px 16px !important; /* Thu nhỏ padding của cái nút (pill) */
+    border-radius: 20px; /* Bo góc nhẹ lại cho thanh thoát */
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
     display: flex !important;
     align-items: center !important;
     gap: 8px !important; 
@@ -146,8 +166,33 @@ a {
     text-decoration: underline !important;
 }
 
+<<<<<<< HEAD
 /* ==========================================================================
    3. HERO BANNER
+=======
+/* CSS bổ sung cho Dropdown sau khi đăng nhập */
+.logged-in-dropdown .dropdown-menu {
+    border-radius: 12px;
+    border: 1px solid #eaeaea;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    margin-top: 15px;
+    padding: 10px 0;
+    width: 200px;
+}
+.logged-in-dropdown .dropdown-item {
+    padding: 10px 20px;
+    font-weight: 600;
+    color: #444;
+    transition: 0.2s;
+}
+.logged-in-dropdown .dropdown-item:hover {
+    background-color: #f8f9fa;
+    color: var(--color-primary-dark);
+}
+
+/* ==========================================================================
+   3. HERO BANNER & THANH TÌM KIẾM
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
    ========================================================================== */
 .hero-section {
     background: url('../image/banner/Banner_LocalMate_1.png') top center no-repeat;
@@ -158,6 +203,7 @@ a {
     background-color: #E2F4FA; 
 }
 
+<<<<<<< HEAD
 .hero-title, .hero-subtitle {
     display: none !important;
 }
@@ -165,6 +211,8 @@ a {
 /* ==========================================================================
    4. THANH TÌM KIẾM ĐÈ BANNER
    ========================================================================== */
+=======
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
 .search-container {
     background: white;
     border-radius: 50px;
@@ -219,8 +267,57 @@ a {
     transform: translateY(-1px);
 }
 
+<<<<<<< HEAD
 /* ==========================================================================
    5. CẤU TRÚC GIAO DIỆN CÁC CARD TOUR (CHUẨN FIGMA)
+=======
+.error-tooltip {
+    position: absolute;
+    top: 110%; 
+    left: 20px;
+    background: white;
+    border: 1px solid #dc3545; 
+    color: #333;
+    padding: 8px 15px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    z-index: 1050;
+    white-space: nowrap;
+    animation: fadeIn 0.3s ease;
+}
+
+.guest-popup {
+    position: absolute;
+    top: 110%;
+    right: 0;
+    background: white;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    padding: 20px;
+    width: 250px;
+    z-index: 1050;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    animation: fadeIn 0.2s ease;
+}
+
+.guest-btn {
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.guest-btn:hover {
+    opacity: 0.7;
+    transform: scale(1.1);
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ==========================================================================
+   4. CẤU TRÚC GIAO DIỆN CÁC CARD TOUR (CHUẨN FIGMA)
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
    ========================================================================== */
 .section-title {
     color: #222;
@@ -270,7 +367,10 @@ a {
     object-fit: cover;
 }
 
+<<<<<<< HEAD
 /* Thẻ giá cho Card Thường (Nằm lơ lửng) */
+=======
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
 .price-tag {
     position: absolute;
     top: 15px;
@@ -320,15 +420,23 @@ a {
     margin-right: 4px;
 }
 
+<<<<<<< HEAD
 /* Khung bọc Tag Loại Trải Nghiệm (Nằm ngang với location) */
+=======
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
 .tour-tags {
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
 }
 .tour-tag-item {
+<<<<<<< HEAD
     background-color: #F1F8E4; /* Nền xanh vàng nhạt */
     color: #4A7A3A; /* Chữ màu xanh lá */
+=======
+    background-color: #F1F8E4; 
+    color: #4A7A3A; 
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
     font-size: 0.65rem;
     font-weight: 700;
     padding: 3px 8px;
@@ -348,6 +456,7 @@ a {
     overflow: hidden;
 }
 
+<<<<<<< HEAD
 /* ==========================================================================
    * CLASS ĐẶC BIỆT DÀNH RIÊNG CHO CARD YÊU THÍCH NHẤT *
    ========================================================================== */
@@ -356,6 +465,11 @@ a {
 }
 
 /* Đổi màu tiêu đề và mô tả sang xanh lá đậm */
+=======
+.favorite-card {
+    background-color: #FFFDF0 !important; 
+}
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
 .favorite-card .tour-title {
     color: var(--color-primary-dark);
     font-weight: 800;
@@ -365,18 +479,29 @@ a {
     color: var(--color-primary-dark);
     opacity: 0.85;
 }
+<<<<<<< HEAD
 
 /* Ép thẻ giá nằm dính chặt vào góc phải trên cùng */
 .favorite-card .price-tag {
     top: 0;
     right: 0;
     border-radius: 0 16px 0 16px; /* Khớp góc bo của thẻ Card */
+=======
+.favorite-card .price-tag {
+    top: 0;
+    right: 0;
+    border-radius: 0 16px 0 16px; 
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
     padding: 8px 16px;
     font-size: 0.95rem;
 }
 
 /* ==========================================================================
+<<<<<<< HEAD
    6. CẤU TRÚC GIAO DIỆN KINH NGHIỆM ĐI TOUR (CHUẨN FORM MÀU, AVATAR, FONT)
+=======
+   5. CẤU TRÚC GIAO DIỆN KINH NGHIỆM ĐI TOUR (REVIEW)
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
    ========================================================================== */
 .review-card {
     background-color: var(--color-bg-light) !important; 
@@ -397,7 +522,10 @@ a {
     grid-template-columns: repeat(3, 1fr);
     gap: 6px;
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
 .review-images-grid img {
     width: 100%;
     aspect-ratio: 1 / 1; 
@@ -479,6 +607,162 @@ a {
 }
 
 /* ==========================================================================
+<<<<<<< HEAD
+=======
+   6. GIAO DIỆN HỘP POPUP ĐĂNG NHẬP CHUẨN FIGMA TRÁI ĐẤT
+   ========================================================================== */
+.login-modal-content {
+    border-radius: 24px !important;
+    border: none !important;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    background-color: white;
+}
+
+.login-modal-header {
+    position: relative;
+    display: block !important;
+    padding: 25px 40px 50px 40px; 
+    border: none !important;
+    background: transparent; 
+}
+
+/* Nền mây cắt xéo */
+.login-modal-header::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: url('../image/decor/sky.png') center/cover no-repeat;
+    clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%); 
+    z-index: 0;
+}
+
+.login-earth-icon {
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    width: 140px; 
+    z-index: 2; 
+}
+
+.login-header-text {
+    position: relative;
+    z-index: 2; 
+    text-align: left;
+}
+
+.login-title {
+    color: var(--color-primary-dark);
+    font-weight: 800;
+    font-size: 2.2rem;
+    margin-bottom: 5px !important;
+    letter-spacing: 1px;
+    text-shadow: 
+        2px 2px 0 #fff, 
+       -2px -2px 0 #fff, 
+        2px -2px 0 #fff, 
+       -2px 2px 0 #fff,
+        0px 3px 5px rgba(0,0,0,0.1); 
+}
+
+.login-subtitle {
+    color: #1A3E24; 
+    font-size: 0.95rem;
+    font-weight: 600;
+    max-width: 65%; 
+    line-height: 1.5;
+    margin-top: 0 !important;
+}
+
+.login-modal-body {
+    padding: 0px 40px 40px 40px; 
+    position: relative;
+    z-index: 5;
+    background-color: white;
+}
+
+.auth-label {
+    font-weight: 600;
+    color: #333;
+    font-size: 0.95rem;
+}
+
+.auth-input {
+    background-color: #FFFDF0; 
+    border: 1px solid #B4D6B5; 
+    border-radius: 8px;
+    padding: 12px 15px;
+    font-weight: 500;
+    color: #333;
+    transition: 0.3s;
+}
+
+.auth-input:focus {
+    background-color: white;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(0, 113, 45, 0.15);
+    outline: none;
+}
+
+.password-input-wrapper {
+    position: relative;
+}
+.password-input-wrapper .toggle-password {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #999;
+}
+
+.auth-forgot {
+    color: var(--color-primary);
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.auth-register-text {
+    font-size: 0.9rem;
+    color: #666;
+}
+.auth-register-link {
+    color: var(--color-primary);
+    font-weight: 700;
+}
+
+.auth-terms {
+    font-size: 0.7rem;
+    color: #999;
+    text-align: center;
+    margin: 15px 0 25px 0;
+    line-height: 1.5;
+}
+.auth-terms a {
+    color: var(--color-primary);
+    text-decoration: underline;
+}
+
+.btn-auth-submit {
+    background-color: var(--color-primary-dark);
+    color: white;
+    font-weight: 700;
+    font-size: 1.1rem;
+    padding: 12px 50px;
+    border-radius: 50px;
+    border: none;
+    transition: 0.3s;
+    display: block;
+    margin: 0 auto; 
+}
+.btn-auth-submit:hover {
+    background-color: var(--color-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 113, 45, 0.2);
+}
+
+/* ==========================================================================
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
    7. FOOTER CHÂN TRANG
    ========================================================================== */
 .lm-footer {
@@ -578,6 +862,7 @@ a {
     border-radius: 4px;
 }
 
+<<<<<<< HEAD
 @media (max-width: 1200px) {
     .footer-container { grid-template-columns: repeat(3, 1fr); }
 }
@@ -645,6 +930,11 @@ a {
    9. TÙY CHỈNH GIAO DIỆN LỊCH FLATPICKR CHUẨN FIGMA LOCALMATE (ĐÃ FIX LƯỚI THẲNG HÀNG)
    ========================================================================== */
 /* Form tổng thể của popup lịch */
+=======
+/* ==========================================================================
+   8. TÙY CHỈNH GIAO DIỆN LỊCH FLATPICKR (HỆ LƯỚI GRID THẲNG TẮP)
+   ========================================================================== */
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
 .flatpickr-calendar {
     font-family: var(--font-main) !important;
     border-radius: 16px !important;
@@ -654,11 +944,16 @@ a {
     width: 350px !important; 
     box-sizing: border-box !important;
 }
+<<<<<<< HEAD
 
 /* Ẩn cái mũi tên tam giác nhọn chĩa lên mặc định của thư viện */
 .flatpickr-calendar.arrowTop:before, .flatpickr-calendar.arrowTop:after { display: none !important; }
 
 /* Chỉnh Header Lịch (Khu vực chứa Tháng Năm và Mũi tên) */
+=======
+.flatpickr-calendar.arrowTop:before, .flatpickr-calendar.arrowTop:after { display: none !important; }
+
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
 .flatpickr-months {
     margin-bottom: 20px !important;
     position: relative !important;
@@ -666,7 +961,10 @@ a {
     align-items: center !important;
 }
 
+<<<<<<< HEAD
 /* Đưa cụm Tháng - Năm qua trái */
+=======
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
 .flatpickr-current-month {
     left: 0 !important;
     text-align: left !important;
@@ -676,7 +974,10 @@ a {
     align-items: center !important;
 }
 
+<<<<<<< HEAD
 /* Ép chữ tháng năm màu xanh đậm, in đậm, ẩn mũi tên dropdown mặc định cho sạch sẽ */
+=======
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
 .flatpickr-current-month .flatpickr-monthDropdown-months,
 .flatpickr-current-month input.cur-year {
     font-weight: 800 !important;
@@ -688,14 +989,20 @@ a {
     border: none !important;
     background: transparent !important;
 }
+<<<<<<< HEAD
 
 /* Ép khung chứa Năm nhỏ lại để nhường chỗ cho mũi tên */
+=======
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
 .flatpickr-current-month .numInputWrapper {
     width: 6ch !important;
     margin-left: 5px !important;
 }
 
+<<<<<<< HEAD
 /* Định vị 2 mũi tên qua tuốt mép phải, canh giữa theo trục dọc để không đè lên số 2026 */
+=======
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
 .flatpickr-prev-month, .flatpickr-next-month {
     position: absolute !important;
     top: 50% !important;
@@ -709,6 +1016,7 @@ a {
     border-radius: 50% !important;
     z-index: 5 !important;
 }
+<<<<<<< HEAD
 .flatpickr-prev-month {
     right: 45px !important; 
     left: auto !important;
@@ -721,12 +1029,18 @@ a {
 .flatpickr-prev-month:hover, .flatpickr-next-month:hover {
     background-color: #f0f0f0 !important;
 }
+=======
+.flatpickr-prev-month { right: 45px !important; left: auto !important; }
+.flatpickr-next-month { right: 5px !important; }
+.flatpickr-prev-month:hover, .flatpickr-next-month:hover { background-color: #f0f0f0 !important; }
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
 .flatpickr-prev-month svg, .flatpickr-next-month svg {
     fill: var(--color-primary-dark) !important;
     width: 14px !important;
     height: 14px !important;
 }
 
+<<<<<<< HEAD
 /* ĐỒNG BỘ LƯỚI 7 CỘT CỐ ĐỊNH CHO HÀNG "THỨ" VÀ "NGÀY" ĐỂ CHÚNG THẲNG TẮP VỚI NHAU */
 .flatpickr-weekdays {
     height: auto !important;
@@ -734,6 +1048,12 @@ a {
 .flatpickr-weekdaycontainer {
     display: grid !important;
     grid-template-columns: repeat(7, 1fr) !important; /* Ép cứng 7 cột bằng nhau */
+=======
+.flatpickr-weekdays { height: auto !important; }
+.flatpickr-weekdaycontainer {
+    display: grid !important;
+    grid-template-columns: repeat(7, 1fr) !important; 
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
     width: 100% !important;
 }
 span.flatpickr-weekday {
@@ -743,6 +1063,7 @@ span.flatpickr-weekday {
     width: 100% !important;
     text-align: center !important;
 }
+<<<<<<< HEAD
 /* Chủ nhật màu đỏ */
 span.flatpickr-weekday:nth-child(7) {
     color: #D32F2F !important; 
@@ -763,6 +1084,21 @@ span.flatpickr-weekday:nth-child(7) {
 }
 
 /* Hình dáng của một ô Ngày */
+=======
+span.flatpickr-weekday:nth-child(7) { color: #D32F2F !important; }
+
+.flatpickr-days { width: 100% !important; }
+.dayContainer {
+    display: grid !important;
+    grid-template-columns: repeat(7, 1fr) !important; 
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+    gap: 5px 0 !important; 
+    justify-items: center !important; 
+}
+
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
 .flatpickr-day {
     font-weight: 600;
     color: #333;
@@ -774,24 +1110,178 @@ span.flatpickr-weekday:nth-child(7) {
     align-items: center !important;
     justify-content: center !important;
     border: 2px solid transparent !important;
+<<<<<<< HEAD
     margin: 0 !important; /* Bỏ margin đi vì đã có gap của grid lo */
 }
 
 /* Khi ngày được chọn (Viền xanh đậm, nền kem xanh nhạt) */
+=======
+    margin: 0 !important; 
+}
+
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
 .flatpickr-day.selected, .flatpickr-day.selected:hover {
     background: var(--color-primary-light) !important; 
     border: 2px solid var(--color-primary-dark) !important; 
     color: var(--color-primary-dark) !important;
     font-weight: 800 !important;
 }
+<<<<<<< HEAD
 
 /* Lúc rê chuột lên ngày chưa chọn */
+=======
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
 .flatpickr-day:hover:not(.selected) {
     background: #f0f0f0 !important;
     border-color: #f0f0f0 !important;
 }
+<<<<<<< HEAD
 
 /* Ẩn viền ngày hiện tại (nếu chưa chọn) để nhìn sạch sẽ hơn */
 .flatpickr-day.today {
     border-color: #eee !important;
 }
+=======
+.flatpickr-day.today { border-color: #eee !important; }
+
+.custom-nav-pills {
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 40px;
+}
+.custom-nav-pills .nav-link {
+    border-radius: 30px;
+    padding: 10px 30px;
+    color: var(--color-primary-dark) !important;
+    background-color: var(--color-primary-light);
+    font-weight: 700;
+    font-size: 16px;
+    transition: all 0.2s ease;
+    border: none;
+}
+.custom-nav-pills .nav-link:hover {
+    background-color: #C0E685;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}
+.custom-nav-pills .nav-link.active {
+    background-color: var(--color-primary) !important;
+    color: white !important;
+    box-shadow: 0 4px 15px rgba(0, 113, 45, 0.3);
+}
+
+/* Thẻ chuyến đi đã đặt (Grid 2 cột) */
+.booked-trips-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+}
+.booked-trip-card {
+    background: #fdfdf9;
+    border-radius: 16px;
+    border: 1px solid #e0e0e0;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+}
+.btc-img-wrap {
+    width: 100%;
+    height: 180px;
+}
+.btc-img-wrap img.cover-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.btc-body {
+    padding: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+.btc-location-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.btc-location {
+    font-size: 13px;
+    color: #666;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.btc-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--color-primary-dark);
+    text-align: center;
+    margin-bottom: 15px;
+}
+.btc-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    padding: 15px 0;
+    margin-bottom: 15px;
+}
+.btc-col h6 { font-weight: 700; font-size: 14px; margin-bottom: 15px; color: #333; }
+.btc-text { font-size: 14px; color: #555; margin-bottom: 5px; display: flex; justify-content: space-between;}
+.btc-text.price { font-weight: bold; color: #333; font-size: 15px; }
+
+.btc-status-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+}
+.btc-status { font-size: 14px; font-weight: 700; }
+.status-done { color: var(--color-primary); }
+.status-wait { color: #f39c12; }
+
+/* Các khối chứa Grid Tour liên quan */
+.tour-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    margin-bottom: 50px;
+}
+.tour-card-v2 {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #f0f0f0;
+    transition: 0.3s;
+}
+.tour-card-v2:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+}
+.tour-card-img-wrap { position: relative; }
+.tour-card-img-wrap img { width: 100%; height: 220px; object-fit: cover; }
+.tour-price-badge {
+    position: absolute; top: 0; right: 0; background: var(--color-primary);
+    color: white; font-weight: bold; padding: 8px 20px; border-bottom-left-radius: 12px; font-size: 15px;
+}
+.tour-card-body { padding: 20px; flex: 1; display: flex; flex-direction: column; }
+.tour-meta-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;}
+.tour-location { font-size: 12px; color: #555; text-transform: uppercase; font-weight: 600;}
+.tour-title { font-weight: 800; font-size: 18px; margin-bottom: 10px; color: var(--color-primary-dark); }
+.tour-meta-mid { font-size: 13px; color: #d35400; font-weight: 600; margin-bottom: 12px; }
+.tour-meta-mid i { color: #f39c12; margin-right: 5px; }
+.tour-desc { font-size: 14px; color: #777; line-height: 1.6; flex: 1; margin-bottom: 20px; }
+.tour-meta-bottom { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #eee; padding-top: 15px;}
+.tour-rating { font-weight: bold; color: #555; font-size: 15px; }
+.tour-rating i { color: #f1c40f; margin-right: 5px; }
+.btn-detail-outline { border: 1px solid var(--color-primary); color: var(--color-primary); background: transparent; border-radius: 6px; padding: 6px 16px; font-weight: 600; }
+.btn-action-orange { background: #f39c12; color: white; font-weight: bold; border: none; border-radius: 20px; padding: 6px 20px; }
+.btn-action-green { background: var(--color-primary-dark); color: white; font-weight: bold; border: none; border-radius: 20px; padding: 6px 20px; }
+
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb

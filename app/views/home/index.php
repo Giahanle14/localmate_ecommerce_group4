@@ -57,7 +57,10 @@
         <h3 class="section-title">Tour Trải Nghiệm Nổi Bật <i class="fa-solid fa-fire text-warning" style="font-size: 1.2rem;"></i></h3>
         <a href="#" class="view-more">Xem thêm <i class="fa-solid fa-angle-right ms-1"></i></a>
     </div>
+<<<<<<< HEAD
 
+=======
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
     <div class="row g-4">
         <?php if(!empty($toursNoiBat)): ?>
             <?php foreach($toursNoiBat as $tour): ?>
@@ -74,8 +77,13 @@
                         </div>
                         <div class="d-flex align-items-center flex-wrap gap-2 mb-2">
                             <div class="tour-location mb-0 pe-2 border-end">
+<<<<<<< HEAD
                                 <i class="fa-solid fa-location-dot text-danger"></i> <?= htmlspecialchars($tour['VungDiaLy']) ?>
                             </div>
+=======
+    <i class="fa-solid fa-location-dot text-danger"></i> <?= htmlspecialchars($tour['DiaDiem'] ?? 'Đang cập nhật') ?>
+</div>
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
                             <div class="tour-tags mb-0">
                                 <?php 
                                 if(!empty($tour['LoaiTraiNghiem'])):
@@ -98,6 +106,7 @@
             </div>
             <?php endforeach; ?>
         <?php else: ?>
+<<<<<<< HEAD
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="card custom-card">
                     <div class="card-img-wrapper">
@@ -122,6 +131,9 @@
                     </div>
                 </div>
             </div>
+=======
+            <div class="col-12"><p class="text-center text-muted">Chưa load được dữ liệu Database Tour Nổi bật.</p></div>
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
         <?php endif; ?>
     </div>
 </div>
@@ -131,7 +143,10 @@
         <h3 class="section-title">Tour Được Yêu Thích Nhất <span style="background-color: #FFB800; color: white; width: 28px; height: 28px; border-radius: 50%; display: inline-flex; justify-content: center; align-items: center; font-size: 0.9rem;"><i class="fa-solid fa-heart"></i></span></h3>
         <a href="#" class="view-more">Xem thêm <i class="fa-solid fa-angle-right ms-1"></i></a>
     </div>
+<<<<<<< HEAD
 
+=======
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
     <div class="row g-4">
         <?php if(!empty($toursYeuThich)): ?>
             <?php foreach($toursYeuThich as $tour): ?>
@@ -172,6 +187,7 @@
             </div>
             <?php endforeach; ?>
         <?php else: ?>
+<<<<<<< HEAD
              <div class="col-12 col-md-6 col-lg-4">
                 <div class="card custom-card favorite-card">
                     <div class="card-img-wrapper">
@@ -196,6 +212,9 @@
                     </div>
                 </div>
             </div>
+=======
+             <div class="col-12"><p class="text-center text-muted">Chưa load được dữ liệu Database Tour Yêu Thích.</p></div>
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
         <?php endif; ?>
     </div>
 </div>
@@ -310,14 +329,20 @@
 </div>
 
 <script>
+<<<<<<< HEAD
     // 1. Cấu hình Flatpickr
+=======
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
     flatpickr("#datePicker", {
         dateFormat: "d/m/Y",
         locale: "vn",
         minDate: "today"
     });
 
+<<<<<<< HEAD
     // 2. Logic tính số người (Popup)
+=======
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
     let adults = 1;
     let children = 0;
     const guestInput = document.getElementById('guestInput');
@@ -364,7 +389,10 @@
         }
     });
 
+<<<<<<< HEAD
     // 3. Logic check ô Tìm kiếm
+=======
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
     const searchForm = document.getElementById('searchForm');
     const destInput = document.getElementById('destination');
     const destError = document.getElementById('destError');
