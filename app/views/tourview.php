@@ -43,7 +43,8 @@
             if(isset($_GET['action'])) $backParams['action'] = $_GET['action'];
             if(!empty($backParams)) $backUrl .= http_build_query($backParams);
         ?>
-        <a href="<?php echo htmlspecialchars($backUrl); ?>" class="text-decoration-none" style="color: var(--color-tag-active);"><i class="fa-solid fa-arrow-left"></i> Quay lại</a>
+        <a href="?controller=home" class="text-decoration-none text-muted">Trang chủ</a> &gt; 
+        <a href="?controller=tour" class="text-decoration-none fw-bold" style="color: var(--color-tag-active);">Tour</a>
     </div>
 
     <div class="row">
