@@ -1,103 +1,105 @@
 <?php
-// app/controllers/tourcontroller.php
-require_once __DIR__ . '/../models/tourmodel.php';
+require_once 'app/models/tourmodel.php';
 
 class TourController {
-    
+    private $tourModel;
+
+    public function __construct() {
+        $this->tourModel = new TourModel();
+    }
+
     public function index() {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
+        // --- Xử lý AJAX Thả tim ---
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] == 'toggle_heart') {
+            $this->handleAjaxHeart();
+            return;
         }
 
-        // Bắt request AJAX từ nút thả tim trên trang
-        if (isset($_POST['action']) && $_POST['action'] === 'toggle_heart') {
-            header('Content-Type: application/json');
-            
-            // Sửa lại mặc định lấy TK00000006 thay vì KH00000001 không tồn tại
-            $maDK = isset($_SESSION['MaTK_DK']) ? $_SESSION['MaTK_DK'] : (isset($_SESSION['MaDK']) ? $_SESSION['MaDK'] : 'TK00000006');
-            $maTour = isset($_POST['ma_tour']) ? $_POST['ma_tour'] : '';
+        $maTK_DK = isset($_SESSION['user']['MaTK']) ? $_SESSION['user']['MaTK'] : null;
 
-            if(empty($maTour)) {
-                echo json_encode(['success' => false, 'message' => 'Lỗi dữ liệu']);
-                exit;
-            }
-
-            try {
-                $modelAjax = new TourModel();
-                $resultAction = $modelAjax->toggleHeart($maDK, $maTour);
-                echo json_encode(['success' => true, 'action' => $resultAction]);
-            } catch (Exception $e) {
-                echo json_encode(['success' => false, 'message' => 'Lỗi server']);
-            }
-            exit; // Dừng thực thi để không load lại giao diện trang web
-        }
-
-        // KHỞI TẠO DỮ LIỆU BỘ LỌC CHO TRANG KHÁM PHÁ (EXPLORE)
-        // Dùng TK00000006 làm mẫu mặc định 
-        $currentUser = isset($_SESSION['MaTK_DK']) ? $_SESSION['MaTK_DK'] : (isset($_SESSION['MaDK']) ? $_SESSION['MaDK'] : 'TK00000006'); 
-        $model = new TourModel();
-
-        // Nhận tham số bộ lọc
+        // B1: Lấy các tham số GET (Cả search từ trang chủ + filter ở sidebar)
+        $search = $_GET['search'] ?? ''; 
+        $date = $_GET['date'] ?? '';
+        $guests_str = $_GET['guests'] ?? '';
+        
+        $vung = $_GET['vung'] ?? '';
+        $ngay = $_GET['ngay'] ?? '';
         $loai = isset($_GET['loai']) ? (is_array($_GET['loai']) ? $_GET['loai'] : [$_GET['loai']]) : [];
-        $vung = isset($_GET['vung']) ? $_GET['vung'] : '';
-        $ngay = isset($_GET['ngay']) ? $_GET['ngay'] : '';
-        $gia_max = isset($_GET['gia_max']) ? (int)$_GET['gia_max'] : 5000000; // Giá trị mặc định 5 triệu
-        $sort = isset($_GET['sort']) ? $_GET['sort'] : 'yeu_thich';
+        $gia_max = $_GET['gia_max'] ?? 5000000;
+        $sort = $_GET['sort'] ?? 'moi_nhat';
         $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-        
-        // --- XỬ LÝ NÚT XEM THÊM 20 TOUR MỚI NHẤT ---
-        $view_latest = isset($_GET['view']) && $_GET['view'] === 'latest';
-        
-        // Luôn hiển thị tối đa 9 tour trên 1 trang
-        $limit = 9; 
-        $offset = ($page - 1) * $limit;
+        $limit = 9;
 
-        // Xác định có đang sử dụng bộ lọc hay không
-        $is_filtering = (!empty($loai) || !empty($vung) || !empty($ngay) || isset($_GET['sort']) || (isset($_GET['gia_max']) && $_GET['gia_max'] < 5000000) || isset($_GET['page']) || $view_latest);
+        // B2: Tách số khách từ chuỗi "1 Người lớn, 2 Trẻ em" -> Thành số học
+        $guests_count = 0;
+        if (!empty($guests_str)) {
+            preg_match_all('/\d+/', $guests_str, $matches);
+            if (!empty($matches[0])) {
+                $guests_count = array_sum($matches[0]);
+            }
+        }
 
-        if ($is_filtering) {
-            if ($view_latest) {
-                $sort = 'moi_nhat'; // Ép kiểu sắp xếp mới nhất
-                
-                // Lấy tổng số tour đang có, nhưng chỉ giới hạn tối đa 20 tour
-                $totalInDb = $model->getTotalTours([], '', '', 5000000);
-                $totalTours = min(20, $totalInDb); 
-                
-                // Kích hoạt phân trang cho 20 tour này
-                $totalPages = ceil($totalTours / $limit);
-                
-                // Tính toán limit thực tế cho truy vấn DB để không lấy dư sang tour thứ 21
-                $queryLimit = max(0, min($limit, 20 - $offset));
-                
-                if ($queryLimit > 0) {
-                    $danhSachTour = $model->getDanhSachTour([], '', '', 5000000, 'moi_nhat', $queryLimit, $offset, $currentUser);
-                } else {
-                    $danhSachTour = []; // Tránh lỗi nếu URL bị đổi page quá lớn
-                }
-                
-                $page_title = "20 tour mới nhất";
+        // Đóng gói mảng tham số gửi cho Model
+        $params = [
+            'search' => $search,
+            'guests_count' => $guests_count,
+            'vung' => $vung,
+            'ngay' => $ngay,
+            'loai' => $loai,
+            'gia_max' => $gia_max,
+            'sort' => $sort
+        ];
+
+        // Xem người dùng có đang tìm kiếm/lọc hay không
+        $is_filtering = (!empty($search) || !empty($guests_str) || !empty($vung) || !empty($ngay) || !empty($loai) || $gia_max < 5000000);
+
+        if ($is_filtering || isset($_GET['view'])) {
+            $is_filtering = true;
+            $totalTours = $this->tourModel->countFilteredTours($params);
+            $totalPages = ceil($totalTours / $limit);
+            $offset = ($page - 1) * $limit;
+
+            $danhSachTour = $this->tourModel->getFilteredTours($params, $maTK_DK, $limit, $offset);
+            
+            if (!empty($search)) {
+                $page_title = "Kết quả tìm kiếm cho: \"" . htmlspecialchars($search) . "\"";
             } else {
-                $totalTours = $model->getTotalTours($loai, $vung, $ngay, $gia_max);
-                $totalPages = ceil($totalTours / $limit);
-                $danhSachTour = $model->getDanhSachTour($loai, $vung, $ngay, $gia_max, $sort, $limit, $offset, $currentUser);
-                
-                // Tiêu đề động
-                $page_title = "Tìm thấy $totalTours tour phù hợp";
-                if (!empty($loai)) {
-                    $page_title = "Các tour " . implode(', ', $loai);
-                } elseif ($vung) {
-                    $page_title = "Các tour vùng " . $vung;
-                }
+                $page_title = "Danh sách Tour phù hợp";
             }
         } else {
-            // Trạng thái mặc định nếu không có bộ lọc (Chỉ giữ lại 3 tour mới nhất cho giao diện ban đầu đỡ dài)
-            $tourMoiNhat = $model->getDanhSachTour([], '', '', 5000000, 'moi_nhat', 3, 0, $currentUser);
+            // Hiển thị mặc định
+            $tourMoiNhat = $this->tourModel->getLatestTours($maTK_DK, 6);
+            $danhSachTour = [];
+            $totalPages = 0;
+            $page_title = "Tour";
         }
 
-        // Tích hợp luồng Route (View Layout) của nhóm
-        require_once __DIR__ . '/../views/layouts/header.php';
-        require_once __DIR__ . '/../views/tourview.php';
-        require_once __DIR__ . '/../views/layouts/footer.php';
+        // ĐÃ SỬA: Trỏ đúng vào thư mục views theo cấu trúc hiện tại của project
+        require_once 'app/views/tourview.php';
+    }
+
+    // --- Hàm AJAX Thả tim ---
+    private function handleAjaxHeart() {
+        header('Content-Type: application/json');
+        if (!isset($_SESSION['user']) || $_SESSION['user']['LoaiTK'] !== 'Du khách') {
+            echo json_encode(['success' => false, 'message' => 'Vui lòng đăng nhập tài khoản du khách.']);
+            exit;
+        }
+
+        $maTour = $_POST['ma_tour'] ?? '';
+        if (empty($maTour)) exit;
+
+        try {
+            // Sử dụng hàm toggleFavorite của tourModel
+            $action = $this->tourModel->toggleFavorite($_SESSION['user']['MaTK'], $maTour);
+            echo json_encode(['success' => true, 'action' => $action]);
+        } catch (Exception $e) {
+            echo json_encode(['success' => false, 'message' => 'Lỗi hệ thống: ' . $e->getMessage()]);
+        }
+        exit;
     }
 }
+
+$controller = new TourController();
+$controller->index();
 ?>
