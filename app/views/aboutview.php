@@ -142,7 +142,7 @@
         </div>
         <div class="col-lg-6 order-lg-1">
             <div class="team-img-wrap">
-                <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1000&q=80" alt="Đội ngũ LocalMate">
+                <img src="public/image/decor/nhanvien.png" alt="Đội ngũ LocalMate">
             </div>
         </div>
     </div>

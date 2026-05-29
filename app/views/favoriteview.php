@@ -11,13 +11,12 @@
     .heart-btn { cursor: pointer; user-select: none; transition: 0.2s; }
     .heart-btn:hover { opacity: 0.7; }
 </style>
-
+<!-- ĐẶT BREADCRUMB -->
+<div class="breadcrumb-custom">
+    <a href="?controller=home">Trang chủ</a> > 
+    <span style="color: #666;">Yêu thích</span>
+</div>
 <main class="container py-4" style="min-height: 65vh;">
-    <!-- Breadcrumb -->
-    <div class="mb-3 text-muted small">
-        <a href="?controller=home" class="text-decoration-none text-muted">Trang chủ</a> &gt; 
-        <a href="?controller=favorite" class="text-decoration-none fw-bold" style="color: #7A9F5A;">Yêu thích</a>
-    </div>
 
     <!-- Thanh tìm kiếm -->
     <div class="mb-5 mx-auto" style="max-width: 650px;">

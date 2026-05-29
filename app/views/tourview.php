@@ -41,12 +41,11 @@
     .carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); background: white; border: none; width: 35px; height: 35px; border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.2); color: var(--color-primary); z-index: 10; cursor: pointer;}
     .btn-prev { left: -5px; } .btn-next { right: -5px; }
 </style>
-
+<div class="breadcrumb-custom">
+    <a href="?controller=home">Trang chủ</a> > 
+    <span style="color: #666;">Tour</span>
+</div>
 <main class="container-fluid px-4 py-4" style="background-color: #FCFDF9;">
-    <div class="mb-3 text-muted small">
-        <a href="?controller=home" class="text-decoration-none text-muted">Trang chủ</a> &gt; 
-        <a href="?controller=tour" class="text-decoration-none fw-bold" style="color: var(--color-tag-active);">Tour</a>
-    </div>
 
     <div class="row">
         <div class="col-lg-3 mb-4">

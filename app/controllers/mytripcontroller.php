@@ -29,10 +29,9 @@ class MytripController {
         $rs_da_hoan_thanh = $tripModel->getTripsByCustomer($maTK, 'Đã hoàn thành');
         // - Danh sách chuyến đi đã đã hủy
         $rs_da_huy = $tripModel->getTripsByCustomer($maTK, 'Đã hủy');
-        // - Danh sách 3 tour gợi ý thông minh dựa trên lịch sử trải nghiệm của khách
-        $rs_goi_y = $tripModel->getSuggestedTours($maTK, 3);
-        // - Danh sách 3 tour đang có tỷ lệ ưu đãi cao nhất hệ thống
-        $rs_uu_dai = $tripModel->getTopPromotionalTours(3);
+        
+        $rs_goi_y = $tripModel->getSuggestedTours($maTK, 10); 
+        $rs_uu_dai = $tripModel->getTopPromotionalTours(10);
 
         // 6. Chuyển tiếp toàn bộ mảng dữ liệu sạch sang giao diện View hiển thị
         require_once __DIR__ . '/../views/layouts/header.php';
