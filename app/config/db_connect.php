@@ -16,3 +16,4 @@ try {
     die("<h3 style='color:red; text-align:center;'>Kết nối CSDL thất bại: " . $e->getMessage() . "</h3>");
 }
 ?>
+
