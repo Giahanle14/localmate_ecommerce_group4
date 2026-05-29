@@ -48,6 +48,15 @@ class TourDetailController {
         
         $breadcrumb[] = ['name' => 'Chi tiết tour', 'url' => '#'];
 
+        // KIỂM TRA TRẠNG THÁI TIM (YÊU THÍCH)
+        $isFavorited = false;
+        if (isset($_SESSION['user'])) {
+            require_once __DIR__ . '/../models/favoritemodel.php';
+            $favModel = new FavoriteModel();
+            $maTK = $_SESSION['user']['MaTK']; // Hoặc MaDK tùy cách bạn đang lưu session
+            $isFavorited = $favModel->checkIsFavorited($maTK, $tour['MaTour']); 
+        }
+
         // Gọi View hiển thị giao diện
         require_once __DIR__ . '/../views/layouts/header.php';
         require_once __DIR__ . '/../views/tourdetailview.php';

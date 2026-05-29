@@ -2,6 +2,20 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <style>
+    .breadcrumb-custom { 
+        padding: 15px 40px; 
+        font-weight: 500; 
+        color: #0d5c2c; 
+        background: white; 
+        border-bottom: 1px solid #eee; 
+    }
+    .breadcrumb-custom a { 
+        color: #0d5c2c; 
+        text-decoration: none; 
+    }
+    .breadcrumb-custom a:hover {
+        text-decoration: underline;
+    }
     .tour-title-quantico { 
         font-family: 'Quantico', sans-serif !important; 
         font-weight: 700 !important; 
@@ -26,17 +40,16 @@
     .timeline-time { color: #00712D; font-weight: 700; }
     .timeline-title { font-weight: 700; font-size: 1.1rem; }
 </style>
-
+<div class="breadcrumb-custom">
+    <?php foreach($breadcrumb as $index => $b): ?>
+        <?php if($index < count($breadcrumb) - 1): ?>
+            <a href="<?= $b['url'] ?>" class="fw-bold"><?= $b['name'] ?></a> <span class="mx-1">></span>
+        <?php else: ?>
+            <span class="text-secondary fw-bold"><?= $b['name'] ?></span>
+        <?php endif; ?>
+    <?php endforeach; ?>
+</div>
 <div class="container" style="padding-top: 30px; padding-bottom: 80px;">
-    <div class="mb-3">
-        <?php foreach($breadcrumb as $index => $b): ?>
-            <?php if($index < count($breadcrumb) - 1): ?>
-                <a href="<?= $b['url'] ?>" class="text-success text-decoration-none fw-bold"><?= $b['name'] ?></a> <span class="mx-1">></span>
-            <?php else: ?>
-                <span class="text-secondary fw-bold"><?= $b['name'] ?></span>
-            <?php endif; ?>
-        <?php endforeach; ?>
-    </div>
 
     <div class="row">
         <div class="col-lg-8 pe-lg-4">
@@ -45,14 +58,20 @@
             <div class="d-flex justify-content-between align-items-center mb-3 mt-4">
                 <h1 class="tour-title-quantico"><?= htmlspecialchars($tour['TenTour']) ?></h1>
                 
-                <button id="heart_btn" class="btn btn-light rounded-circle shadow-sm d-flex align-items-center justify-content-center" style="width: 55px; height: 55px; border: 1px solid #eee;">
-    <i id="heart_icon" class="fa-regular fa-heart fs-4" style="color: #ff7f61;"></i>
-</button>
+                <button class="btn btn-light rounded-circle shadow-sm d-flex align-items-center justify-content-center" 
+                    onclick="toggleFavoriteDetail(this, '<?= $tour['MaTour'] ?>')" 
+                        style="width: 45px; height: 45px; border: 1px solid #ddd;">
+                    <i class="<?= !empty($isFavorited) ? 'fa-solid text-danger' : 'fa-regular' ?> fa-heart fs-5"></i>
+                </button>
             </div>
 
             <div class="tour-meta mb-5 d-flex flex-wrap">
                 <span><i class="fa-solid fa-location-dot text-danger"></i> <?= htmlspecialchars($tour['DiaDiem'] ?? $tour['VungDiaLy']) ?></span>
-                <span><i class="fa-solid fa-star" style="color:#f39c12;"></i> 4.9 (120)</span>
+                <span class="ms-3 me-3">
+    <i class="fa-solid fa-star" style="color: #FF9F00;"></i> 
+    <?= (!empty($tour['TrungBinhSao']) && $tour['TrungBinhSao'] > 0) ? $tour['TrungBinhSao'] : 'Chưa có' ?> 
+    <?php if (!empty($tour['SoLuotDanhGia']) && $tour['SoLuotDanhGia'] > 0) echo "(" . $tour['SoLuotDanhGia'] . ")"; ?>
+</span>
                 <span><i class="fa-solid fa-user-group"></i> Tối đa <?= $tour['SoKhachToiDa'] ?> người</span>
                 <span><i class="fa-solid fa-clock"></i> <?= $tour['SoNgay'] ?> ngày</span>
             </div>
@@ -96,18 +115,18 @@
                         <div class="mb-4">
                             <label class="form-label text-success fw-bold">Số lượng khách</label>
                             <div class="d-flex align-items-center justify-content-between qty-selector">
-                                <button type="button" class="btn p-0 border-0" onclick="changeQty(-1)">
-                                    <i class="fa-solid fa-circle-chevron-left fs-4" style="color: #799580;"></i>
-                                </button>
-                                
-                                <span id="qty_display" class="fw-bold fs-5 text-success">1</span>
-                                
-                                <button type="button" class="btn p-0 border-0" onclick="changeQty(1)">
-                                    <i class="fa-solid fa-circle-chevron-right fs-4" style="color: #799580;"></i>
-                                </button>
-                                
-                                <input type="hidden" name="soluong" id="soluong_input" value="1">
-                            </div>
+    <button type="button" class="btn p-0 border-0" onclick="updateTourQty(-1)">
+        <i class="fa-solid fa-circle-chevron-left fs-4" style="color: #799580;"></i>
+    </button>
+    
+    <span id="qty_display" class="fw-bold fs-5 text-success">1</span>
+    
+    <button type="button" class="btn p-0 border-0" onclick="updateTourQty(1)">
+        <i class="fa-solid fa-circle-chevron-right fs-4" style="color: #799580;"></i>
+    </button>
+    
+    <input type="hidden" name="soluong" id="soluong_input" value="1">
+</div>
                         </div>
 
                         <hr style="border-color: #ddd; margin: 25px 0;">
@@ -131,15 +150,17 @@
 
 <script>
     // JS tính số lượng, đổi lại cách bắt event onclick cho button
-    const basePrice = <?= $tour['Gia'] ?>;
-    const maxQty = <?= $tour['SoKhachToiDa'] ?>;
+    // Ép kiểu về số nguyên (parseInt) để an toàn tuyệt đối, tránh JS hiểu nhầm là chuỗi
+    const basePrice = <?= isset($giaThucTe) ? $giaThucTe : $tour['Gia'] ?>;
+    const maxQty = parseInt('<?= $tour['SoKhachToiDa'] ?>', 10);
     let currentQty = 1;
 
     function formatCurrency(number) {
         return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     }
 
-    function changeQty(amount) {
+    // TÊN HÀM MỚI (updateTourQty) để không bị đụng hàng với code cũ
+    function updateTourQty(amount) {
         let newQty = currentQty + amount;
         if (newQty >= 1 && newQty <= maxQty) {
             currentQty = newQty;
@@ -156,5 +177,61 @@
         }
     }
 
-
+    // JS Xử lý thả tim
+    function toggleFavoriteDetail(btnElement, maTour) {
+        const icon = btnElement.querySelector('i');
+        
+        // Gọi đến API có sẵn trong favoritecontroller.php
+        fetch('index.php?controller=favorite', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: 'action=toggle_heart&ma_tour=' + encodeURIComponent(maTour)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                if (data.action === 'added') {
+                    // Thêm class tim đỏ
+                    icon.classList.remove('fa-regular');
+                    icon.classList.add('fa-solid', 'text-danger');
+                } else if (data.action === 'removed') {
+                    // Xóa class tim đỏ, về tim rỗng
+                    icon.classList.remove('fa-solid', 'text-danger');
+                    icon.classList.add('fa-regular');
+                }
+            } else {
+                // Lỗi chưa đăng nhập hoặc lỗi khác
+                alert(data.message || "Bạn cần đăng nhập để lưu tour!");
+            }
+        })
+        .catch(error => console.error('Lỗi:', error));
+    }
+    function toggleFavoriteDetail(btnElement, maTour) {
+    const icon = btnElement.querySelector('i');
+    
+    // Gọi đến API có sẵn trong favoritecontroller.php của bạn
+    fetch('index.php?controller=favorite', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: 'action=toggle_heart&ma_tour=' + encodeURIComponent(maTour)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            if (data.action === 'added') {
+                // Thêm class tim đỏ
+                icon.classList.remove('fa-regular');
+                icon.classList.add('fa-solid', 'text-danger');
+            } else if (data.action === 'removed') {
+                // Xóa class tim đỏ, về tim rỗng
+                icon.classList.remove('fa-solid', 'text-danger');
+                icon.classList.add('fa-regular');
+            }
+        } else {
+            // Lỗi chưa đăng nhập hoặc lỗi khác
+            alert(data.message || "Bạn cần đăng nhập để lưu tour!");
+        }
+    })
+    .catch(error => console.error('Lỗi:', error));
+}
 </script>

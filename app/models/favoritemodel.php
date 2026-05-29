@@ -102,5 +102,20 @@ class FavoriteModel {
             return 'added';
         }
     }
+    public function checkIsFavorited($maTK_DK, $maTour) {
+        if (strpos($maTK_DK, 'DK') === 0) {
+            $stmtDK = $this->conn->prepare("SELECT MaTK_DK FROM DuKhach WHERE MaDK = :maDK");
+            $stmtDK->execute([':maDK' => $maTK_DK]);
+            $res = $stmtDK->fetch(PDO::FETCH_ASSOC);
+            if ($res) {
+                $maTK_DK = $res['MaTK_DK'];
+            }
+        }
+        
+        $sql = "SELECT 1 FROM DanhSachYeuThich WHERE MaTK_DK = :maTK_DK AND MaTour = :maTour";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([':maTK_DK' => $maTK_DK, ':maTour' => $maTour]);
+        return $stmt->rowCount() > 0;
+    }
 }
 ?>

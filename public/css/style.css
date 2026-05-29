@@ -1091,3 +1091,6 @@ span.flatpickr-weekday:nth-child(7) { color: #D32F2F !important; }
 .btn-action-orange { background: #f39c12; color: white; font-weight: bold; border: none; border-radius: 20px; padding: 6px 20px; }
 .btn-action-green { background: var(--color-primary-dark); color: white; font-weight: bold; border: none; border-radius: 20px; padding: 6px 20px; }
 
+.breadcrumb-custom { padding: 15px 40px; font-weight: 500; color: #0d5c2c; background: white; border-bottom: 1px solid #eee; }
+    .breadcrumb-custom a { color: #0d5c2c; text-decoration: none; }
+    .breadcrumb-custom a:hover { text-decoration: underline; }
