@@ -10,9 +10,15 @@ require_once __DIR__ . '/../models/authmodel.php';
 
 class AuthController {
 
+    // Khi URL chỉ có ?controller=auth, nó sẽ tự động chạy vào đây và gọi hàm login
+    public function index() {
+        $this->login();
+    }
+
     public function login() {
         require_once __DIR__ . '/../config/db_connect.php';
 
+        // TRƯỜNG HỢP 1: NGƯỜI DÙNG BẤM NÚT "ĐĂNG NHẬP" (Gửi form POST)
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $email = trim($_POST['email']);
             $password = $_POST['password']; 
@@ -49,6 +55,12 @@ class AuthController {
                 echo "Lỗi truy vấn: " . $e->getMessage();
                 
             }
+        } 
+        // TRƯỜNG HỢP 2: NGƯỜI DÙNG VỪA CHUYỂN TRANG TỚI (Phương thức GET)
+        else {
+            // Nếu ai cố tình gõ URL này, ta đẩy họ về lại trang chủ cho an toàn.
+            header("Location: index.php?controller=home");
+            exit();
         }
     }
 
