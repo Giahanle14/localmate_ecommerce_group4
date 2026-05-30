@@ -54,7 +54,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link <?= ($current_controller == 'adminmytrip') ? 'active-nav-pill' : '' ?>" href="index.php?controller=adminmytrip">
+                            <a class="nav-link <?= ($current_controller == 'admintrip') ? 'active-nav-pill' : '' ?>" href="index.php?controller=admintrip">
                                 <i class="fa-solid fa-location-dot"></i> QUẢN LÝ CHUYẾN ĐI
                             </a>
                         </li>
