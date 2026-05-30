@@ -31,10 +31,32 @@ class FavoriteController {
 
         // 1. KIỂM TRA BẢO MẬT: Phải đăng nhập và có vai trò là Du khách
         if (!isset($_SESSION['user']) || $_SESSION['user']['LoaiTK'] !== 'Du khách') {
+            // Nạp header trước để có bộ source HTML của loginModal
+            require_once __DIR__ . '/../views/layouts/header.php';
+            
+            // Render giao diện phụ
+            echo "<main class='container py-4' style='min-height: 65vh;'>
+                  </main>";
+            
+            // Chạy Script show modal lập tức VÀ lắng nghe sự kiện đóng modal để chuyển hướng
             echo "<script>
-                alert('Bạn cần đăng nhập với tài khoản Du khách để xem danh sách yêu thích!');
-                window.location.href='index.php?controller=home';
+                alert('Vui lòng đăng nhập tài khoản du khách để xem danh sách yêu thích.');
+                document.addEventListener('DOMContentLoaded', function() {
+                    var modalElement = document.getElementById('loginModal');
+                    if (modalElement) {
+                        var loginModal = new bootstrap.Modal(modalElement);
+                        loginModal.show();
+                        
+                        // Lắng nghe sự kiện khi cửa sổ modal bị đóng/thoát
+                        modalElement.addEventListener('hidden.bs.modal', function () {
+                            window.location.href = 'index.php?controller=home';
+                        });
+                    }
+                });
             </script>";
+            
+            // Nạp footer để giao diện trang không bị khuyết
+            require_once __DIR__ . '/../views/layouts/footer.php';
             exit();
         }
 
