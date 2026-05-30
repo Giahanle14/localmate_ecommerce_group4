@@ -303,7 +303,12 @@
                 }
             }
 
+<<<<<<< Updated upstream
             if (event.key === 'Backspace' && event.target.classList.contains('otp-box')) {
+=======
+            
+            if (event.key === 'Backspace' && event.target.classList.contains('forgot-otp-box')) {
+>>>>>>> Stashed changes
                 if (event.target.value === '') {
                     const boxes = document.querySelectorAll('.otp-box');
                     const index = Array.from(boxes).indexOf(event.target);

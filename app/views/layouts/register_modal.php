@@ -295,6 +295,11 @@
                 }
             }
 
+<<<<<<< Updated upstream
+=======
+            
+            // Sự kiện Backspace cho OTP
+>>>>>>> Stashed changes
             if (event.key === 'Backspace' && event.target.classList.contains('otp-box')) {
                 if (event.target.value === '') {
                     const boxes = document.querySelectorAll('.otp-box');
