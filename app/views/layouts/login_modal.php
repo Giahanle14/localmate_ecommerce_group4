@@ -18,6 +18,7 @@
                         <input type="text" name="email" class="form-control auth-input" placeholder="Nhập email của bạn" required>
                     </div>
                     
+                    
                     <div class="mb-2">
                         <label class="form-label auth-label">Mật khẩu <span class="text-danger">*</span></label>
                         <div class="password-input-wrapper">
@@ -29,11 +30,11 @@
                     </div>
                     
                     <div class="d-flex justify-content-end mb-4">
-                        <a href="#" class="auth-forgot text-decoration-none">Quên mật khẩu?</a>
+                        <a href="#" class="auth-forgot text-decoration-none" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal" data-bs-dismiss="modal">Quên mật khẩu?</a>
                     </div>
-                    
+
                     <div class="text-center auth-register-text mb-2">
-                        Chưa có tài khoản? <a href="#" class="auth-register-link text-decoration-none">Đăng ký ngay</a>
+                        Chưa có tài khoản? <a href="#" class="auth-register-link text-decoration-none" data-bs-toggle="modal" data-bs-target="#registerModal">Đăng ký ngay</a>
                     </div>
                     
                     <div class="auth-terms">
