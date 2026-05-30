@@ -18,6 +18,7 @@
                         <input type="text" name="email" class="form-control auth-input" placeholder="Nhập email của bạn" required>
                     </div>
                     
+                    
                     <div class="mb-2">
                         <label class="form-label auth-label">Mật khẩu <span class="text-danger">*</span></label>
                         <div class="password-input-wrapper">
