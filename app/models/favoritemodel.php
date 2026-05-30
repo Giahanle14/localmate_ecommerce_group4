@@ -73,5 +73,49 @@ class FavoriteModel {
         $stmt->execute($params);
         return $stmt->fetchAll();
     }
+
+    // Hàm xử lý thả/gỡ tim
+    public function toggleHeart($maTK_DK, $maTour) {
+        // Chuyển đổi mã nếu Controller truyền mã bắt đầu bằng DK
+        if (strpos($maTK_DK, 'DK') === 0) {
+            $stmtDK = $this->conn->prepare("SELECT MaTK_DK FROM DuKhach WHERE MaDK = :maDK");
+            $stmtDK->execute([':maDK' => $maTK_DK]);
+            $res = $stmtDK->fetch(PDO::FETCH_ASSOC);
+            if ($res) {
+                $maTK_DK = $res['MaTK_DK'];
+            }
+        }
+        
+        $checkSql = "SELECT * FROM DanhSachYeuThich WHERE MaTK_DK = :maTK_DK AND MaTour = :maTour";
+        $stmt = $this->conn->prepare($checkSql);
+        $stmt->execute([':maTK_DK' => $maTK_DK, ':maTour' => $maTour]);
+        
+        if($stmt->rowCount() > 0) {
+            // Đã có trong danh sách -> Xóa (Gỡ tim)
+            $delSql = "DELETE FROM DanhSachYeuThich WHERE MaTK_DK = :maTK_DK AND MaTour = :maTour";
+            $this->conn->prepare($delSql)->execute([':maTK_DK' => $maTK_DK, ':maTour' => $maTour]);
+            return 'removed';
+        } else {
+            // Chưa có -> Thêm vào (Thả tim)
+            $insSql = "INSERT INTO DanhSachYeuThich(MaTK_DK, MaTour) VALUES(:maTK_DK, :maTour)";
+            $this->conn->prepare($insSql)->execute([':maTK_DK' => $maTK_DK, ':maTour' => $maTour]);
+            return 'added';
+        }
+    }
+    public function checkIsFavorited($maTK_DK, $maTour) {
+        if (strpos($maTK_DK, 'DK') === 0) {
+            $stmtDK = $this->conn->prepare("SELECT MaTK_DK FROM DuKhach WHERE MaDK = :maDK");
+            $stmtDK->execute([':maDK' => $maTK_DK]);
+            $res = $stmtDK->fetch(PDO::FETCH_ASSOC);
+            if ($res) {
+                $maTK_DK = $res['MaTK_DK'];
+            }
+        }
+        
+        $sql = "SELECT 1 FROM DanhSachYeuThich WHERE MaTK_DK = :maTK_DK AND MaTour = :maTour";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([':maTK_DK' => $maTK_DK, ':maTour' => $maTour]);
+        return $stmt->rowCount() > 0;
+    }
 }
 ?>

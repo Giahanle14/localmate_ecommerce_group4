@@ -167,10 +167,13 @@ a {
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 /* ==========================================================================
    3. HERO BANNER
 =======
 /* CSS bổ sung cho Dropdown sau khi đăng nhập */
+=======
+>>>>>>> fe6d93f9adc736ba760c7c7881473756fc788b53
 .logged-in-dropdown .dropdown-menu {
     border-radius: 12px;
     border: 1px solid #eaeaea;
@@ -204,6 +207,7 @@ a {
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 .hero-title, .hero-subtitle {
     display: none !important;
 }
@@ -213,12 +217,23 @@ a {
    ========================================================================== */
 =======
 >>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
+=======
+/* Tuyệt chiêu dải nền vàng nhạt, lấp kín khe hở */
+.search-bar-wrapper {
+    margin-top: -35px; 
+    background: linear-gradient(to bottom, transparent 35px, #FFFDF0 35px); 
+    position: relative;
+    z-index: 5;
+    padding-bottom: 20px; 
+}
+
+>>>>>>> fe6d93f9adc736ba760c7c7881473756fc788b53
 .search-container {
     background: white;
     border-radius: 50px;
     box-shadow: 0 8px 25px rgba(0,0,0,0.08);
     max-width: 1000px;
-    margin: -40px auto 50px;
+    margin: 0 auto 30px auto; 
     position: relative;
     z-index: 10;
     padding: 8px;
@@ -316,8 +331,12 @@ a {
 }
 
 /* ==========================================================================
+<<<<<<< HEAD
    4. CẤU TRÚC GIAO DIỆN CÁC CARD TOUR (CHUẨN FIGMA)
 >>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
+=======
+   4. CẤU TRÚC GIAO DIỆN CÁC CARD TOUR 
+>>>>>>> fe6d93f9adc736ba760c7c7881473756fc788b53
    ========================================================================== */
 .section-title {
     color: #222;
@@ -457,6 +476,7 @@ a {
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 /* ==========================================================================
    * CLASS ĐẶC BIỆT DÀNH RIÊNG CHO CARD YÊU THÍCH NHẤT *
    ========================================================================== */
@@ -466,6 +486,9 @@ a {
 
 /* Đổi màu tiêu đề và mô tả sang xanh lá đậm */
 =======
+=======
+/* Nền vàng nhạt cho card */
+>>>>>>> fe6d93f9adc736ba760c7c7881473756fc788b53
 .favorite-card {
     background-color: #FFFDF0 !important; 
 }
@@ -498,10 +521,50 @@ a {
 
 /* ==========================================================================
 <<<<<<< HEAD
+<<<<<<< HEAD
    6. CẤU TRÚC GIAO DIỆN KINH NGHIỆM ĐI TOUR (CHUẨN FORM MÀU, AVATAR, FONT)
 =======
    5. CẤU TRÚC GIAO DIỆN KINH NGHIỆM ĐI TOUR (REVIEW)
 >>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
+=======
+   5. HIỆU ỨNG LƯỚT NGANG (SLIDER) CHO CARD TOUR
+   ========================================================================== */
+.tour-slider-container {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    gap: 1.5rem;
+    padding-bottom: 15px;
+    scroll-snap-type: x mandatory; 
+}
+
+.tour-slider-container::-webkit-scrollbar {
+    height: 6px;
+}
+.tour-slider-container::-webkit-scrollbar-thumb {
+    background-color: #ddd;
+    border-radius: 10px;
+}
+.tour-slider-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.tour-slider-item {
+    flex: 0 0 auto;
+    width: calc(33.333% - 1rem); 
+    scroll-snap-align: start;
+}
+
+@media (max-width: 992px) {
+    .tour-slider-item { width: calc(50% - 0.75rem); } 
+}
+@media (max-width: 768px) {
+    .tour-slider-item { width: 85%; } 
+}
+
+/* ==========================================================================
+   6. CẤU TRÚC GIAO DIỆN KINH NGHIỆM ĐI TOUR (REVIEW)
+>>>>>>> fe6d93f9adc736ba760c7c7881473756fc788b53
    ========================================================================== */
 .review-card {
     background-color: var(--color-bg-light) !important; 
@@ -608,8 +671,12 @@ a {
 
 /* ==========================================================================
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
    6. GIAO DIỆN HỘP POPUP ĐĂNG NHẬP CHUẨN FIGMA TRÁI ĐẤT
+=======
+   7. GIAO DIỆN HỘP POPUP ĐĂNG NHẬP 
+>>>>>>> fe6d93f9adc736ba760c7c7881473756fc788b53
    ========================================================================== */
 .login-modal-content {
     border-radius: 24px !important;
@@ -627,7 +694,6 @@ a {
     background: transparent; 
 }
 
-/* Nền mây cắt xéo */
 .login-modal-header::before {
     content: '';
     position: absolute;
@@ -762,8 +828,12 @@ a {
 }
 
 /* ==========================================================================
+<<<<<<< HEAD
 >>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
    7. FOOTER CHÂN TRANG
+=======
+   8. FOOTER CHÂN TRANG
+>>>>>>> fe6d93f9adc736ba760c7c7881473756fc788b53
    ========================================================================== */
 .lm-footer {
     background-color: var(--color-primary-dark); 
@@ -863,6 +933,9 @@ a {
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> fe6d93f9adc736ba760c7c7881473756fc788b53
 @media (max-width: 1200px) {
     .footer-container { grid-template-columns: repeat(3, 1fr); }
 }
@@ -871,6 +944,7 @@ a {
     .bottom-actions { flex-direction: column; gap: 20px; }
 }
 
+<<<<<<< HEAD
 /* ==========================================================================
    8. CSS CHO CHỨC NĂNG THANH TÌM KIẾM (TOOLTIP LỖI, POPUP SỐ KHÁCH)
    ========================================================================== */
@@ -931,8 +1005,10 @@ a {
    ========================================================================== */
 /* Form tổng thể của popup lịch */
 =======
+=======
+>>>>>>> fe6d93f9adc736ba760c7c7881473756fc788b53
 /* ==========================================================================
-   8. TÙY CHỈNH GIAO DIỆN LỊCH FLATPICKR (HỆ LƯỚI GRID THẲNG TẮP)
+   9. TÙY CHỈNH GIAO DIỆN LỊCH FLATPICKR
    ========================================================================== */
 >>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
 .flatpickr-calendar {
@@ -984,8 +1060,6 @@ a {
     color: var(--color-primary-dark) !important;
     font-size: 1.15rem !important;
     appearance: none !important; 
-    -moz-appearance: none !important;
-    -webkit-appearance: none !important;
     border: none !important;
     background: transparent !important;
 }
@@ -1284,4 +1358,10 @@ span.flatpickr-weekday:nth-child(7) { color: #D32F2F !important; }
 .btn-action-orange { background: #f39c12; color: white; font-weight: bold; border: none; border-radius: 20px; padding: 6px 20px; }
 .btn-action-green { background: var(--color-primary-dark); color: white; font-weight: bold; border: none; border-radius: 20px; padding: 6px 20px; }
 
+<<<<<<< HEAD
 >>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
+=======
+.breadcrumb-custom { padding: 15px 40px; font-weight: 500; color: #0d5c2c; background: white; border-bottom: 1px solid #eee; }
+    .breadcrumb-custom a { color: #0d5c2c; text-decoration: none; }
+    .breadcrumb-custom a:hover { text-decoration: underline; }
+>>>>>>> fe6d93f9adc736ba760c7c7881473756fc788b53

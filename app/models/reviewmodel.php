@@ -114,5 +114,25 @@ class ReviewModel {
         $stmt = $conn->prepare($sql);
         return $stmt->execute([':madg' => $maDG]);
     }
+    // Hàm xóa 1 hình ảnh dựa vào Mã Hình Ảnh
+    public static function deleteReviewImage($maHinhAnh) {
+        global $conn;
+        require_once __DIR__ . '/../config/db_connect.php';
+        
+        // Lấy đường dẫn để xóa file vật lý
+        $sql = "SELECT DuongDan FROM hinhanhdanhgia WHERE MaHinhAnhDG = :mahinh";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute([':mahinh' => $maHinhAnh]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        if ($row && file_exists($row['DuongDan'])) {
+            unlink($row['DuongDan']); // Xóa file ảnh trong thư mục public/image/reviews/
+        }
+
+        // Xóa data trong CSDL
+        $sqlDel = "DELETE FROM hinhanhdanhgia WHERE MaHinhAnhDG = :mahinh";
+        $stmtDel = $conn->prepare($sqlDel);
+        return $stmtDel->execute([':mahinh' => $maHinhAnh]);
+    }
 }
 ?>

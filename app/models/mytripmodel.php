@@ -7,7 +7,7 @@ class MytripModel {
     }
 
     /**
-     * 1. Lấy danh sách chuyến đi theo trạng thái (Chưa hoàn thành / Đã hoàn thành)
+     * 1. Lấy danh sách chuyến đi theo trạng thái
      */
     public function getTripsByCustomer($maTK, $trangThai) {
         $sql = "SELECT c.MaChuyenDi, c.NgayBatDau, c.NgayKetThuc, c.TongGiaTien, c.SoLuongKhach, 
@@ -23,11 +23,21 @@ class MytripModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    private function getStatsSql() {
+        return "
+            (SELECT IFNULL(ROUND(AVG(dg.SoSao), 1), 0) FROM phieudanhgia dg JOIN chuyendi cd ON dg.MaChuyenDi = cd.MaChuyenDi WHERE cd.MaTour = t.MaTour) AS TrungBinhSao,
+            (SELECT COUNT(dg.MaDG) FROM phieudanhgia dg JOIN chuyendi cd ON dg.MaChuyenDi = cd.MaChuyenDi WHERE cd.MaTour = t.MaTour) AS SoLuotDanhGia,
+            (SELECT COUNT(*) FROM danhsachyeuthich yt WHERE yt.MaTour = t.MaTour) AS SoLuotThich
+        ";
+    }
+
     /**
-     * 2. LẤY TOUR GỢI Ý: Dựa trên các loại trải nghiệm của các tour du khách ĐÃ ĐI NHẤT
+     * 2. LẤY TOUR GỢI Ý
      */
     public function getSuggestedTours($maTK, $limit = 3) {
-        // Bước 2.1: Lấy tất cả danh sách LoaiTraiNghiem từ những tour khách đã từng đặt
+        $statsSql = $this->getStatsSql();
+        
+        // 2.1: Lấy các loại trải nghiệm khách đã từng đặt
         $sql_history = "SELECT DISTINCT t.LoaiTraiNghiem 
                         FROM ChuyenDi c 
                         JOIN Tour t ON c.MaTour = t.MaTour 
@@ -36,16 +46,16 @@ class MytripModel {
         $stmt_hist->execute([':matk' => $maTK]);
         $history_rows = $stmt_hist->fetchAll(PDO::FETCH_ASSOC);
 
-        // Nếu khách hàng mới tinh, chưa từng đi tour nào -> Gợi ý ngẫu nhiên 3 tour
+        // Nếu khách hàng mới tinh -> Gợi ý ngẫu nhiên
         if (empty($history_rows)) {
-            $sql_random = "SELECT * FROM Tour ORDER BY RAND() LIMIT :limit";
+            $sql_random = "SELECT t.*, $statsSql FROM Tour t ORDER BY RAND() LIMIT :limit";
             $stmt_rand = $this->conn->prepare($sql_random);
             $stmt_rand->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
             $stmt_rand->execute();
             return $stmt_rand->fetchAll(PDO::FETCH_ASSOC);
         }
 
-        // Gom tất cả các trải nghiệm đã đi thành một mảng các từ khóa (ví dụ: ['Văn hóa', 'Ẩm thực', 'Biển đảo'])
+        // Tách từ khóa trải nghiệm
         $tags_played = [];
         foreach ($history_rows as $row) {
             if (!empty($row['LoaiTraiNghiem'])) {
@@ -59,8 +69,7 @@ class MytripModel {
             }
         }
 
-        // Bước 2.2: Tạo câu truy vấn động sử dụng LIKE để tìm các tour chứa các tag này
-        // Đồng thời loại trừ các tour khách đang hoặc đã đi (để không gợi ý trùng)
+        // 2.2: Lọc tour có tag tương ứng
         $where_clauses = [];
         $params = [];
         foreach ($tags_played as $index => $tag) {
@@ -69,7 +78,7 @@ class MytripModel {
         }
         
         $where_sql = implode(' OR ', $where_clauses);
-        $sql_suggest = "SELECT t.* FROM Tour t 
+        $sql_suggest = "SELECT t.*, $statsSql FROM Tour t 
                         WHERE ($where_sql) 
                         AND t.MaTour NOT IN (SELECT MaTour FROM ChuyenDi WHERE MaTK_DK = :matk)
                         ORDER BY RAND() LIMIT :limit";
@@ -84,10 +93,10 @@ class MytripModel {
         
         $result = $stmt_sug->fetchAll(PDO::FETCH_ASSOC);
 
-        // Phòng hờ nếu lọc gắt quá không đủ số lượng -> Bù thêm tour ngẫu nhiên cho đủ limit
+        // Bù thêm tour nếu không đủ limit
         if (count($result) < $limit) {
             $needed = $limit - count($result);
-            $sql_fallback = "SELECT * FROM Tour WHERE MaTour NOT IN (SELECT MaTour FROM ChuyenDi WHERE MaTK_DK = :matk) ORDER BY RAND() LIMIT :needed";
+            $sql_fallback = "SELECT t.*, $statsSql FROM Tour t WHERE t.MaTour NOT IN (SELECT MaTour FROM ChuyenDi WHERE MaTK_DK = :matk) ORDER BY RAND() LIMIT :needed";
             $stmt_fall = $this->conn->prepare($sql_fallback);
             $stmt_fall->bindValue(':needed', (int)$needed, PDO::PARAM_INT);
             $stmt_fall->bindValue(':matk', $maTK);
@@ -99,10 +108,13 @@ class MytripModel {
         return $result;
     }
 
+    /**
+     * 3. LẤY TOUR ƯU ĐÃI
+     */
     public function getTopPromotionalTours($limit = 3) {
-        // Lấy ngẫu nhiên các tour có ưu đãi (UuDai > 0 và không bị NULL)
-        $sql = "SELECT * FROM tour 
-                WHERE UuDai IS NOT NULL AND UuDai > 0 
+        $statsSql = $this->getStatsSql();
+        $sql = "SELECT t.*, $statsSql FROM tour t 
+                WHERE t.UuDai IS NOT NULL AND t.UuDai > 0 
                 ORDER BY RAND() 
                 LIMIT :limit";
         $stmt = $this->conn->prepare($sql);
