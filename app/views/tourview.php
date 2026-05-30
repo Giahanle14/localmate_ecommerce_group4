@@ -1,6 +1,7 @@
 <?php include 'app/views/layouts/header.php'; ?>
 
 <style>
+    
     :root {
         --color-primary: #1A5336;
         --color-primary-dark: #123C27;
