@@ -3,22 +3,33 @@ require_once __DIR__ . '/../models/reviewmodel.php';
 
 class ReviewController {
     
-    // 1. Hàm hiển thị Form Thêm Đánh Giá
+    // Hàm dùng chung để in ra thông báo SweetAlert2 cực đẹp rồi chuyển hướng
+    private function alertAndRedirect($icon, $title, $url) {
+        echo "<!DOCTYPE html><html><head><script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script></head><body>";
+        echo "<script>
+            Swal.fire({
+                icon: '$icon',
+                title: '$title',
+                showConfirmButton: false,
+                timer: 1500
+            }).then(function() {
+                window.location.href = '$url';
+            });
+        </script></body></html>";
+        exit();
+    }
+
     public function create() {
         $maChuyenDi = $_GET['id'] ?? '';
         if (empty($maChuyenDi)) die("Không tìm thấy mã chuyến đi.");
-
         $trip = ReviewModel::getTripDetails($maChuyenDi);
         if (!$trip) die("Chuyến đi không tồn tại.");
 
-        // Khai báo rỗng để View hiểu là đang thêm mới
         $review = null;
         $images = [];
-
         require_once __DIR__ . '/../views/reviewview.php';
     }
 
-    // 2. Hàm lưu dữ liệu đánh giá MỚI
     public function store() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $maChuyenDi = $_POST['ma_chuyen_di'] ?? '';
@@ -36,38 +47,31 @@ class ReviewController {
                 if (!empty($_FILES['hinh_anh']['name'][0])) {
                     $uploadDir = 'public/image/reviews/';
                     if (!is_dir($uploadDir)) mkdir($uploadDir, 0777, true);
-
                     foreach ($_FILES['hinh_anh']['name'] as $key => $name) {
                         if ($_FILES['hinh_anh']['error'][$key] == 0) {
                             $tmpName = $_FILES['hinh_anh']['tmp_name'][$key];
                             $ext = pathinfo($name, PATHINFO_EXTENSION);
                             $newName = 'rev_' . $maDG . '_' . time() . '_' . $key . '.' . $ext;
-                            $targetFilePath = $uploadDir . $newName;
-                            
-                            if (move_uploaded_file($tmpName, $targetFilePath)) {
-                                $maHA = ReviewModel::generateNextMaHinhAnh();
-                                ReviewModel::saveReviewImage($maHA, $targetFilePath, $maDG);
+                            if (move_uploaded_file($tmpName, $uploadDir . $newName)) {
+                                ReviewModel::saveReviewImage(ReviewModel::generateNextMaHinhAnh(), $uploadDir . $newName, $maDG);
                             }
                         }
                     }
                 }
-                echo "<script>alert('Đánh giá thành công!'); window.location.href='index.php?controller=mytrip';</script>";
-                exit();
+                // Thay vì về mytrip, giờ sẽ ở lại trang Xem lại đánh giá
+                $this->alertAndRedirect('success', 'Đánh giá thành công!', "index.php?controller=review&action=edit&id=$maChuyenDi");
             } else {
-                echo "<script>alert('Gửi đánh giá thất bại.'); window.history.back();</script>";
+                $this->alertAndRedirect('error', 'Gửi đánh giá thất bại!', "javascript:history.back()");
             }
         }
     }
 
-    // 3. Hàm hiển thị Form SỬA Đánh Giá
     public function edit() {
         $maChuyenDi = $_GET['id'] ?? '';
         if (empty($maChuyenDi)) die("Không tìm thấy mã chuyến đi.");
-
         $trip = ReviewModel::getTripDetails($maChuyenDi);
         if (!$trip) die("Chuyến đi không tồn tại.");
 
-        // Lấy dữ liệu cũ truyền ra view để View hiểu là đang sửa
         $review = ReviewModel::getReviewByTripId($maChuyenDi);
         if (!$review) die("Không tìm thấy đánh giá nào cho chuyến đi này.");
         $images = ReviewModel::getReviewImages($review['MaDG']);
@@ -75,70 +79,68 @@ class ReviewController {
         require_once __DIR__ . '/../views/reviewview.php';
     }
 
-    // 4. Hàm lưu dữ liệu đánh giá SAU KHI SỬA
     public function update() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $maDG = $_POST['ma_dg'] ?? ''; 
             $soSao = $_POST['so_sao'] ?? 5;
             $noiDung = !empty($_POST['noi_dung']) ? $_POST['noi_dung'] : NULL;
+            $maChuyenDi = $_POST['ma_chuyen_di'] ?? '';
             
             $dieuAnTuongArr = $_POST['dieu_an_tuong'] ?? [];
             $dieuAnTuong = !empty($dieuAnTuongArr) ? implode(',', $dieuAnTuongArr) : NULL;
 
             if (empty($maDG)) {
-                echo "<script>alert('Lỗi dữ liệu.'); window.history.back();</script>";
-                exit();
+                $this->alertAndRedirect('error', 'Lỗi dữ liệu!', "javascript:history.back()");
             }
 
+            // Xử lý XÓA ảnh cũ nếu người dùng bấm dấu X
+            $deleteImages = $_POST['delete_images'] ?? [];
+            foreach ($deleteImages as $maHA) {
+                ReviewModel::deleteReviewImage($maHA);
+            }
+
+            // Cập nhật Database
             $result = ReviewModel::updateRating($maDG, $noiDung, $soSao, $dieuAnTuong);
 
             if ($result) {
-                // Xử lý thêm ảnh mới (ảnh cũ vẫn giữ nguyên trong DB)
+                // Thêm ảnh mới
                 if (!empty($_FILES['hinh_anh']['name'][0])) {
                     $uploadDir = 'public/image/reviews/';
                     if (!is_dir($uploadDir)) mkdir($uploadDir, 0777, true);
-
                     foreach ($_FILES['hinh_anh']['name'] as $key => $name) {
                         if ($_FILES['hinh_anh']['error'][$key] == 0) {
                             $tmpName = $_FILES['hinh_anh']['tmp_name'][$key];
                             $ext = pathinfo($name, PATHINFO_EXTENSION);
                             $newName = 'rev_' . $maDG . '_' . time() . '_' . $key . '.' . $ext;
-                            $targetFilePath = $uploadDir . $newName;
-                            
-                            if (move_uploaded_file($tmpName, $targetFilePath)) {
-                                $maHA = ReviewModel::generateNextMaHinhAnh();
-                                ReviewModel::saveReviewImage($maHA, $targetFilePath, $maDG);
+                            if (move_uploaded_file($tmpName, $uploadDir . $newName)) {
+                                ReviewModel::saveReviewImage(ReviewModel::generateNextMaHinhAnh(), $uploadDir . $newName, $maDG);
                             }
                         }
                     }
                 }
-                echo "<script>alert('Cập nhật đánh giá thành công!'); window.location.href='index.php?controller=mytrip';</script>";
-                exit();
+                // Cập nhật xong ở lại trang đó
+                $this->alertAndRedirect('success', 'Cập nhật thành công!', "index.php?controller=review&action=edit&id=$maChuyenDi");
             } else {
-                echo "<script>alert('Cập nhật thất bại. Vui lòng thử lại.'); window.history.back();</script>";
+                $this->alertAndRedirect('error', 'Cập nhật thất bại!', "javascript:history.back()");
             }
         }
     }
 
-    // 5. Hàm XÓA đánh giá
     public function delete() {
         $maChuyenDi = $_GET['id'] ?? ''; 
-        if (empty($maChuyenDi)) {
-            echo "<script>alert('Không tìm thấy chuyến đi.'); window.location.href='index.php?controller=mytrip';</script>";
-            exit();
-        }
+        if (empty($maChuyenDi)) $this->alertAndRedirect('error', 'Không tìm thấy chuyến đi.', "index.php?controller=mytrip");
 
         $review = ReviewModel::getReviewByTripId($maChuyenDi);
-        
         if ($review) {
             $result = ReviewModel::deleteReview($review['MaDG']);
             if ($result) {
-                echo "<script>alert('Đã xóa đánh giá thành công!'); window.location.href='index.php?controller=mytrip';</script>";
+                // Xóa xong thì về trang Mytrip
+                $this->alertAndRedirect('success', 'Đã xóa đánh giá!', "index.php?controller=mytrip");
             } else {
-                echo "<script>alert('Xóa đánh giá thất bại.'); window.history.back();</script>";
+                $this->alertAndRedirect('error', 'Xóa thất bại!', "javascript:history.back()");
             }
         } else {
-            echo "<script>alert('Đánh giá không tồn tại.'); window.history.back();</script>";
+            $this->alertAndRedirect('error', 'Đánh giá không tồn tại.', "javascript:history.back()");
         }
     }
 }
