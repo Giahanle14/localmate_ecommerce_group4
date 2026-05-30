@@ -9,7 +9,7 @@ class TourModel {
         $this->conn = $conn;
     }
 
-    // --- HÀM CŨ CỦA BẠN BẠN: HÀM THẢ TIM ĐƯỢC GIỮ NGUYÊN ---
+    // --- HÀM CŨ CỦA BẠN: HÀM THẢ TIM ĐƯỢC GIỮ NGUYÊN ---
     public function toggleFavorite($maTK_DK, $maTour) {
         $checkSql = "SELECT * FROM DanhSachYeuThich WHERE MaTK_DK = :ma_tk AND MaTour = :ma_tour";
         $stmt = $this->conn->prepare($checkSql);
@@ -39,41 +39,47 @@ class TourModel {
             $sql .= ", 0 as IsLiked";
         }
 
-        $sql .= " FROM Tour t WHERE 1=1";
+        // Bổ sung giới hạn phạm vi truy vấn chỉ trong 20 tour mới nhất nếu cần
+        if (!empty($params['is_latest_20'])) {
+            $sql .= " FROM (SELECT * FROM Tour ORDER BY NgayTao DESC LIMIT 20) t WHERE 1=1";
+        } else {
+            $sql .= " FROM Tour t WHERE 1=1";
+        }
+        
         $binds = [];
 
-        // 1. TÍCH HỢP MỚI: Lọc từ khóa tìm kiếm từ Trang chủ
+        // 1. Lọc từ khóa tìm kiếm từ Trang chủ
         if (!empty($params['search'])) {
             $sql .= " AND (t.TenTour LIKE :search OR t.DiaDiem LIKE :search OR t.VungDiaLy LIKE :search)";
             $binds[':search'] = '%' . $params['search'] . '%';
         }
 
-        // 2. TÍCH HỢP MỚI: Lọc số khách từ Trang chủ
+        // 2. Lọc số khách từ Trang chủ
         if (!empty($params['guests_count']) && $params['guests_count'] > 0) {
             $sql .= " AND t.SoKhachToiDa >= :guests_count";
             $binds[':guests_count'] = $params['guests_count'];
         }
 
-        // 3. CODE CŨ: Lọc vùng
+        // 3. Lọc vùng
         if (!empty($params['vung'])) {
             $sql .= " AND t.VungDiaLy = :vung";
             $binds[':vung'] = $params['vung'];
         }
 
-        // 4. CODE CŨ: Lọc số ngày
+        // 4. Lọc số ngày
         if (!empty($params['ngay'])) {
             if ($params['ngay'] == '1-2') $sql .= " AND t.SoNgay BETWEEN 1 AND 2";
             elseif ($params['ngay'] == '2-3') $sql .= " AND t.SoNgay BETWEEN 2 AND 3";
             elseif ($params['ngay'] == '3-5') $sql .= " AND t.SoNgay BETWEEN 3 AND 5";
         }
 
-        // 5. CODE CŨ: Lọc giá
+        // 5. Lọc giá
         if (!empty($params['gia_max'])) {
             $sql .= " AND (t.Gia * (1 - IFNULL(t.UuDai, 0))) <= :gia_max";
             $binds[':gia_max'] = $params['gia_max'];
         }
 
-        // 6. CODE CŨ: Lọc loại trải nghiệm
+        // 6. Lọc loại trải nghiệm
         if (!empty($params['loai']) && is_array($params['loai'])) {
             $loaiConditions = [];
             foreach ($params['loai'] as $key => $loai) {
@@ -84,7 +90,7 @@ class TourModel {
             $sql .= " AND (" . implode(" OR ", $loaiConditions) . ")";
         }
 
-        // 7. CODE CŨ: Sắp xếp
+        // 7. Sắp xếp
         $sort = $params['sort'] ?? 'moi_nhat';
         if ($sort == 'yeu_thich') {
             $sql .= " ORDER BY SoLuotThich DESC, t.NgayTao DESC";
@@ -113,7 +119,12 @@ class TourModel {
 
     // --- HÀM CẬP NHẬT: Đếm số lượng để phân trang ---
     public function countFilteredTours($params) {
-        $sql = "SELECT COUNT(*) FROM Tour t WHERE 1=1";
+        if (!empty($params['is_latest_20'])) {
+            $sql = "SELECT COUNT(*) FROM (SELECT * FROM Tour ORDER BY NgayTao DESC LIMIT 20) t WHERE 1=1";
+        } else {
+            $sql = "SELECT COUNT(*) FROM Tour t WHERE 1=1";
+        }
+        
         $binds = [];
 
         if (!empty($params['search'])) {
