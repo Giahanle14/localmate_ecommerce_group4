@@ -69,5 +69,8 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="public/js/main.js"></script>
+    <?php require_once 'login_modal.php'; ?>
+    <?php require_once 'register_modal.php'; ?>
+    <?php require_once 'forgot_password_modal.php'; ?>
 </body>
 </html>

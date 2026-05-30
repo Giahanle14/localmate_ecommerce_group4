@@ -29,11 +29,11 @@
                     </div>
                     
                     <div class="d-flex justify-content-end mb-4">
-                        <a href="#" class="auth-forgot text-decoration-none">Quên mật khẩu?</a>
+                        <a href="#" class="auth-forgot text-decoration-none" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal" data-bs-dismiss="modal">Quên mật khẩu?</a>
                     </div>
-                    
+
                     <div class="text-center auth-register-text mb-2">
-                        Chưa có tài khoản? <a href="#" class="auth-register-link text-decoration-none">Đăng ký ngay</a>
+                        Chưa có tài khoản? <a href="#" class="auth-register-link text-decoration-none" data-bs-toggle="modal" data-bs-target="#registerModal">Đăng ký ngay</a>
                     </div>
                     
                     <div class="auth-terms">
