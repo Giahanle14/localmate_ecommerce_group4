@@ -6,7 +6,7 @@
                 <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close" style="z-index: 10;"></button>
                 <img src="public/image/decor/earth.png" alt="LocalMate Globe" class="login-earth-icon">
                 <div class="login-header-text">
-                    <h3 class="login-title mb-1">TẠO TÀI KHOẢN</h3>
+                    <h3 class="login-title mb-1" id="regTitle">TẠO TÀI KHOẢN</h3>
                     <p class="login-subtitle" id="regSubtitle">Đăng ký miễn phí để nhận được các ưu đãi và quyền lợi hấp dẫn!</p>
                 </div>
             </div>
@@ -29,14 +29,17 @@
                         </div>
                         
                         <div class="text-center auth-register-text mb-4">
-                            Đã có tài khoản? <a href="#" class="auth-register-link text-decoration-none" data-bs-toggle="modal" data-bs-target="#loginModal">Đăng nhập ngay</a>
+                            Đã có tài khoản? <a href="#" class="auth-register-link text-decoration-none" onclick="backToLoginFromRegister()">Đăng nhập ngay</a>
                         </div>
 
                         <div class="auth-terms mb-4">
                             Bằng cách tiếp tục, bạn đồng ý với <a href="#">Điều khoản và Điều kiện</a> này và bạn đã được thông báo<br>về <a href="#">Chính sách bảo mật dữ liệu</a> của chúng tôi.
                         </div>
                         
-                        <button type="button" class="btn btn-auth-submit text-white" onclick="goToStep(2)">TIẾP TỤC</button>
+                        <div class="d-flex gap-2">
+                            <button type="button" class="btn btn-outline-secondary w-50 fw-bold" style="border-radius: 25px;" onclick="backToLoginFromRegister()">QUAY LẠI</button>
+                            <button type="button" class="btn btn-auth-submit text-white w-50 m-0" onclick="goToStep(2)">TIẾP TỤC</button>
+                        </div>
                     </div>
 
                     <div id="step2" class="register-step" style="display: none;">
@@ -62,7 +65,7 @@
                         </div>
                         
                         <div class="d-flex gap-2">
-                            <button type="button" class="btn btn-outline-secondary w-50 fw-bold" style="border-radius: 25px;" onclick="goToStep(1)">QUAY LẠI</button>
+                            <button type="button" class="btn btn-outline-secondary w-50 fw-bold" style="border-radius: 25px;" onclick="goToStep(1, true)">QUAY LẠI</button>
                             <button type="button" class="btn btn-auth-submit text-white w-50 m-0" onclick="goToStep(3)">TIẾP TỤC</button>
                         </div>
                     </div>
@@ -89,9 +92,7 @@
                                     <i class="fa-solid fa-eye-slash text-muted"></i>
                                 </span>
                             </div>
-                            <small id="confirm-error" class="text-danger mt-1" style="display:none; font-size: 0.85rem; font-weight: 600;">
-                                Mật khẩu xác nhận không khớp!
-                            </small>
+                            <small id="confirm-error" class="text-danger mt-1" style="display:none; font-size: 0.85rem; font-weight: 600;">Mật khẩu xác nhận không khớp!</small>
                         </div>
 
                         <div class="mt-3 mb-4 text-start" style="font-size: 0.85rem; color: #333;">
@@ -104,7 +105,7 @@
                         
                         <div class="d-flex gap-2">
                             <button type="button" class="btn btn-outline-secondary w-50 fw-bold" style="border-radius: 25px;" onclick="goToStep(2, true)">QUAY LẠI</button>
-                            <button type="button" id="btnSubmitRegister" class="btn btn-auth-submit text-white w-50 m-0" onclick="submitRegisterForm()">TIẾP TỤC</button>
+                            <button type="button" id="btnSubmitRegister" class="btn btn-auth-submit text-white w-50 m-0" onclick="submitRegisterForm()">HOÀN TẤT</button>
                         </div>
                     </div>
 
@@ -159,15 +160,26 @@
         }
     }
 
+    // Hàm chuyển về Modal Đăng nhập
+    function backToLoginFromRegister() {
+        let registerModal = bootstrap.Modal.getInstance(document.getElementById('registerModal'));
+        if(registerModal) registerModal.hide();
+        let loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+        loginModal.show();
+    }
+
     async function goToStep(stepNumber, isBack = false) {
-        // Đổi tiêu đề Modal theo design Figma
-        const modalTitle = document.querySelector('#registerModal .login-title');
+        const modalTitle = document.getElementById('regTitle');
+        const modalSubtitle = document.getElementById('regSubtitle');
+
+        // Cập nhật tiêu đề theo bước
         if (stepNumber === 3) {
             modalTitle.innerText = "TẠO MẬT KHẨU";
         } else {
             modalTitle.innerText = "TẠO TÀI KHOẢN";
         }
 
+        // BƯỚC 1 -> BƯỚC 2: Xử lý email và gửi OTP
         if (stepNumber === 2 && !isBack) {
             const hotenInput = document.getElementById('regHoTen');
             const emailInput = document.getElementById('regEmailSdt');
@@ -191,17 +203,19 @@
                 
                 if (data.status !== 'success') {
                     alert(data.message); 
-                    goToStep(1);
+                    goToStep(1, true); // Nếu lỗi thì trả về bước 1
                     return; 
                 }
             } catch (error) {
                 alert("Lỗi kết nối máy chủ khi gửi mail!"); 
-                goToStep(1);
+                goToStep(1, true);
                 return;
             }
+            return;
         }
 
-        if (stepNumber === 3) {
+        // BƯỚC 2 -> BƯỚC 3: Xác minh OTP
+        if (stepNumber === 3 && !isBack) {
             let otpValue = '';
             document.querySelectorAll('.otp-box').forEach(box => { otpValue += box.value; });
             
@@ -226,6 +240,7 @@
             }
         }
 
+        // Chuyển đổi giao diện cho các trường hợp Quay lại
         document.getElementById('step1').style.display = 'none';
         document.getElementById('step2').style.display = 'none';
         document.getElementById('step3').style.display = 'none';
@@ -235,6 +250,7 @@
         if (stepNumber === 3) document.getElementById('regPassword').focus();
     }
 
+    // Hàm kiểm tra Mật khẩu theo 2 tầng
     function submitRegisterForm() {
         const pass = document.getElementById('regPassword').value;
         const confirm = document.getElementById('regConfirmPassword').value;
@@ -251,8 +267,7 @@
             passError.innerText = "Mật khẩu phải có ít nhất 8 ký tự.";
             passError.style.display = 'block';
             isValid = false;
-        } 
-        else if (!complexityRegex.test(pass)) {
+        } else if (!complexityRegex.test(pass)) {
             passError.innerText = "Mật khẩu phải bao gồm số, chữ thường, chữ in hoa và ký tự đặc biệt.";
             passError.style.display = 'block';
             isValid = false;
@@ -268,11 +283,12 @@
         }
     }
 
+    // Quản lý sự kiện phím toàn cục cho Modal
     document.addEventListener('keydown', function(event) {
         if (document.getElementById('registerModal').classList.contains('show')) {
             
             if (event.key === 'Enter') {
-                event.preventDefault();
+                event.preventDefault(); // Chặn tải lại trang
                 
                 const step1 = document.getElementById('step1');
                 const step2 = document.getElementById('step2');
@@ -294,6 +310,7 @@
                 }
             }
 
+            // Sự kiện Backspace cho OTP
             if (event.key === 'Backspace' && event.target.classList.contains('otp-box')) {
                 if (event.target.value === '') {
                     const boxes = document.querySelectorAll('.otp-box');
