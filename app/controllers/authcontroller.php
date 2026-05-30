@@ -243,6 +243,7 @@ class AuthController {
                     </div>
                 ";
 
+                
                 $mail->send();
                 echo json_encode(['status' => 'success']);
                 

@@ -28,6 +28,7 @@
                                    oninput="this.setCustomValidity('')">
                         </div>
                         
+                        
                         <div class="text-center auth-register-text mb-4">
                             Đã có tài khoản? <a href="#" class="auth-register-link text-decoration-none" data-bs-toggle="modal" data-bs-target="#loginModal">Đăng nhập ngay</a>
                         </div>

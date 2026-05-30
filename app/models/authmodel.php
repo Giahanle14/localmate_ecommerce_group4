@@ -10,6 +10,7 @@ class AuthModel {
         $this->conn = $conn;
     }
 
+    
     public function checkEmailExist($email) {
         $stmt = $this->conn->prepare("SELECT MaTK FROM TaiKhoan WHERE Gmail = :email");
         $stmt->execute([':email' => $email]);
