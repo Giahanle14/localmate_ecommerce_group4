@@ -17,7 +17,7 @@ class TourController {
 
         $maTK_DK = isset($_SESSION['user']['MaTK']) ? $_SESSION['user']['MaTK'] : null;
 
-        // B1: Lấy các tham số GET (Cả search từ trang chủ + filter ở sidebar)
+        // B1: Lấy các tham số GET
         $search = $_GET['search'] ?? ''; 
         $date = $_GET['date'] ?? '';
         $guests_str = $_GET['guests'] ?? '';
@@ -29,6 +29,9 @@ class TourController {
         $sort = $_GET['sort'] ?? 'moi_nhat';
         $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
         $limit = 9;
+        
+        // Nhận diện đang ở chế độ xem 20 tour mới nhất hay không
+        $view_latest = isset($_GET['view']) && $_GET['view'] === 'latest';
 
         // B2: Tách số khách từ chuỗi "1 Người lớn, 2 Trẻ em" -> Thành số học
         $guests_count = 0;
@@ -47,21 +50,23 @@ class TourController {
             'ngay' => $ngay,
             'loai' => $loai,
             'gia_max' => $gia_max,
-            'sort' => $sort
+            'sort' => $sort,
+            'is_latest_20' => $view_latest
         ];
 
-        // Xem người dùng có đang tìm kiếm/lọc hay không
-        $is_filtering = (!empty($search) || !empty($guests_str) || !empty($vung) || !empty($ngay) || !empty($loai) || $gia_max < 5000000);
+        // Xem người dùng có đang tìm kiếm/lọc hay ở mode xem tour mới không
+        $is_filtering = (!empty($search) || !empty($guests_str) || !empty($vung) || !empty($ngay) || !empty($loai) || $gia_max < 5000000 || $view_latest);
 
-        if ($is_filtering || isset($_GET['view'])) {
-            $is_filtering = true;
+        if ($is_filtering) {
             $totalTours = $this->tourModel->countFilteredTours($params);
             $totalPages = ceil($totalTours / $limit);
             $offset = ($page - 1) * $limit;
 
             $danhSachTour = $this->tourModel->getFilteredTours($params, $maTK_DK, $limit, $offset);
             
-            if (!empty($search)) {
+            if ($view_latest) {
+                $page_title = "20 Tour Mới Nhất";
+            } elseif (!empty($search)) {
                 $page_title = "Kết quả tìm kiếm cho: \"" . htmlspecialchars($search) . "\"";
             } else {
                 $page_title = "Danh sách Tour phù hợp";
@@ -74,7 +79,7 @@ class TourController {
             $page_title = "Tour";
         }
 
-        // ĐÃ SỬA: Trỏ đúng vào thư mục views theo cấu trúc hiện tại của project
+        // Trỏ vào view
         require_once 'app/views/tourview.php';
     }
 
