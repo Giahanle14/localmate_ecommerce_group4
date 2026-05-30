@@ -29,7 +29,7 @@
                     </div>
                     
                     <div class="d-flex justify-content-end mb-4">
-                        <a href="#" class="auth-forgot text-decoration-none">Quên mật khẩu?</a>
+                        <a href="#" class="auth-forgot text-decoration-none" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal" data-bs-dismiss="modal">Quên mật khẩu?</a>
                     </div>
 
                     <div class="text-center auth-register-text mb-2">
