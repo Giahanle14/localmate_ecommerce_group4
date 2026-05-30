@@ -18,15 +18,31 @@
         text-decoration: underline;
     }
     .tour-title {
-    font-family: 'Pacifico', cursive !important; /* Đổi font và dự phòng sang cursive */
-    font-weight: 400 !important; /* Đưa về nét chuẩn 400 để font chữ lượn sóng tự nhiên nhất */
-    font-size: 3.5rem !important; 
-    color: #00712D !important; 
-    text-shadow: 3px 3px 5px rgba(0, 113, 45, 0.25) !important;
-    line-height: 1.4 !important; 
-    padding-bottom: 15px !important;
-    padding-right: 20px !important;
-}
+        font-family: 'Pacifico', cursive !important; 
+        font-weight: 400 !important; 
+        font-size: 3.5rem !important; 
+        color: #00712D !important; 
+        text-shadow: 3px 3px 5px rgba(0, 113, 45, 0.25) !important;
+        
+        /* Nới lỏng khoảng cách dòng và đẩy các phần tử bên dưới ra xa */
+        line-height: 1.6 !important; 
+        padding-bottom: 10px !important;
+        margin-bottom: 15px !important; 
+        
+        /* Bắt buộc khung phải giãn nở chiều cao vô hạn để chứa hết chữ */
+        height: auto !important;
+        max-height: none !important;
+        display: block !important;
+        
+        /* Ép bẻ từ xuống dòng */
+        white-space: normal !important;
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+        
+        flex: 1; 
+        min-width: 0 !important; 
+        margin-right: 20px; 
+    }
     .heading-quicksand { font-family: 'Quicksand', sans-serif; font-weight: 700; color: #333; font-size: 1.6rem; margin-bottom: 20px; }
     .tour-desc-text { color: #555; line-height: 1.8; font-size: 1.05rem; font-family: 'Quicksand', sans-serif; font-weight: 500; }
     .tour-detail-banner { width: 100%; height: 400px; object-fit: cover; object-position: center; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
@@ -213,12 +229,12 @@
         <div class="col-lg-8 pe-lg-4">
             <img src="<?= htmlspecialchars($tour['HinhAnh']) ?>" class="tour-detail-banner" alt="Banner">
             
-            <div class="d-flex justify-content-between align-items-center mb-3 mt-4">
+            <div class="d-flex justify-content-between align-items-start mb-4 mt-4">
                 <h1 class="tour-title"><?= htmlspecialchars($tour['TenTour']) ?></h1>
                 
-                <button class="btn btn-light rounded-circle shadow-sm d-flex align-items-center justify-content-center" 
+                <button class="btn btn-light rounded-circle shadow-sm d-flex align-items-center justify-content-center mt-3" 
                     onclick="toggleFavoriteDetail(this, '<?= $tour['MaTour'] ?>')" 
-                        style="width: 45px; height: 45px; border: 1px solid #ddd;">
+                        style="width: 45px; height: 45px; border: 1px solid #ddd; flex-shrink: 0;">
                     <i class="<?= !empty($isFavorited) ? 'fa-solid text-danger' : 'fa-regular' ?> fa-heart fs-5"></i>
                 </button>
             </div>
