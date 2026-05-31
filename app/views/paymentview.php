@@ -11,23 +11,6 @@
     }
 
     body { background-color: var(--bg-color); font-family: 'Quicksand', sans-serif; }
-    
-    /* =========================================
-       BREADCRUMB MỚI (Dịch sang trái, không nền trắng, không icon)
-       ========================================= */
-    .breadcrumb-custom { 
-        padding: 15px 40px; 
-        font-weight: 600; 
-        font-size: 0.95rem;
-        background-color: transparent !important; 
-        border: none !important;
-        width: 100%;
-    }
-    .breadcrumb-custom a { color: var(--primary); text-decoration: none; transition: 0.2s;}
-    .breadcrumb-custom a:hover { text-decoration: underline; opacity: 0.8; }
-    @media (max-width: 768px) {
-        .breadcrumb-custom { padding: 15px 20px; }
-    }
 
     /* Tiêu đề trang */
     .page-main-title { font-family: 'Quicksand', sans-serif; font-weight: 800; font-size: 2.8rem; color: #0d5c2c; text-align: center; margin-bottom: 30px; text-shadow: 2px 2px 4px rgba(0,0,0,0.05); }
@@ -110,10 +93,13 @@
 <?php $booking = $_SESSION['booking_temp']; ?>
 
 <div class="breadcrumb-custom">
-    <a href="?controller=home">Trang chủ</a> &nbsp;>&nbsp; 
-    <a href="?controller=tour">Tour</a> &nbsp;>&nbsp; 
-    <a href="?controller=tourdetail&id=<?= htmlspecialchars($booking['ma_tour']) ?>">Chi tiết tour</a> &nbsp;>&nbsp; 
-    <span style="color: #666;">Thanh toán</span>
+    <a href="index.php?controller=home"><i class="fa-solid fa-house me-1"></i>Trang chủ</a> 
+    <i class="fa-solid fa-angle-right mx-2 text-muted" style="font-size: 12px;"></i> 
+    <a href="index.php?controller=tour">Tour</a> 
+    <i class="fa-solid fa-angle-right mx-2 text-muted" style="font-size: 12px;"></i> 
+    <a href="index.php?controller=tourdetail&id=<?= htmlspecialchars($booking['ma_tour']) ?>">Chi tiết tour</a>
+    <i class="fa-solid fa-angle-right mx-2 text-muted" style="font-size: 12px;"></i> 
+    <span class="text-dark fw-bold">Thanh toán</span>
 </div>
 
 <div class="container" style="max-width: 1200px; padding-bottom: 80px;">

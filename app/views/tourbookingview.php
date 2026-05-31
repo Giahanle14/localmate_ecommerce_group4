@@ -95,6 +95,16 @@
     .terms-check a:hover { text-decoration: underline; }
 </style>
 
+<div class="breadcrumb-custom px-3 px-lg-5">
+    <a href="index.php?controller=home"><i class="fa-solid fa-house me-1"></i>Trang chủ</a> 
+    <i class="fa-solid fa-angle-right mx-2 text-muted" style="font-size: 12px;"></i> 
+    <a href="index.php?controller=tour">Tour</a>
+    <i class="fa-solid fa-angle-right mx-2 text-muted" style="font-size: 12px;"></i> 
+    <a href="index.php?controller=tourdetail&id=<?= htmlspecialchars($tour['MaTour'] ?? '') ?>">Chi tiết tour</a>
+    <i class="fa-solid fa-angle-right mx-2 text-muted" style="font-size: 12px;"></i> 
+    <a href="javascript:void(0)">Đặt tour</a>
+</div>
+
 <div class="breadcrumb-custom">
     <a href="?controller=home">Trang chủ</a> &nbsp;>&nbsp; 
     <a href="?controller=tour">Tour</a> &nbsp;>&nbsp; 

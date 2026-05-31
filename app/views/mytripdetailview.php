@@ -16,11 +16,6 @@ if ($statusText === 'Chưa hoàn thành') {
         --bg-color: #FDFDF9;
     }
     body { background-color: var(--bg-color); font-family: 'Quicksand', sans-serif; }
-    
-    /* Breadcrumb */
-    .breadcrumb-custom { padding: 15px 40px; font-weight: 600; font-size: 0.95rem; background-color: transparent; width: 100%; }
-    .breadcrumb-custom a { color: var(--primary); text-decoration: none; transition: 0.2s;}
-    .breadcrumb-custom a:hover { text-decoration: underline; opacity: 0.8; }
 
     /* Header & Badge */
     .trip-header-box { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px dashed #e2e8f0; padding-bottom: 20px; margin-bottom: 30px; }
@@ -116,9 +111,11 @@ if ($statusText === 'Chưa hoàn thành') {
 </style>
 
 <div class="breadcrumb-custom">
-    <a href="?controller=home">Trang chủ</a> &nbsp;>&nbsp; 
-    <a href="?controller=mytrip">Chuyến đi của tôi</a> &nbsp;>&nbsp; 
-    <span style="color: #666;">Chi tiết chuyến đi</span>
+    <a href="index.php?controller=home"><i class="fa-solid fa-house me-1"></i>Trang chủ</a> 
+    <i class="fa-solid fa-angle-right mx-2 text-muted" style="font-size: 12px;"></i> 
+    <a href="index.php?controller=mytrip">Chuyến đi của tôi</a> 
+    <i class="fa-solid fa-angle-right mx-2 text-muted" style="font-size: 12px;"></i> 
+    <span class="text-dark fw-bold">Chi tiết chuyến đi</span>
 </div>
 
 <div class="container" style="max-width: 1100px; padding-bottom: 80px;">

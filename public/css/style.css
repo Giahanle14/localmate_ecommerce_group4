@@ -1162,9 +1162,36 @@ span.flatpickr-weekday:nth-child(7) { color: #D32F2F !important; }
 .btn-action-orange { background: #f39c12; color: white; font-weight: bold; border: none; border-radius: 20px; padding: 6px 20px; }
 .btn-action-green { background: var(--color-primary-dark); color: white; font-weight: bold; border: none; border-radius: 20px; padding: 6px 20px; }
 
-.breadcrumb-custom { padding: 15px 40px; font-weight: 500; color: #0d5c2c; background: white; border-bottom: 1px solid #eee; }
-.breadcrumb-custom a { color: #0d5c2c; text-decoration: none; }
-.breadcrumb-custom a:hover { text-decoration: underline; }
+/* ==========================================================================
+   CSS THANH ĐIỀU HƯỚNG BREADCRUMB (DÙNG CHUNG)
+   ========================================================================== */
+.breadcrumb-custom { 
+    padding: 15px 40px; 
+    font-weight: 600; 
+    color: #0d5c2c; 
+    background: white; 
+    border-bottom: 1px solid #eee; 
+    display: flex; 
+    align-items: center; 
+    flex-wrap: wrap; 
+}
+.breadcrumb-custom a { 
+    color: #0d5c2c; 
+    text-decoration: none; 
+    display: inline-flex; 
+    align-items: center; 
+    transition: 0.2s;
+}
+.breadcrumb-custom a:hover { 
+    text-decoration: underline; 
+    color: #F29A2E; 
+}
+@media (max-width: 768px) {
+    .breadcrumb-custom { 
+        padding: 12px 20px !important; 
+        font-size: 14px; 
+    }
+}
 
 /* ==========================================================================
    12. TRANG YÊU THÍCH VÀ TOUR
@@ -1193,7 +1220,6 @@ span.flatpickr-weekday:nth-child(7) { color: #D32F2F !important; }
 .btn-prev { left: -5px; } .btn-next { right: -5px; }
 
 @media (max-width: 768px) {
-    .breadcrumb-custom { padding: 15px 20px !important; }
     .header-title-mobile { flex-direction: column; align-items: stretch !important; gap: 15px; }
     .header-title-mobile a { justify-content: center; }
     #searchFavoriteForm { flex-direction: column; border-radius: 12px !important; padding: 10px !important; }

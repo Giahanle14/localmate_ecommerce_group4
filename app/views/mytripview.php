@@ -1,12 +1,5 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
 <style>
-    .breadcrumb-custom { 
-        padding: 15px 40px; 
-        font-weight: 500; 
-        color: #0d5c2c; 
-        background: white; 
-        border-bottom: 1px solid #eee; 
-    }
     .page-title { 
         font-family: 'Quicksand', sans-serif !important; 
         font-weight: 700; 
@@ -178,7 +171,9 @@
     }
 </style>
 <div class="breadcrumb-custom">
-    <a href="index.php?controller=home" style="text-decoration: none; color: inherit;">Trang chủ</a> > Chuyến đi của tôi
+    <a href="index.php?controller=home"><i class="fa-solid fa-house me-1"></i>Trang chủ</a> 
+    <i class="fa-solid fa-angle-right mx-2 text-muted" style="font-size: 12px;"></i> 
+    <a href="index.php?controller=mytrip">Chuyến đi của tôi</a>
 </div>
 
 <main class="container" style="padding-top: 40px; padding-bottom: 80px;">

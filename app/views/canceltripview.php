@@ -8,12 +8,7 @@
         --warning-text: #D97706;
     }
     
-    body { background-color: var(--bg-color); font-family: 'Quicksand', sans-serif; }
-    
-    .breadcrumb-custom { padding: 15px 40px; font-weight: 600; font-size: 0.95rem; background-color: transparent; width: 100%; }
-    .breadcrumb-custom a { color: var(--primary); text-decoration: none; transition: 0.2s;}
-    .breadcrumb-custom a:hover { text-decoration: underline; opacity: 0.8; }
-    
+    body { background-color: var(--bg-color); font-family: 'Quicksand', sans-serif; }    
     .cancel-container { max-width: 800px; margin: 0 auto 100px; padding: 0 20px; }
     .page-title { font-weight: 800; color: var(--primary); font-size: 2.2rem; margin-bottom: 30px; text-align: center; }
 
@@ -81,10 +76,13 @@
 </style>
 
 <div class="breadcrumb-custom">
-    <a href="?controller=home">Trang chủ</a> &nbsp;>&nbsp; 
-    <a href="?controller=mytrip">Chuyến đi của tôi</a> &nbsp;>&nbsp; 
-    <a href="?controller=tripdetail&id=<?= htmlspecialchars($trip['MaChuyenDi']) ?>">Chi tiết chuyến đi</a> &nbsp;>&nbsp; 
-    <span style="color: #666;">Hủy chuyến</span>
+    <a href="index.php?controller=home"><i class="fa-solid fa-house me-1"></i>Trang chủ</a> 
+    <i class="fa-solid fa-angle-right mx-2 text-muted" style="font-size: 12px;"></i> 
+    <a href="index.php?controller=mytrip">Chuyến đi của tôi</a> 
+    <i class="fa-solid fa-angle-right mx-2 text-muted" style="font-size: 12px;"></i> 
+    <a href="index.php?controller=tripdetail&id=<?= htmlspecialchars($trip['MaChuyenDi']) ?>">Chi tiết chuyến đi</a>
+    <i class="fa-solid fa-angle-right mx-2 text-muted" style="font-size: 12px;"></i> 
+    <span class="text-dark fw-bold">Hủy chuyến</span>
 </div>
 
 <div class="cancel-container">

@@ -14,7 +14,6 @@ require_once 'app/views/layouts/header.php';
 ?>
 <style>
     body { font-family: 'Quicksand', sans-serif; background-color: #F8FAF5; }
-    .breadcrumb-custom { padding: 10px 40px; font-weight: 500; color: #0d5c2c; background: white; border-bottom: 1px solid #eee; }
     .profile-container { padding: 40px; max-width: 1200px; margin: auto; }
     .sidebar-card { background: white; border-radius: 20px; padding: 30px 20px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid #f0f0f0; }
     .avatar-wrapper { position: relative; width: 120px; height: 120px; margin: 0 auto 15px; cursor: pointer; transition: transform 0.3s ease; }
