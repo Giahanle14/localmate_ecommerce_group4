@@ -1,7 +1,8 @@
 <!-- app/views/adminaccountview.php -->
 <div class="breadcrumb-custom">
-    <a href="?controller=home">Trang chủ</a> > 
-    <span style="color: #666;">Quản lý tài khoản</span>
+    <a href="index.php?controller=adminhome"><i class="fa-solid fa-house me-1"></i>Trang chủ</a> 
+    <i class="fa-solid fa-angle-right mx-2 text-muted" style="font-size: 12px;"></i> 
+    <a href="index.php?controller=adminaccount">Quản lý tài khoản</a>
 </div>
 <main class="container-fluid px-3 px-lg-5 py-4">
     <!-- Toolbar Filters -->

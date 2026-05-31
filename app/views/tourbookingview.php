@@ -12,11 +12,20 @@
     
     body { background-color: var(--bg-color); font-family: 'Quicksand', sans-serif; }
 
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
     /* Breadcrumb */
     .breadcrumb-custom { padding: 20px 0; font-weight: 700; font-size: 1rem; }
     .breadcrumb-custom a { color: var(--primary); text-decoration: none; transition: 0.2s;}
     .breadcrumb-custom a:hover { opacity: 0.7; }
     .breadcrumb-custom span { color: #999; }
+=======
+=======
+>>>>>>> Stashed changes
+    @media (max-width: 768px) {
+        .breadcrumb-custom { padding: 15px 20px; }
+    }
+>>>>>>> Stashed changes
     
     /* Tiêu đề trang */
     .page-main-title { font-family: 'Quicksand', sans-serif; font-weight: 800; font-size: 2.8rem; color: #0d5c2c; text-align: center; margin-bottom: 30px; text-shadow: 2px 2px 4px rgba(0,0,0,0.05);}
@@ -80,6 +89,22 @@
     .terms-check a:hover { text-decoration: underline; }
 </style>
 
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+=======
+>>>>>>> Stashed changes
+<div class="breadcrumb-custom px-3 px-lg-5">
+    <a href="index.php?controller=home"><i class="fa-solid fa-house me-1"></i>Trang chủ</a> 
+    <i class="fa-solid fa-angle-right mx-2 text-muted" style="font-size: 12px;"></i> 
+    <a href="index.php?controller=tour">Tour</a>
+    <i class="fa-solid fa-angle-right mx-2 text-muted" style="font-size: 12px;"></i> 
+    <a href="index.php?controller=tourdetail&id=<?= htmlspecialchars($tour['MaTour'] ?? '') ?>">Chi tiết tour</a>
+    <i class="fa-solid fa-angle-right mx-2 text-muted" style="font-size: 12px;"></i> 
+    <a href="javascript:void(0)">Đặt tour</a>
+</div>
+
+>>>>>>> Stashed changes
 <div class="container" style="max-width: 1200px; padding-bottom: 80px;">
     <div class="breadcrumb-custom">
         <a href="?controller=home"><i class="fa-solid fa-house-chimney me-1"></i>Trang chủ</a> <span class="mx-2">></span> 

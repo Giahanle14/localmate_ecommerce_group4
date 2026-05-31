@@ -1,8 +1,9 @@
 <?php include 'app/views/layouts/header.php'; ?>
 
 <div class="breadcrumb-custom px-3 px-lg-5">
-    <a href="?controller=home">Trang chủ</a> > 
-    <span style="color: #666;">Tour</span>
+    <a href="index.php?controller=home"><i class="fa-solid fa-house me-1"></i>Trang chủ</a> 
+    <i class="fa-solid fa-angle-right mx-2 text-muted" style="font-size: 12px;"></i> 
+    <a href="index.php?controller=tour">Tour</a>
 </div>
 <main class="container-fluid px-3 px-lg-5 py-4" style="background-color: #FCFDF9;">
 

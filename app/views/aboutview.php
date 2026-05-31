@@ -4,12 +4,7 @@
 <style>
     body { font-family: 'Quicksand', sans-serif; background-color: #F8FAF5; }
     
-    /* Đồng bộ thanh điều hướng */
-    .breadcrumb-custom { padding: 15px 40px; font-weight: 500; color: #0d5c2c; background: white; border-bottom: 1px solid #eee; }
-    .breadcrumb-custom a { color: #0d5c2c; text-decoration: none; }
-    .breadcrumb-custom a:hover { text-decoration: underline; }
-
-    /* Khu vực Title & Text */
+       /* Khu vực Title & Text */
     .about-section { padding: 60px 0; }
     .about-title { font-weight: 700; color: #00712D; font-size: 2.5rem; margin-bottom: 20px; line-height: 1.3;}
     .about-subtitle { font-weight: 700; color: #F89B29; font-size: 1rem; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 2px; }
@@ -45,8 +40,9 @@
 </style>
 
 <div class="breadcrumb-custom">
-    <a href="index.php?controller=home">Trang chủ</a> >
-    <span style="color: #666;">Về LocalMate</span>
+    <a href="index.php?controller=home"><i class="fa-solid fa-house me-1"></i>Trang chủ</a> 
+    <i class="fa-solid fa-angle-right mx-2 text-muted" style="font-size: 12px;"></i> 
+    <a href="index.php?controller=about">Về LocalMate</a>
 </div>
 
 <div class="container about-section">

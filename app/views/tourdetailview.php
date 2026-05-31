@@ -3,21 +3,7 @@
 
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
-    .breadcrumb-custom { 
-        padding: 15px 40px; 
-        font-weight: 500; 
-        color: #0d5c2c; 
-        background: white; 
-        border-bottom: 1px solid #eee; 
-    }
-    .breadcrumb-custom a { 
-        color: #0d5c2c; 
-        text-decoration: none; 
-    }
-    .breadcrumb-custom a:hover {
-        text-decoration: underline;
-    }
-    .tour-title {
+        .tour-title {
         font-family: 'Pacifico', cursive !important; 
         font-weight: 400 !important; 
         font-size: 3.5rem !important; 
@@ -214,14 +200,12 @@
     .nav-arrow-btn.prev { left: -15px; } 
     .nav-arrow-btn.next { right: -15px; }
 </style>
-<div class="breadcrumb-custom">
-    <?php foreach($breadcrumb as $index => $b): ?>
-        <?php if($index < count($breadcrumb) - 1): ?>
-            <a href="<?= $b['url'] ?>" class="fw-bold"><?= $b['name'] ?></a> <span class="mx-1">></span>
-        <?php else: ?>
-            <span class="text-secondary fw-bold"><?= $b['name'] ?></span>
-        <?php endif; ?>
-    <?php endforeach; ?>
+<div class="breadcrumb-custom px-3 px-lg-5">
+    <a href="index.php?controller=home"><i class="fa-solid fa-house me-1"></i>Trang chủ</a> 
+    <i class="fa-solid fa-angle-right mx-2 text-muted" style="font-size: 12px;"></i> 
+    <a href="index.php?controller=tour">Tour</a>
+    <i class="fa-solid fa-angle-right mx-2 text-muted" style="font-size: 12px;"></i> 
+    <a href="index.php?controller=tourdetail&id=<?= htmlspecialchars($tour['MaTour'] ?? '') ?>"><?= htmlspecialchars($tour['TenTour'] ?? 'Chi tiết tour') ?></a>
 </div>
 <div class="container" style="padding-top: 30px; padding-bottom: 80px;">
 

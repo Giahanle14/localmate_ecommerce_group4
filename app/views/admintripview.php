@@ -7,11 +7,6 @@
 <style>
     body { background-color: #F8FAF5; font-family: 'Quicksand', sans-serif; }
     .admin-container { max-width: 1300px; margin: 20px auto 40px; padding: 0 20px; }
-
-    .breadcrumb-custom { padding: 10px 40px; font-weight: 500; color: #0d5c2c; background: white; border-bottom: 1px solid #eee; }
-    .breadcrumb-custom a { color: #0d5c2c; text-decoration: none; display: inline-flex; align-items: center; }
-    .breadcrumb-custom a:hover { text-decoration: underline; color: #F29A2E; }
-
     /* =========================================================
        CSS DANH SÁCH & BỘ LỌC
        ========================================================= */
@@ -94,7 +89,6 @@
         .pagination-wrapper { flex-direction: column; gap: 15px; text-align: center; }
         .page-info { font-size: 12px; }
         
-        .breadcrumb-custom { padding: 10px 20px; font-size: 14px; }
         .admin-container { padding: 0 10px; }
     }
 </style>

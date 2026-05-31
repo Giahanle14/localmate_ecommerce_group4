@@ -9,15 +9,6 @@
     .admin-container { max-width: 1300px; margin: 40px auto; padding: 0 20px; }
     
     .admin-title { color: #0d5c2c; font-weight: 800; font-size: 28px; text-transform: uppercase; margin-bottom: 30px; display: inline-block; }
-    
-    /* ---------------------------------------------------
-       0. THANH ĐIỀU HƯỚNG BREADCRUMB
-       --------------------------------------------------- */
-    .breadcrumb-custom { padding: 15px 40px; font-weight: 600; background: white; border-bottom: 1px solid #eee; font-size: 16px; display: flex; align-items: center; }
-    .breadcrumb-custom a { color: #0d5c2c; text-decoration: none; display: flex; align-items: center; }
-    .breadcrumb-custom a:hover { text-decoration: underline; color: #F29A2E; }
-    .breadcrumb-custom i.fa-angle-right { font-size: 14px; color: #0d5c2c; margin: 0 12px; }
-    .breadcrumb-custom .current-page { font-size: 16px; color: #333; }
 
     /* ---------------------------------------------------
        1. TABS PHÂN LOẠI
@@ -128,13 +119,13 @@
 </style>
 
 <div class="breadcrumb-custom">
-    <a href="index.php?controller=adminhome"><i class="fa-solid fa-house me-1"></i> Trang chủ</a> 
-    <i class="fa-solid fa-angle-right"></i> 
+    <a href="index.php?controller=adminhome"><i class="fa-solid fa-house me-1"></i>Trang chủ</a> 
+    <i class="fa-solid fa-angle-right mx-2 text-muted" style="font-size: 12px;"></i> 
     <a href="index.php?controller=admintour">Quản lý tour</a>
     
     <?php if ($viewMode !== 'list'): ?>
-        <i class="fa-solid fa-angle-right"></i> 
-        <span class="current-page fw-bold">
+        <i class="fa-solid fa-angle-right mx-2 text-muted" style="font-size: 12px;"></i> 
+        <span class="text-dark fw-bold">
             <?php 
                 if($viewMode === 'edit') {
                     echo 'Chỉnh sửa tour: ' . htmlspecialchars($tourData['TenTour']);
