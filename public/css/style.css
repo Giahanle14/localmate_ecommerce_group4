@@ -1424,7 +1424,9 @@ span.flatpickr-weekday:nth-child(7) { color: #D32F2F !important; }
 >>>>>>> fe6d93f9adc736ba760c7c7881473756fc788b53
 =======
 
-/* CSS cho trang favorite và tour */
+/* ==========================================================================
+   CSS cho trang favorite và tour
+   ========================================================================== */
     .sidebar-filter { background-color: var(--color-sidebar); border-radius: 12px; padding: 20px; border: 1px solid #E6EECA; position: sticky; top: 80px;}
     .filter-tag { cursor: pointer; color: var(--color-tag-text); background: var(--color-tag-bg); transition: 0.2s; border: none; font-weight: 600; user-select: none; }
     .filter-tag:hover, .filter-tag.active, .filter-tag.bg-success { background-color: var(--color-tag-active) !important; color: white !important; }
@@ -1451,4 +1453,81 @@ span.flatpickr-weekday:nth-child(7) { color: #D32F2F !important; }
     .carousel-overlay { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(0,0,0,0.6), transparent); padding: 15px; text-align: center; color: white; font-weight: bold; text-transform: uppercase; }
     .carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); background: white; border: none; width: 35px; height: 35px; border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.2); color: var(--color-primary); z-index: 10; cursor: pointer;}
     .btn-prev { left: -5px; } .btn-next { right: -5px; }
+<<<<<<< HEAD
 >>>>>>> 695ef61943617172ed372c713baa60c7aadb8a93
+=======
+
+    /* Bổ sung Responsive cho trang Yêu Thích */
+    @media (max-width: 768px) {
+        .breadcrumb-custom { padding: 15px 20px !important; }
+        .header-title-mobile { flex-direction: column; align-items: stretch !important; gap: 15px; }
+        .header-title-mobile a { justify-content: center; }
+        #searchFavoriteForm { flex-direction: column; border-radius: 12px !important; padding: 10px !important; }
+        #searchFavoriteForm .d-flex { margin-bottom: 10px; padding: 0 10px !important; }
+        #searchFavoriteForm button { border-radius: 8px !important; width: 100%; }
+    }
+
+    /* Bổ sung Responsive cho trang Tour */
+    @media (max-width: 768px) {
+        .breadcrumb-custom { padding: 15px 20px !important; }
+        .tour-header-mobile { flex-direction: column; align-items: flex-start !important; gap: 15px; }
+        .tour-header-mobile form { width: 100%; justify-content: space-between; }
+        /* Nới rộng thẻ Carousel trên màn hình nhỏ để dễ vuốt */
+        .carousel-item-box { min-width: 80% !important; }
+    }
+    @media (max-width: 992px) and (min-width: 769px) {
+        .carousel-item-box { min-width: calc(50% - 10px) !important; }
+    }
+/* ==========================================================================
+   CSS cho trang adminaccount
+   ========================================================================== */
+    .table-container { background: white; border-radius: 12px; box-shadow: var(--shadow-sm); overflow: hidden; }
+    .table-responsive { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .table-custom { margin-bottom: 0; width: 100%; min-width: 800px; /* Ép độ rộng tối thiểu để bảng không bị bóp nghẹt */ }
+    .table-custom thead { background-color: #EAF9DE; }
+    .table-custom th { color: var(--color-primary-dark); font-weight: 700; padding: 15px; text-align: center; border-bottom: none; white-space: nowrap;}
+    .table-custom td { vertical-align: middle; padding: 12px 15px; text-align: center; border-bottom: 1px solid #f0f0f0; white-space: nowrap;}
+    .table-custom tbody tr:hover { background-color: #fcfcfc; }
+    
+    /* Badges */
+    .badge-status { padding: 6px 12px; border-radius: 20px; font-weight: 600; font-size: 0.85rem;}
+    .status-active { background-color: var(--color-primary-dark); color: white; }
+    .status-locked { background-color: #D32F2F; color: white; }
+    
+    .badge-rank { padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 0.8rem; display: inline-block; min-width: 80px;}
+    .rank-kimcuong { background-color: #6C8EBF; color: white; }
+    .rank-vang { background-color: #F2C94C; color: white; }
+    .rank-bac { background-color: #BDBDBD; color: white; }
+    .rank-dong { background-color: #CD7F32; color: white; }
+
+    /* Actions */
+    .action-icon { color: var(--color-primary-dark); font-size: 1.1rem; margin: 0 5px; cursor: pointer; transition: 0.2s;}
+    .action-icon:hover { color: var(--color-accent); transform: scale(1.1);}
+    
+    /* Toolbar */
+    .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 15px;}
+    .search-box { position: relative; width: 100%; max-width: 350px; }
+    .search-box input { width: 100%; padding: 8px 15px 8px 35px; border-radius: 8px; border: 1px solid #ccc; outline: none; }
+    .search-box i { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #888; }
+    .filter-box { flex-grow: 1; }
+    .filter-box select { width: 100%; padding: 8px 15px; border-radius: 8px; border: 1px solid #ccc; outline: none; color: #555; font-weight: 500;}
+    
+    .btn-add-new { background-color: var(--color-accent); color: white; font-weight: 700; border: none; border-radius: 8px; padding: 8px 20px; display: flex; align-items: center; justify-content: center; gap: 8px; white-space: nowrap;}
+    .btn-add-new:hover { background-color: #e5a600; color: white;}
+
+    /* Ép giao diện cho màn hình nhỏ (Điện thoại, iPad dọc) */
+    @media (max-width: 992px) {
+        .toolbar { flex-direction: column; align-items: stretch; }
+        .search-box { max-width: 100%; }
+        .toolbar > .d-flex { flex-wrap: wrap; width: 100%; }
+        .filter-box { min-width: 140px; }
+        .btn-add-new { width: 100%; margin-top: 5px; }
+    }
+
+    /* Modal Form Custom */
+    .modal-header-custom { background-color: var(--color-primary-dark); color: white; border-radius: calc(.3rem - 1px) calc(.3rem - 1px) 0 0; }
+    .modal-title { font-weight: 700; }
+    .form-group-title { font-weight: 700; color: var(--color-primary-dark); font-size: 0.95rem; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 5px;}
+    .form-control:focus, .form-select:focus { border-color: var(--color-primary); box-shadow: 0 0 0 0.2rem rgba(0, 113, 45, 0.25); }
+    .btn-submit-modal { background-color: var(--color-accent); border: none; color: white; font-weight: 700; padding: 8px 25px; border-radius: 20px;}
+>>>>>>> 77cde65221181e1e513484df577f8fdbd52afc25
