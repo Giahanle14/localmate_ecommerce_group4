@@ -10,8 +10,22 @@ class AdminHomeController {
             header("Location: index.php?controller=home");
             exit();
         }
+        global $conn;
+        require_once __DIR__ . '/../config/db_connect.php';
+        require_once __DIR__ . '/../models/adminhomemodel.php';
+        
+        $model = new AdminHomeModel($conn);
+        
+        // Lấy dữ liệu cho 4 thẻ thống kê
+        $doanhThu = $model->getMonthlyRevenue();
+        $soTour = $model->getActiveToursCount();
+        $soTaiKhoan = $model->getTotalUsersCount();
+        $soDanhGia = $model->getTotalReviewsCount();
+        
+        // Lấy dữ liệu bảng
+        $chuyenDiMoi = $model->getLatestTrips();
 
-        // 2. Gọi View
+        // Gọi View
         require_once __DIR__ . '/../views/layouts/header.php';
         require_once __DIR__ . '/../views/adminhomeview.php';
         require_once __DIR__ . '/../views/layouts/footer.php';

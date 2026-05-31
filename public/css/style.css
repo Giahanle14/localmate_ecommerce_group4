@@ -16,6 +16,11 @@
     --border-radius-md: 10px;
     --shadow-sm: 0 2px 8px rgba(0,0,0,0.05);
     --shadow-md: 0 5px 15px rgba(0,0,0,0.08);
+
+    --color-sidebar: #F9FBE7;
+    --color-tag-bg: #F0F4C3;
+    --color-tag-text: #829D64;
+    --color-tag-active: #7A9F5A;
 }
 
 body {
@@ -672,11 +677,15 @@ a {
 /* ==========================================================================
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
    6. GIAO DIỆN HỘP POPUP ĐĂNG NHẬP CHUẨN FIGMA TRÁI ĐẤT
 =======
    7. GIAO DIỆN HỘP POPUP ĐĂNG NHẬP 
 >>>>>>> fe6d93f9adc736ba760c7c7881473756fc788b53
+=======
+   7. GIAO DIỆN HỘP POPUP ĐĂNG NHẬP & ĐĂNG KÝ
+>>>>>>> 695ef61943617172ed372c713baa60c7aadb8a93
    ========================================================================== */
 .login-modal-content {
     border-radius: 24px !important;
@@ -689,7 +698,8 @@ a {
 .login-modal-header {
     position: relative;
     display: block !important;
-    padding: 25px 40px 50px 40px; 
+    padding: 30px 40px 40px 40px; /* Tinh chỉnh lại padding cho cân đối */
+    border-radius: 24px 24px 0 0;
     border: none !important;
     background: transparent; 
 }
@@ -698,44 +708,66 @@ a {
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
-    background: url('../image/decor/sky.png') center/cover no-repeat;
-    clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%); 
+    
+    background-image: url('../image/decor/sky.png');
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-size: 110% auto; 
+    
+    clip-path: polygon(
+        0% 0%, 
+        100% 0%, 
+        100% 60%, 
+        90% 57%, 
+        80% 56%, 
+        70% 58%, 
+        60% 62%, 
+        50% 68%, 
+        40% 75%, 
+        30% 81%, 
+        20% 85%, 
+        10% 84%, 
+        0% 80%
+    );
     z-index: 0;
 }
 
 .login-earth-icon {
     position: absolute;
-    top: 15px;
-    right: 25px;
-    width: 140px; 
-    z-index: 2; 
+    right: 40px;  
+    top: 50%;           
+    transform: translateY(-35%);
+    width: 150px;
+    height: auto;
+    z-index: 1;           
+    pointer-events: none;
 }
 
 .login-header-text {
     position: relative;
     z-index: 2; 
     text-align: left;
+    max-width: 60%;
 }
 
 .login-title {
     color: var(--color-primary-dark);
-    font-weight: 800;
+    font-weight: 900;
     font-size: 2.2rem;
     margin-bottom: 5px !important;
     letter-spacing: 1px;
     text-shadow: 
-        2px 2px 0 #fff, 
-       -2px -2px 0 #fff, 
-        2px -2px 0 #fff, 
-       -2px 2px 0 #fff,
-        0px 3px 5px rgba(0,0,0,0.1); 
+        1.5px 1.5px 0 #fff, 
+       -1.5px -1.5px 0 #fff, 
+        1.5px -1.5px 0 #fff, 
+       -1.5px 1.5px 0 #fff,
+        0px 4px 12px rgba(0, 113, 45, 0.3); 
 }
 
 .login-subtitle {
     color: #1A3E24; 
-    font-size: 0.95rem;
+    font-size: 1.0rem;
     font-weight: 600;
-    max-width: 65%; 
     line-height: 1.5;
     margin-top: 0 !important;
 }
@@ -825,6 +857,30 @@ a {
     background-color: var(--color-primary);
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(0, 113, 45, 0.2);
+}
+
+.otp-box {
+    width: 55px;
+    height: 60px;
+    font-size: 1.5rem !important;
+    font-weight: 700 !important;
+    border-radius: 12px !important;
+    padding: 0 !important;
+}
+.otp-box:focus {
+    box-shadow: 0 0 0 3px rgba(0, 113, 45, 0.2) !important;
+}
+.pointer-events-none {
+    pointer-events: none;
+}
+
+#password-strength-text {
+    font-size: 0.8rem;
+    margin-top: 5px;
+    display: block;
+}
+#strength-val {
+    text-transform: uppercase;
 }
 
 /* ==========================================================================
@@ -1364,4 +1420,35 @@ span.flatpickr-weekday:nth-child(7) { color: #D32F2F !important; }
 .breadcrumb-custom { padding: 15px 40px; font-weight: 500; color: #0d5c2c; background: white; border-bottom: 1px solid #eee; }
     .breadcrumb-custom a { color: #0d5c2c; text-decoration: none; }
     .breadcrumb-custom a:hover { text-decoration: underline; }
+<<<<<<< HEAD
 >>>>>>> fe6d93f9adc736ba760c7c7881473756fc788b53
+=======
+
+/* CSS cho trang favorite và tour */
+    .sidebar-filter { background-color: var(--color-sidebar); border-radius: 12px; padding: 20px; border: 1px solid #E6EECA; position: sticky; top: 80px;}
+    .filter-tag { cursor: pointer; color: var(--color-tag-text); background: var(--color-tag-bg); transition: 0.2s; border: none; font-weight: 600; user-select: none; }
+    .filter-tag:hover, .filter-tag.active, .filter-tag.bg-success { background-color: var(--color-tag-active) !important; color: white !important; }
+    
+    .section-title { background-color: var(--color-primary); color: white; display: inline-block; padding: 8px 24px; border-radius: 8px; font-weight: 600; font-size: 1.1rem;}
+    
+    .tour-card { border: 1px solid #eee; border-radius: 12px; overflow: hidden; transition: 0.3s ease; height: 100%; box-shadow: 0 2px 10px rgba(0,0,0,0.03); background: white;}
+    .tour-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
+    .tour-img-wrapper { position: relative; height: 180px; overflow: hidden; padding: 8px 8px 0 8px; }
+    .tour-img-wrapper img { width: 100%; height: 100%; object-fit: cover; border-radius: 10px; }
+    
+    .price-badge { position: absolute; top: 16px; right: 16px; background-color: var(--color-primary); color: white; padding: 4px 12px; border-radius: 20px; font-weight: 700; font-size: 0.85rem; z-index: 2;}
+    .tour-card-body { padding: 15px 20px; display: flex; flex-direction: column; flex-grow: 1;}
+    .tour-title { font-weight: 700; font-size: 1.1rem; color: #333; margin-bottom: 8px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;}
+    .hr-dashed { border-top: 2px dashed #ddd; margin: 15px 0; opacity: 1; }
+    .heart-btn { cursor: pointer; user-select: none; transition: 0.2s;}
+    .heart-btn:hover { opacity: 0.7; }
+    
+    .carousel-container { position: relative; padding: 0 20px; }
+    .carousel-track { display: flex; gap: 20px; overflow-x: auto; scroll-behavior: smooth; scroll-snap-type: x mandatory; scrollbar-width: none; }
+    .carousel-track::-webkit-scrollbar { display: none; }
+    .carousel-item-box { min-width: calc(33.333% - 14px); scroll-snap-align: start; position: relative; border-radius: 12px; overflow: hidden; height: 160px;}
+    .carousel-item-box img { width: 100%; height: 100%; object-fit: cover; }
+    .carousel-overlay { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(0,0,0,0.6), transparent); padding: 15px; text-align: center; color: white; font-weight: bold; text-transform: uppercase; }
+    .carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); background: white; border: none; width: 35px; height: 35px; border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.2); color: var(--color-primary); z-index: 10; cursor: pointer;}
+    .btn-prev { left: -5px; } .btn-next { right: -5px; }
+>>>>>>> 695ef61943617172ed372c713baa60c7aadb8a93
