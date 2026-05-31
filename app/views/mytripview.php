@@ -369,8 +369,8 @@
                             <p class="tour-desc"><?= mb_substr($tour['MoTa'], 0, 70) ?>...</p>
                             <div class="tour-meta-bottom">
                                 <span class="tour-rating"><i class="fa-solid fa-star" style="color: #FF9F00;"></i> <?= ($tour['TrungBinhSao'] > 0) ? $tour['TrungBinhSao'] : 'Chưa có' ?> <?php if ($tour['SoLuotDanhGia'] > 0) echo "(" . $tour['SoLuotDanhGia'] . ")"; ?></span>
-                                <button class="btn-detail-outline" onclick="window.location.href='index.php?controller=tourdetail&id=<?= $tour['MaTour'] ?>'">Chi tiết</button>                    
-                            </div>
+                                <button class="btn-detail-outline" onclick="window.location.href='index.php?controller=tourdetail&id=<?= $tour['MaTour'] ?>'">Chi tiết</button>
+</div>
                         </div>
                     </div>
                 <?php endforeach; ?>
@@ -428,7 +428,7 @@
                             <div class="tour-meta-bottom">
                                 <span class="tour-rating"><i class="fa-solid fa-star" style="color: #FF9F00;"></i> <?= ($tour['TrungBinhSao'] > 0) ? $tour['TrungBinhSao'] : 'Chưa có' ?> <?php if ($tour['SoLuotDanhGia'] > 0) echo "(" . $tour['SoLuotDanhGia'] . ")"; ?></span>
                                 <button class="btn-detail-outline" onclick="window.location.href='index.php?controller=tourdetail&id=<?= $tour['MaTour'] ?>'">Chi tiết</button>
-                            </div>
+</div>
                         </div>
                     </div>
                 <?php endforeach; ?>

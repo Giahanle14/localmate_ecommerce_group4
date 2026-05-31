@@ -38,5 +38,48 @@ class MytripController {
         require_once __DIR__ . '/../views/mytripview.php';
         require_once __DIR__ . '/../views/layouts/footer.php';
     }
+    // --- THÊM HÀM NÀY VÀO TRONG MYTRIPCONTROLLER ---
+    public function detail() {
+        // Kiểm tra đăng nhập
+        if (!isset($_SESSION['user'])) {
+            header("Location: index.php?controller=home");
+            exit();
+        }
+
+        $maChuyenDi = $_GET['id'] ?? '';
+        if (empty($maChuyenDi)) {
+            header("Location: index.php?controller=mytrip");
+            exit();
+        }
+
+        global $conn;
+        require_once __DIR__ . '/../config/db_connect.php';
+        require_once __DIR__ . '/../models/mytripmodel.php';
+        
+        $tripModel = new MytripModel($conn);
+        $maTK = $_SESSION['user']['MaTK'];
+
+        // Lấy chi tiết chuyến đi
+        $trip = $tripModel->getTripDetail($maTK, $maChuyenDi);
+
+        // Nếu không tìm thấy hoặc chuyến đi không phải của user này thì đẩy về danh sách
+        if (!$trip) {
+            echo "<script>alert('Không tìm thấy chuyến đi!'); window.location.href='index.php?controller=mytrip';</script>";
+            exit();
+        }
+
+        // Gọi View
+        require_once __DIR__ . '/../views/layouts/header.php';
+        require_once __DIR__ . '/../views/mytripdetailview.php';
+        require_once __DIR__ . '/../views/layouts/footer.php';
+    }
+}
+// Đoạn này nằm ở dưới cùng của file mytripcontroller.php
+$action = $_GET['action'] ?? 'index';
+$controller = new MytripController();
+if (method_exists($controller, $action)) {
+    $controller->$action();
+} else {
+    $controller->index();
 }
 ?>
