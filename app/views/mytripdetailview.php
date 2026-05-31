@@ -56,17 +56,18 @@ if ($statusText === 'Chưa hoàn thành') {
     .cancel-box h5 { color: #DC2626; font-weight: 800; font-size: 1.1rem; margin-bottom: 15px; display: flex; align-items: center; gap: 8px;}
 
     /* Action Buttons */
-    .btn-action-outline { border: 2px solid #DC2626; color: #DC2626; background: transparent; padding: 14px 30px; border-radius: 12px; font-weight: 800; font-size: 1.05rem; transition: 0.3s; width: 100%; text-transform: uppercase; }
+    .btn-action-outline { border: 2px solid #DC2626; color: #DC2626; background: transparent; padding: 14px 30px; border-radius: 12px; font-weight: 800; font-size: 1.05rem; transition: 0.3s; width: 100%; text-transform: uppercase; text-align: center; text-decoration: none; display: block; box-sizing: border-box;}
     .btn-action-outline:hover { background: #DC2626; color: #fff; }
-    .btn-action-fill { background: var(--primary); color: #fff; border: none; padding: 14px 30px; border-radius: 12px; font-weight: 800; font-size: 1.05rem; transition: 0.3s; width: 100%; text-transform: uppercase; box-shadow: 0 4px 15px rgba(26, 83, 54, 0.2); }
+    
+    .btn-action-fill { background: var(--primary); color: #fff; border: none; padding: 14px 30px; border-radius: 12px; font-weight: 800; font-size: 1.05rem; transition: 0.3s; width: 100%; text-transform: uppercase; box-shadow: 0 4px 15px rgba(26, 83, 54, 0.2); text-align: center; text-decoration: none; display: block; box-sizing: border-box;}
     .btn-action-fill:hover { background: #123C27; color: #fff; transform: translateY(-2px); }
     
-    .btn-print { background: #fff; border: 2px solid #cbd5e1; color: #475569; padding: 14px 30px; border-radius: 12px; font-weight: 800; font-size: 1.05rem; transition: 0.3s; width: 100%; text-transform: uppercase; margin-top: 10px;}
+    .btn-print { background: #fff; border: 2px solid #cbd5e1; color: #475569; padding: 14px 30px; border-radius: 12px; font-weight: 800; font-size: 1.05rem; transition: 0.3s; width: 100%; text-transform: uppercase; display: block; box-sizing: border-box;}
     .btn-print:hover { background: #f1f5f9; color: #1e293b; border-color: #94a3b8; }
 
     /* =========================================
        CSS CHUYÊN DỤNG KHI IN HÓA ĐƠN (PRINT)
-       Ép toàn bộ nội dung nằm vừa vặn trên 1 trang
+       Ép toàn bộ nội dung nằm vừa vặn trên 1 trang A4
        ========================================= */
     @media print {
         body { background-color: #fff !important; margin: 0; padding: 0; font-size: 12px !important; }
@@ -79,7 +80,6 @@ if ($statusText === 'Chưa hoàn thành') {
         .col-lg-7 { width: 55% !important; padding-right: 15px !important; }
         .col-lg-5 { width: 45% !important; padding-left: 15px !important; }
         
-        /* Thu gọn tối đa các Card */
         .detail-card, .cancel-box { 
             box-shadow: none !important; 
             border: 1px solid #ddd !important; 
@@ -123,7 +123,6 @@ if ($statusText === 'Chưa hoàn thành') {
 
 <div class="container" style="max-width: 1100px; padding-bottom: 80px;">
 
-    <!-- HEADER: ID, NGÀY ĐẶT, STATUS -->
     <div class="trip-header-box">
         <div>
             <h1 class="trip-id">Mã chuyến đi: <?= htmlspecialchars($trip['MaChuyenDi']) ?></h1>
@@ -138,10 +137,8 @@ if ($statusText === 'Chưa hoàn thành') {
     </div>
 
     <div class="row g-4">
-        <!-- CỘT TRÁI: THÔNG TIN TOUR & KHÁCH HÀNG -->
         <div class="col-lg-7">
             
-            <!-- KHỐI 1: THÔNG TIN HÀNH TRÌNH -->
             <div class="detail-card">
                 <h3 class="card-title-custom"><i class="fa-solid fa-map-location-dot" style="color: var(--primary);"></i> Thông tin hành trình</h3>
                 
@@ -175,7 +172,6 @@ if ($statusText === 'Chưa hoàn thành') {
                 </div>
             </div>
 
-            <!-- KHỐI 2: THÔNG TIN LIÊN HỆ KHÁCH HÀNG -->
             <div class="detail-card">
                 <h3 class="card-title-custom"><i class="fa-solid fa-address-card" style="color: var(--primary);"></i> Thông tin người đặt</h3>
                 <div class="info-grid">
@@ -200,10 +196,8 @@ if ($statusText === 'Chưa hoàn thành') {
 
         </div>
 
-        <!-- CỘT PHẢI: THANH TOÁN & NÚT ACTION -->
         <div class="col-lg-5">
             
-            <!-- NẾU ĐÃ HỦY: HIỆN THÔNG TIN HOÀN TIỀN CỰC CHI TIẾT -->
             <?php if ($trip['TrangThai'] === 'Đã hủy'): ?>
                 <div class="cancel-box">
                     <h5><i class="fa-solid fa-triangle-exclamation"></i> Chi tiết hủy chuyến</h5>
@@ -238,7 +232,6 @@ if ($statusText === 'Chưa hoàn thành') {
                 </div>
             <?php endif; ?>
 
-            <!-- KHỐI 3: CHI TIẾT THANH TOÁN -->
             <div class="detail-card">
                 <h3 class="card-title-custom"><i class="fa-solid fa-file-invoice-dollar" style="color: var(--primary);"></i> Chi tiết thanh toán</h3>
                 <div class="info-grid">
@@ -263,22 +256,21 @@ if ($statusText === 'Chưa hoàn thành') {
                 </div>
             </div>
 
-            <!-- KHỐI 4: CÁC NÚT HÀNH ĐỘNG -->
-            <div class="d-flex flex-column gap-2 mt-3">
+            <div class="d-flex flex-column gap-3 mt-2">
                 <?php if ($trip['TrangThai'] === 'Chưa hoàn thành'): ?>
-                    <button type="button" class="btn-action-outline" onclick="alert('Tính năng yêu cầu hủy chuyến đang được cập nhật!');">
+                    <a href="index.php?controller=canceltrip&id=<?= $trip['MaChuyenDi'] ?>" class="btn-action-outline">
                         Yêu cầu hủy chuyến
-                    </button>
+                    </a>
                     <button class="btn-print" onclick="window.print()"><i class="fa-solid fa-print me-2"></i> In hóa đơn</button>
                 
                 <?php elseif ($trip['TrangThai'] === 'Đã hoàn thành'): ?>
-                    <a href="index.php?controller=review&action=create&id=<?= $trip['MaChuyenDi'] ?>" class="btn-action-fill text-center text-decoration-none">
+                    <a href="index.php?controller=review&action=create&id=<?= $trip['MaChuyenDi'] ?>" class="btn-action-fill">
                         <i class="fa-solid fa-pen-nib me-2"></i> Đánh giá chuyến đi
                     </a>
                     <button class="btn-print" onclick="window.print()"><i class="fa-solid fa-print me-2"></i> In hóa đơn</button>
                 
-                <?php endif; ?>
-                <!-- Đã xóa nút in hóa đơn ở trạng thái 'Đã hủy' -->
+                <?php elseif ($trip['TrangThai'] === 'Đã hủy'): ?>
+                    <?php endif; ?>
             </div>
 
         </div>
