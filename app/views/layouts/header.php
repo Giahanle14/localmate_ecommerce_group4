@@ -12,6 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="public/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
 
@@ -53,7 +54,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link <?= ($current_controller == 'adminmytrip') ? 'active-nav-pill' : '' ?>" href="index.php?controller=adminmytrip">
+                            <a class="nav-link <?= ($current_controller == 'admintrip') ? 'active-nav-pill' : '' ?>" href="index.php?controller=admintrip">
                                 <i class="fa-solid fa-location-dot"></i> QUẢN LÝ CHUYẾN ĐI
                             </a>
                         </li>
@@ -80,7 +81,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link <?= ($current_controller == 'mytrip') ? 'active-nav-pill' : '' ?>" href="index.php?controller=mytrip">
+                            <a href="index.php?controller=mytrip" class="nav-link" onclick="return requireLoginPopup(event, 'xem Chuyến đi của tôi')">
                                 <i class="fa-solid fa-location-dot"></i> CHUYẾN ĐI CỦA TÔI
                             </a>
                         </li>
@@ -122,4 +123,41 @@
             </div>
         </nav>
     </div>
+    <script>
+    const IS_LOGGED_IN = <?= isset($_SESSION['user']) ? 'true' : 'false' ?>;
+
+    function requireLoginPopup(event, actionName) {
+        if (!IS_LOGGED_IN) {
+            if (event) {
+                event.preventDefault();
+            }
+
+            Swal.fire({
+                title: 'Yêu cầu đăng nhập',
+                html: `Vui lòng đăng nhập để <b>${actionName}</b>.<br><span style="font-size: 0.9rem; color: #666;">Đừng bỏ lỡ những trải nghiệm tuyệt vời cùng LocalMate!</span>`,
+                icon: 'warning',
+                iconColor: '#F89B29',
+                showCancelButton: true,
+                confirmButtonColor: '#00712D',
+                cancelButtonColor: '#f0f0f0',
+                cancelButtonText: '<span style="color: #333; font-weight: 600;">Để sau</span>',
+                confirmButtonText: '<i class="fa-solid fa-right-to-bracket"></i> Đăng nhập ngay',
+                background: '#F8FAF5',
+                customClass: {
+                    popup: 'rounded-4 shadow-lg',
+                    title: 'fw-bold text-dark'
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // XÓA LỆNH CHUYỂN TRANG CŨ VÀ THAY BẰNG LỆNH GỌI MODAL NÀY:
+                    const loginModal = bootstrap.Modal.getOrCreateInstance(document.getElementById('loginModal'));
+                    loginModal.show();
+                }
+            });
+            
+            return false;
+        }
+        return true; 
+    }
+</script>
 </header>
