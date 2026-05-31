@@ -39,26 +39,43 @@ a {
 }
 
 /* ==========================================================================
+<<<<<<< HEAD
+   2. THANH HEADER
+   ========================================================================== */
+.main-header {
+    background-color: var(--color-primary-dark);
+    padding: 5px 0;
+=======
    2. THANH HEADER / NAVBAR
    ========================================================================== */
 .main-header {
     background-color: var(--color-primary-dark);
     padding: 6px 0; /* Thu nhỏ padding trên dưới */
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
     position: sticky;
     top: 0;
     z-index: 1030;
     box-shadow: var(--shadow-sm);
+<<<<<<< HEAD
+=======
     min-height: 60px; /* Ép độ cao tối thiểu cho thon gọn */
     display: flex;
     align-items: center;
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
 }
 
 .navbar-nav .nav-link {
     color: rgba(255, 255, 255, 0.9) !important;
     font-weight: 600;
+<<<<<<< HEAD
+    font-size: 1.05rem;
+    padding: 8px 18px !important;
+    border-radius: 25px; 
+=======
     font-size: 0.95rem; /* Giảm cỡ chữ xuống 1 chút cho cân đối */
     padding: 6px 16px !important; /* Thu nhỏ padding của cái nút (pill) */
     border-radius: 20px; /* Bo góc nhẹ lại cho thanh thoát */
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
     display: flex !important;
     align-items: center !important;
     gap: 8px !important; 
@@ -154,6 +171,14 @@ a {
     text-decoration: underline !important;
 }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+/* ==========================================================================
+   3. HERO BANNER
+=======
+/* CSS bổ sung cho Dropdown sau khi đăng nhập */
+=======
+>>>>>>> fe6d93f9adc736ba760c7c7881473756fc788b53
 .logged-in-dropdown .dropdown-menu {
     border-radius: 12px;
     border: 1px solid #eaeaea;
@@ -175,6 +200,7 @@ a {
 
 /* ==========================================================================
    3. HERO BANNER & THANH TÌM KIẾM
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
    ========================================================================== */
 .hero-section {
     background: url('../image/banner/Banner_LocalMate_1.png') top center no-repeat;
@@ -185,6 +211,18 @@ a {
     background-color: #E2F4FA; 
 }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+.hero-title, .hero-subtitle {
+    display: none !important;
+}
+
+/* ==========================================================================
+   4. THANH TÌM KIẾM ĐÈ BANNER
+   ========================================================================== */
+=======
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
+=======
 /* Tuyệt chiêu dải nền vàng nhạt, lấp kín khe hở */
 .search-bar-wrapper {
     margin-top: -35px; 
@@ -194,6 +232,7 @@ a {
     padding-bottom: 20px; 
 }
 
+>>>>>>> fe6d93f9adc736ba760c7c7881473756fc788b53
 .search-container {
     background: white;
     border-radius: 50px;
@@ -248,6 +287,10 @@ a {
     transform: translateY(-1px);
 }
 
+<<<<<<< HEAD
+/* ==========================================================================
+   5. CẤU TRÚC GIAO DIỆN CÁC CARD TOUR (CHUẨN FIGMA)
+=======
 .error-tooltip {
     position: absolute;
     top: 110%; 
@@ -293,7 +336,12 @@ a {
 }
 
 /* ==========================================================================
+<<<<<<< HEAD
+   4. CẤU TRÚC GIAO DIỆN CÁC CARD TOUR (CHUẨN FIGMA)
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
+=======
    4. CẤU TRÚC GIAO DIỆN CÁC CARD TOUR 
+>>>>>>> fe6d93f9adc736ba760c7c7881473756fc788b53
    ========================================================================== */
 .section-title {
     color: #222;
@@ -343,6 +391,10 @@ a {
     object-fit: cover;
 }
 
+<<<<<<< HEAD
+/* Thẻ giá cho Card Thường (Nằm lơ lửng) */
+=======
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
 .price-tag {
     position: absolute;
     top: 15px;
@@ -392,14 +444,23 @@ a {
     margin-right: 4px;
 }
 
+<<<<<<< HEAD
+/* Khung bọc Tag Loại Trải Nghiệm (Nằm ngang với location) */
+=======
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
 .tour-tags {
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
 }
 .tour-tag-item {
+<<<<<<< HEAD
+    background-color: #F1F8E4; /* Nền xanh vàng nhạt */
+    color: #4A7A3A; /* Chữ màu xanh lá */
+=======
     background-color: #F1F8E4; 
     color: #4A7A3A; 
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
     font-size: 0.65rem;
     font-weight: 700;
     padding: 3px 8px;
@@ -419,10 +480,24 @@ a {
     overflow: hidden;
 }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+/* ==========================================================================
+   * CLASS ĐẶC BIỆT DÀNH RIÊNG CHO CARD YÊU THÍCH NHẤT *
+   ========================================================================== */
+.favorite-card {
+    background-color: #FFFDF0 !important; /* Nền màu kem nhạt */
+}
+
+/* Đổi màu tiêu đề và mô tả sang xanh lá đậm */
+=======
+=======
 /* Nền vàng nhạt cho card */
+>>>>>>> fe6d93f9adc736ba760c7c7881473756fc788b53
 .favorite-card {
     background-color: #FFFDF0 !important; 
 }
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
 .favorite-card .tour-title {
     color: var(--color-primary-dark);
     font-weight: 800;
@@ -432,15 +507,31 @@ a {
     color: var(--color-primary-dark);
     opacity: 0.85;
 }
+<<<<<<< HEAD
+
+/* Ép thẻ giá nằm dính chặt vào góc phải trên cùng */
+.favorite-card .price-tag {
+    top: 0;
+    right: 0;
+    border-radius: 0 16px 0 16px; /* Khớp góc bo của thẻ Card */
+=======
 .favorite-card .price-tag {
     top: 0;
     right: 0;
     border-radius: 0 16px 0 16px; 
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
     padding: 8px 16px;
     font-size: 0.95rem;
 }
 
 /* ==========================================================================
+<<<<<<< HEAD
+<<<<<<< HEAD
+   6. CẤU TRÚC GIAO DIỆN KINH NGHIỆM ĐI TOUR (CHUẨN FORM MÀU, AVATAR, FONT)
+=======
+   5. CẤU TRÚC GIAO DIỆN KINH NGHIỆM ĐI TOUR (REVIEW)
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
+=======
    5. HIỆU ỨNG LƯỚT NGANG (SLIDER) CHO CARD TOUR
    ========================================================================== */
 .tour-slider-container {
@@ -478,6 +569,7 @@ a {
 
 /* ==========================================================================
    6. CẤU TRÚC GIAO DIỆN KINH NGHIỆM ĐI TOUR (REVIEW)
+>>>>>>> fe6d93f9adc736ba760c7c7881473756fc788b53
    ========================================================================== */
 .review-card {
     background-color: var(--color-bg-light) !important; 
@@ -498,6 +590,10 @@ a {
     grid-template-columns: repeat(3, 1fr);
     gap: 6px;
 }
+<<<<<<< HEAD
+
+=======
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
 .review-images-grid img {
     width: 100%;
     aspect-ratio: 1 / 1; 
@@ -579,7 +675,17 @@ a {
 }
 
 /* ==========================================================================
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+   6. GIAO DIỆN HỘP POPUP ĐĂNG NHẬP CHUẨN FIGMA TRÁI ĐẤT
+=======
+   7. GIAO DIỆN HỘP POPUP ĐĂNG NHẬP 
+>>>>>>> fe6d93f9adc736ba760c7c7881473756fc788b53
+=======
    7. GIAO DIỆN HỘP POPUP ĐĂNG NHẬP & ĐĂNG KÝ
+>>>>>>> 695ef61943617172ed372c713baa60c7aadb8a93
    ========================================================================== */
 .login-modal-content {
     border-radius: 24px !important;
@@ -778,7 +884,12 @@ a {
 }
 
 /* ==========================================================================
+<<<<<<< HEAD
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
+   7. FOOTER CHÂN TRANG
+=======
    8. FOOTER CHÂN TRANG
+>>>>>>> fe6d93f9adc736ba760c7c7881473756fc788b53
    ========================================================================== */
 .lm-footer {
     background-color: var(--color-primary-dark); 
@@ -877,6 +988,10 @@ a {
     border-radius: 4px;
 }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> fe6d93f9adc736ba760c7c7881473756fc788b53
 @media (max-width: 1200px) {
     .footer-container { grid-template-columns: repeat(3, 1fr); }
 }
@@ -885,9 +1000,73 @@ a {
     .bottom-actions { flex-direction: column; gap: 20px; }
 }
 
+<<<<<<< HEAD
+/* ==========================================================================
+   8. CSS CHO CHỨC NĂNG THANH TÌM KIẾM (TOOLTIP LỖI, POPUP SỐ KHÁCH)
+   ========================================================================== */
+/* Tooltip cảnh báo lỗi chưa nhập điểm đến */
+.error-tooltip {
+    position: absolute;
+    top: 110%; /* Nằm rớt ngay dưới ô input */
+    left: 20px;
+    background: white;
+    border: 1px solid #dc3545; /* Viền đỏ */
+    color: #333;
+    padding: 8px 15px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    z-index: 1050;
+    white-space: nowrap;
+    animation: fadeIn 0.3s ease;
+}
+
+/* Khung popup chọn số lượng khách */
+.guest-popup {
+    position: absolute;
+    top: 110%;
+    right: 0;
+    background: white;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    padding: 20px;
+    width: 250px;
+    z-index: 1050;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    animation: fadeIn 0.2s ease;
+}
+
+/* Nút cộng trừ khách */
+.guest-btn {
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.guest-btn:hover {
+    opacity: 0.7;
+    transform: scale(1.1);
+}
+/* Hiệu ứng mượt khi mở popup */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Tùy chỉnh nhẹ lịch Flatpickr cho giống màu LocalMate */
+.flatpickr-calendar.arrowTop:before, .flatpickr-calendar.arrowTop:after { display: none !important; }
+.flatpickr-day.selected { background-color: var(--color-primary-dark) !important; border-color: var(--color-primary-dark) !important; }
+
+/* ==========================================================================
+   9. TÙY CHỈNH GIAO DIỆN LỊCH FLATPICKR CHUẨN FIGMA LOCALMATE (ĐÃ FIX LƯỚI THẲNG HÀNG)
+   ========================================================================== */
+/* Form tổng thể của popup lịch */
+=======
+=======
+>>>>>>> fe6d93f9adc736ba760c7c7881473756fc788b53
 /* ==========================================================================
    9. TÙY CHỈNH GIAO DIỆN LỊCH FLATPICKR
    ========================================================================== */
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
 .flatpickr-calendar {
     font-family: var(--font-main) !important;
     border-radius: 16px !important;
@@ -897,8 +1076,16 @@ a {
     width: 350px !important; 
     box-sizing: border-box !important;
 }
+<<<<<<< HEAD
+
+/* Ẩn cái mũi tên tam giác nhọn chĩa lên mặc định của thư viện */
 .flatpickr-calendar.arrowTop:before, .flatpickr-calendar.arrowTop:after { display: none !important; }
 
+/* Chỉnh Header Lịch (Khu vực chứa Tháng Năm và Mũi tên) */
+=======
+.flatpickr-calendar.arrowTop:before, .flatpickr-calendar.arrowTop:after { display: none !important; }
+
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
 .flatpickr-months {
     margin-bottom: 20px !important;
     position: relative !important;
@@ -906,6 +1093,10 @@ a {
     align-items: center !important;
 }
 
+<<<<<<< HEAD
+/* Đưa cụm Tháng - Năm qua trái */
+=======
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
 .flatpickr-current-month {
     left: 0 !important;
     text-align: left !important;
@@ -915,6 +1106,10 @@ a {
     align-items: center !important;
 }
 
+<<<<<<< HEAD
+/* Ép chữ tháng năm màu xanh đậm, in đậm, ẩn mũi tên dropdown mặc định cho sạch sẽ */
+=======
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
 .flatpickr-current-month .flatpickr-monthDropdown-months,
 .flatpickr-current-month input.cur-year {
     font-weight: 800 !important;
@@ -924,11 +1119,20 @@ a {
     border: none !important;
     background: transparent !important;
 }
+<<<<<<< HEAD
+
+/* Ép khung chứa Năm nhỏ lại để nhường chỗ cho mũi tên */
+=======
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
 .flatpickr-current-month .numInputWrapper {
     width: 6ch !important;
     margin-left: 5px !important;
 }
 
+<<<<<<< HEAD
+/* Định vị 2 mũi tên qua tuốt mép phải, canh giữa theo trục dọc để không đè lên số 2026 */
+=======
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
 .flatpickr-prev-month, .flatpickr-next-month {
     position: absolute !important;
     top: 50% !important;
@@ -942,19 +1146,44 @@ a {
     border-radius: 50% !important;
     z-index: 5 !important;
 }
+<<<<<<< HEAD
+.flatpickr-prev-month {
+    right: 45px !important; 
+    left: auto !important;
+}
+.flatpickr-next-month {
+    right: 5px !important; 
+}
+
+/* Hiệu ứng hover tròn mờ cho 2 nút mũi tên */
+.flatpickr-prev-month:hover, .flatpickr-next-month:hover {
+    background-color: #f0f0f0 !important;
+}
+=======
 .flatpickr-prev-month { right: 45px !important; left: auto !important; }
 .flatpickr-next-month { right: 5px !important; }
 .flatpickr-prev-month:hover, .flatpickr-next-month:hover { background-color: #f0f0f0 !important; }
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
 .flatpickr-prev-month svg, .flatpickr-next-month svg {
     fill: var(--color-primary-dark) !important;
     width: 14px !important;
     height: 14px !important;
 }
 
+<<<<<<< HEAD
+/* ĐỒNG BỘ LƯỚI 7 CỘT CỐ ĐỊNH CHO HÀNG "THỨ" VÀ "NGÀY" ĐỂ CHÚNG THẲNG TẮP VỚI NHAU */
+.flatpickr-weekdays {
+    height: auto !important;
+}
+.flatpickr-weekdaycontainer {
+    display: grid !important;
+    grid-template-columns: repeat(7, 1fr) !important; /* Ép cứng 7 cột bằng nhau */
+=======
 .flatpickr-weekdays { height: auto !important; }
 .flatpickr-weekdaycontainer {
     display: grid !important;
     grid-template-columns: repeat(7, 1fr) !important; 
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
     width: 100% !important;
 }
 span.flatpickr-weekday {
@@ -964,6 +1193,28 @@ span.flatpickr-weekday {
     width: 100% !important;
     text-align: center !important;
 }
+<<<<<<< HEAD
+/* Chủ nhật màu đỏ */
+span.flatpickr-weekday:nth-child(7) {
+    color: #D32F2F !important; 
+}
+
+/* Lưới chứa các ngày */
+.flatpickr-days {
+    width: 100% !important;
+}
+.dayContainer {
+    display: grid !important;
+    grid-template-columns: repeat(7, 1fr) !important; /* Ép cứng 7 cột giống hệt hàng Thứ */
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+    gap: 5px 0 !important; /* Tạo khoảng cách dọc giữa các tuần */
+    justify-items: center !important; /* Canh giữa từng ô ngày vào trong cột của nó */
+}
+
+/* Hình dáng của một ô Ngày */
+=======
 span.flatpickr-weekday:nth-child(7) { color: #D32F2F !important; }
 
 .flatpickr-days { width: 100% !important; }
@@ -977,6 +1228,7 @@ span.flatpickr-weekday:nth-child(7) { color: #D32F2F !important; }
     justify-items: center !important; 
 }
 
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
 .flatpickr-day {
     font-weight: 600;
     color: #333;
@@ -988,19 +1240,38 @@ span.flatpickr-weekday:nth-child(7) { color: #D32F2F !important; }
     align-items: center !important;
     justify-content: center !important;
     border: 2px solid transparent !important;
+<<<<<<< HEAD
+    margin: 0 !important; /* Bỏ margin đi vì đã có gap của grid lo */
+}
+
+/* Khi ngày được chọn (Viền xanh đậm, nền kem xanh nhạt) */
+=======
     margin: 0 !important; 
 }
 
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
 .flatpickr-day.selected, .flatpickr-day.selected:hover {
     background: var(--color-primary-light) !important; 
     border: 2px solid var(--color-primary-dark) !important; 
     color: var(--color-primary-dark) !important;
     font-weight: 800 !important;
 }
+<<<<<<< HEAD
+
+/* Lúc rê chuột lên ngày chưa chọn */
+=======
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
 .flatpickr-day:hover:not(.selected) {
     background: #f0f0f0 !important;
     border-color: #f0f0f0 !important;
 }
+<<<<<<< HEAD
+
+/* Ẩn viền ngày hiện tại (nếu chưa chọn) để nhìn sạch sẽ hơn */
+.flatpickr-day.today {
+    border-color: #eee !important;
+}
+=======
 .flatpickr-day.today { border-color: #eee !important; }
 
 .custom-nav-pills {
@@ -1143,9 +1414,15 @@ span.flatpickr-weekday:nth-child(7) { color: #D32F2F !important; }
 .btn-action-orange { background: #f39c12; color: white; font-weight: bold; border: none; border-radius: 20px; padding: 6px 20px; }
 .btn-action-green { background: var(--color-primary-dark); color: white; font-weight: bold; border: none; border-radius: 20px; padding: 6px 20px; }
 
+<<<<<<< HEAD
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
+=======
 .breadcrumb-custom { padding: 15px 40px; font-weight: 500; color: #0d5c2c; background: white; border-bottom: 1px solid #eee; }
     .breadcrumb-custom a { color: #0d5c2c; text-decoration: none; }
     .breadcrumb-custom a:hover { text-decoration: underline; }
+<<<<<<< HEAD
+>>>>>>> fe6d93f9adc736ba760c7c7881473756fc788b53
+=======
 
 /* ==========================================================================
    CSS cho trang favorite và tour
@@ -1176,6 +1453,9 @@ span.flatpickr-weekday:nth-child(7) { color: #D32F2F !important; }
     .carousel-overlay { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(0,0,0,0.6), transparent); padding: 15px; text-align: center; color: white; font-weight: bold; text-transform: uppercase; }
     .carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); background: white; border: none; width: 35px; height: 35px; border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.2); color: var(--color-primary); z-index: 10; cursor: pointer;}
     .btn-prev { left: -5px; } .btn-next { right: -5px; }
+<<<<<<< HEAD
+>>>>>>> 695ef61943617172ed372c713baa60c7aadb8a93
+=======
 
     /* Bổ sung Responsive cho trang Yêu Thích */
     @media (max-width: 768px) {
@@ -1250,3 +1530,4 @@ span.flatpickr-weekday:nth-child(7) { color: #D32F2F !important; }
     .form-group-title { font-weight: 700; color: var(--color-primary-dark); font-size: 0.95rem; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 5px;}
     .form-control:focus, .form-select:focus { border-color: var(--color-primary); box-shadow: 0 0 0 0.2rem rgba(0, 113, 45, 0.25); }
     .btn-submit-modal { background-color: var(--color-accent); border: none; color: white; font-weight: 700; padding: 8px 25px; border-radius: 20px;}
+>>>>>>> 77cde65221181e1e513484df577f8fdbd52afc25
