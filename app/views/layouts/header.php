@@ -63,6 +63,12 @@
                                 <i class="fa-solid fa-chart-line"></i> BÁO CÁO
                             </a>
                         </li>
+                        
+                        <li class="nav-item d-lg-none mt-2 pt-2" style="border-top: 1px solid rgba(255,255,255,0.2);">
+                            <a class="nav-link text-warning fw-bold" href="index.php?controller=auth&action=logout">
+                                <i class="fa-solid fa-right-from-bracket"></i> ĐĂNG XUẤT
+                            </a>
+                        </li>
                     
                     <?php else: ?>
                         <li class="nav-item">
@@ -97,17 +103,31 @@
 
             <div class="d-flex align-items-center gap-3">
                 <?php if (isset($_SESSION['user'])): ?>
-                    <div class="dropdown">
-                        <a href="#" class="text-white text-decoration-none dropdown-toggle d-flex align-items-center gap-2" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fa-solid fa-user-circle" style="font-size: 1.4rem;"></i>
-                            <span class="fw-bold d-none d-md-inline"><?= htmlspecialchars($_SESSION['user']['HoTen']) ?></span>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-3" style="border-radius: 12px; min-width: 200px;">
-                            <li><a class="dropdown-item fw-bold text-success py-2" href="index.php?controller=profile"><i class="fa-solid fa-id-badge me-2"></i>Hồ sơ của tôi</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item text-danger fw-bold py-2" href="index.php?controller=auth&action=logout"><i class="fa-solid fa-right-from-bracket me-2"></i>Đăng xuất</a></li>
-                        </ul>
-                    </div>
+                    
+                    <?php if ($user_role === 'Quản trị viên'): ?>
+                        <div class="dropdown d-none d-lg-block">
+                            <a href="#" class="text-white text-decoration-none dropdown-toggle d-flex align-items-center gap-2" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fa-solid fa-user-circle" style="font-size: 1.4rem;"></i>
+                                <span class="fw-bold d-none d-md-inline"><?= htmlspecialchars($_SESSION['user']['HoTen']) ?></span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-3" style="border-radius: 12px; min-width: 160px;">
+                                <li><a class="dropdown-item text-danger fw-bold py-2" href="index.php?controller=auth&action=logout"><i class="fa-solid fa-right-from-bracket me-2"></i>Đăng xuất</a></li>
+                            </ul>
+                        </div>
+                    <?php else: ?>
+                        <div class="dropdown">
+                            <a href="#" class="text-white text-decoration-none dropdown-toggle d-flex align-items-center gap-2" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fa-solid fa-user-circle" style="font-size: 1.4rem;"></i>
+                                <span class="fw-bold d-none d-md-inline"><?= htmlspecialchars($_SESSION['user']['HoTen']) ?></span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-3" style="border-radius: 12px; min-width: 200px;">
+                                <li><a class="dropdown-item fw-bold text-success py-2" href="index.php?controller=profile"><i class="fa-solid fa-id-badge me-2"></i>Hồ sơ của tôi</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item text-danger fw-bold py-2" href="index.php?controller=auth&action=logout"><i class="fa-solid fa-right-from-bracket me-2"></i>Đăng xuất</a></li>
+                            </ul>
+                        </div>
+                    <?php endif; ?>
+
                 <?php else: ?>
                     <a href="#" class="text-white text-decoration-none user-dropdown-toggle" data-bs-toggle="modal" data-bs-target="#loginModal">
                         <i class="fa-solid fa-user" style="font-size: 1.2rem;"></i>
@@ -123,6 +143,7 @@
             </div>
         </nav>
     </div>
+    
     <script>
     const IS_LOGGED_IN = <?= isset($_SESSION['user']) ? 'true' : 'false' ?>;
 
@@ -149,7 +170,6 @@
                 }
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // XÓA LỆNH CHUYỂN TRANG CŨ VÀ THAY BẰNG LỆNH GỌI MODAL NÀY:
                     const loginModal = bootstrap.Modal.getOrCreateInstance(document.getElementById('loginModal'));
                     loginModal.show();
                 }
@@ -159,5 +179,5 @@
         }
         return true; 
     }
-</script>
+    </script>
 </header>
