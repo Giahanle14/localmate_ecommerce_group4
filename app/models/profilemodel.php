@@ -39,8 +39,6 @@ class ProfileModel {
     public function updateProfile($maTK, $maDK, $ngaySinh, $gioiTinh, $sdt, $diaChi, $sdtKhanCap) {
         try {
             $this->conn->beginTransaction();
-
-            // Đã bỏ cập nhật HoTen
             $sql1 = "UPDATE TaiKhoan SET SDT = :sdt WHERE MaTK = :maTK";
             $stmt1 = $this->conn->prepare($sql1);
             $stmt1->execute([':sdt' => $sdt, ':maTK' => $maTK]);

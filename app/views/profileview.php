@@ -14,7 +14,7 @@ require_once 'app/views/layouts/header.php';
 ?>
 <style>
     body { font-family: 'Quicksand', sans-serif; background-color: #F8FAF5; }
-    .breadcrumb-custom { padding: 15px 40px; font-weight: 500; color: #0d5c2c; background: white; border-bottom: 1px solid #eee; }
+    .breadcrumb-custom { padding: 10px 40px; font-weight: 500; color: #0d5c2c; background: white; border-bottom: 1px solid #eee; }
     .profile-container { padding: 40px; max-width: 1200px; margin: auto; }
     .sidebar-card { background: white; border-radius: 20px; padding: 30px 20px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid #f0f0f0; }
     .avatar-wrapper { position: relative; width: 120px; height: 120px; margin: 0 auto 15px; cursor: pointer; transition: transform 0.3s ease; }
@@ -36,7 +36,7 @@ require_once 'app/views/layouts/header.php';
     .btn-logout { background-color: #D6E8D8; color: #0d5c2c; font-weight: 700; border-radius: 30px; padding: 10px 0; margin-top: 20px; width: 70%; border: none; transition: 0.3s; }
     .btn-logout:hover { background-color: #b5d5b9; }
     .main-card { background: white; border-radius: 20px; padding: 40px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid #f0f0f0; }
-    .section-title { color: #0d5c2c; font-weight: 700; font-size: 24px; margin-bottom: 30px; }
+    .section-title { color: #0d5c2c !important; font-weight: 700; font-size: 24px; margin-bottom: 30px; background-color: transparent !important; padding: 0 !important; display: block !important;}
     .form-label { font-weight: 700; color: #0d5c2c; margin-bottom: 8px; font-size: 15px; }
     .form-control, .form-select { border-radius: 8px; padding: 12px 15px; border: 1px solid #7DA27E; color: #4A7C59; font-weight: 600; background-color: #FDFBF4; }
     .form-control:focus, .form-select:focus { border-color: #0d5c2c; box-shadow: 0 0 0 0.2rem rgba(13, 92, 44, 0.1); background-color: #FDFBF4; }
@@ -62,7 +62,9 @@ require_once 'app/views/layouts/header.php';
 </style>
 
 <div class="breadcrumb-custom">
-    Trang chủ > Hồ sơ cá nhân
+    <a href="index.php?controller=home"><i class="fa-solid fa-house me-1"></i>Trang chủ</a> 
+    <i class="fa-solid fa-angle-right mx-2 text-muted" style="font-size: 12px;"></i> 
+    <a href="index.php?controller=profile">Hồ sơ cá nhân</a>
 </div>
 
 <main class="profile-container">
@@ -90,7 +92,6 @@ require_once 'app/views/layouts/header.php';
                 </div>
                 
                 <h4 class="user-name"><?= htmlspecialchars($userInfo['HoTen'] ?? '') ?></h4>
-                <div class="member-since">Thành viên từ 2024</div>
                 
                 <div class="stats-row">
                     <div><span><?= $userStats['chuyen'] ?></span> Chuyến</div>
@@ -182,7 +183,8 @@ require_once 'app/views/layouts/header.php';
 
                         <div class="col-md-4">
                             <label class="form-label">Ngày sinh <span class="text-danger">*</span></label>
-                            <input type="date" class="form-control" name="ngaySinh" value="<?= htmlspecialchars($userInfo['NgaySinh'] ?? '') ?>" required>
+                            <input type="date" class="form-control" name="ngaySinh" id="ngaySinhInput"
+                                value="<?= htmlspecialchars($userInfo['NgaySinh'] ?? '') ?>" required>
                         </div>
                         <div class="col-md-4">
                             <label class="form-label">Giới tính</label>
@@ -269,7 +271,6 @@ require_once 'app/views/layouts/header.php';
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        // Tự động ẩn thông báo sau 3 giây
         const alertElement = document.querySelector('.alert');
         if (alertElement) {
             setTimeout(() => {
@@ -278,7 +279,6 @@ require_once 'app/views/layouts/header.php';
             }, 3000);
         }
 
-        // Logic ẩn hiện khung đổi mật khẩu
         const toggleBox = document.getElementById('togglePasswordBtn');
         const checkbox = document.getElementById('chkDoiMatKhau');
         const checkIcon = document.getElementById('checkIcon');
@@ -324,7 +324,6 @@ require_once 'app/views/layouts/header.php';
             else xacNhan.setCustomValidity('');
         });
 
-        // Logic Chỉnh sửa hồ sơ
         const btnEditSave = document.getElementById('btnEditSave');
         const profileForm = document.getElementById('profileForm');
         const editableInputs = profileForm.querySelectorAll('input[name="sdt"], input[name="ngaySinh"], select[name="gioiTinh"], input[name="sdtKhanCap"], input[name="diaChi"]');
@@ -354,9 +353,7 @@ require_once 'app/views/layouts/header.php';
             if (!isEditing) { e.preventDefault(); setEditMode(true); }
         });
 
-        // ----------------------------------------------------
-        // LOGIC XỬ LÝ AVATAR (HÌNH ẢNH MẶC ĐỊNH, CAMERA, UPLOAD)
-        // ----------------------------------------------------
+        
         const mainImg = document.getElementById('mainAvatarImg');
         const fileInput = document.getElementById('fileUploadInput');
         const btnOpenCamera = document.getElementById('btnOpenCamera');
@@ -366,37 +363,33 @@ require_once 'app/views/layouts/header.php';
         const illustrationsModal = document.getElementById('illustrationsModal');
         let stream = null;
 
-        // Hàm gọi API lưu ảnh
         function saveAvatarInstantly(base64OrUrl) {
-            const formData = new FormData();
-            formData.append('action', 'update_avatar');
-            formData.append('avatar_data', base64OrUrl);
+        const formData = new FormData();
+        formData.append('action', 'update_avatar');
+        formData.append('avatar_data', base64OrUrl);
 
-            fetch('index.php?controller=profile', {
-                method: 'POST',
-                body: formData
-            })
-            .then(async response => {
-                const text = await response.text(); 
-                try {
-                    const data = JSON.parse(text);
-                    if (data.status === 'success') {
-                        mainImg.src = data.url || base64OrUrl;
-                        if(data.url && data.url.startsWith('http')) {
-                            mainImg.style.backgroundColor = '#546E7A'; 
-                        } else {
-                            mainImg.style.backgroundColor = 'transparent'; 
-                        }
-                    }
-                } catch (e) {
-                    console.error("Lỗi Server trả về:", text);
-                    alert("Có lỗi khi lưu ảnh. Vui lòng thử lại!");
+        fetch('index.php?controller=profile', {
+            method: 'POST',
+            body: formData
+        })
+        .then(async response => {
+            const text = await response.text(); 
+            try {
+                const data = JSON.parse(text);
+                if (data.status === 'success') {
+                    window.location.reload();
                 }
-            })
-            .catch(error => console.error("Lỗi Fetch:", error));
-        }
+            } catch (e) {
+                console.error("Lỗi Server trả về:", text);
+                window.location.reload(); 
+            }
+        })
+        .catch(error => {
+            console.error("Lỗi Fetch:", error);
+            alert("Lỗi kết nối mạng, vui lòng thử lại!");
+        });
+    }
 
-        // --- ĐOẠN NÀY LÚC NÃY BỊ XÓA MẤT NÈ ---
         const illustrationsGrid = document.getElementById('illustrationsGrid');
         const googleAnimals = [
             'alligator', 'axolotl', 'badger', 'bat', 'grizzly', 'camel',
@@ -427,47 +420,41 @@ require_once 'app/views/layouts/header.php';
             col.innerHTML = `<img src="${imgUrl}" alt="${animal}" class="illustration-item" style="background-color: ${randomColor}; padding: 15px;" onclick="selectIllustration('${imgUrl}', '${randomColor}')">`;
             illustrationsGrid.appendChild(col);
         });
-        // ----------------------------------------
 
-        // Hàm click vào ảnh mặc định
         window.selectIllustration = function(imgUrl, bgColor) {
             const canvas = document.createElement('canvas');
             canvas.width = 150;
             canvas.height = 150;
             const ctx = canvas.getContext('2d');
-
-            // 1. Đổ màu nền
             ctx.fillStyle = bgColor;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
             const img = new Image();
-            img.crossOrigin = "Anonymous"; // Bật chế độ CORS
+            img.crossOrigin = "Anonymous";
             
             img.onload = function() {
-                // 2. Vẽ con vật lên trên nền màu
                 ctx.drawImage(img, 25, 25, 100, 100);
                 try {
-                    // 3. Xuất ra file ảnh (Base64) hoàn chỉnh
                     const base64Image = canvas.toDataURL('image/png');
                     saveAvatarInstantly(base64Image); 
                 } catch (e) {
-                    saveAvatarInstantly(imgUrl);
+                    console.error("Lỗi xuất ảnh:", e);
+                    alert("Trình duyệt chặn xử lý ảnh, vui lòng thử lại!");
                 }
-                
-                // Đóng Modal
-                const modalObj = bootstrap.Modal.getOrCreateInstance(document.getElementById('illustrationsModal'));
-                if(modalObj) modalObj.hide();
             };
             
             img.onerror = function() {
-                // DỰ PHÒNG: Nếu lỗi mạng, bỏ qua màu nền và lưu thẳng ảnh gốc của Google
-                saveAvatarInstantly(imgUrl);
-                const modalObj = bootstrap.Modal.getOrCreateInstance(document.getElementById('illustrationsModal'));
-                if(modalObj) modalObj.hide();
+                ctx.fillStyle = "white";
+                ctx.font = "bold 65px 'Quicksand', sans-serif";
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                const initial = "<?= htmlspecialchars($userInfo['HoTen'] ?? 'U') ?>".charAt(0).toUpperCase();
+                ctx.fillText(initial, canvas.width / 2, canvas.height / 2 + 5);
+                saveAvatarInstantly(canvas.toDataURL('image/png'));
             };
             
-            // THẦN CHÚ: Dùng Proxy trung gian để lấy ảnh, vượt rào bảo mật của trình duyệt
-            img.src = "https://api.allorigins.win/raw?url=" + encodeURIComponent(imgUrl);
+            const cleanUrl = imgUrl.replace(/^https?:\/\//, '');
+            img.src = "https://wsrv.nl/?url=" + encodeURIComponent(cleanUrl);
         };
 
         fileInput.addEventListener('change', function(e) {
@@ -522,6 +509,25 @@ require_once 'app/views/layouts/header.php';
             btnBackToOptions.classList.add('d-none'); 
             fileInput.value = ''; 
         });
+
+        const ngaySinhInput = document.getElementById('ngaySinhInput');
+        if (ngaySinhInput) {
+            ngaySinhInput.addEventListener('change', function() {
+                if (this.value) {
+                    const selectedDate = new Date(this.value);
+                    const today = new Date();
+                    const maxAllowedDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+                    
+                    if (selectedDate > maxAllowedDate) {
+                        this.setCustomValidity('Ngày sinh không hợp lệ. Bạn phải đủ 18 tuổi trở lên.');
+                        this.reportValidity();
+                        this.value = ''; 
+                    } else {
+                        this.setCustomValidity(''); 
+                    }
+                }
+            });
+        }
 
     });
 </script>
