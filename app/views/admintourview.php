@@ -275,8 +275,7 @@
                     </a>
                     
                     <a href="index.php?controller=admintour&action=detail&id=<?= $tour['MaTour'] ?>" class="text-decoration-none text-dark d-flex flex-column h-100" style="position: relative; z-index: 10;">
-                        <div class="badge-verified">Đã xác thực <i class="fa-solid fa-circle-check"></i></div>
-                        
+                                           
                         <div class="atc-img-wrap">
                             <img src="<?= htmlspecialchars(!empty($tour['HinhAnh']) && strpos($tour['HinhAnh'], 'public/') === 0 ? $tour['HinhAnh'] : 'public/' . $tour['HinhAnh']) ?>" alt="<?= htmlspecialchars($tour['TenTour']) ?>">
                         </div>
@@ -284,7 +283,11 @@
                         <div class="atc-body">
                             <div class="atc-title-row">
                                 <div class="atc-title"><?= htmlspecialchars($tour['TenTour']) ?></div>
-                                <div class="atc-rating"><i class="fa-solid fa-star"></i> 5.0 (120)</div>
+                                <div class="atc-rating">
+                                    <i class="fa-solid fa-star"></i> 
+                                    <?= (!empty($tour['TrungBinhSao']) && $tour['TrungBinhSao'] > 0) ? number_format($tour['TrungBinhSao'], 1) : '0' ?> 
+                                    <span style="color: #888; font-size: 0.9em;">(<?= $tour['SoLuotDanhGia'] ?? 0 ?>)</span>
+                                </div>
                             </div>
                             <div class="atc-location"><i class="fa-solid fa-location-dot me-1" style="color:#E74C3C;"></i> <?= htmlspecialchars($tour['DiaDiem']) ?></div>
                             
@@ -382,6 +385,77 @@
                     <label class="form-label-bold">MÔ TẢ CHUYẾN ĐI</label>
                     <textarea name="moTa" class="admin-textarea" placeholder="Nhập mô tả..." required <?= $disabled ?>><?= ($isEdit || $isDetail) ? htmlspecialchars($tourData['MoTa']) : '' ?></textarea>
                 </div>
+                <?php if ($isDetail): ?>
+                <div class="mb-4 mt-5">
+                    <label class="form-label-bold mb-3">
+                        <i class="fa-solid fa-comments me-2" style="font-size: 1.2rem;"></i> ĐÁNH GIÁ TỪ KHÁCH HÀNG
+                    </label>
+                    
+                    <?php if (!empty($danhGiaList)): ?>
+                        <div class="d-flex flex-column gap-3" style="max-height: 500px; overflow-y: auto; padding-right: 5px;">
+                            <?php foreach ($danhGiaList as $review): ?>
+                                <div class="p-3 border rounded-3" style="background: white; border-color: #f0f0f0 !important; box-shadow: 0 2px 8px rgba(0,0,0,0.02);">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <div class="fw-bold" style="color: #123C27;">
+                                            <i class="fa-solid fa-circle-user text-success me-1"></i> 
+                                            <?= htmlspecialchars($review['TenKhachHang']) ?>
+                                        </div>
+                                        <div class="text-warning fw-bold">
+                                            <?= $review['SoSao'] ?> <i class="fa-solid fa-star"></i>
+                                        </div>
+                                    </div>
+                                    <div class="text-muted small mb-2">
+                                        <i class="fa-regular fa-clock me-1"></i> <?= date('d/m/Y', strtotime($review['NgayDanhGia'])) ?>
+                                    </div>
+                                    <p class="mb-2" style="font-size: 14px; color: #444; line-height: 1.6;">
+                                        <?= nl2br(htmlspecialchars($review['NoiDung'])) ?>
+                                    </p>
+                                    
+                                    <?php if (!empty($review['HinhAnh'])): ?>
+                                        <div class="d-flex gap-2 mt-3 overflow-auto pb-2">
+                                            <?php 
+                                                $images = explode('||', $review['HinhAnh']);
+                                                foreach ($images as $img): 
+                                                    $imgPath = trim($img);
+                                                    if (!empty($imgPath)):
+                                            ?>
+                                                <img src="<?= htmlspecialchars($imgPath) ?>" style="width: 65px; height: 65px; object-fit: cover; border-radius: 8px; border: 1px solid #ddd; flex-shrink: 0;">
+                                            <?php 
+                                                    endif;
+                                                endforeach; 
+                                            ?>
+                                        </div>
+                                    <?php endif; ?>
+                                    
+                                    <?php if(!empty($review['AnTuong'])): ?>
+                                        <div class="mt-2">
+                                            <?php 
+                                                $tags = explode(',', $review['AnTuong']);
+                                                foreach ($tags as $tag):
+                                                    $tag = trim($tag);
+                                                    if (!empty($tag)):
+                                            ?>
+                                                <span class="badge" style="background-color: #EAF9DE; color: #0d5c2c; border: 1px solid #B4D6B5; margin-right: 5px; font-weight: 700;">
+                                                    <?= htmlspecialchars($tag) ?>
+                                                </span>
+                                            <?php 
+                                                    endif;
+                                                endforeach; 
+                                            ?>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php else: ?>
+                        <div class="p-4 text-center border rounded-3" style="background: #FAFAF5; color: #888; border-style: dashed !important;">
+                            <i class="fa-regular fa-face-frown-open fs-2 mb-2" style="opacity: 0.5;"></i><br>
+                            Chưa có đánh giá nào cho chuyến đi này.
+                        </div>
+                    <?php endif; ?>
+                </div>
+                <?php endif; ?>
+                </div> ```
             </div>
 
             <div class="col-lg-5">
