@@ -275,10 +275,10 @@
                     countSpan.innerText = count - 1;
                 }
             } else {
-                alert(data.message);
-                if(data.message.includes("đăng nhập")) {
-                    var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
-                    loginModal.show();
+                if (data.message.includes("đăng nhập") && typeof requireLoginPopup === 'function') {
+                    requireLoginPopup(null, 'thêm tour vào Danh sách yêu thích');
+                } else {
+                    alert(data.message);
                 }
             }
         })
