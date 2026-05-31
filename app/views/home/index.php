@@ -265,7 +265,8 @@
     <div class="container">
         <div class="search-container shadow-lg" style="border-radius: 50px; background: white;">
             <form id="searchForm" action="index.php" method="GET" class="d-flex align-items-center flex-nowrap w-100 bg-white" style="border-radius: 50px;">
-                <input type="hidden" name="controller" value="searchtour">
+                <!-- ĐÃ SỬA LỖI Ở ĐÂY: Đổi controller từ 'searchtour' thành 'tour' -->
+                <input type="hidden" name="controller" value="tour">
                 <div class="search-input-group position-relative">
                     <i class="fa-solid fa-magnifying-glass"></i>
                     <input type="text" id="destination" name="search" placeholder="Bạn muốn đi đâu ?" class="form-control border-0 shadow-none bg-transparent">
@@ -484,7 +485,6 @@
                             $tourName = htmlspecialchars($review['TenTour'], ENT_QUOTES, 'UTF-8');
                             $maTour = $review['MaTour'] ?? '';
                         ?>
-                        <!-- THAY ĐỔI TẠI ĐÂY: Click vào thẻ sẽ chuyển thẳng trang -->
                         <div class="review-card-home" onclick="window.location.href='index.php?controller=tourdetail&id=<?= $maTour ?>'" title="Bấm để xem chi tiết tour <?= $tourName ?>">
                             
                             <div class="review-header-home">
