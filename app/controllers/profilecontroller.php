@@ -55,10 +55,9 @@ class ProfileController {
         $msg_type = '';
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'update_profile') {
-            $hoTen = trim($_POST['hoTen']);
             $sdt = trim($_POST['sdt']);
             $ngaySinh = $_POST['ngaySinh'];
-            $gioiTinh = $_POST['gioiTinh'];
+            $gioiTinh = !empty($_POST['gioiTinh']) ? $_POST['gioiTinh'] : null;
             $sdtKhanCap = trim($_POST['sdtKhanCap']);
             $diaChi = trim($_POST['diaChi']);
             
@@ -90,15 +89,14 @@ class ProfileController {
             }
 
             if (!$password_error) {
-                if(empty($hoTen) || empty($sdt) || empty($ngaySinh) || empty($sdtKhanCap) || empty($diaChi)){
-                     $message = "Vui lòng điền đầy đủ các thông tin bắt buộc!"; $msg_type = "danger";
+                if(empty($sdt) || empty($ngaySinh) || empty($sdtKhanCap) || empty($diaChi)){
+                    $message = "Vui lòng điền đầy đủ các thông tin bắt buộc!"; $msg_type = "danger";
                 } else {
-                    $update_success = $model->updateProfile($userInfo['MaTK'], $currentUser, $hoTen, $ngaySinh, $gioiTinh, $sdt, $diaChi, $sdtKhanCap);
+                    $maxDateAllowed = date('Y-m-d', strtotime('-18 years'));
                     
-                    if ($update_success) {
-                        $message = "Đã lưu thông tin thành công!" . ($password_updated ? " Kèm mật khẩu đã được cập nhật." : "");
-                        $msg_type = "success";
-                        $_SESSION['user']['HoTen'] = $hoTen; 
+                    if ($ngaySinh > $maxDateAllowed) {
+                        $message = "Bạn phải từ đủ 18 tuổi trở lên để cập nhật hồ sơ!"; 
+                        $msg_type = "warning";
                     } else {
                         $update_success = $model->updateProfile($userInfo['MaTK'], $currentUser, $ngaySinh, $gioiTinh, $sdt, $diaChi, $sdtKhanCap);
                         
@@ -117,6 +115,11 @@ class ProfileController {
 
         if (!$userInfo) {
             die("<div style='text-align:center; padding: 50px; font-family: sans-serif;'><h2>LỖI KHÔNG TÌM THẤY DỮ LIỆU</h2><p>Không tìm thấy khách hàng có mã <b>{$currentUser}</b>.</p></div>");
+        }
+
+        $missingInfo = false;
+        if (empty($userInfo['SDT']) || $userInfo['SDT'] === 'Chưa cập nhật' || empty($userInfo['NgaySinh']) || empty($userInfo['DiaChi'])) {
+            $missingInfo = true;
         }
 
         $userStats = $model->getUserStats($userInfo['MaTK_DK']);
