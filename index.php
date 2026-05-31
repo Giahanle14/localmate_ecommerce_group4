@@ -81,8 +81,5 @@ if (file_exists($controllerFile)) {
 } else {
     echo "<h1>Lỗi 404: Không tìm thấy file tại đường dẫn: $controllerFile</h1>";
 }
-<<<<<<< HEAD
-=======
 
->>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
 ?>
