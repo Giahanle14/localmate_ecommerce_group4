@@ -11,7 +11,7 @@
                 <ul class="company-info">
                     <li><b>Trụ sở chính:</b> Khu Công nghệ Phần mềm, ĐHQG TP. HCM, KP 6, P. Linh Trung, TP. Thủ Đức, TP. HCM.</li>
                     <li><b>Điện thoại:</b> +84 123 456 789</li>
-                    <li><b>Email:</b> hello@localmate.vn</li>
+                    <li><b>Email:</b> localmate.cskh@gmail.com</li>
                 </ul>
                 <div class="bottom-actions">
                     <div class="bottom-actions-block">
