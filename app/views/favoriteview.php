@@ -1,9 +1,8 @@
-<main class="container py-4" style="min-height: 65vh;">
-    <div class="mb-3 text-muted small">
-        <a href="?controller=home" class="text-decoration-none text-muted">Trang chủ</a> &gt; 
-        <a href="?controller=favorite" class="text-decoration-none fw-bold" style="color: #7A9F5A;">Yêu thích</a>
-    </div>
-
+<div class="breadcrumb-custom px-3 px-lg-5">
+    <a href="?controller=home">Trang chủ</a> > 
+    <span style="color: #666;">Yêu thích</span>
+</div>
+<main class="container-fluid px-3 px-lg-5 py-4" style="min-height: 65vh;">
     <div class="mb-5 mx-auto" style="max-width: 650px;">
         <form action="" method="GET" id="searchFavoriteForm" class="d-flex bg-white border rounded-pill overflow-hidden p-1 shadow-sm m-0" style="border-color: #e0e0e0 !important;">
             <?php if(isset($_GET['controller'])): ?>
@@ -23,7 +22,7 @@
         </form>
     </div>
 
-    <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+    <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom header-title-mobile">
         <div>
             <?php if (empty($keyword)): ?>
                 <p class="fw-bold mb-0 text-dark" style="font-size: 1.1rem;">Bạn đang có <?= $totalFavorites ?> tour trong danh sách chờ khám phá</p>
@@ -39,7 +38,7 @@
     <?php if ($totalFavorites > 0): ?>
         <div class="row g-4 mb-5">
             <?php foreach ($favoriteTours as $tour): ?>
-                <div class="col-md-4">
+                <div class="col-12 col-md-6 col-lg-4">
                     <?php include __DIR__ . '/../../public/component/tourcard.php'; ?>
                 </div>
             <?php endforeach; ?>
@@ -107,7 +106,6 @@
                 } else if (data.action === 'removed') {
                     icon.classList.replace('fa-solid', 'fa-regular');
                     countSpan.innerText = count - 1;
-                    // Tự động load lại trang để tour vừa gỡ biến mất khỏi danh sách yêu thích
                     window.location.reload(); 
                 }
             } else {

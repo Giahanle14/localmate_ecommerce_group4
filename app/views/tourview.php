@@ -1,10 +1,10 @@
 <?php include 'app/views/layouts/header.php'; ?>
 
-<div class="breadcrumb-custom">
+<div class="breadcrumb-custom px-3 px-lg-5">
     <a href="?controller=home">Trang chủ</a> > 
     <span style="color: #666;">Tour</span>
 </div>
-<main class="container-fluid px-4 py-4" style="background-color: #FCFDF9;">
+<main class="container-fluid px-3 px-lg-5 py-4" style="background-color: #FCFDF9;">
 
     <div class="row">
         <div class="col-lg-3 mb-4">
@@ -95,7 +95,7 @@
         <div class="col-lg-9">
             
             <?php if ($is_filtering): ?>
-                <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
+                <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 border-bottom pb-3 tour-header-mobile">
                     <h5 class="fw-bold mb-0" style="color: #123C27;"><?= htmlspecialchars($page_title); ?></h5>
                     
                     <form method="GET" class="d-flex align-items-center" action="">
