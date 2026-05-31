@@ -171,6 +171,7 @@ class ProfileController {
                 } 
             }
         }
+        
 
         require_once 'app/views/profileview.php';
     }

@@ -216,6 +216,7 @@ require_once 'app/views/layouts/header.php';
     </div>
 </main>
 
+
 <div class="modal fade" id="avatarModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" style="max-width: 385px;">
         <div class="modal-content" style="border-radius: 16px; border: none; overflow: hidden;">

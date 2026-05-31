@@ -18,6 +18,7 @@ class ProfileModel {
         return $stmt->fetch();
     }
 
+    
     public function getUserStats($maTK_DK) {
         $stats = ['chuyen' => 0, 'danh_gia' => 0, 'yeu_thich' => 0];
 
