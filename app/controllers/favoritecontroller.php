@@ -31,26 +31,32 @@ class FavoriteController {
 
         // 1. KIỂM TRA BẢO MẬT: Phải đăng nhập và có vai trò là Du khách
         if (!isset($_SESSION['user']) || $_SESSION['user']['LoaiTK'] !== 'Du khách') {
-            // Nạp header trước để có bộ source HTML của loginModal
+            // Nạp header trước để có bộ source HTML của form và modal
             require_once __DIR__ . '/../views/layouts/header.php';
             
-            // Render giao diện phụ
-            echo "<main class='container py-4' style='min-height: 65vh;'>
-                  </main>";
+            // Render khung nền trống
+            echo "<main class='container py-4' style='min-height: 65vh;'></main>";
             
-            // Chạy Script show modal lập tức VÀ lắng nghe sự kiện đóng modal để chuyển hướng
+            // CHẠY SCRIPT GỌI POPUP XỊN SÒ (THAY THẾ CHO ALERT CŨ)
             echo "<script>
-                alert('Vui lòng đăng nhập tài khoản du khách để xem danh sách yêu thích.');
                 document.addEventListener('DOMContentLoaded', function() {
-                    var modalElement = document.getElementById('loginModal');
-                    if (modalElement) {
-                        var loginModal = new bootstrap.Modal(modalElement);
-                        loginModal.show();
+                    // Kiểm tra xem hàm tạo popup có tồn tại không
+                    if (typeof requireLoginPopup === 'function') {
+                        // Bật popup xịn với câu thông báo tương ứng
+                        requireLoginPopup(null, 'xem Danh sách yêu thích');
                         
-                        // Lắng nghe sự kiện khi cửa sổ modal bị đóng/thoát
-                        modalElement.addEventListener('hidden.bs.modal', function () {
-                            window.location.href = 'index.php?controller=home';
+                        // Lắng nghe sự kiện: Khi khách bấm nút 'Để sau' hoặc dấu X tắt modal
+                        // thì tự động chuyển hướng lùi về trang chủ
+                        let modals = document.querySelectorAll('.modal');
+                        modals.forEach(modal => {
+                            modal.addEventListener('hidden.bs.modal', function () {
+                                window.location.href = 'index.php?controller=home';
+                            });
                         });
+                    } else {
+                        // Phương án dự phòng lỡ JS bị lỗi
+                        alert('Vui lòng đăng nhập tài khoản du khách để xem danh sách yêu thích.');
+                        window.location.href = 'index.php?controller=home';
                     }
                 });
             </script>";

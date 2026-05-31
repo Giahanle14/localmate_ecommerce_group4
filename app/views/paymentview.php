@@ -11,9 +11,6 @@
     }
 
     body { background-color: var(--bg-color); font-family: 'Quicksand', sans-serif; }
-    @media (max-width: 768px) {
-        .breadcrumb-custom { padding: 15px 20px; }
-    }
 
     /* Tiêu đề trang */
     .page-main-title { font-family: 'Quicksand', sans-serif; font-weight: 800; font-size: 2.8rem; color: #0d5c2c; text-align: center; margin-bottom: 30px; text-shadow: 2px 2px 4px rgba(0,0,0,0.05); }

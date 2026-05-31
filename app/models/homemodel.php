@@ -79,8 +79,8 @@ class HomeModel {
     // Hàm lấy danh sách Đánh giá mới nhất (Kinh nghiệm đi tour)
     public function getLatestReviews($limit = 4) {
         // 1. Join 5 bảng: PhieuDanhGia, DuKhach, TaiKhoan, ChuyenDi, Tour để lấy đủ thông tin
-        $sql = "SELECT p.MaDG, p.NoiDung, p.SoSao, p.NgayDG, 
-                       tk.HoTen, dk.AnhDaiDien, t.TenTour
+        $sql = "SELECT p.MaDG, p.NoiDung, p.SoSao, p.NgayDG,p.DieuAnTuong, 
+                       tk.HoTen, dk.AnhDaiDien, t.TenTour, t.MaTour
                 FROM PhieuDanhGia p
                 JOIN DuKhach dk ON p.MaTK_DK = dk.MaTK_DK
                 JOIN TaiKhoan tk ON dk.MaTK_DK = tk.MaTK

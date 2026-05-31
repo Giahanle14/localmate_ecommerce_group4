@@ -47,6 +47,7 @@ class AdminTourController {
             echo "<script>alert('Không tìm thấy Tour!'); window.location.href='index.php?controller=admintour';</script>";
             exit;
         }
+        $danhGiaList = $model->getReviewsByTour($_GET['id']);
 
         $viewMode = 'detail'; // Bật chế độ chỉ xem
         require_once 'app/views/admintourview.php';

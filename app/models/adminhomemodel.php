@@ -6,14 +6,15 @@ class AdminHomeModel {
         $this->conn = $db;
     }
 
-    // 1. Lấy Doanh thu trong tháng hiện tại (Đã sửa theo cột TongGiaTien và NgayBatDau)
+    // 1. Lấy Doanh thu trong tháng hiện tại (Đã đồng bộ 100% logic với trang Báo Cáo)
     public function getMonthlyRevenue() {
-        // Tạm thời bỏ điều kiện TrangThaiThanhToan vì database của bạn không có cột này
-        // Nếu muốn chỉ tính các tour đã xong, bạn có thể thêm: AND TrangThai = 'Hoàn thành'
         $sql = "SELECT SUM(TongGiaTien) as DoanhThu 
                 FROM chuyendi 
-                WHERE MONTH(NgayBatDau) = MONTH(CURRENT_DATE()) 
-                AND YEAR(NgayBatDau) = YEAR(CURRENT_DATE())";
+                WHERE MONTH(NgayKetThuc) = MONTH(CURRENT_DATE()) 
+                AND YEAR(NgayKetThuc) = YEAR(CURRENT_DATE()) 
+                AND TrangThai = 'Đã hoàn thành'"; 
+                
+        // 2 dòng lệnh "cứu mạng" đã được thêm lại
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
