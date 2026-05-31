@@ -1250,3 +1250,59 @@ span.flatpickr-weekday:nth-child(7) { color: #D32F2F !important; }
     .form-group-title { font-weight: 700; color: var(--color-primary-dark); font-size: 0.95rem; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 5px;}
     .form-control:focus, .form-select:focus { border-color: var(--color-primary); box-shadow: 0 0 0 0.2rem rgba(0, 113, 45, 0.25); }
     .btn-submit-modal { background-color: var(--color-accent); border: none; color: white; font-weight: 700; padding: 8px 25px; border-radius: 20px;}
+
+/* ==========================================================================
+   CSS cho trang adminreport
+   ========================================================================== */
+/* BỘ CSS DÀNH RIÊNG CHO CHẾ ĐỘ XUẤT/IN PDF BẰNG TRÌNH DUYỆT */
+    @media print {
+        /* 1. Ẩn hoàn toàn giao diện trang web để giải phóng không gian, tránh bị trang trắng */
+        body > .breadcrumb-custom, 
+        body > main, 
+        body > .modal, 
+        .modal-backdrop,
+        header, /* Ẩn header từ layout chung (nếu có) */
+        footer  /* Ẩn footer từ layout chung (nếu có) */ {
+            display: none !important;
+        }
+        
+        /* Reset html/body không cho chiếm chiều cao dư thừa */
+        html, body {
+            height: auto !important;
+            min-height: 0 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            background-color: #fff !important;
+        }
+
+        /* 2. Chỉ cho phép hiển thị nội dung bên trong khuôn mẫu xuất PDF */
+        #fullReportExport {
+            display: block !important;
+            position: relative !important;
+            left: auto;
+            top: auto;
+            width: 100%;
+            margin: 0 !important;
+            padding: 0 !important;
+            font-family: 'Times New Roman', Times, serif !important;
+        }
+
+        /* 3. Cài đặt trang in A4 với lề: Trái 3cm, Trên/Dưới/Phải 2cm */
+        @page {
+            size: A4 portrait;
+            margin: 2cm 2cm 2cm 3cm; 
+        }
+    }
+
+    /* Tinh chỉnh cho bộ lọc chọn nhiều (Multi-select Checkbox) */
+    .custom-multi-select .dropdown-item {
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+    .custom-multi-select .dropdown-item:active {
+        background-color: #E6EECA; /* Giữ tông màu xanh của hệ thống thay vì màu xanh dương mặc định */
+        color: #123C27;
+    }
+    .custom-multi-select .form-check-input {
+        cursor: pointer;
+    }
