@@ -21,6 +21,8 @@ class ProfileController {
         $model = new ProfileModel();
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'update_avatar') {
+            ob_clean();
+            
             $avatarData = $_POST['avatar_data'];
             
             if (strpos($avatarData, 'data:image') === 0) {
@@ -98,7 +100,14 @@ class ProfileController {
                         $msg_type = "success";
                         $_SESSION['user']['HoTen'] = $hoTen; 
                     } else {
-                        $message = "Có lỗi xảy ra khi lưu thông tin."; $msg_type = "danger";
+                        $update_success = $model->updateProfile($userInfo['MaTK'], $currentUser, $ngaySinh, $gioiTinh, $sdt, $diaChi, $sdtKhanCap);
+                        
+                        if ($update_success) {
+                            $message = "Đã lưu thông tin thành công!" . ($password_updated ? " Kèm mật khẩu đã được cập nhật." : "");
+                            $msg_type = "success";
+                        } else {
+                            $message = "Có lỗi xảy ra khi lưu thông tin."; $msg_type = "danger";
+                        }
                     }
                 }
             }
