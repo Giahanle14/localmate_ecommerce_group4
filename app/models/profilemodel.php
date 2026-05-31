@@ -37,12 +37,13 @@ class ProfileModel {
         return $stats;
     }
 
-    public function updateProfile($maTK, $maDK, $ngaySinh, $gioiTinh, $sdt, $diaChi, $sdtKhanCap) {
+    public function updateProfile($maTK, $maDK, $hoTen, $ngaySinh, $gioiTinh, $sdt, $diaChi, $sdtKhanCap) {
         try {
             $this->conn->beginTransaction();
-            $sql1 = "UPDATE TaiKhoan SET SDT = :sdt WHERE MaTK = :maTK";
+
+            $sql1 = "UPDATE TaiKhoan SET HoTen = :hoTen, SDT = :sdt WHERE MaTK = :maTK";
             $stmt1 = $this->conn->prepare($sql1);
-            $stmt1->execute([':sdt' => $sdt, ':maTK' => $maTK]);
+            $stmt1->execute([':hoTen' => $hoTen, ':sdt' => $sdt, ':maTK' => $maTK]);
 
             $sql2 = "UPDATE DuKhach SET NgaySinh = :ngaySinh, GioiTinh = :gioiTinh, DiaChi = :diaChi, SDTKhanCap = :sdtKhanCap WHERE MaDK = :maDK";
             $stmt2 = $this->conn->prepare($sql2);

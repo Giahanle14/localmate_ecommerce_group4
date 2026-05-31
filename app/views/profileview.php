@@ -9,7 +9,6 @@ require_once 'app/views/layouts/header.php';
  * @var array $tierInfo
  * @var int $phanTramHang
  * @var string $avatarUrl
- * @var bool $missingInfo
  */
 ?>
 <style>
@@ -40,7 +39,8 @@ require_once 'app/views/layouts/header.php';
     .form-label { font-weight: 700; color: #0d5c2c; margin-bottom: 8px; font-size: 15px; }
     .form-control, .form-select { border-radius: 8px; padding: 12px 15px; border: 1px solid #7DA27E; color: #4A7C59; font-weight: 600; background-color: #FDFBF4; }
     .form-control:focus, .form-select:focus { border-color: #0d5c2c; box-shadow: 0 0 0 0.2rem rgba(13, 92, 44, 0.1); background-color: #FDFBF4; }
-    .form-control[readonly], .form-control:disabled, .form-select:disabled { background-color: #E9ECEF; color: #6C757D; border-color: #CED4DA; cursor: not-allowed; opacity: 1; }    input[type="password"]::-ms-reveal, input[type="password"]::-ms-clear { display: none; }
+    .form-control[readonly], .form-control:disabled { background-color: #E9ECEF; color: #6C757D; border-color: #CED4DA; cursor: not-allowed; opacity: 1; }
+    input[type="password"]::-ms-reveal, input[type="password"]::-ms-clear { display: none; }
     .password-wrapper { position: relative; }
     .password-wrapper input { padding-right: 40px; }
     .toggle-eye { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #7DA27E; opacity: 0; transition: opacity 0.2s, color 0.2s; font-size: 16px; }
@@ -68,14 +68,6 @@ require_once 'app/views/layouts/header.php';
 </div>
 
 <main class="profile-container">
-
-    <?php if (isset($missingInfo) && $missingInfo && empty($message)): ?>
-        <div class="alert alert-warning alert-dismissible fade show mb-4 fw-bold" role="alert" style="color: #856404; background-color: #fff3cd; border-color: #ffeeba;">
-            <i class="fa-solid fa-triangle-exclamation me-2"></i> Bạn chưa cập nhật đầy đủ thông tin hồ sơ. Vui lòng bổ sung để có trải nghiệm đặt tour tốt nhất!
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    <?php endif; ?>
-
     <?php if (!empty($message)): ?>
         <div class="alert alert-<?= $msg_type ?> alert-dismissible fade show mb-4" role="alert">
             <?= $message ?>
@@ -91,7 +83,8 @@ require_once 'app/views/layouts/header.php';
                     <div class="camera-btn"><i class="fa-solid fa-camera"></i></div>
                 </div>
                 
-                <h4 class="user-name"><?= htmlspecialchars($userInfo['HoTen'] ?? '') ?></h4>
+                <h4 class="user-name"><?= htmlspecialchars($userInfo['HoTen']) ?></h4>
+                <div class="member-since">Thành viên từ 2024</div>
                 
                 <div class="stats-row">
                     <div><span><?= $userStats['chuyen'] ?></span> Chuyến</div>
@@ -130,7 +123,7 @@ require_once 'app/views/layouts/header.php';
                     <div class="row g-4 mb-4">
                         <div class="col-md-6">
                             <label class="form-label">Email</label>
-                            <input type="email" class="form-control" value="<?= htmlspecialchars($userInfo['Gmail'] ?? '') ?>" readonly disabled>
+                            <input type="email" class="form-control" value="<?= htmlspecialchars($userInfo['Gmail']) ?>" readonly disabled>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label d-none d-md-block">&nbsp;</label>
@@ -173,35 +166,33 @@ require_once 'app/views/layouts/header.php';
                         </div>
 
                         <div class="col-md-6">
-                            <label class="form-label">Họ và tên</label>
-                            <input type="text" class="form-control" value="<?= htmlspecialchars($userInfo['HoTen'] ?? '') ?>" readonly disabled>
+                            <label class="form-label">Họ và tên <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="hoTen" value="<?= htmlspecialchars($userInfo['HoTen']) ?>" required>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">Số điện thoại <span class="text-danger">*</span></label>
-                            <input type="tel" class="form-control" name="sdt" value="<?= htmlspecialchars(($userInfo['SDT'] === 'Chưa cập nhật') ? '' : ($userInfo['SDT'] ?? '')) ?>" required placeholder="Nhập số điện thoại">
+                            <input type="tel" class="form-control" name="sdt" value="<?= htmlspecialchars($userInfo['SDT']) ?>" required>
                         </div>
 
                         <div class="col-md-4">
                             <label class="form-label">Ngày sinh <span class="text-danger">*</span></label>
-                            <input type="date" class="form-control" name="ngaySinh" id="ngaySinhInput"
-                                value="<?= htmlspecialchars($userInfo['NgaySinh'] ?? '') ?>" required>
+                            <input type="date" class="form-control" name="ngaySinh" value="<?= htmlspecialchars($userInfo['NgaySinh']) ?>" required>
                         </div>
                         <div class="col-md-4">
                             <label class="form-label">Giới tính</label>
                             <select class="form-select" name="gioiTinh">
-                                <option value="" <?= empty($userInfo['GioiTinh']) ? 'selected' : '' ?>>--Chọn--</option>
-                                <option value="Nữ" <?= (isset($userInfo['GioiTinh']) && $userInfo['GioiTinh'] == 'Nữ') ? 'selected' : '' ?>>Nữ</option>
-                                <option value="Nam" <?= (isset($userInfo['GioiTinh']) && $userInfo['GioiTinh'] == 'Nam') ? 'selected' : '' ?>>Nam</option>
+                                <option value="Nữ" <?= ($userInfo['GioiTinh'] == 'Nữ') ? 'selected' : '' ?>>Nữ</option>
+                                <option value="Nam" <?= ($userInfo['GioiTinh'] == 'Nam') ? 'selected' : '' ?>>Nam</option>
                             </select>
                         </div>
                         <div class="col-md-4">
                             <label class="form-label">Số điện thoại khẩn cấp <span class="text-danger">*</span></label>
-                            <input type="tel" class="form-control" name="sdtKhanCap" value="<?= htmlspecialchars(($userInfo['SDTKhanCap'] === 'Chưa cập nhật') ? '' : ($userInfo['SDTKhanCap'] ?? '')) ?>" required placeholder="SĐT người thân">
+                            <input type="tel" class="form-control" name="sdtKhanCap" value="<?= htmlspecialchars($userInfo['SDTKhanCap']) ?>" required>
                         </div>
 
                         <div class="col-12">
                             <label class="form-label">Địa chỉ <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" name="diaChi" value="<?= htmlspecialchars($userInfo['DiaChi'] ?? '') ?>" required placeholder="Nhập địa chỉ của bạn">
+                            <input type="text" class="form-control" name="diaChi" value="<?= htmlspecialchars($userInfo['DiaChi']) ?>" required>
                         </div>
                     </div>
 
@@ -327,7 +318,7 @@ require_once 'app/views/layouts/header.php';
 
         const btnEditSave = document.getElementById('btnEditSave');
         const profileForm = document.getElementById('profileForm');
-        const editableInputs = profileForm.querySelectorAll('input[name="sdt"], input[name="ngaySinh"], select[name="gioiTinh"], input[name="sdtKhanCap"], input[name="diaChi"]');
+        const editableInputs = profileForm.querySelectorAll('input[name="hoTen"], input[name="sdt"], input[name="ngaySinh"], select[name="gioiTinh"], input[name="sdtKhanCap"], input[name="diaChi"]');
         let isEditing = false;
 
         function setEditMode(active) {
@@ -354,7 +345,6 @@ require_once 'app/views/layouts/header.php';
             if (!isEditing) { e.preventDefault(); setEditMode(true); }
         });
 
-        
         const mainImg = document.getElementById('mainAvatarImg');
         const fileInput = document.getElementById('fileUploadInput');
         const btnOpenCamera = document.getElementById('btnOpenCamera');
@@ -365,33 +355,22 @@ require_once 'app/views/layouts/header.php';
         let stream = null;
 
         function saveAvatarInstantly(base64OrUrl) {
-        const formData = new FormData();
-        formData.append('action', 'update_avatar');
-        formData.append('avatar_data', base64OrUrl);
+            const formData = new FormData();
+            formData.append('action', 'update_avatar');
+            formData.append('avatar_data', base64OrUrl);
 
-        fetch('index.php?controller=profile', {
-            method: 'POST',
-            body: formData
-        })
-        .then(async response => {
-            const text = await response.text(); 
-            try {
-                const data = JSON.parse(text);
-                if (data.status === 'success') {
-                    window.location.reload();
-                }
-            } catch (e) {
-                console.error("Lỗi Server trả về:", text);
-                window.location.reload(); 
-            }
-        })
-        .catch(error => {
-            console.error("Lỗi Fetch:", error);
-            alert("Lỗi kết nối mạng, vui lòng thử lại!");
-        });
-    }
+            fetch('index.php?controller=profile', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') mainImg.src = base64OrUrl;
+            });
+        }
 
         const illustrationsGrid = document.getElementById('illustrationsGrid');
+        
         const googleAnimals = [
             'alligator', 'axolotl', 'badger', 'bat', 'grizzly', 'camel',
             'capybara', 'chameleon', 'cheetah', 'chinchilla', 'chipmunk', 'cormorant',
@@ -427,35 +406,20 @@ require_once 'app/views/layouts/header.php';
             canvas.width = 150;
             canvas.height = 150;
             const ctx = canvas.getContext('2d');
+
             ctx.fillStyle = bgColor;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
             const img = new Image();
-            img.crossOrigin = "Anonymous";
-            
+            img.crossOrigin = "Anonymous"; 
             img.onload = function() {
                 ctx.drawImage(img, 25, 25, 100, 100);
-                try {
-                    const base64Image = canvas.toDataURL('image/png');
-                    saveAvatarInstantly(base64Image); 
-                } catch (e) {
-                    console.error("Lỗi xuất ảnh:", e);
-                    alert("Trình duyệt chặn xử lý ảnh, vui lòng thử lại!");
-                }
+                
+                const base64Image = canvas.toDataURL('image/png');
+                saveAvatarInstantly(base64Image); 
+                bootstrap.Modal.getInstance(illustrationsModal).hide();
             };
-            
-            img.onerror = function() {
-                ctx.fillStyle = "white";
-                ctx.font = "bold 65px 'Quicksand', sans-serif";
-                ctx.textAlign = "center";
-                ctx.textBaseline = "middle";
-                const initial = "<?= htmlspecialchars($userInfo['HoTen'] ?? 'U') ?>".charAt(0).toUpperCase();
-                ctx.fillText(initial, canvas.width / 2, canvas.height / 2 + 5);
-                saveAvatarInstantly(canvas.toDataURL('image/png'));
-            };
-            
-            const cleanUrl = imgUrl.replace(/^https?:\/\//, '');
-            img.src = "https://wsrv.nl/?url=" + encodeURIComponent(cleanUrl);
+            img.src = imgUrl;
         };
 
         fileInput.addEventListener('change', function(e) {
