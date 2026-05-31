@@ -126,9 +126,9 @@ class MytripModel {
     public function getTripDetail($maTK, $maChuyenDi) {
         $sql = "SELECT c.MaChuyenDi, c.NgayBatDau, c.NgayKetThuc, c.TongGiaTien, c.SoLuongKhach, c.TrangThai, 
                        t.MaTour, t.TenTour, t.HinhAnh, t.DiaDiem, t.SoNgay,
-                       g.PhuongThuc, g.NgayGiaoDich, g.MaGiaoDichDoiTac, g.TrangThai as TrangThaiGD,
+                       g.MaGiaoDich, g.PhuongThuc, g.NgayGiaoDich, g.MaGiaoDichDoiTac, g.TrangThai as TrangThaiGD,
                        tk.HoTen, tk.SDT, tk.Gmail, dk.DiaChi,
-                       y.LyDoHuy, y.SoTienHoan, y.TyLeHoanTien, y.NgayHoanTat, y.TrangThai as TrangThaiHuy
+                       y.LyDoHuy, y.SoTienHoan, y.TyLeHoanTien, y.NgayHoanTat, y.NgayYeuCau, y.TrangThai as TrangThaiHuy
                 FROM ChuyenDi c
                 JOIN Tour t ON c.MaTour = t.MaTour
                 JOIN DuKhach dk ON c.MaTK_DK = dk.MaTK_DK

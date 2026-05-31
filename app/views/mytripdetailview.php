@@ -32,9 +32,6 @@ if ($statusText === 'Chưa hoàn thành') {
     .badge-success { background-color: #D1FAE5; color: #059669; border: 1px solid #A7F3D0; }
     .badge-danger { background-color: #FEE2E2; color: #DC2626; border: 1px solid #FECACA; }
 
-    .btn-print { background: #fff; border: 2px solid #cbd5e1; color: #475569; padding: 8px 18px; border-radius: 8px; font-weight: 700; transition: 0.3s; }
-    .btn-print:hover { background: #f1f5f9; color: #1e293b; border-color: #94a3b8; }
-
     /* Cards */
     .detail-card { background: #fff; border-radius: 20px; padding: 25px; box-shadow: 0 4px 20px rgba(0,0,0,0.03); border: 1px solid #f0f0f0; margin-bottom: 25px; }
     .card-title-custom { font-weight: 800; color: #111; font-size: 1.25rem; margin-bottom: 25px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #f1f5f9; padding-bottom: 15px;}
@@ -63,17 +60,50 @@ if ($statusText === 'Chưa hoàn thành') {
     .btn-action-outline:hover { background: #DC2626; color: #fff; }
     .btn-action-fill { background: var(--primary); color: #fff; border: none; padding: 14px 30px; border-radius: 12px; font-weight: 800; font-size: 1.05rem; transition: 0.3s; width: 100%; text-transform: uppercase; box-shadow: 0 4px 15px rgba(26, 83, 54, 0.2); }
     .btn-action-fill:hover { background: #123C27; color: #fff; transform: translateY(-2px); }
+    
+    .btn-print { background: #fff; border: 2px solid #cbd5e1; color: #475569; padding: 14px 30px; border-radius: 12px; font-weight: 800; font-size: 1.05rem; transition: 0.3s; width: 100%; text-transform: uppercase; margin-top: 10px;}
+    .btn-print:hover { background: #f1f5f9; color: #1e293b; border-color: #94a3b8; }
 
     /* =========================================
        CSS CHUYÊN DỤNG KHI IN HÓA ĐƠN (PRINT)
+       Ép toàn bộ nội dung nằm vừa vặn trên 1 trang
        ========================================= */
     @media print {
-        body { background-color: #fff !important; margin: 0; padding: 0; }
+        body { background-color: #fff !important; margin: 0; padding: 0; font-size: 12px !important; }
         header, footer, .breadcrumb-custom, .btn-print, .btn-action-fill, .btn-action-outline { display: none !important; }
-        .container { max-width: 100% !important; padding: 0 !important; margin: 0 !important; }
-        .detail-card { box-shadow: none !important; border: 1px solid #ccc !important; padding: 20px !important; margin-bottom: 20px !important; break-inside: avoid; }
-        .trip-header-box { border-bottom: 2px solid #000; padding-bottom: 10px; }
-        .badge-warning, .badge-success, .badge-danger { border: 1px solid #000 !important; color: #000 !important; background: transparent !important; }
+        
+        @page { size: A4 portrait; margin: 1cm; }
+        .container { max-width: 100% !important; width: 100% !important; margin: 0 !important; padding: 0 !important; }
+        
+        .row { display: flex !important; flex-wrap: nowrap !important; flex-direction: row !important; }
+        .col-lg-7 { width: 55% !important; padding-right: 15px !important; }
+        .col-lg-5 { width: 45% !important; padding-left: 15px !important; }
+        
+        /* Thu gọn tối đa các Card */
+        .detail-card, .cancel-box { 
+            box-shadow: none !important; 
+            border: 1px solid #ddd !important; 
+            padding: 10px 15px !important; 
+            margin-bottom: 10px !important; 
+            border-radius: 8px !important;
+            page-break-inside: avoid !important;
+        }
+        
+        .trip-header-box { border-bottom: 2px solid #000; padding-bottom: 5px; margin-bottom: 10px; flex-direction: row !important; align-items: center !important;}
+        .trip-id { font-size: 1.3rem !important; margin: 0 !important; }
+        .trip-date { font-size: 0.85rem !important; margin-top: 2px !important; }
+        
+        .tour-hz-box { margin-bottom: 10px !important; gap: 10px !important; }
+        .tour-hz-img { width: 70px !important; height: 70px !important; border-radius: 8px !important; }
+        .tour-hz-info h4 { font-size: 1.1rem !important; margin-bottom: 4px !important; }
+        .tour-hz-meta { margin-bottom: 2px !important; font-size: 0.85rem !important; }
+        
+        .card-title-custom { margin-bottom: 10px !important; padding-bottom: 5px !important; font-size: 1rem !important;}
+        .info-grid { gap: 5px !important; }
+        .info-row { padding-bottom: 3px !important; margin-bottom: 4px !important; font-size: 0.85rem !important; border-bottom: 1px dashed #eee !important; }
+        .total-highlight { font-size: 1.2rem !important; }
+        
+        .status-badge { border: 1px solid #000 !important; color: #000 !important; background: transparent !important; padding: 4px 10px !important; font-size: 0.85rem !important; }
     }
 
     @media (max-width: 768px) {
@@ -93,13 +123,13 @@ if ($statusText === 'Chưa hoàn thành') {
 
 <div class="container" style="max-width: 1100px; padding-bottom: 80px;">
 
+    <!-- HEADER: ID, NGÀY ĐẶT, STATUS -->
     <div class="trip-header-box">
         <div>
             <h1 class="trip-id">Mã chuyến đi: <?= htmlspecialchars($trip['MaChuyenDi']) ?></h1>
             <div class="trip-date">Ngày đặt: <?= !empty($trip['NgayGiaoDich']) ? date('d/m/Y - H:i', strtotime($trip['NgayGiaoDich'])) : 'N/A' ?></div>
         </div>
         <div class="d-flex align-items-center gap-3">
-            <button class="btn-print" onclick="window.print()"><i class="fa-solid fa-print me-2"></i> In hóa đơn</button>
             <div class="status-badge <?= $statusClass ?>">
                 <i class="fa-solid <?= $statusText === 'Chưa hoàn thành' ? 'fa-clock' : ($statusText === 'Đã hoàn thành' ? 'fa-circle-check' : 'fa-circle-xmark') ?>"></i>
                 <?= htmlspecialchars($statusText) ?>
@@ -108,8 +138,10 @@ if ($statusText === 'Chưa hoàn thành') {
     </div>
 
     <div class="row g-4">
+        <!-- CỘT TRÁI: THÔNG TIN TOUR & KHÁCH HÀNG -->
         <div class="col-lg-7">
             
+            <!-- KHỐI 1: THÔNG TIN HÀNH TRÌNH -->
             <div class="detail-card">
                 <h3 class="card-title-custom"><i class="fa-solid fa-map-location-dot" style="color: var(--primary);"></i> Thông tin hành trình</h3>
                 
@@ -120,9 +152,7 @@ if ($statusText === 'Chưa hoàn thành') {
                         <div class="tour-hz-meta">
                             <i class="fa-solid fa-location-dot"></i> <?= htmlspecialchars($trip['DiaDiem']) ?>
                         </div>
-                        <div class="tour-hz-meta">
-                            <i class="fa-solid fa-fingerprint"></i> Mã Tour: <?= htmlspecialchars($trip['MaTour']) ?>
-                        </div>
+                        
                         <div class="tour-hz-meta">
                             <i class="fa-regular fa-clock"></i> Thời gian: <?= $trip['SoNgay'] ?> ngày
                         </div>
@@ -145,6 +175,7 @@ if ($statusText === 'Chưa hoàn thành') {
                 </div>
             </div>
 
+            <!-- KHỐI 2: THÔNG TIN LIÊN HỆ KHÁCH HÀNG -->
             <div class="detail-card">
                 <h3 class="card-title-custom"><i class="fa-solid fa-address-card" style="color: var(--primary);"></i> Thông tin người đặt</h3>
                 <div class="info-grid">
@@ -169,27 +200,37 @@ if ($statusText === 'Chưa hoàn thành') {
 
         </div>
 
+        <!-- CỘT PHẢI: THANH TOÁN & NÚT ACTION -->
         <div class="col-lg-5">
             
-            <?php if ($trip['TrangThai'] === 'Đã hủy' && !empty($trip['LyDoHuy'])): ?>
+            <!-- NẾU ĐÃ HỦY: HIỆN THÔNG TIN HOÀN TIỀN CỰC CHI TIẾT -->
+            <?php if ($trip['TrangThai'] === 'Đã hủy'): ?>
                 <div class="cancel-box">
                     <h5><i class="fa-solid fa-triangle-exclamation"></i> Chi tiết hủy chuyến</h5>
                     <div class="info-grid">
                         <div class="info-row">
+                            <span class="info-label" style="color: #b91c1c;">Thời gian hủy</span>
+                            <span class="info-value">
+                                <?= !empty($trip['NgayYeuCau']) ? date('d/m/Y H:i', strtotime($trip['NgayYeuCau'])) : (!empty($trip['NgayHoanTat']) ? date('d/m/Y H:i', strtotime($trip['NgayHoanTat'])) : 'Đang xử lý') ?>
+                            </span>
+                        </div>
+                        <div class="info-row">
                             <span class="info-label" style="color: #b91c1c;">Lý do hủy</span>
-                            <span class="info-value text-danger"><?= htmlspecialchars($trip['LyDoHuy']) ?></span>
+                            <span class="info-value text-danger"><?= htmlspecialchars($trip['LyDoHuy'] ?? 'Không xác định') ?></span>
                         </div>
                         <div class="info-row">
                             <span class="info-label" style="color: #b91c1c;">Trạng thái xử lý</span>
-                            <span class="info-value"><?= htmlspecialchars($trip['TrangThaiHuy']) ?></span>
+                            <span class="info-value"><?= htmlspecialchars($trip['TrangThaiHuy'] ?? 'Đã xử lý') ?></span>
                         </div>
-                        <?php if (!empty($trip['SoTienHoan'])): ?>
+                        <?php if (isset($trip['TyLeHoanTien'])): ?>
                             <div class="info-row mt-2 pt-2" style="border-top: 1px dashed #FECACA;">
-                                <span class="info-label" style="color: #b91c1c;">Tỷ lệ hoàn tiền</span>
+                                <span class="info-label" style="color: #b91c1c;">% số tiền hoàn</span>
                                 <span class="info-value"><?= ($trip['TyLeHoanTien'] * 100) ?>%</span>
                             </div>
+                        <?php endif; ?>
+                        <?php if (isset($trip['SoTienHoan'])): ?>
                             <div class="info-row">
-                                <span class="info-label" style="color: #b91c1c;">Số tiền hoàn lại</span>
+                                <span class="info-label" style="color: #b91c1c;">Số tiền được hoàn</span>
                                 <span class="info-value" style="color: #DC2626; font-size: 1.1rem;"><?= number_format($trip['SoTienHoan'], 0, ',', '.') ?> đ</span>
                             </div>
                         <?php endif; ?>
@@ -197,13 +238,10 @@ if ($statusText === 'Chưa hoàn thành') {
                 </div>
             <?php endif; ?>
 
+            <!-- KHỐI 3: CHI TIẾT THANH TOÁN -->
             <div class="detail-card">
                 <h3 class="card-title-custom"><i class="fa-solid fa-file-invoice-dollar" style="color: var(--primary);"></i> Chi tiết thanh toán</h3>
                 <div class="info-grid">
-                    <div class="info-row">
-                        <span class="info-label">Trạng thái</span>
-                        <span class="info-value text-success"><?= htmlspecialchars($trip['TrangThaiGD'] ?? 'Thành công') ?></span>
-                    </div>
                     <div class="info-row">
                         <span class="info-label">Phương thức</span>
                         <span class="info-value"><?= htmlspecialchars($trip['PhuongThuc'] ?? 'Chưa rõ') ?></span>
@@ -212,10 +250,12 @@ if ($statusText === 'Chưa hoàn thành') {
                         <span class="info-label">Ngày giao dịch</span>
                         <span class="info-value"><?= !empty($trip['NgayGiaoDich']) ? date('d/m/Y H:i', strtotime($trip['NgayGiaoDich'])) : 'N/A' ?></span>
                     </div>
+                    
                     <div class="info-row">
-                        <span class="info-label">Mã tham chiếu</span>
-                        <span class="info-value"><?= htmlspecialchars($trip['MaGiaoDichDoiTac'] ?? 'N/A') ?></span>
+                        <span class="info-label">Mã giao dịch</span>
+                        <span class="info-value"><?= htmlspecialchars($trip['MaGiaoDich'] ?? 'N/A') ?></span>
                     </div>
+                    
                     <div class="info-row mt-3 pt-3" style="border-top: 2px dashed #cbd5e1;">
                         <span class="info-label" style="font-size: 1.1rem; color: #111;">Tổng tiền</span>
                         <span class="total-highlight"><?= number_format($trip['TongGiaTien'], 0, ',', '.') ?> đ</span>
@@ -223,15 +263,23 @@ if ($statusText === 'Chưa hoàn thành') {
                 </div>
             </div>
 
-            <?php if ($trip['TrangThai'] === 'Chưa hoàn thành'): ?>
-                <button type="button" class="btn-action-outline mt-2" onclick="alert('Tính năng yêu cầu hủy chuyến đang được cập nhật!');">
-                    Yêu cầu hủy chuyến
-                </button>
-            <?php elseif ($trip['TrangThai'] === 'Đã hoàn thành'): ?>
-                <a href="index.php?controller=review&action=create&id=<?= $trip['MaChuyenDi'] ?>" class="btn-action-fill text-center mt-2 d-block text-decoration-none">
-                    <i class="fa-solid fa-pen-nib me-2"></i> Đánh giá chuyến đi
-                </a>
-            <?php endif; ?>
+            <!-- KHỐI 4: CÁC NÚT HÀNH ĐỘNG -->
+            <div class="d-flex flex-column gap-2 mt-3">
+                <?php if ($trip['TrangThai'] === 'Chưa hoàn thành'): ?>
+                    <button type="button" class="btn-action-outline" onclick="alert('Tính năng yêu cầu hủy chuyến đang được cập nhật!');">
+                        Yêu cầu hủy chuyến
+                    </button>
+                    <button class="btn-print" onclick="window.print()"><i class="fa-solid fa-print me-2"></i> In hóa đơn</button>
+                
+                <?php elseif ($trip['TrangThai'] === 'Đã hoàn thành'): ?>
+                    <a href="index.php?controller=review&action=create&id=<?= $trip['MaChuyenDi'] ?>" class="btn-action-fill text-center text-decoration-none">
+                        <i class="fa-solid fa-pen-nib me-2"></i> Đánh giá chuyến đi
+                    </a>
+                    <button class="btn-print" onclick="window.print()"><i class="fa-solid fa-print me-2"></i> In hóa đơn</button>
+                
+                <?php endif; ?>
+                <!-- Đã xóa nút in hóa đơn ở trạng thái 'Đã hủy' -->
+            </div>
 
         </div>
     </div>
