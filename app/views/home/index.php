@@ -254,7 +254,14 @@
         <h3 class="section-title">Tour Trải Nghiệm Nổi Bật <i class="fa-solid fa-fire text-warning" style="font-size: 1.2rem;"></i></h3>
         <a href="index.php?controller=tour&sort=moi_nhat" class="view-more">Xem thêm <i class="fa-solid fa-angle-right ms-1"></i></a>
     </div>
+<<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
+=======
+
+>>>>>>> fe6d93f9adc736ba760c7c7881473756fc788b53
     <div class="row g-4">
         <?php if(!empty($toursNoiBat)): ?>
             <?php foreach($toursNoiBat as $tour): ?>
@@ -283,6 +290,31 @@
                             
                             <img src="<?= htmlspecialchars($tour['HinhAnh']) ?>" alt="<?= htmlspecialchars($tour['TenTour']) ?>">
                         </div>
+<<<<<<< HEAD
+                        <div class="d-flex align-items-center flex-wrap gap-2 mb-2">
+                            <div class="tour-location mb-0 pe-2 border-end">
+<<<<<<< HEAD
+                                <i class="fa-solid fa-location-dot text-danger"></i> <?= htmlspecialchars($tour['VungDiaLy']) ?>
+                            </div>
+=======
+    <i class="fa-solid fa-location-dot text-danger"></i> <?= htmlspecialchars($tour['DiaDiem'] ?? 'Đang cập nhật') ?>
+</div>
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
+                            <div class="tour-tags mb-0">
+                                <?php 
+                                if(!empty($tour['LoaiTraiNghiem'])):
+                                    $tags = explode(',', $tour['LoaiTraiNghiem']);
+                                    foreach($tags as $tag): 
+                                        $tag = trim($tag);
+                                        if($tag != ''):
+                                ?>
+                                    <span class="tour-tag-item"><?= htmlspecialchars($tag) ?></span>
+                                <?php 
+                                        endif; 
+                                    endforeach; 
+                                endif; 
+                                ?>
+=======
                         
                         <div class="tour-new-body">
                             <div class="tour-meta-top">
@@ -309,13 +341,45 @@
                                     <span style="color:#777; font-weight: 500;">(<?= $tour['SoDanhGia'] > 0 ? $tour['SoDanhGia'] : '0' ?>)</span>
                                 </div>
                                 <a href="index.php?controller=tourdetail&id=<?= $tour['MaTour'] ?>" class="btn-chi-tiet">Chi tiết</a>
+>>>>>>> fe6d93f9adc736ba760c7c7881473756fc788b53
                             </div>
                         </div>
                     </div>
                 </div>
             <?php endforeach; ?>
         <?php else: ?>
+<<<<<<< HEAD
+<<<<<<< HEAD
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card custom-card">
+                    <div class="card-img-wrapper">
+                        <img src="public/image/location/Hội An.jpg" class="card-banner" alt="Hội An">
+                        <span class="price-tag">1.299.000 VNĐ</span>
+                    </div>
+                    <div class="card-body-tour">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <h5 class="tour-title pe-2 mb-0">Lạc bước Phố Cổ</h5>
+                            <div class="tour-rating"><i class="fa-solid fa-star"></i> 5.0 (120)</div>
+                        </div>
+                        <div class="d-flex align-items-center flex-wrap gap-2 mb-2">
+                            <div class="tour-location mb-0 pe-2 border-end">
+                                <i class="fa-solid fa-location-dot text-danger"></i> Hội An
+                            </div>
+                            <div class="tour-tags mb-0">
+                                <span class="tour-tag-item">Khám phá 🚶</span>
+                                <span class="tour-tag-item">Văn hóa 🏮</span>
+                            </div>
+                        </div>
+                        <p class="tour-desc">Cùng đạp xe xuyên qua những cánh đồng lúa chín, tự tay chuốt gốm cùng nghệ nhân bản địa và kết thúc ngày dài bằng ổ bánh mì Phượng.</p>
+                    </div>
+                </div>
+            </div>
+=======
+            <div class="col-12"><p class="text-center text-muted">Chưa load được dữ liệu Database Tour Nổi bật.</p></div>
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
+=======
             <div class="col-12"><p class="text-center text-muted">Chưa có dữ liệu Tour Nổi bật.</p></div>
+>>>>>>> fe6d93f9adc736ba760c7c7881473756fc788b53
         <?php endif; ?>
     </div>
 </div>
@@ -325,7 +389,14 @@
         <h3 class="section-title">Tour Được Yêu Thích Nhất <span style="background-color: #FFB800; color: white; width: 28px; height: 28px; border-radius: 50%; display: inline-flex; justify-content: center; align-items: center; font-size: 0.9rem;"><i class="fa-solid fa-heart"></i></span></h3>
         <a href="index.php?controller=tour&sort=yeu_thich" class="view-more">Xem thêm <i class="fa-solid fa-angle-right ms-1"></i></a>
     </div>
+<<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
+=======
+
+>>>>>>> fe6d93f9adc736ba760c7c7881473756fc788b53
     <div class="row g-4">
         <?php if(!empty($toursYeuThich)): ?>
             <?php foreach($toursYeuThich as $tour): ?>
@@ -386,7 +457,38 @@
                 </div>
             <?php endforeach; ?>
         <?php else: ?>
+<<<<<<< HEAD
+<<<<<<< HEAD
+             <div class="col-12 col-md-6 col-lg-4">
+                <div class="card custom-card favorite-card">
+                    <div class="card-img-wrapper">
+                        <img src="public/image/location/TaySon.jpg" class="card-banner" alt="Tây Sơn">
+                        <span class="price-tag">699.000 VNĐ</span>
+                    </div>
+                    <div class="card-body-tour">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <h5 class="tour-title pe-2 mb-0">Hào khí Tây Sơn</h5>
+                            <div class="tour-rating" style="color: #F29A2E;"><i class="fa-solid fa-heart"></i> 210 lượt</div>
+                        </div>
+                        <div class="d-flex align-items-center flex-wrap gap-2 mb-2">
+                            <div class="tour-location mb-0 pe-2 border-end">
+                                <i class="fa-solid fa-location-dot text-danger"></i> Phú Quốc
+                            </div>
+                            <div class="tour-tags mb-0">
+                                <span class="tour-tag-item">Biển đảo 🏝️</span>
+                                <span class="tour-tag-item">Phiêu lưu 🏄</span>
+                            </div>
+                        </div>
+                        <p class="tour-desc">Sinh ra và lớn lên ở đảo ngọc. Mình biết những bãi tắm giấu tên không có trên bản đồ và quán bún quậy ngon nhất thị trấn.</p>
+                    </div>
+                </div>
+            </div>
+=======
+             <div class="col-12"><p class="text-center text-muted">Chưa load được dữ liệu Database Tour Yêu Thích.</p></div>
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
+=======
              <div class="col-12"><p class="text-center text-muted">Chưa có dữ liệu Tour Yêu Thích.</p></div>
+>>>>>>> fe6d93f9adc736ba760c7c7881473756fc788b53
         <?php endif; ?>
     </div>
 </div>
@@ -465,14 +567,28 @@
 </div>
 
 <script>
+<<<<<<< HEAD
+<<<<<<< HEAD
+    // 1. Cấu hình Flatpickr
+=======
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
+=======
     // Khởi tạo lịch
+>>>>>>> fe6d93f9adc736ba760c7c7881473756fc788b53
     flatpickr("#datePicker", {
         dateFormat: "d/m/Y",
         locale: "vn",
         minDate: "today"
     });
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+    // 2. Logic tính số người (Popup)
+=======
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
+=======
     // Logic chọn số lượng hành khách
+>>>>>>> fe6d93f9adc736ba760c7c7881473756fc788b53
     let adults = 1;
     let children = 0;
     const guestInput = document.getElementById('guestInput');
@@ -519,7 +635,14 @@
         }
     });
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+    // 3. Logic check ô Tìm kiếm
+=======
+>>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
+=======
     // Validation
+>>>>>>> fe6d93f9adc736ba760c7c7881473756fc788b53
     const searchForm = document.getElementById('searchForm');
     const destInput = document.getElementById('destination');
     const destError = document.getElementById('destError');
