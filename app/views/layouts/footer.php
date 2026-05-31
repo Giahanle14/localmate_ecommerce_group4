@@ -1,21 +1,11 @@
-<<<<<<< HEAD
-</main> <footer class="lm-footer">
-        <div class="footer-container">
-            
-=======
 </main> 
 
     <footer class="lm-footer">
         <div class="footer-container">
->>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
             <div class="lm-footer-col1">
                 <img src="public/image/logo/logo.png" alt="LocalMate Logo">
                 <p>LocalMate là nền tảng thương mại điện tử theo mô hình kinh tế chia sẻ, kết nối trực tiếp du khách với người bản địa. Chúng tôi mang đến những trải nghiệm du lịch chân thực, an toàn và đậm đà bản sắc văn hóa.</p>
             </div>
-<<<<<<< HEAD
-
-=======
->>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
             <div>
                 <h5>CÔNG TY CỔ PHẦN CÔNG NGHỆ DU LỊCH LOCALMATE</h5>
                 <ul class="company-info">
@@ -23,10 +13,6 @@
                     <li><b>Điện thoại:</b> +84 123 456 789</li>
                     <li><b>Email:</b> hello@localmate.vn</li>
                 </ul>
-<<<<<<< HEAD
-
-=======
->>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
                 <div class="bottom-actions">
                     <div class="bottom-actions-block">
                         <b>MẠNG XÃ HỘI</b>
@@ -45,10 +31,6 @@
                     </div>
                 </div>
             </div>
-<<<<<<< HEAD
-
-=======
->>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
             <div>
                 <h5>VỀ CHÚNG TÔI</h5>
                 <ul>
@@ -58,10 +40,6 @@
                     <li><a href="#">Liên hệ hỗ trợ</a></li>
                 </ul>
             </div>
-<<<<<<< HEAD
-
-=======
->>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
             <div>
                 <h5>KHÁM PHÁ</h5>
                 <ul>
@@ -72,10 +50,6 @@
                     <li><a href="#">Du lịch chữa lành (Healing)</a></li>
                 </ul>
             </div>
-<<<<<<< HEAD
-
-=======
->>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
             <div>
                 <h5>CHÍNH SÁCH</h5>
                 <ul>
@@ -88,19 +62,12 @@
                     <li><a href="#">Tiêu chuẩn cộng đồng an toàn</a></li>
                 </ul>
             </div>
-<<<<<<< HEAD
-            
-        </div>
-    </footer>
-
-=======
         </div>
     </footer>
 
     
     <?php require_once 'login_modal.php'; ?>
 
->>>>>>> dc02dda3b25d0ce58ade747657d6bf8bd69ef6cb
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="public/js/main.js"></script>
     <?php require_once 'login_modal.php'; ?>
