@@ -12,36 +12,58 @@
     
     body { background-color: var(--bg-color); font-family: 'Quicksand', sans-serif; }
 
-    /* Breadcrumb */
-    .breadcrumb-custom { padding: 20px 0; font-weight: 700; font-size: 1rem; }
+    /* =========================================
+       BREADCRUMB MỚI (Dịch sang trái, không nền trắng, không icon)
+       ========================================= */
+    .breadcrumb-custom { 
+        padding: 15px 40px; 
+        font-weight: 600; 
+        font-size: 0.95rem;
+        background-color: transparent !important; 
+        border: none !important;
+        width: 100%;
+    }
     .breadcrumb-custom a { color: var(--primary); text-decoration: none; transition: 0.2s;}
-    .breadcrumb-custom a:hover { opacity: 0.7; }
-    .breadcrumb-custom span { color: #999; }
+    .breadcrumb-custom a:hover { text-decoration: underline; opacity: 0.8; }
+    @media (max-width: 768px) {
+        .breadcrumb-custom { padding: 15px 20px; }
+    }
     
     /* Tiêu đề trang */
     .page-main-title { font-family: 'Quicksand', sans-serif; font-weight: 800; font-size: 2.8rem; color: #0d5c2c; text-align: center; margin-bottom: 30px; text-shadow: 2px 2px 4px rgba(0,0,0,0.05);}
 
-    /* Stepper (Thanh tiến trình nối liền) */
-    .stepper-wrapper { display: flex; justify-content: space-between; position: relative; margin: 30px auto 50px; max-width: 550px; }
-    .stepper-wrapper::before { content: ''; position: absolute; top: 30px; left: 10%; width: 80%; height: 3px; background: #e5e7eb; z-index: 1; }
-    
+    /* Stepper Nét Đứt */
+    .stepper-wrapper { display: flex; justify-content: space-between; position: relative; margin: 30px auto 50px; max-width: 600px; }
+    .stepper-wrapper::before { 
+        content: ''; position: absolute; top: 30px; left: 16.66%; width: 66.66%; 
+        border-top: 3px dashed #cbd5e1; z-index: 1; 
+    }
     .step { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; width: 33.33%; }
-    .step-circle { width: 60px; height: 60px; background: #fff; border: 3px solid #e5e7eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: #cbd5e1; transition: 0.3s; }
-    .step.active .step-circle { border-color: var(--primary); background: var(--primary); color: #fff; box-shadow: 0 4px 12px rgba(26, 83, 54, 0.25); }
-    .step-text { margin-top: 10px; font-weight: 700; color: #94a3b8; font-size: 0.95rem; }
-    .step.active .step-text { color: var(--primary); }
+    .step-circle { 
+        width: 60px; height: 60px; background: #fff; border: 3px solid #cbd5e1; 
+        border-radius: 50%; display: flex; align-items: center; justify-content: center; 
+        font-size: 1.4rem; color: #cbd5e1; transition: 0.3s; 
+    }
+    .step.active .step-circle { 
+        border-color: var(--primary); background: var(--primary); color: #fff; 
+        box-shadow: 0 4px 15px rgba(26, 83, 54, 0.3); 
+    }
+    .step.completed .step-circle { 
+        border-color: var(--primary); background: #fff; color: var(--primary); 
+    }
+    .step-text { margin-top: 12px; font-weight: 600; color: #94a3b8; font-size: 0.95rem; }
+    .step.active .step-text { color: var(--primary); font-weight: 800; }
+    .step.completed .step-text { color: var(--primary); font-weight: 700; }
 
     /* Form Cards */
     .booking-card { background: #fff; border-radius: 20px; padding: 35px; box-shadow: 0 4px 20px rgba(0,0,0,0.03); border: 1px solid #f0f0f0; margin-bottom: 30px; }
-    .section-title { font-weight: 800; color: #111; font-size: 1.3rem; margin-bottom: 25px; display: flex; align-items: center; gap: 10px; }
+    .section-title { font-weight: 800; color: #ffffff; background-color: var(--primary); padding: 12px 20px; border-radius: 12px; font-size: 1.3rem; margin-bottom: 25px; display: flex; align-items: center; gap: 10px; }
     .section-title i { color: var(--accent); font-size: 1.1rem;}
 
-    /* Inputs */
     .form-label { font-weight: 700; color: #444; font-size: 0.95rem; margin-bottom: 8px;}
     .form-control { border-radius: 12px; padding: 14px 18px; border: 1.5px solid #e2e8f0; font-weight: 600; color: #333; transition: 0.3s; background-color: #f8fafc;}
     .form-control:focus { border-color: var(--primary-light); box-shadow: 0 0 0 4px rgba(46, 122, 84, 0.1); background-color: #fff;}
 
-    /* Bảng đếm hành khách (Pax Control) */
     .pax-item { display: flex; justify-content: space-between; align-items: center; padding: 18px 22px; border: 1.5px solid #e2e8f0; border-radius: 16px; margin-bottom: 15px; transition: 0.3s; background: #fff;}
     .pax-item:hover { border-color: #A5D6A7; background: #fdfdfd; box-shadow: 0 2px 10px rgba(0,0,0,0.02);}
     .pax-info h6 { font-weight: 800; margin: 0 0 3px 0; color: #222; font-size: 1.05rem;}
@@ -51,45 +73,40 @@
     .btn-pax:hover { background: var(--primary); color: #fff; }
     .pax-val { width: 35px; text-align: center; font-weight: 800; font-size: 1.1rem; color: var(--primary); }
 
-    /* Card Tóm tắt bên phải */
     .summary-wrapper { position: sticky; top: 90px; }
     .summary-card { background: #fff; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.06); border: 1px solid #f0f0f0; overflow: hidden; }
     .summary-img { width: 100%; height: 220px; object-fit: cover; }
     .summary-body { padding: 30px; }
-    
     .summary-tour-title { font-weight: 800; font-size: 1.25rem; color: #111; margin-bottom: 15px; line-height: 1.4;}
     .summary-meta { color: #555; font-size: 0.95rem; font-weight: 600; margin-bottom: 12px; display: flex; align-items: flex-start; gap: 10px;}
     .summary-meta i { color: var(--accent); font-size: 1.1rem; margin-top: 2px;}
-    
     .summary-divider { border-top: 2px dashed #e2e8f0; margin: 25px 0; opacity: 1;}
-    
     .price-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
     .price-label { color: #64748b; font-weight: 700; font-size: 0.95rem; }
     .price-val { font-weight: 800; color: #334155; font-size: 1.05rem; }
-    
     .total-box { background: #f0fdf4; border-radius: 16px; padding: 20px; border: 1px solid #bbf7d0; margin-top: 20px;}
     .total-label { font-size: 1.1rem; font-weight: 800; color: var(--primary); }
     .total-price { font-size: 1.8rem; font-weight: 900; color: #e74c3c; }
 
-    /* Nút thanh toán */
     .btn-submit { background: linear-gradient(135deg, var(--accent), #ff7f50); color: #fff; border: none; border-radius: 12px; padding: 16px; font-size: 1.2rem; font-family: 'Quicksand', sans-serif; font-weight: 800; width: 100%; margin-top: 25px; box-shadow: 0 8px 15px rgba(242, 154, 46, 0.25); transition: 0.3s; text-transform: uppercase; letter-spacing: 0.5px;}
     .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 12px 20px rgba(242, 154, 46, 0.35); color: #fff;}
-    
     .terms-check { font-weight: 600; font-size: 0.9rem; color: #475569;}
     .terms-check a { color: var(--primary); text-decoration: none; font-weight: 700;}
     .terms-check a:hover { text-decoration: underline; }
 </style>
 
-<div class="container" style="max-width: 1200px; padding-bottom: 80px;">
-    <div class="breadcrumb-custom">
-        <a href="?controller=home"><i class="fa-solid fa-house-chimney me-1"></i>Trang chủ</a> <span class="mx-2">></span> 
-        <a href="?controller=tour">Tour</a> <span class="mx-2">></span> 
-        <a href="?controller=tourdetail&id=<?= htmlspecialchars($tour['MaTour']) ?>">Chi tiết tour</a> <span class="mx-2">></span> 
-        <span>Đặt tour</span>
-    </div>
+<div class="breadcrumb-custom">
+    <a href="?controller=home">Trang chủ</a> &nbsp;>&nbsp; 
+    <a href="?controller=tour">Tour</a> &nbsp;>&nbsp; 
+    <a href="?controller=tourdetail&id=<?= htmlspecialchars($tour['MaTour']) ?>">Chi tiết tour</a> &nbsp;>&nbsp; 
+    <span style="color: #666;">Đặt tour</span>
+</div>
 
-    <h1 class="page-main-title">Hoàn tất đặt Tour</h1>
-    <div class="stepper-wrapper">
+<div class="container" style="max-width: 1200px; padding-bottom: 80px;">
+
+    <h1 class="page-main-title">Nhập thông tin đặt tour</h1>
+    
+    <div class="stepper-wrapper step-1">
         <div class="step active">
             <div class="step-circle"><i class="fa-solid fa-clipboard-user"></i></div>
             <div class="step-text">Nhập thông tin</div>
@@ -250,7 +267,7 @@
                             </div>
                             
                             <button type="submit" class="btn-submit">
-                                <i class="fa-solid fa-lock me-2"></i> Thanh toán an toàn
+                                <i class="fa-solid fa-lock me-2"></i> Thanh toán
                             </button>
                         </div>
                     </div>
@@ -261,49 +278,33 @@
 </div>
 
 <script>
-    // Logic Javascript tính toán giá tiền tự động
     const basePrice = <?= $tour['Gia'] ?>;
     const discountRate = <?= $tour['UuDai'] ?? 0 ?>;
-    
-    let pax = {
-        adult: <?= $soLuong ?>,
-        child: 0,
-        infant: 0
-    };
+    let pax = { adult: <?= $soLuong ?>, child: 0, infant: 0 };
 
     function formatCurrency(number) {
         return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " đ";
     }
 
     function updatePax(type, delta) {
-        if (type === 'adult') {
-            pax.adult = Math.max(1, pax.adult + delta); // Tối thiểu 1 người lớn
-        } else {
-            pax[type] = Math.max(0, pax[type] + delta); // Trẻ em/em bé tối thiểu 0
-        }
-
-        // Cập nhật lên UI form
+        if (type === 'adult') { pax.adult = Math.max(1, pax.adult + delta); } 
+        else { pax[type] = Math.max(0, pax[type] + delta); }
         document.getElementById(`val_${type}`).innerText = pax[type];
         document.getElementById(`input_${type}`).value = pax[type];
-        
         calculateTotal();
     }
 
     function calculateTotal() {
-        // Trẻ em tính 75% giá, em bé miễn phí
         const childPrice = basePrice * 0.75;
         const subtotal = (pax.adult * basePrice) + (pax.child * childPrice);
         const discountAmt = subtotal * discountRate;
         const finalTotal = subtotal - discountAmt;
 
-        // Cập nhật UI Card Tóm tắt
         document.getElementById('sum_subtotal').innerText = formatCurrency(subtotal);
         document.getElementById('sum_final_total').innerText = formatCurrency(finalTotal);
         
         let calcText = `${pax.adult} x ${formatCurrency(basePrice)}`;
-        if (pax.child > 0) {
-            calcText += `<br>${pax.child} x ${formatCurrency(childPrice)}`;
-        }
+        if (pax.child > 0) { calcText += `<br>${pax.child} x ${formatCurrency(childPrice)}`; }
         document.getElementById('sum_calc_text').innerHTML = calcText;
 
         let paxText = "Người lớn";
@@ -311,14 +312,10 @@
         document.getElementById('sum_pax_text').innerHTML = paxText;
 
         const discountElem = document.getElementById('sum_discount_amt');
-        if (discountElem) {
-            discountElem.innerText = formatCurrency(discountAmt);
-        }
+        if (discountElem) { discountElem.innerText = formatCurrency(discountAmt); }
     }
-
     calculateTotal();
     
-    // VALIDATE THÔNG BÁO ALERT KHI BẤM NÚT THANH TOÁN
     document.getElementById('bookingForm').addEventListener('submit', function(e) {
         const hoTen = document.getElementById('ho_ten');
         const dienThoai = document.getElementById('dien_thoai');
@@ -326,39 +323,11 @@
         const diaChi = document.getElementById('dia_chi');
         const terms = document.getElementById('termsCheck');
 
-        if (!hoTen.value.trim()) {
-            e.preventDefault();
-            alert('Vui lòng nhập đầy đủ Họ và tên!');
-            hoTen.focus();
-            return;
-        }
-
-        if (!dienThoai.value.trim()) {
-            e.preventDefault();
-            alert('Vui lòng nhập Số điện thoại liên lạc!');
-            dienThoai.focus();
-            return;
-        }
-
-        if (!email.value.trim()) {
-            e.preventDefault();
-            alert('Vui lòng nhập địa chỉ Email!');
-            email.focus();
-            return;
-        }
-
-        if (!diaChi.value.trim()) {
-            e.preventDefault();
-            alert('Vui lòng cung cấp Địa chỉ của bạn!');
-            diaChi.focus();
-            return;
-        }
-
-        if (!terms.checked) {
-            e.preventDefault();
-            alert('Vui lòng đánh dấu check đồng ý với Điều khoản và Chính sách của chúng tôi để tiếp tục!');
-            return;
-        }
+        if (!hoTen.value.trim()) { e.preventDefault(); alert('Vui lòng nhập đầy đủ Họ và tên!'); hoTen.focus(); return; }
+        if (!dienThoai.value.trim()) { e.preventDefault(); alert('Vui lòng nhập Số điện thoại liên lạc!'); dienThoai.focus(); return; }
+        if (!email.value.trim()) { e.preventDefault(); alert('Vui lòng nhập địa chỉ Email!'); email.focus(); return; }
+        if (!diaChi.value.trim()) { e.preventDefault(); alert('Vui lòng cung cấp Địa chỉ của bạn!'); diaChi.focus(); return; }
+        if (!terms.checked) { e.preventDefault(); alert('Vui lòng đánh dấu check đồng ý với Điều khoản và Chính sách của chúng tôi để tiếp tục!'); return; }
     });
 </script>
 
