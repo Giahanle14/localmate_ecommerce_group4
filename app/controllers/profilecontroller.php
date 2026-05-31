@@ -53,10 +53,10 @@ class ProfileController {
         $msg_type = '';
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'update_profile') {
-            // Đã bỏ lấy biến $hoTen
+            $hoTen = trim($_POST['hoTen']);
             $sdt = trim($_POST['sdt']);
             $ngaySinh = $_POST['ngaySinh'];
-            $gioiTinh = !empty($_POST['gioiTinh']) ? $_POST['gioiTinh'] : null;
+            $gioiTinh = $_POST['gioiTinh'];
             $sdtKhanCap = trim($_POST['sdtKhanCap']);
             $diaChi = trim($_POST['diaChi']);
             
@@ -88,16 +88,15 @@ class ProfileController {
             }
 
             if (!$password_error) {
-                // Đã bỏ $hoTen khỏi câu lệnh kiểm tra empty
-                if(empty($sdt) || empty($ngaySinh) || empty($sdtKhanCap) || empty($diaChi)){
+                if(empty($hoTen) || empty($sdt) || empty($ngaySinh) || empty($sdtKhanCap) || empty($diaChi)){
                      $message = "Vui lòng điền đầy đủ các thông tin bắt buộc!"; $msg_type = "danger";
                 } else {
-                    // Gọi updateProfile không truyền $hoTen
-                    $update_success = $model->updateProfile($userInfo['MaTK'], $currentUser, $ngaySinh, $gioiTinh, $sdt, $diaChi, $sdtKhanCap);
+                    $update_success = $model->updateProfile($userInfo['MaTK'], $currentUser, $hoTen, $ngaySinh, $gioiTinh, $sdt, $diaChi, $sdtKhanCap);
                     
                     if ($update_success) {
                         $message = "Đã lưu thông tin thành công!" . ($password_updated ? " Kèm mật khẩu đã được cập nhật." : "");
                         $msg_type = "success";
+                        $_SESSION['user']['HoTen'] = $hoTen; 
                     } else {
                         $message = "Có lỗi xảy ra khi lưu thông tin."; $msg_type = "danger";
                     }
@@ -109,12 +108,6 @@ class ProfileController {
 
         if (!$userInfo) {
             die("<div style='text-align:center; padding: 50px; font-family: sans-serif;'><h2>LỖI KHÔNG TÌM THẤY DỮ LIỆU</h2><p>Không tìm thấy khách hàng có mã <b>{$currentUser}</b>.</p></div>");
-        }
-
-        // BIẾN MỚI: Kiểm tra xem hồ sơ đã điền đủ thông tin chưa
-        $missingInfo = false;
-        if (empty($userInfo['SDT']) || $userInfo['SDT'] === 'Chưa cập nhật' || empty($userInfo['NgaySinh']) || empty($userInfo['DiaChi'])) {
-            $missingInfo = true;
         }
 
         $userStats = $model->getUserStats($userInfo['MaTK_DK']);
@@ -167,7 +160,6 @@ class ProfileController {
             }
         }
 
-        // Gọi View và truyền các biến xuống
         require_once 'app/views/profileview.php';
     }
 }
