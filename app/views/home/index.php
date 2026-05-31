@@ -244,7 +244,7 @@
         <div class="carousel-inner">
             <?php for($i = 1; $i <= 6; $i++): ?>
                 <div class="carousel-item <?= $i == 1 ? 'active' : '' ?>">
-                    <img src="public/image/banner/Banner_LocalMate_<?= $i ?>.png" class="d-block w-100" alt="Banner LocalMate <?= $i ?>" style="height: 500px; object-fit: cover; object-position: center;">
+                    <img src="public/image/banner/Banner_LocalMate_<?= $i ?>.png" class="d-block w-100" alt="Banner LocalMate <?= $i ?>" style="aspect-ratio: 1440/400; object-fit: cover; object-position: center;">
                     <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.4) 100%); pointer-events: none;"></div>
                 </div>
             <?php endfor; ?>
@@ -260,8 +260,7 @@
     </div>
 </section>
 
-<!-- THANH TÌM KIẾM -->
-<div class="search-bar-wrapper" style="position: relative; z-index: 10; margin-top: -15px; padding-bottom: 20px;">
+<div class="search-bar-wrapper" style="position: relative; z-index: 10; margin-top: -85px; padding-bottom: 20px;">
     <div class="container">
         <div class="search-container shadow-lg" style="border-radius: 50px; background: white;">
             <form id="searchForm" action="index.php" method="GET" class="d-flex align-items-center flex-nowrap w-100 bg-white" style="border-radius: 50px;">
@@ -672,10 +671,11 @@
                     countSpan.innerText = count - 1;
                 }
             } else {
-                alert(data.message);
-                if(data.message.includes("đăng nhập")) {
-                    var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
-                    loginModal.show();
+                if (data.message.includes("đăng nhập") && typeof requireLoginPopup === 'function') {
+                    requireLoginPopup(null, 'thêm tour vào Danh sách yêu thích');
+                } else {
+                    // Dùng alert cho các lỗi khác (VD: tài khoản admin/đối tác không được thả tim)
+                    alert(data.message);
                 }
             }
         })
