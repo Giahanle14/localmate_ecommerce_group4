@@ -43,12 +43,12 @@ a {
    ========================================================================== */
 .main-header {
     background-color: var(--color-primary-dark);
-    padding: 6px 0; /* Thu nhỏ padding trên dưới */
+    padding: 6px 0; 
     position: sticky;
     top: 0;
     z-index: 1030;
     box-shadow: var(--shadow-sm);
-    min-height: 60px; /* Ép độ cao tối thiểu cho thon gọn */
+    min-height: 60px; 
     display: flex;
     align-items: center;
 }
@@ -56,9 +56,9 @@ a {
 .navbar-nav .nav-link {
     color: rgba(255, 255, 255, 0.9) !important;
     font-weight: 600;
-    font-size: 0.95rem; /* Giảm cỡ chữ xuống 1 chút cho cân đối */
-    padding: 6px 16px !important; /* Thu nhỏ padding của cái nút (pill) */
-    border-radius: 20px; /* Bo góc nhẹ lại cho thanh thoát */
+    font-size: 0.95rem; 
+    padding: 6px 16px !important; 
+    border-radius: 20px; 
     display: flex !important;
     align-items: center !important;
     gap: 8px !important; 
@@ -75,6 +75,12 @@ a {
     background-color: var(--color-bg-cream) !important;
     color: var(--color-primary-dark) !important;
     font-weight: 700;
+}
+
+.navbar-nav .nav-link i,
+.navbar-nav .nav-link img.icon-nonla {
+    width: 25px !important;
+    text-align: center;
 }
 
 .icon-nonla {
@@ -185,7 +191,6 @@ a {
     background-color: #E2F4FA; 
 }
 
-/* Tuyệt chiêu dải nền vàng nhạt, lấp kín khe hở */
 .search-bar-wrapper {
     margin-top: -35px; 
     background: linear-gradient(to bottom, transparent 35px, #FFFDF0 35px); 
@@ -419,7 +424,6 @@ a {
     overflow: hidden;
 }
 
-/* Nền vàng nhạt cho card */
 .favorite-card {
     background-color: #FFFDF0 !important; 
 }
@@ -592,7 +596,7 @@ a {
 .login-modal-header {
     position: relative;
     display: block !important;
-    padding: 30px 40px 40px 40px; /* Tinh chỉnh lại padding cho cân đối */
+    padding: 30px 40px 40px 40px; 
     border-radius: 24px 24px 0 0;
     border: none !important;
     background: transparent; 
@@ -881,8 +885,19 @@ a {
     .footer-container { grid-template-columns: repeat(3, 1fr); }
 }
 @media (max-width: 768px) {
-    .footer-container { grid-template-columns: 1fr; }
-    .bottom-actions { flex-direction: column; gap: 20px; }
+    .footer-container { 
+        grid-template-columns: 1fr 1fr; 
+        gap: 25px 15px;
+    }
+    .footer-container > div:nth-child(1),
+    .footer-container > div:nth-child(2),
+    .footer-container > div:nth-child(5) {
+        grid-column: span 2;
+    }
+    .bottom-actions { 
+        flex-direction: column; 
+        gap: 20px; 
+    }
 }
 
 /* ==========================================================================
@@ -1029,7 +1044,9 @@ span.flatpickr-weekday:nth-child(7) { color: #D32F2F !important; }
     box-shadow: 0 4px 15px rgba(0, 113, 45, 0.3);
 }
 
-/* Thẻ chuyến đi đã đặt (Grid 2 cột) */
+/* ==========================================================================
+   10. CHUYẾN ĐI ĐÃ ĐẶT 
+   ========================================================================== */
 .booked-trips-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -1102,7 +1119,9 @@ span.flatpickr-weekday:nth-child(7) { color: #D32F2F !important; }
 .status-done { color: var(--color-primary); }
 .status-wait { color: #f39c12; }
 
-/* Các khối chứa Grid Tour liên quan */
+/* ==========================================================================
+   11. GRID TOUR LIÊN QUAN (V2)
+   ========================================================================== */
 .tour-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -1144,175 +1163,150 @@ span.flatpickr-weekday:nth-child(7) { color: #D32F2F !important; }
 .btn-action-green { background: var(--color-primary-dark); color: white; font-weight: bold; border: none; border-radius: 20px; padding: 6px 20px; }
 
 .breadcrumb-custom { padding: 15px 40px; font-weight: 500; color: #0d5c2c; background: white; border-bottom: 1px solid #eee; }
-    .breadcrumb-custom a { color: #0d5c2c; text-decoration: none; }
-    .breadcrumb-custom a:hover { text-decoration: underline; }
+.breadcrumb-custom a { color: #0d5c2c; text-decoration: none; }
+.breadcrumb-custom a:hover { text-decoration: underline; }
 
 /* ==========================================================================
-   CSS cho trang favorite và tour
+   12. TRANG YÊU THÍCH VÀ TOUR
    ========================================================================== */
-    .sidebar-filter { background-color: var(--color-sidebar); border-radius: 12px; padding: 20px; border: 1px solid #E6EECA; position: sticky; top: 80px;}
-    .filter-tag { cursor: pointer; color: var(--color-tag-text); background: var(--color-tag-bg); transition: 0.2s; border: none; font-weight: 600; user-select: none; }
-    .filter-tag:hover, .filter-tag.active, .filter-tag.bg-success { background-color: var(--color-tag-active) !important; color: white !important; }
-    
-    .section-title { background-color: var(--color-primary); color: white; display: inline-block; padding: 8px 24px; border-radius: 8px; font-weight: 600; font-size: 1.1rem;}
-    
-    .tour-card { border: 1px solid #eee; border-radius: 12px; overflow: hidden; transition: 0.3s ease; height: 100%; box-shadow: 0 2px 10px rgba(0,0,0,0.03); background: white;}
-    .tour-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
-    .tour-img-wrapper { position: relative; height: 180px; overflow: hidden; padding: 8px 8px 0 8px; }
-    .tour-img-wrapper img { width: 100%; height: 100%; object-fit: cover; border-radius: 10px; }
-    
-    .price-badge { position: absolute; top: 16px; right: 16px; background-color: var(--color-primary); color: white; padding: 4px 12px; border-radius: 20px; font-weight: 700; font-size: 0.85rem; z-index: 2;}
-    .tour-card-body { padding: 15px 20px; display: flex; flex-direction: column; flex-grow: 1;}
-    .tour-title { font-weight: 700; font-size: 1.1rem; color: #333; margin-bottom: 8px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;}
-    .hr-dashed { border-top: 2px dashed #ddd; margin: 15px 0; opacity: 1; }
-    .heart-btn { cursor: pointer; user-select: none; transition: 0.2s;}
-    .heart-btn:hover { opacity: 0.7; }
-    
-    .carousel-container { position: relative; padding: 0 20px; }
-    .carousel-track { display: flex; gap: 20px; overflow-x: auto; scroll-behavior: smooth; scroll-snap-type: x mandatory; scrollbar-width: none; }
-    .carousel-track::-webkit-scrollbar { display: none; }
-    .carousel-item-box { min-width: calc(33.333% - 14px); scroll-snap-align: start; position: relative; border-radius: 12px; overflow: hidden; height: 160px;}
-    .carousel-item-box img { width: 100%; height: 100%; object-fit: cover; }
-    .carousel-overlay { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(0,0,0,0.6), transparent); padding: 15px; text-align: center; color: white; font-weight: bold; text-transform: uppercase; }
-    .carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); background: white; border: none; width: 35px; height: 35px; border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.2); color: var(--color-primary); z-index: 10; cursor: pointer;}
-    .btn-prev { left: -5px; } .btn-next { right: -5px; }
+.sidebar-filter { background-color: var(--color-sidebar); border-radius: 12px; padding: 20px; border: 1px solid #E6EECA; position: sticky; top: 80px;}
+.filter-tag { cursor: pointer; color: var(--color-tag-text); background: var(--color-tag-bg); transition: 0.2s; border: none; font-weight: 600; user-select: none; }
+.filter-tag:hover, .filter-tag.active, .filter-tag.bg-success { background-color: var(--color-tag-active) !important; color: white !important; }
 
-    /* Bổ sung Responsive cho trang Yêu Thích */
-    @media (max-width: 768px) {
-        .breadcrumb-custom { padding: 15px 20px !important; }
-        .header-title-mobile { flex-direction: column; align-items: stretch !important; gap: 15px; }
-        .header-title-mobile a { justify-content: center; }
-        #searchFavoriteForm { flex-direction: column; border-radius: 12px !important; padding: 10px !important; }
-        #searchFavoriteForm .d-flex { margin-bottom: 10px; padding: 0 10px !important; }
-        #searchFavoriteForm button { border-radius: 8px !important; width: 100%; }
-    }
+.tour-card { border: 1px solid #eee; border-radius: 12px; overflow: hidden; transition: 0.3s ease; height: 100%; box-shadow: 0 2px 10px rgba(0,0,0,0.03); background: white;}
+.tour-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
+.tour-img-wrapper { position: relative; height: 180px; overflow: hidden; padding: 8px 8px 0 8px; }
+.tour-img-wrapper img { width: 100%; height: 100%; object-fit: cover; border-radius: 10px; }
 
-    /* Bổ sung Responsive cho trang Tour */
-    @media (max-width: 768px) {
-        .breadcrumb-custom { padding: 15px 20px !important; }
-        .tour-header-mobile { flex-direction: column; align-items: flex-start !important; gap: 15px; }
-        .tour-header-mobile form { width: 100%; justify-content: space-between; }
-        /* Nới rộng thẻ Carousel trên màn hình nhỏ để dễ vuốt */
-        .carousel-item-box { min-width: 80% !important; }
-    }
-    @media (max-width: 992px) and (min-width: 769px) {
-        .carousel-item-box { min-width: calc(50% - 10px) !important; }
-    }
+.price-badge { position: absolute; top: 16px; right: 16px; background-color: var(--color-primary); color: white; padding: 4px 12px; border-radius: 20px; font-weight: 700; font-size: 0.85rem; z-index: 2;}
+.hr-dashed { border-top: 2px dashed #ddd; margin: 15px 0; opacity: 1; }
+.heart-btn { cursor: pointer; user-select: none; transition: 0.2s;}
+.heart-btn:hover { opacity: 0.7; }
+
+.carousel-container { position: relative; padding: 0 20px; }
+.carousel-track { display: flex; gap: 20px; overflow-x: auto; scroll-behavior: smooth; scroll-snap-type: x mandatory; scrollbar-width: none; }
+.carousel-track::-webkit-scrollbar { display: none; }
+.carousel-item-box { min-width: calc(33.333% - 14px); scroll-snap-align: start; position: relative; border-radius: 12px; overflow: hidden; height: 160px;}
+.carousel-item-box img { width: 100%; height: 100%; object-fit: cover; }
+.carousel-overlay { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(0,0,0,0.6), transparent); padding: 15px; text-align: center; color: white; font-weight: bold; text-transform: uppercase; }
+.carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); background: white; border: none; width: 35px; height: 35px; border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.2); color: var(--color-primary); z-index: 10; cursor: pointer;}
+.btn-prev { left: -5px; } .btn-next { right: -5px; }
+
+@media (max-width: 768px) {
+    .breadcrumb-custom { padding: 15px 20px !important; }
+    .header-title-mobile { flex-direction: column; align-items: stretch !important; gap: 15px; }
+    .header-title-mobile a { justify-content: center; }
+    #searchFavoriteForm { flex-direction: column; border-radius: 12px !important; padding: 10px !important; }
+    #searchFavoriteForm .d-flex { margin-bottom: 10px; padding: 0 10px !important; }
+    #searchFavoriteForm button { border-radius: 8px !important; width: 100%; }
+    
+    .tour-header-mobile { flex-direction: column; align-items: flex-start !important; gap: 15px; }
+    .tour-header-mobile form { width: 100%; justify-content: space-between; }
+    .carousel-item-box { min-width: 80% !important; }
+}
+
+@media (max-width: 992px) and (min-width: 769px) {
+    .carousel-item-box { min-width: calc(50% - 10px) !important; }
+}
+
 /* ==========================================================================
-   CSS cho trang adminaccount
+   13. TRANG QUẢN LÝ TÀI KHOẢN & BẢNG BIỂU CHUNG
    ========================================================================== */
-    .table-container { background: white; border-radius: 12px; box-shadow: var(--shadow-sm); overflow: hidden; }
-    .table-responsive { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    .table-custom { margin-bottom: 0; width: 100%; min-width: 800px; /* Ép độ rộng tối thiểu để bảng không bị bóp nghẹt */ }
-    .table-custom thead { background-color: #EAF9DE; }
-    .table-custom th { color: var(--color-primary-dark); font-weight: 700; padding: 15px; text-align: center; border-bottom: none; white-space: nowrap;}
-    .table-custom td { vertical-align: middle; padding: 12px 15px; text-align: center; border-bottom: 1px solid #f0f0f0; white-space: nowrap;}
-    .table-custom tbody tr:hover { background-color: #fcfcfc; }
-    
-    /* Badges */
-    .badge-status { padding: 6px 12px; border-radius: 20px; font-weight: 600; font-size: 0.85rem;}
-    .status-active { background-color: var(--color-primary-dark); color: white; }
-    .status-locked { background-color: #D32F2F; color: white; }
-    
-    .badge-rank { padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 0.8rem; display: inline-block; min-width: 80px;}
-    .rank-kimcuong { background-color: #6C8EBF; color: white; }
-    .rank-vang { background-color: #F2C94C; color: white; }
-    .rank-bac { background-color: #BDBDBD; color: white; }
-    .rank-dong { background-color: #CD7F32; color: white; }
+.table-container { background: white; border-radius: 12px; box-shadow: var(--shadow-sm); overflow: hidden; }
+.table-responsive { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.table-custom { margin-bottom: 0; width: 100%; min-width: 800px; }
+.table-custom thead { background-color: #EAF9DE; }
+.table-custom th { color: var(--color-primary-dark); font-weight: 700; padding: 15px; text-align: center; border-bottom: none; white-space: nowrap;}
+.table-custom td { vertical-align: middle; padding: 12px 15px; text-align: center; border-bottom: 1px solid #f0f0f0; white-space: nowrap;}
+.table-custom tbody tr:hover { background-color: #fcfcfc; }
 
-    /* Actions */
-    .action-icon { color: var(--color-primary-dark); font-size: 1.1rem; margin: 0 5px; cursor: pointer; transition: 0.2s;}
-    .action-icon:hover { color: var(--color-accent); transform: scale(1.1);}
-    
-    /* Toolbar */
-    .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 15px;}
-    .search-box { position: relative; width: 100%; max-width: 350px; }
-    .search-box input { width: 100%; padding: 8px 15px 8px 35px; border-radius: 8px; border: 1px solid #ccc; outline: none; }
-    .search-box i { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #888; }
-    .filter-box { flex-grow: 1; }
-    .filter-box select { width: 100%; padding: 8px 15px; border-radius: 8px; border: 1px solid #ccc; outline: none; color: #555; font-weight: 500;}
-    
-    .btn-add-new { background-color: var(--color-accent); color: white; font-weight: 700; border: none; border-radius: 8px; padding: 8px 20px; display: flex; align-items: center; justify-content: center; gap: 8px; white-space: nowrap;}
-    .btn-add-new:hover { background-color: #e5a600; color: white;}
+.badge-status { padding: 6px 12px; border-radius: 20px; font-weight: 600; font-size: 0.85rem;}
+.status-active { background-color: var(--color-primary-dark); color: white; }
+.status-locked { background-color: #D32F2F; color: white; }
 
-    /* Ép giao diện cho màn hình nhỏ (Điện thoại, iPad dọc) */
-    @media (max-width: 992px) {
-        .toolbar { flex-direction: column; align-items: stretch; }
-        .search-box { max-width: 100%; }
-        .toolbar > .d-flex { flex-wrap: wrap; width: 100%; }
-        .filter-box { min-width: 140px; }
-        .btn-add-new { width: 100%; margin-top: 5px; }
+.badge-rank { padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 0.8rem; display: inline-block; min-width: 80px;}
+.rank-kimcuong { background-color: #6C8EBF; color: white; }
+.rank-vang { background-color: #F2C94C; color: white; }
+.rank-bac { background-color: #BDBDBD; color: white; }
+.rank-dong { background-color: #CD7F32; color: white; }
+
+.action-icon { color: var(--color-primary-dark); font-size: 1.1rem; margin: 0 5px; cursor: pointer; transition: 0.2s;}
+.action-icon:hover { color: var(--color-accent); transform: scale(1.1);}
+
+.toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 15px;}
+.filter-box { flex-grow: 1; }
+.filter-box select { width: 100%; padding: 8px 15px; border-radius: 8px; border: 1px solid #ccc; outline: none; color: #555; font-weight: 500;}
+
+.btn-add-new { background-color: var(--color-accent); color: white; font-weight: 700; border: none; border-radius: 8px; padding: 8px 20px; display: flex; align-items: center; justify-content: center; gap: 8px; white-space: nowrap;}
+.btn-add-new:hover { background-color: #e5a600; color: white;}
+
+@media (max-width: 992px) {
+    .toolbar { flex-direction: column; align-items: stretch; }
+    .search-box { max-width: 100%; }
+    .toolbar > .d-flex { flex-wrap: wrap; width: 100%; }
+    .filter-box { min-width: 140px; }
+    .btn-add-new { width: 100%; margin-top: 5px; }
+}
+
+.modal-header-custom { background-color: var(--color-primary-dark); color: white; border-radius: calc(.3rem - 1px) calc(.3rem - 1px) 0 0; }
+.modal-title { font-weight: 700; }
+.form-group-title { font-weight: 700; color: var(--color-primary-dark); font-size: 0.95rem; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 5px;}
+.form-control:focus, .form-select:focus { border-color: var(--color-primary); box-shadow: 0 0 0 0.2rem rgba(0, 113, 45, 0.25); }
+.btn-submit-modal { background-color: var(--color-accent); border: none; color: white; font-weight: 700; padding: 8px 25px; border-radius: 20px;}
+
+/* ==========================================================================
+   14. RESPONSIVE HEADER (GLOBAL)
+   ========================================================================== */
+@media (max-width: 991px) {
+    .main-header .navbar {
+        padding: 8px 15px !important;
+        display: flex;
+        align-items: center;
+    }
+    
+    .main-header .navbar-brand {
+        margin-right: auto;
+        order: 1; 
     }
 
-    /* Modal Form Custom */
-    .modal-header-custom { background-color: var(--color-primary-dark); color: white; border-radius: calc(.3rem - 1px) calc(.3rem - 1px) 0 0; }
-    .modal-title { font-weight: 700; }
-    .form-group-title { font-weight: 700; color: var(--color-primary-dark); font-size: 0.95rem; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 5px;}
-    .form-control:focus, .form-select:focus { border-color: var(--color-primary); box-shadow: 0 0 0 0.2rem rgba(0, 113, 45, 0.25); }
-    .btn-submit-modal { background-color: var(--color-accent); border: none; color: white; font-weight: 700; padding: 8px 25px; border-radius: 20px;}
-
-    /* ==========================================================================
-   10. RESPONSIVE HEADER & FOOTER (GLOBAL)
-   ========================================================================== */
-    @media (max-width: 991px) {
-        /* Đảm bảo Navbar giãn đều 2 bên */
-        .main-header .navbar {
-            position: relative;
-            padding: 8px 15px !important;
-        }
-        
-        /* 1. Logo neo sát bên trái */
-        .main-header .navbar-brand {
-            margin-right: auto;
-        }
-
-        /* 2. Đưa nút Menu (Hamburger) ra chính giữa và custom viền giống Figma */
-        .main-header .navbar-toggler {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            border: 3px solid #829D64; /* Viền xanh nhạt dày */
-            border-radius: 10px;
-            padding: 4px 12px;
-            outline: none;
-        }
-        
-        .main-header .navbar-toggler:focus {
-            box-shadow: none; /* Bỏ shadow mặc định xấu xí của Bootstrap */
-            border-color: #A3C47C;
-        }
-
-        /* 3. Cụm Icon User và Chuông neo sát bên phải */
-        .main-header .d-flex.align-items-center {
-            margin-left: auto;
-        }
-
-        /* 4. Tinh chỉnh Menu thả xuống (Collapse) trên mobile cho đẹp */
-        .navbar-collapse {
-            background-color: var(--color-primary-dark);
-            padding: 15px;
-            border-radius: 12px;
-            margin-top: 15px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-            position: absolute;
-            top: 100%;
-            left: 15px;
-            right: 15px;
-            z-index: 1050;
-        }
-        
-        /* Khoảng cách các nút menu khi xổ xuống */
-        .navbar-nav .nav-link {
-            padding: 10px 20px !important;
-            margin-bottom: 5px;
-        }
-
-        /* 5. Tinh chỉnh Footer padding gọn hơn trên điện thoại */
-        .lm-footer {
-            padding: 30px 20px;
-        }
-        .bottom-actions { 
-            flex-direction: column; 
-            gap: 20px; 
-        }
+    .main-header .d-flex.align-items-center {
+        margin-left: auto;
+        margin-right: 15px; 
+        order: 2; 
     }
+
+    .main-header .navbar-toggler {
+        order: 3; 
+        border: 3px solid #829D64;
+        border-radius: 10px;
+        padding: 4px 12px;
+        outline: none;
+        position: relative; 
+        left: auto;
+        transform: none;
+    }
+    
+    .main-header .navbar-toggler:focus {
+        box-shadow: none;
+        border-color: #A3C47C;
+    }
+
+    .navbar-collapse {
+        order: 4; 
+        background-color: var(--color-primary-dark);
+        padding: 15px;
+        border-radius: 12px;
+        margin-top: 15px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        position: absolute;
+        top: 100%;
+        left: 15px;
+        right: 15px;
+        z-index: 1050;
+    }
+    
+    .navbar-nav .nav-link {
+        padding: 10px 20px !important;
+        margin-bottom: 5px;
+    }
+}
