@@ -6,7 +6,6 @@ class AdminTourController {
     
     public function __construct() {
         if (session_status() === PHP_SESSION_NONE) session_start();
-        // Kiểm tra quyền Admin
         if (!isset($_SESSION['user']) || $_SESSION['user']['LoaiTK'] !== 'Quản trị viên') {
             header("Location: index.php?controller=home");
             exit;
@@ -15,8 +14,41 @@ class AdminTourController {
 
     public function index() {
         $model = new AdminTourModel();
-        $tours = $model->getAllTours();
+        
+        // 1. Nhận trạng thái Tab từ URL
+        $tab = isset($_GET['tab']) ? $_GET['tab'] : 'all';
+
+        // 2. Nhận bộ lọc
+        $filters = [
+            'search' => isset($_GET['search']) ? trim($_GET['search']) : '',
+            'vung' => isset($_GET['vung']) ? trim($_GET['vung']) : '',
+            'trainghiem' => isset($_GET['trainghiem']) ? trim($_GET['trainghiem']) : '',
+            'gia' => isset($_GET['gia']) ? trim($_GET['gia']) : ''
+        ];
+
+        // 3. Lấy dữ liệu thống kê đếm số
+        $stats = $model->getTourStats();
+
+        // 4. Lấy danh sách tour đã lọc & chuyển ra View
+        $tours = $model->getFilteredTours($filters, $tab);
         $viewMode = 'list';
+        require_once 'app/views/admintourview.php';
+    }
+
+    public function detail() {
+        if (!isset($_GET['id'])) {
+            header("Location: index.php?controller=admintour");
+            exit;
+        }
+        $model = new AdminTourModel();
+        $tourData = $model->getTourById($_GET['id']);
+        
+        if (!$tourData) {
+            echo "<script>alert('Không tìm thấy Tour!'); window.location.href='index.php?controller=admintour';</script>";
+            exit;
+        }
+
+        $viewMode = 'detail'; // Bật chế độ chỉ xem
         require_once 'app/views/admintourview.php';
     }
 
@@ -25,9 +57,8 @@ class AdminTourController {
         $viewMode = 'add';
         
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $hinhAnh = 'public/image/tour/default.jpg'; // Ảnh mặc định
+            $hinhAnh = 'public/image/tour/default.jpg';
             
-            // Xử lý upload ảnh cover
             if (isset($_FILES['coverImage']) && $_FILES['coverImage']['error'] === UPLOAD_ERR_OK) {
                 $uploadDir = 'public/image/tour/';
                 if (!is_dir($uploadDir)) mkdir($uploadDir, 0777, true);
