@@ -1250,3 +1250,69 @@ span.flatpickr-weekday:nth-child(7) { color: #D32F2F !important; }
     .form-group-title { font-weight: 700; color: var(--color-primary-dark); font-size: 0.95rem; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 5px;}
     .form-control:focus, .form-select:focus { border-color: var(--color-primary); box-shadow: 0 0 0 0.2rem rgba(0, 113, 45, 0.25); }
     .btn-submit-modal { background-color: var(--color-accent); border: none; color: white; font-weight: 700; padding: 8px 25px; border-radius: 20px;}
+
+    /* ==========================================================================
+   10. RESPONSIVE HEADER & FOOTER (GLOBAL)
+   ========================================================================== */
+    @media (max-width: 991px) {
+        /* Đảm bảo Navbar giãn đều 2 bên */
+        .main-header .navbar {
+            position: relative;
+            padding: 8px 15px !important;
+        }
+        
+        /* 1. Logo neo sát bên trái */
+        .main-header .navbar-brand {
+            margin-right: auto;
+        }
+
+        /* 2. Đưa nút Menu (Hamburger) ra chính giữa và custom viền giống Figma */
+        .main-header .navbar-toggler {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 3px solid #829D64; /* Viền xanh nhạt dày */
+            border-radius: 10px;
+            padding: 4px 12px;
+            outline: none;
+        }
+        
+        .main-header .navbar-toggler:focus {
+            box-shadow: none; /* Bỏ shadow mặc định xấu xí của Bootstrap */
+            border-color: #A3C47C;
+        }
+
+        /* 3. Cụm Icon User và Chuông neo sát bên phải */
+        .main-header .d-flex.align-items-center {
+            margin-left: auto;
+        }
+
+        /* 4. Tinh chỉnh Menu thả xuống (Collapse) trên mobile cho đẹp */
+        .navbar-collapse {
+            background-color: var(--color-primary-dark);
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            position: absolute;
+            top: 100%;
+            left: 15px;
+            right: 15px;
+            z-index: 1050;
+        }
+        
+        /* Khoảng cách các nút menu khi xổ xuống */
+        .navbar-nav .nav-link {
+            padding: 10px 20px !important;
+            margin-bottom: 5px;
+        }
+
+        /* 5. Tinh chỉnh Footer padding gọn hơn trên điện thoại */
+        .lm-footer {
+            padding: 30px 20px;
+        }
+        .bottom-actions { 
+            flex-direction: column; 
+            gap: 20px; 
+        }
+    }
