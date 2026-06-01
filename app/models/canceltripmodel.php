@@ -31,32 +31,15 @@ class CancelTripModel {
     }
 
     // Thực thi Transaction lưu yêu cầu hủy
+    // Thực thi Transaction lưu yêu cầu hủy (BẢN MỚI CHUẨN LOGIC)
     public function submitCancelRequest($maTK, $maChuyenDi, $lyDo, $tyLeHoan, $soTienHoan) {
         try {
             $this->conn->beginTransaction();
 
-            // 0. BỔ SUNG: Lấy thông tin chuyến đi để tính toán trả lại ghế trống
-            $sqlGetInfo = "SELECT MaLichKhoiHanh, SoLuongKhach FROM ChuyenDi WHERE MaChuyenDi = :macd AND MaTK_DK = :matk";
-            $stmtGetInfo = $this->conn->prepare($sqlGetInfo);
-            $stmtGetInfo->execute([':macd' => $maChuyenDi, ':matk' => $maTK]);
-            $cdInfo = $stmtGetInfo->fetch(PDO::FETCH_ASSOC);
+            // CHỈ tạo yêu cầu hủy chờ duyệt. 
+            // KHÔNG sửa trạng thái chuyến đi thành 'Đã hủy' ở đây.
+            // KHÔNG hoàn trả ghế ở đây.
 
-            // 1. Cập nhật bảng ChuyenDi thành 'Đã hủy'
-            $sqlUpdate = "UPDATE ChuyenDi SET TrangThai = 'Đã hủy' WHERE MaChuyenDi = :macd AND MaTK_DK = :matk";
-            $stmtUpdate = $this->conn->prepare($sqlUpdate);
-            $stmtUpdate->execute([':macd' => $maChuyenDi, ':matk' => $maTK]);
-
-            // 1.5. BỔ SUNG LOGIC: Hoàn trả lại số chỗ đã đặt cho bảng LichKhoiHanh
-            if ($cdInfo && $cdInfo['MaLichKhoiHanh']) {
-                $sqlLKH = "UPDATE LichKhoiHanh SET SoChoDaDat = SoChoDaDat - :soluong WHERE MaLichKhoiHanh = :malich";
-                $stmtLKH = $this->conn->prepare($sqlLKH);
-                $stmtLKH->execute([
-                    ':soluong' => $cdInfo['SoLuongKhach'],
-                    ':malich' => $cdInfo['MaLichKhoiHanh']
-                ]);
-            }
-
-            // 2. Thêm vào bảng YeuCauHuy
             $maYeuCau = $this->generateMaYeuCauHuy();
             $sqlInsert = "INSERT INTO YeuCauHuy (MaYeuCauHuy, LyDoHuy, TyLeHoanTien, SoTienHoan, NgayYeuCau, TrangThai, MaChuyenDi, MaTK_DK)
                           VALUES (:mayc, :lydo, :tyle, :sotien, NOW(), 'Chưa xử lý', :macd, :matk)";

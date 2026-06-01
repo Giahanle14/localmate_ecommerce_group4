@@ -3,7 +3,12 @@
 $statusClass = '';
 $statusText = $trip['TrangThai'];
 if ($statusText === 'Chưa hoàn thành') {
-    $statusClass = 'badge-warning';
+    if (!empty($trip['TrangThaiHuy']) && $trip['TrangThaiHuy'] === 'Chưa xử lý') {
+        $statusText = 'Đang chờ duyệt hủy';
+        $statusClass = 'badge-warning';
+    } else {
+        $statusClass = 'badge-warning';
+    }
 } elseif ($statusText === 'Đã hoàn thành') {
     $statusClass = 'badge-success';
 } elseif ($statusText === 'Đã hủy') {
@@ -11,13 +16,9 @@ if ($statusText === 'Chưa hoàn thành') {
 }
 ?>
 <style>
-    :root {
-        --primary: #1A5336;
-        --bg-color: #FDFDF9;
-    }
+    :root { --primary: #1A5336; --bg-color: #FDFDF9; }
     body { background-color: var(--bg-color); font-family: 'Quicksand', sans-serif; }
 
-    /* Header & Badge */
     .trip-header-box { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px dashed #e2e8f0; padding-bottom: 20px; margin-bottom: 30px; }
     .trip-id { font-size: 1.8rem; font-weight: 800; color: #111; margin: 0; }
     .trip-date { color: #666; font-weight: 600; font-size: 0.95rem; margin-top: 5px; }
@@ -27,18 +28,15 @@ if ($statusText === 'Chưa hoàn thành') {
     .badge-success { background-color: #D1FAE5; color: #059669; border: 1px solid #A7F3D0; }
     .badge-danger { background-color: #FEE2E2; color: #DC2626; border: 1px solid #FECACA; }
 
-    /* Cards */
     .detail-card { background: #fff; border-radius: 20px; padding: 25px; box-shadow: 0 4px 20px rgba(0,0,0,0.03); border: 1px solid #f0f0f0; margin-bottom: 25px; }
     .card-title-custom { font-weight: 800; color: #111; font-size: 1.25rem; margin-bottom: 25px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #f1f5f9; padding-bottom: 15px;}
     
-    /* Tour Info Horizontal */
     .tour-hz-box { display: flex; gap: 25px; align-items: flex-start; margin-bottom: 25px;}
     .tour-hz-img { width: 160px; height: 160px; object-fit: cover; border-radius: 16px; border: 1px solid #eee;}
     .tour-hz-info h4 { font-weight: 800; color: var(--primary); font-size: 1.25rem; margin-bottom: 12px; line-height: 1.4; }
     .tour-hz-meta { display: flex; align-items: flex-start; gap: 10px; color: #555; font-weight: 600; font-size: 0.95rem; margin-bottom: 8px;}
     .tour-hz-meta i { color: #F29A2E; margin-top: 3px;}
 
-    /* Info Rows */
     .info-grid { display: flex; flex-direction: column; gap: 15px; }
     .info-row { display: flex; justify-content: space-between; align-items: center; font-size: 1rem; border-bottom: 1px dashed #f1f5f9; padding-bottom: 10px; }
     .info-row:last-child { border-bottom: none; padding-bottom: 0; }
@@ -46,11 +44,9 @@ if ($statusText === 'Chưa hoàn thành') {
     .info-value { color: #1e293b; font-weight: 700; text-align: right; }
     .total-highlight { font-size: 1.5rem; color: #e74c3c; font-weight: 900; }
 
-    /* Cancellation Box */
     .cancel-box { background-color: #FEF2F2; border: 1px solid #FECACA; border-radius: 16px; padding: 20px; margin-bottom: 25px; }
     .cancel-box h5 { color: #DC2626; font-weight: 800; font-size: 1.1rem; margin-bottom: 15px; display: flex; align-items: center; gap: 8px;}
 
-    /* Action Buttons */
     .btn-action-outline { border: 2px solid #DC2626; color: #DC2626; background: transparent; padding: 14px 30px; border-radius: 12px; font-weight: 800; font-size: 1.05rem; transition: 0.3s; width: 100%; text-transform: uppercase; text-align: center; text-decoration: none; display: block; box-sizing: border-box;}
     .btn-action-outline:hover { background: #DC2626; color: #fff; }
     
@@ -60,30 +56,17 @@ if ($statusText === 'Chưa hoàn thành') {
     .btn-print { background: #fff; border: 2px solid #cbd5e1; color: #475569; padding: 14px 30px; border-radius: 12px; font-weight: 800; font-size: 1.05rem; transition: 0.3s; width: 100%; text-transform: uppercase; display: block; box-sizing: border-box;}
     .btn-print:hover { background: #f1f5f9; color: #1e293b; border-color: #94a3b8; }
 
-    /* =========================================
-       CSS CHUYÊN DỤNG KHI IN HÓA ĐƠN (PRINT)
-       Ép toàn bộ nội dung nằm vừa vặn trên 1 trang A4
-       ========================================= */
     @media print {
         body { background-color: #fff !important; margin: 0; padding: 0; font-size: 12px !important; }
         header, footer, .breadcrumb-custom, .btn-print, .btn-action-fill, .btn-action-outline { display: none !important; }
         
         @page { size: A4 portrait; margin: 1cm; }
         .container { max-width: 100% !important; width: 100% !important; margin: 0 !important; padding: 0 !important; }
-        
         .row { display: flex !important; flex-wrap: nowrap !important; flex-direction: row !important; }
         .col-lg-7 { width: 55% !important; padding-right: 15px !important; }
         .col-lg-5 { width: 45% !important; padding-left: 15px !important; }
         
-        .detail-card, .cancel-box { 
-            box-shadow: none !important; 
-            border: 1px solid #ddd !important; 
-            padding: 10px 15px !important; 
-            margin-bottom: 10px !important; 
-            border-radius: 8px !important;
-            page-break-inside: avoid !important;
-        }
-        
+        .detail-card, .cancel-box { box-shadow: none !important; border: 1px solid #ddd !important; padding: 10px 15px !important; margin-bottom: 10px !important; border-radius: 8px !important; page-break-inside: avoid !important; }
         .trip-header-box { border-bottom: 2px solid #000; padding-bottom: 5px; margin-bottom: 10px; flex-direction: row !important; align-items: center !important;}
         .trip-id { font-size: 1.3rem !important; margin: 0 !important; }
         .trip-date { font-size: 0.85rem !important; margin-top: 2px !important; }
@@ -127,7 +110,7 @@ if ($statusText === 'Chưa hoàn thành') {
         </div>
         <div class="d-flex align-items-center gap-3">
             <div class="status-badge <?= $statusClass ?>">
-                <i class="fa-solid <?= $statusText === 'Chưa hoàn thành' ? 'fa-clock' : ($statusText === 'Đã hoàn thành' ? 'fa-circle-check' : 'fa-circle-xmark') ?>"></i>
+                <i class="fa-solid <?= $statusText === 'Chưa hoàn thành' || $statusText === 'Đang chờ duyệt hủy' ? 'fa-clock' : ($statusText === 'Đã hoàn thành' ? 'fa-circle-check' : 'fa-circle-xmark') ?>"></i>
                 <?= htmlspecialchars($statusText) ?>
             </div>
         </div>
@@ -156,11 +139,11 @@ if ($statusText === 'Chưa hoàn thành') {
                 <div class="info-grid">
                     <div class="info-row">
                         <span class="info-label">Ngày khởi hành</span>
-                        <span class="info-value"><?= date('d/m/Y', strtotime($trip['NgayBatDau'])) ?> <span class="text-muted fw-normal"></span></span>
+                        <span class="info-value"><?= date('d/m/Y', strtotime($trip['NgayBatDau'])) ?></span>
                     </div>
                     <div class="info-row">
                         <span class="info-label">Ngày kết thúc</span>
-                        <span class="info-value"><?= date('d/m/Y', strtotime($trip['NgayKetThuc'])) ?> <span class="text-muted fw-normal"></span></span>
+                        <span class="info-value"><?= date('d/m/Y', strtotime($trip['NgayKetThuc'])) ?></span>
                     </div>
                     <div class="info-row">
                         <span class="info-label">Số lượng khách</span>
@@ -191,44 +174,81 @@ if ($statusText === 'Chưa hoàn thành') {
                 </div>
             </div>
 
+            <!-- BẮT ĐẦU: BOX THÔNG TIN THEO DÕI HỦY TOUR -->
+            <?php if (!empty($trip['TrangThaiHuy'])): ?>
+                <?php 
+                    $isPending = ($trip['TrangThaiHuy'] === 'Chưa xử lý');
+                    $boxBorder = $isPending ? '#FDE68A' : '#FCA5A5';
+                    $boxBg = $isPending ? '#FFFBEB' : '#FEF2F2';
+                    $titleColor = $isPending ? 'text-warning' : 'text-danger';
+                ?>
+                
+                <div class="mt-4 p-4 rounded-4" style="border: 2px solid <?= $boxBorder ?>; background-color: <?= $boxBg ?>;">
+                    <h5 class="fw-bold <?= $titleColor ?> mb-3">
+                        <i class="fa-solid fa-file-invoice-dollar me-2"></i> THÔNG TIN YÊU CẦU HỦY TOUR
+                    </h5>
+                    
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="d-flex flex-column gap-2">
+                                <div>
+                                    <span class="text-muted fw-bold small text-uppercase">Trạng thái:</span><br>
+                                    <?php if($isPending): ?>
+                                        <span class="badge bg-warning text-dark px-3 py-2 mt-1 rounded-pill"><i class="fa-solid fa-hourglass-half me-1"></i> Đang chờ xét duyệt</span>
+                                    <?php else: ?>
+                                        <span class="badge bg-danger px-3 py-2 mt-1 rounded-pill"><i class="fa-solid fa-check-double me-1"></i> Đã hủy thành công</span>
+                                    <?php endif; ?>
+                                </div>
+                                <div>
+                                    <span class="text-muted fw-bold small text-uppercase">Ngày gửi yêu cầu:</span><br>
+                                    <span class="fw-bold text-dark"><?= !empty($trip['NgayYeuCau']) ? date('d/m/Y - H:i', strtotime($trip['NgayYeuCau'])) : 'N/A' ?></span>
+                                </div>
+                                <?php if(!$isPending && !empty($trip['NgayHoanTat'])): ?>
+                                    <div>
+                                        <span class="text-muted fw-bold small text-uppercase">Ngày duyệt:</span><br>
+                                        <span class="fw-bold text-dark"><?= date('d/m/Y - H:i', strtotime($trip['NgayHoanTat'])) ?></span>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="bg-white p-3 rounded-3 border" style="box-shadow: 0 2px 10px rgba(0,0,0,0.02);">
+                                <div class="d-flex justify-content-between border-bottom pb-2 mb-2">
+                                    <span class="text-muted fw-bold">Tỷ lệ hoàn:</span>
+                                    <span class="fw-bold text-dark"><?= floatval($trip['TyLeHoanTien'] ?? 0) * 100 ?>%</span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="text-muted fw-bold">Số tiền hoàn lại:</span>
+                                    <span class="fw-bold fs-4" style="color: #1A5336;"><?= number_format($trip['SoTienHoan'] ?? 0, 0, ',', '.') ?> VNĐ</span>
+                                </div>
+                            </div>
+                            <div class="mt-2 text-muted small">
+                                <strong>Lý do:</strong> <?= htmlspecialchars($trip['LyDoHuy'] ?? 'Không có lý do') ?>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Thông báo tình trạng tiền -->
+                    <?php if($isPending): ?>
+                        <div class="alert alert-warning mt-3 mb-0 border-0 shadow-sm d-flex align-items-center" style="background-color: rgba(255,193,7,0.15);">
+                            <i class="fa-solid fa-circle-notch fa-spin fs-4 text-warning me-3"></i>
+                            <div>Yêu cầu của bạn đang được xử lý. Hệ thống sẽ phản hồi tối đa trong vòng 24h.</div>
+                        </div>
+                    <?php else: ?>
+                        <div class="alert alert-success mt-3 mb-0 border-0 shadow-sm d-flex align-items-center" style="background-color: #D1E7DD; color: #0F5132;">
+                            <i class="fa-solid fa-shield-check fs-4 text-success me-3"></i>
+                            <div>
+                                <strong>Đã phê duyệt!</strong> Tiền hoàn sẽ được chuyển về tài khoản thanh toán ban đầu của bạn trong vòng 3-5 ngày làm việc.
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            <?php endif; ?>
+            <!-- KẾT THÚC: BOX THÔNG TIN THEO DÕI HỦY TOUR -->
         </div>
 
         <div class="col-lg-5">
-            
-            <?php if ($trip['TrangThai'] === 'Đã hủy'): ?>
-                <div class="cancel-box">
-                    <h5><i class="fa-solid fa-triangle-exclamation"></i> Chi tiết hủy chuyến</h5>
-                    <div class="info-grid">
-                        <div class="info-row">
-                            <span class="info-label" style="color: #b91c1c;">Thời gian hủy</span>
-                            <span class="info-value">
-                                <?= !empty($trip['NgayYeuCau']) ? date('d/m/Y H:i', strtotime($trip['NgayYeuCau'])) : (!empty($trip['NgayHoanTat']) ? date('d/m/Y H:i', strtotime($trip['NgayHoanTat'])) : 'Đang xử lý') ?>
-                            </span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label" style="color: #b91c1c;">Lý do hủy</span>
-                            <span class="info-value text-danger"><?= htmlspecialchars($trip['LyDoHuy'] ?? 'Không xác định') ?></span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label" style="color: #b91c1c;">Trạng thái xử lý</span>
-                            <span class="info-value"><?= htmlspecialchars($trip['TrangThaiHuy'] ?? 'Đã xử lý') ?></span>
-                        </div>
-                        <?php if (isset($trip['TyLeHoanTien'])): ?>
-                            <div class="info-row mt-2 pt-2" style="border-top: 1px dashed #FECACA;">
-                                <span class="info-label" style="color: #b91c1c;">% số tiền hoàn</span>
-                                <span class="info-value"><?= ($trip['TyLeHoanTien'] * 100) ?>%</span>
-                            </div>
-                        <?php endif; ?>
-                        <?php if (isset($trip['SoTienHoan'])): ?>
-                            <div class="info-row">
-                                <span class="info-label" style="color: #b91c1c;">Số tiền được hoàn</span>
-                                <span class="info-value" style="color: #DC2626; font-size: 1.1rem;"><?= number_format($trip['SoTienHoan'], 0, ',', '.') ?> đ</span>
-                            </div>
-                        <?php endif; ?>
-                    </div>
-                </div>
-            <?php endif; ?>
-
             <div class="detail-card">
                 <h3 class="card-title-custom"><i class="fa-solid fa-file-invoice-dollar" style="color: var(--primary);"></i> Chi tiết thanh toán</h3>
                 <div class="info-grid">
@@ -255,9 +275,11 @@ if ($statusText === 'Chưa hoàn thành') {
 
             <div class="d-flex flex-column gap-3 mt-2">
                 <?php if ($trip['TrangThai'] === 'Chưa hoàn thành'): ?>
-                    <a href="index.php?controller=canceltrip&id=<?= $trip['MaChuyenDi'] ?>" class="btn-action-outline">
-                        Yêu cầu hủy chuyến
-                    </a>
+                    <?php if (empty($trip['TrangThaiHuy'])): ?>
+                        <a href="index.php?controller=canceltrip&id=<?= $trip['MaChuyenDi'] ?>" class="btn-action-outline">
+                            Yêu cầu hủy chuyến
+                        </a>
+                    <?php endif; ?>
                     <button class="btn-print" onclick="window.print()"><i class="fa-solid fa-print me-2"></i> In hóa đơn</button>
                 
                 <?php elseif ($trip['TrangThai'] === 'Đã hoàn thành'): ?>
@@ -265,9 +287,7 @@ if ($statusText === 'Chưa hoàn thành') {
                         <i class="fa-solid fa-pen-nib me-2"></i> Đánh giá chuyến đi
                     </a>
                     <button class="btn-print" onclick="window.print()"><i class="fa-solid fa-print me-2"></i> In hóa đơn</button>
-                
-                <?php elseif ($trip['TrangThai'] === 'Đã hủy'): ?>
-                    <?php endif; ?>
+                <?php endif; ?>
             </div>
 
         </div>
