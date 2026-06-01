@@ -159,8 +159,9 @@
     <div class="modal-box">
         <h3>Bạn chắc chắn muốn<br>hủy tour này?</h3>
         <div class="modal-btn-group">
-            <button type="button" class="btn-modal-gray" onclick="submitRealForm()">Tiếp tục</button>
-            <button type="button" class="btn-modal-red" onclick="closeModal()">Hủy</button>
+            <button type="button" class="btn-modal-gray" onclick="closeModal()">Không, quay lại</button>
+            
+            <button type="button" class="btn-modal-red" onclick="submitRealForm()">Xác nhận hủy</button>
         </div>
     </div>
 </div>

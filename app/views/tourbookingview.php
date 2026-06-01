@@ -12,9 +12,6 @@
     
     body { background-color: var(--bg-color); font-family: 'Quicksand', sans-serif; }
 
-    /* =========================================
-       BREADCRUMB MỚI (Dịch sang trái, không nền trắng, không icon)
-       ========================================= */
     .breadcrumb-custom { 
         padding: 15px 40px; 
         font-weight: 600; 
@@ -29,10 +26,8 @@
         .breadcrumb-custom { padding: 15px 20px; }
     }
     
-    /* Tiêu đề trang */
     .page-main-title { font-family: 'Quicksand', sans-serif; font-weight: 800; font-size: 2.8rem; color: #0d5c2c; text-align: center; margin-bottom: 30px; text-shadow: 2px 2px 4px rgba(0,0,0,0.05);}
 
-    /* Stepper Nét Đứt */
     .stepper-wrapper { display: flex; justify-content: space-between; position: relative; margin: 30px auto 50px; max-width: 600px; }
     .stepper-wrapper::before { 
         content: ''; position: absolute; top: 30px; left: 16.66%; width: 66.66%; 
@@ -55,7 +50,6 @@
     .step.active .step-text { color: var(--primary); font-weight: 800; }
     .step.completed .step-text { color: var(--primary); font-weight: 700; }
 
-    /* Form Cards */
     .booking-card { background: #fff; border-radius: 20px; padding: 35px; box-shadow: 0 4px 20px rgba(0,0,0,0.03); border: 1px solid #f0f0f0; margin-bottom: 30px; }
     .section-title { font-weight: 800; color: #ffffff; background-color: var(--primary); padding: 12px 20px; border-radius: 12px; font-size: 1.3rem; margin-bottom: 25px; display: flex; align-items: center; gap: 10px; }
     .section-title i { color: var(--accent); font-size: 1.1rem;}
@@ -105,12 +99,7 @@
     <a href="javascript:void(0)">Đặt tour</a>
 </div>
 
-<div class="breadcrumb-custom">
-    <a href="?controller=home">Trang chủ</a> &nbsp;>&nbsp; 
-    <a href="?controller=tour">Tour</a> &nbsp;>&nbsp; 
-    <a href="?controller=tourdetail&id=<?= htmlspecialchars($tour['MaTour']) ?>">Chi tiết tour</a> &nbsp;>&nbsp; 
-    <span style="color: #666;">Đặt tour</span>
-</div>
+<!-- ĐÃ XÓA KHỐI BREADCRUMB DƯ THỪA TẠI ĐÂY -->
 
 <div class="container" style="max-width: 1200px; padding-bottom: 80px;">
 
@@ -131,8 +120,17 @@
         </div>
     </div>
 
+    <!-- Cảnh báo nếu số chỗ trống ít -->
+    <?php if($choTrong <= 5 && $choTrong > 0): ?>
+        <div class="alert alert-warning text-center fw-bold mb-4" style="border-radius: 15px;">
+            <i class="fa-solid fa-fire text-danger me-1"></i> Nhanh tay lên! Lịch khởi hành này chỉ còn đúng <?= $choTrong ?> chỗ!
+        </div>
+    <?php endif; ?>
+
     <form action="index.php?controller=tourbooking&action=process" method="POST" id="bookingForm" novalidate>
         <input type="hidden" name="ma_tour" value="<?= htmlspecialchars($tour['MaTour']) ?>">
+        <!-- BỔ SUNG INPUT ẨN ĐỂ TRUYỀN MÃ LỊCH SANG CONTROLLER -->
+        <input type="hidden" name="ma_lich_khoi_hanh" value="<?= htmlspecialchars($maLichKhoiHanh) ?>">
         <input type="hidden" name="ngay_bat_dau" value="<?= htmlspecialchars($ngayDi) ?>">
         <input type="hidden" name="ngay_ket_thuc" value="<?= htmlspecialchars($ngayKetThuc) ?>">
 
@@ -231,8 +229,10 @@
                             <div class="summary-meta">
                                 <i class="fa-regular fa-calendar-check"></i>
                                 <div>
-                                    <strong class="text-dark">Khởi hành:</strong> <?= date('d/m/Y', strtotime($ngayDi)) ?> lúc 07:00 <br>
-                                    <strong class="text-dark mt-1 d-inline-block">Kết thúc:</strong> <?= date('d/m/Y', strtotime($ngayKetThuc)) ?> lúc 17:00
+                                    <div>
+                                    <strong class="text-dark">Khởi hành:</strong> <?= date('d/m/Y', strtotime($ngayDi)) ?> <br>
+                                    <strong class="text-dark mt-1 d-inline-block">Kết thúc:</strong> <?= date('d/m/Y', strtotime($ngayKetThuc)) ?>
+                                    </div>
                                 </div>
                             </div>
                             
@@ -255,7 +255,7 @@
                             <div class="price-row">
                                 <span class="price-label">Mã giảm giá nền tảng</span>
                                 <?php if(!empty($tour['UuDai']) && $tour['UuDai'] > 0): ?>
-                                    <span class="discount-val">- <span id="sum_discount_amt">0 đ</span></span>
+                                    <span class="discount-val text-success">- <span id="sum_discount_amt">0 đ</span></span>
                                 <?php else: ?>
                                     <span class="price-val text-muted">0 đ</span>
                                 <?php endif; ?>
@@ -287,9 +287,14 @@
     </form>
 </div>
 
+<!-- Import SweetAlert2 để hiện bảng thông báo xịn xò thay vì alert cùi bắp của browser -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
     const basePrice = <?= $tour['Gia'] ?>;
     const discountRate = <?= $tour['UuDai'] ?? 0 ?>;
+    // BỔ SUNG: Nhận giá trị số chỗ còn trống từ Server
+    const maxSeats = <?= $choTrong ?>; 
     let pax = { adult: <?= $soLuong ?>, child: 0, infant: 0 };
 
     function formatCurrency(number) {
@@ -297,8 +302,26 @@
     }
 
     function updatePax(type, delta) {
-        if (type === 'adult') { pax.adult = Math.max(1, pax.adult + delta); } 
-        else { pax[type] = Math.max(0, pax[type] + delta); }
+        // TÍNH TOÁN: Chặn nếu tăng số lượng vượt quá số chỗ trống
+        if (delta > 0) {
+            let currentTotal = pax.adult + pax.child + pax.infant;
+            if (currentTotal >= maxSeats) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Đã đạt giới hạn!',
+                    text: 'Lịch khởi hành này chỉ còn tối đa ' + maxSeats + ' chỗ.',
+                    confirmButtonColor: '#1A5336'
+                });
+                return; // Dừng lại, không cho tăng nữa
+            }
+        }
+
+        if (type === 'adult') { 
+            pax.adult = Math.max(1, pax.adult + delta); 
+        } else { 
+            pax[type] = Math.max(0, pax[type] + delta); 
+        }
+        
         document.getElementById(`val_${type}`).innerText = pax[type];
         document.getElementById(`input_${type}`).value = pax[type];
         calculateTotal();
@@ -324,6 +347,8 @@
         const discountElem = document.getElementById('sum_discount_amt');
         if (discountElem) { discountElem.innerText = formatCurrency(discountAmt); }
     }
+    
+    // Khởi chạy tính tiền lần đầu tiên
     calculateTotal();
     
     document.getElementById('bookingForm').addEventListener('submit', function(e) {
@@ -333,11 +358,11 @@
         const diaChi = document.getElementById('dia_chi');
         const terms = document.getElementById('termsCheck');
 
-        if (!hoTen.value.trim()) { e.preventDefault(); alert('Vui lòng nhập đầy đủ Họ và tên!'); hoTen.focus(); return; }
-        if (!dienThoai.value.trim()) { e.preventDefault(); alert('Vui lòng nhập Số điện thoại liên lạc!'); dienThoai.focus(); return; }
-        if (!email.value.trim()) { e.preventDefault(); alert('Vui lòng nhập địa chỉ Email!'); email.focus(); return; }
-        if (!diaChi.value.trim()) { e.preventDefault(); alert('Vui lòng cung cấp Địa chỉ của bạn!'); diaChi.focus(); return; }
-        if (!terms.checked) { e.preventDefault(); alert('Vui lòng đánh dấu check đồng ý với Điều khoản và Chính sách của chúng tôi để tiếp tục!'); return; }
+        if (!hoTen.value.trim()) { e.preventDefault(); Swal.fire('Lỗi', 'Vui lòng nhập đầy đủ Họ và tên!', 'error'); hoTen.focus(); return; }
+        if (!dienThoai.value.trim()) { e.preventDefault(); Swal.fire('Lỗi', 'Vui lòng nhập Số điện thoại!', 'error'); dienThoai.focus(); return; }
+        if (!email.value.trim()) { e.preventDefault(); Swal.fire('Lỗi', 'Vui lòng nhập Email!', 'error'); email.focus(); return; }
+        if (!diaChi.value.trim()) { e.preventDefault(); Swal.fire('Lỗi', 'Vui lòng nhập Địa chỉ!', 'error'); diaChi.focus(); return; }
+        if (!terms.checked) { e.preventDefault(); Swal.fire('Chú ý', 'Vui lòng đồng ý với Điều khoản và Chính sách!', 'warning'); return; }
     });
 </script>
 

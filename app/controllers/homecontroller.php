@@ -8,7 +8,7 @@ class HomeController {
         $this->homeModel = new HomeModel();
     }
 
-    public function index() {
+   public function index() {
         // Xử lý AJAX Thả tim nếu có request gửi lên
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] == 'toggle_heart') {
             $this->handleAjaxHeart();
@@ -22,8 +22,7 @@ class HomeController {
         $toursNoiBat = $this->homeModel->getToursNoiBat($maTK_DK);
         $toursYeuThich = $this->homeModel->getToursYeuThich($maTK_DK);
         
-        // Lấy 4 bài đánh giá mới nhất để hiển thị phần Kinh nghiệm đi tour
-        $latestReviews = $this->homeModel->getLatestReviews(4); 
+        $latestReviews = $this->homeModel->getLatestReviews(12); 
 
         // Gọi View
         require_once 'app/views/home/index.php';

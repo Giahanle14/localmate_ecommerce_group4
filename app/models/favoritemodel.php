@@ -52,21 +52,27 @@ class FavoriteModel {
         // Truy vấn lấy dữ liệu tour kèm theo số sao trung bình và số lượt đánh giá
         $sql = "SELECT t.*, 
                     (SELECT COUNT(*) FROM DanhSachYeuThich WHERE MaTour = t.MaTour) as SoLuotThich,
-                    (SELECT AVG(pdg.SoSao) FROM PhieuDanhGia pdg JOIN ChuyenDi cd ON pdg.MaChuyenDi = cd.MaChuyenDi WHERE cd.MaTour = t.MaTour) as SaoTrungBinh,
-                    (SELECT COUNT(*) FROM PhieuDanhGia pdg JOIN ChuyenDi cd ON pdg.MaChuyenDi = cd.MaChuyenDi WHERE cd.MaTour = t.MaTour) as SoDanhGia
+                    (SELECT IFNULL(ROUND(AVG(pdg.SoSao), 1), 0) 
+                     FROM PhieuDanhGia pdg 
+                     JOIN ChuyenDi cd ON pdg.MaChuyenDi = cd.MaChuyenDi 
+                     JOIN LichKhoiHanh lkh ON cd.MaLichKhoiHanh = lkh.MaLichKhoiHanh 
+                     WHERE lkh.MaTour = t.MaTour) as SaoTrungBinh,
+                    (SELECT COUNT(*) 
+                     FROM PhieuDanhGia pdg 
+                     JOIN ChuyenDi cd ON pdg.MaChuyenDi = cd.MaChuyenDi 
+                     JOIN LichKhoiHanh lkh ON cd.MaLichKhoiHanh = lkh.MaLichKhoiHanh 
+                     WHERE lkh.MaTour = t.MaTour) as SoDanhGia
                 FROM Tour t
                 INNER JOIN DanhSachYeuThich ds ON t.MaTour = ds.MaTour
                 WHERE ds.MaTK_DK = :maTK_DK";
         
         $params = [':maTK_DK' => $maTK_DK];
 
-        // Lọc theo từ khóa tìm kiếm (Tên, Vùng, Địa điểm)
         if (!empty($keyword)) {
             $sql .= " AND (t.TenTour LIKE :kw OR t.VungDiaLy LIKE :kw OR t.DiaDiem LIKE :kw)";
             $params[':kw'] = '%' . $keyword . '%';
         }
 
-        // Sắp xếp tour mới thêm vào yêu thích lên đầu tiên
         $sql .= " ORDER BY ds.NgayThem DESC LIMIT " . (int)$limit . " OFFSET " . (int)$offset;
 
         $stmt = $this->conn->prepare($sql);

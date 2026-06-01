@@ -9,7 +9,6 @@ class TourModel {
         $this->conn = $conn;
     }
 
-    // --- HÀM CŨ CỦA BẠN: HÀM THẢ TIM ĐƯỢC GIỮ NGUYÊN ---
     public function toggleFavorite($maTK_DK, $maTour) {
         $checkSql = "SELECT * FROM DanhSachYeuThich WHERE MaTK_DK = :ma_tk AND MaTour = :ma_tour";
         $stmt = $this->conn->prepare($checkSql);
@@ -26,12 +25,20 @@ class TourModel {
         }
     }
 
-    // --- HÀM ĐÃ ĐƯỢC CẬP NHẬT: GỘP LỌC VÀ TÌM KIẾM ---
     public function getFilteredTours($params, $maTK_DK = null, $limit = 9, $offset = 0) {
+        // Đã sửa lại đường dẫn JOIN qua bảng lichkhoihanh cho 2 câu Sub-query Đếm đánh giá và Tính sao
         $sql = "SELECT t.*, 
                 (SELECT COUNT(*) FROM DanhSachYeuThich d WHERE d.MaTour = t.MaTour) as SoLuotThich,
-                (SELECT COUNT(*) FROM PhieuDanhGia p JOIN ChuyenDi c ON p.MaChuyenDi = c.MaChuyenDi WHERE c.MaTour = t.MaTour) as SoDanhGia,
-                (SELECT AVG(SoSao) FROM PhieuDanhGia p JOIN ChuyenDi c ON p.MaChuyenDi = c.MaChuyenDi WHERE c.MaTour = t.MaTour) as SaoTrungBinh";
+                (SELECT COUNT(*) 
+                 FROM PhieuDanhGia p 
+                 JOIN ChuyenDi c ON p.MaChuyenDi = c.MaChuyenDi 
+                 JOIN LichKhoiHanh lkh ON c.MaLichKhoiHanh = lkh.MaLichKhoiHanh 
+                 WHERE lkh.MaTour = t.MaTour) as SoDanhGia,
+                (SELECT IFNULL(ROUND(AVG(p.SoSao), 1), 0) 
+                 FROM PhieuDanhGia p 
+                 JOIN ChuyenDi c ON p.MaChuyenDi = c.MaChuyenDi 
+                 JOIN LichKhoiHanh lkh ON c.MaLichKhoiHanh = lkh.MaLichKhoiHanh 
+                 WHERE lkh.MaTour = t.MaTour) as SaoTrungBinh";
         
         if ($maTK_DK) {
             $sql .= ", (SELECT COUNT(*) FROM DanhSachYeuThich d2 WHERE d2.MaTour = t.MaTour AND d2.MaTK_DK = :ma_tk) as IsLiked";

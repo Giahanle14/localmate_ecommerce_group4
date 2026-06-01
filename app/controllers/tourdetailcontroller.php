@@ -16,6 +16,7 @@ class TourDetailController {
         
         $model = new TourDetailModel($conn);
         $tour = $model->getTourById($maTour);
+        $schedules = $model->getAvailableSchedules($maTour);
         $sortReview = isset($_GET['sort_review']) ? $_GET['sort_review'] : 'newest';
         $danhGiaList = $model->getReviewsByTour($maTour, $sortReview);
         if (!$tour) {

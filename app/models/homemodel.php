@@ -14,8 +14,16 @@ class HomeModel {
     public function getToursNoiBat($maTK_DK = null) {
         $sql = "SELECT t.*, 
                 (SELECT COUNT(*) FROM DanhSachYeuThich d WHERE d.MaTour = t.MaTour) as SoLuotThich,
-                (SELECT COUNT(*) FROM PhieuDanhGia p JOIN ChuyenDi c ON p.MaChuyenDi = c.MaChuyenDi WHERE c.MaTour = t.MaTour) as SoDanhGia,
-                (SELECT AVG(SoSao) FROM PhieuDanhGia p JOIN ChuyenDi c ON p.MaChuyenDi = c.MaChuyenDi WHERE c.MaTour = t.MaTour) as SaoTrungBinh";
+                (SELECT COUNT(*) 
+                 FROM PhieuDanhGia p 
+                 JOIN ChuyenDi c ON p.MaChuyenDi = c.MaChuyenDi 
+                 JOIN LichKhoiHanh lkh ON c.MaLichKhoiHanh = lkh.MaLichKhoiHanh 
+                 WHERE lkh.MaTour = t.MaTour) as SoDanhGia,
+                (SELECT IFNULL(ROUND(AVG(p.SoSao), 1), 0) 
+                 FROM PhieuDanhGia p 
+                 JOIN ChuyenDi c ON p.MaChuyenDi = c.MaChuyenDi 
+                 JOIN LichKhoiHanh lkh ON c.MaLichKhoiHanh = lkh.MaLichKhoiHanh 
+                 WHERE lkh.MaTour = t.MaTour) as SaoTrungBinh";
         
         if ($maTK_DK) {
             $sql .= ", (SELECT COUNT(*) FROM DanhSachYeuThich d2 WHERE d2.MaTour = t.MaTour AND d2.MaTK_DK = :ma_tk) as IsLiked";
@@ -37,8 +45,16 @@ class HomeModel {
     public function getToursYeuThich($maTK_DK = null) {
         $sql = "SELECT t.*, 
                 (SELECT COUNT(*) FROM DanhSachYeuThich d WHERE d.MaTour = t.MaTour) as SoLuotThich,
-                (SELECT COUNT(*) FROM PhieuDanhGia p JOIN ChuyenDi c ON p.MaChuyenDi = c.MaChuyenDi WHERE c.MaTour = t.MaTour) as SoDanhGia,
-                (SELECT AVG(SoSao) FROM PhieuDanhGia p JOIN ChuyenDi c ON p.MaChuyenDi = c.MaChuyenDi WHERE c.MaTour = t.MaTour) as SaoTrungBinh";
+                (SELECT COUNT(*) 
+                 FROM PhieuDanhGia p 
+                 JOIN ChuyenDi c ON p.MaChuyenDi = c.MaChuyenDi 
+                 JOIN LichKhoiHanh lkh ON c.MaLichKhoiHanh = lkh.MaLichKhoiHanh 
+                 WHERE lkh.MaTour = t.MaTour) as SoDanhGia,
+                (SELECT IFNULL(ROUND(AVG(p.SoSao), 1), 0) 
+                 FROM PhieuDanhGia p 
+                 JOIN ChuyenDi c ON p.MaChuyenDi = c.MaChuyenDi 
+                 JOIN LichKhoiHanh lkh ON c.MaLichKhoiHanh = lkh.MaLichKhoiHanh 
+                 WHERE lkh.MaTour = t.MaTour) as SaoTrungBinh";
         
         if ($maTK_DK) {
             $sql .= ", (SELECT COUNT(*) FROM DanhSachYeuThich d2 WHERE d2.MaTour = t.MaTour AND d2.MaTK_DK = :ma_tk) as IsLiked";
@@ -77,15 +93,15 @@ class HomeModel {
     }
 
     // Hàm lấy danh sách Đánh giá mới nhất (Kinh nghiệm đi tour)
-    public function getLatestReviews($limit = 4) {
-        // 1. Join 5 bảng: PhieuDanhGia, DuKhach, TaiKhoan, ChuyenDi, Tour để lấy đủ thông tin
-        $sql = "SELECT p.MaDG, p.NoiDung, p.SoSao, p.NgayDG,p.DieuAnTuong, 
+    public function getLatestReviews($limit = 12) {
+        $sql = "SELECT p.MaDG, p.NoiDung, p.SoSao, p.NgayDG, p.DieuAnTuong, 
                        tk.HoTen, dk.AnhDaiDien, t.TenTour, t.MaTour
                 FROM PhieuDanhGia p
                 JOIN DuKhach dk ON p.MaTK_DK = dk.MaTK_DK
                 JOIN TaiKhoan tk ON dk.MaTK_DK = tk.MaTK
                 JOIN ChuyenDi c ON p.MaChuyenDi = c.MaChuyenDi
-                JOIN Tour t ON c.MaTour = t.MaTour
+                JOIN LichKhoiHanh lkh ON c.MaLichKhoiHanh = lkh.MaLichKhoiHanh
+                JOIN Tour t ON lkh.MaTour = t.MaTour
                 ORDER BY p.NgayDG DESC
                 LIMIT :limit";
         
@@ -96,11 +112,11 @@ class HomeModel {
 
         // 2. Lấy hình ảnh đính kèm cho từng bài đánh giá
         foreach ($reviews as &$review) {
-            $sqlImg = "SELECT DuongDan FROM HinhAnhDanhGia WHERE MaDG = :ma_dg LIMIT 3";
+            $maDG = $review['MaDG'];
+            $sqlImg = "SELECT DuongDan FROM HinhAnhDanhGia WHERE MaDG = :madg";
             $stmtImg = $this->conn->prepare($sqlImg);
-            $stmtImg->execute([':ma_dg' => $review['MaDG']]);
-            // Lưu thành 1 mảng các đường dẫn ảnh
-            $review['HinhAnh'] = $stmtImg->fetchAll(PDO::FETCH_COLUMN); 
+            $stmtImg->execute([':madg' => $maDG]);
+            $review['HinhAnh'] = $stmtImg->fetchAll(PDO::FETCH_COLUMN);
         }
 
         return $reviews;

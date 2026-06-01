@@ -9,7 +9,6 @@ class PaymentModel {
         $this->conn = $conn;
     }
 
-    // Hàm public: Sinh mã chuyến đi tự động tăng (Hiển thị trước cho khách xem)
     public function getNextMaChuyenDi() {
         $stmt = $this->conn->query("SELECT MaChuyenDi FROM ChuyenDi ORDER BY MaChuyenDi DESC LIMIT 1");
         $lastId = $stmt->fetchColumn();
@@ -18,7 +17,6 @@ class PaymentModel {
         return 'CD' . str_pad($num, 8, '0', STR_PAD_LEFT);
     }
 
-    // Sinh mã giao dịch tự động (GD00000001)
     private function generateMaGiaoDich() {
         $stmt = $this->conn->query("SELECT MaGiaoDich FROM GiaoDich ORDER BY MaGiaoDich DESC LIMIT 1");
         $lastId = $stmt->fetchColumn();
@@ -27,28 +25,35 @@ class PaymentModel {
         return 'GD' . str_pad($num, 8, '0', STR_PAD_LEFT);
     }
 
-    // Lưu dữ liệu vào 2 bảng cùng lúc bằng Transaction
-    public function saveBookingAndTransaction($maTK_DK, $maTour, $ngayBatDau, $ngayKetThuc, $tongTien, $soLuongKhach, $phuongThuc, $maChuyenDi) {
+    // ĐÃ SỬA: Cập nhật tham số nhận vào (Thay MaTour, Ngay bằng MaLichKhoiHanh và GhiChu)
+    public function saveBookingAndTransaction($maTK_DK, $maLichKhoiHanh, $tongTien, $soLuongKhach, $phuongThuc, $maChuyenDi, $ghiChu) {
         try {
             $this->conn->beginTransaction();
 
             $maGiaoDich = $this->generateMaGiaoDich();
 
-            // 1. Lưu vào bảng ChuyenDi
-            $sqlCD = "INSERT INTO ChuyenDi (MaChuyenDi, NgayBatDau, NgayKetThuc, TongGiaTien, SoLuongKhach, TrangThai, MaTK_DK, MaTour) 
-                      VALUES (:macd, :ngaybd, :ngaykt, :tongtien, :soluong, 'Chưa hoàn thành', :matk, :matour)";
+            // 1. Lưu vào bảng ChuyenDi theo cấu trúc Database mới
+            $sqlCD = "INSERT INTO ChuyenDi (MaChuyenDi, MaLichKhoiHanh, TongGiaTien, SoLuongKhach, GhiChu, TrangThai, MaTK_DK) 
+                      VALUES (:macd, :malich, :tongtien, :soluong, :ghichu, 'Chưa hoàn thành', :matk)";
             $stmtCD = $this->conn->prepare($sqlCD);
             $stmtCD->execute([
                 ':macd' => $maChuyenDi,
-                ':ngaybd' => $ngayBatDau,
-                ':ngaykt' => $ngayKetThuc,
+                ':malich' => $maLichKhoiHanh,
                 ':tongtien' => $tongTien,
                 ':soluong' => $soLuongKhach,
-                ':matk' => $maTK_DK,
-                ':matour' => $maTour
+                ':ghichu' => $ghiChu,
+                ':matk' => $maTK_DK
             ]);
 
-            // 2. Lưu vào bảng GiaoDich
+            // 2. CẬP NHẬT TRỪ CHỖ: Cộng số khách vừa đặt vào cột SoChoDaDat của Lịch Khởi Hành
+            $sqlLKH = "UPDATE LichKhoiHanh SET SoChoDaDat = SoChoDaDat + :soluong WHERE MaLichKhoiHanh = :malich";
+            $stmtLKH = $this->conn->prepare($sqlLKH);
+            $stmtLKH->execute([
+                ':soluong' => $soLuongKhach,
+                ':malich' => $maLichKhoiHanh
+            ]);
+
+            // 3. Lưu vào bảng GiaoDich
             $maDoiTac = ($phuongThuc == 'MoMo') ? 'MOMO' . rand(1000, 9999) : 'FT' . rand(100000, 999999);
             
             $sqlGD = "INSERT INTO GiaoDich (MaGiaoDich, MaChuyenDi, PhuongThuc, SoTien, MaGiaoDichDoiTac, TrangThai) 

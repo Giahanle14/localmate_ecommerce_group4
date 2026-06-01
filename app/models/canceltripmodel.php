@@ -9,11 +9,12 @@ class CancelTripModel {
         $this->conn = $conn;
     }
 
-    // Lấy thông tin cơ bản của chuyến đi để đối chiếu
+    // ĐÃ SỬA: Bẻ lái câu lệnh JOIN qua bảng LichKhoiHanh để lấy NgayBatDau và TenTour
     public function getTripById($maTK, $maChuyenDi) {
-        $sql = "SELECT c.MaChuyenDi, c.NgayBatDau, c.TongGiaTien, t.TenTour, c.TrangThai
+        $sql = "SELECT c.MaChuyenDi, lkh.NgayBatDau, c.TongGiaTien, t.TenTour, c.TrangThai
                 FROM ChuyenDi c
-                JOIN Tour t ON c.MaTour = t.MaTour
+                JOIN LichKhoiHanh lkh ON c.MaLichKhoiHanh = lkh.MaLichKhoiHanh
+                JOIN Tour t ON lkh.MaTour = t.MaTour
                 WHERE c.MaChuyenDi = :macd AND c.MaTK_DK = :matk";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([':macd' => $maChuyenDi, ':matk' => $maTK]);
@@ -34,10 +35,26 @@ class CancelTripModel {
         try {
             $this->conn->beginTransaction();
 
+            // 0. BỔ SUNG: Lấy thông tin chuyến đi để tính toán trả lại ghế trống
+            $sqlGetInfo = "SELECT MaLichKhoiHanh, SoLuongKhach FROM ChuyenDi WHERE MaChuyenDi = :macd AND MaTK_DK = :matk";
+            $stmtGetInfo = $this->conn->prepare($sqlGetInfo);
+            $stmtGetInfo->execute([':macd' => $maChuyenDi, ':matk' => $maTK]);
+            $cdInfo = $stmtGetInfo->fetch(PDO::FETCH_ASSOC);
+
             // 1. Cập nhật bảng ChuyenDi thành 'Đã hủy'
             $sqlUpdate = "UPDATE ChuyenDi SET TrangThai = 'Đã hủy' WHERE MaChuyenDi = :macd AND MaTK_DK = :matk";
             $stmtUpdate = $this->conn->prepare($sqlUpdate);
             $stmtUpdate->execute([':macd' => $maChuyenDi, ':matk' => $maTK]);
+
+            // 1.5. BỔ SUNG LOGIC: Hoàn trả lại số chỗ đã đặt cho bảng LichKhoiHanh
+            if ($cdInfo && $cdInfo['MaLichKhoiHanh']) {
+                $sqlLKH = "UPDATE LichKhoiHanh SET SoChoDaDat = SoChoDaDat - :soluong WHERE MaLichKhoiHanh = :malich";
+                $stmtLKH = $this->conn->prepare($sqlLKH);
+                $stmtLKH->execute([
+                    ':soluong' => $cdInfo['SoLuongKhach'],
+                    ':malich' => $cdInfo['MaLichKhoiHanh']
+                ]);
+            }
 
             // 2. Thêm vào bảng YeuCauHuy
             $maYeuCau = $this->generateMaYeuCauHuy();

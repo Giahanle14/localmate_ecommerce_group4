@@ -156,11 +156,11 @@ if ($statusText === 'Chưa hoàn thành') {
                 <div class="info-grid">
                     <div class="info-row">
                         <span class="info-label">Ngày khởi hành</span>
-                        <span class="info-value"><?= date('d/m/Y', strtotime($trip['NgayBatDau'])) ?> <span class="text-muted fw-normal">lúc 07:00</span></span>
+                        <span class="info-value"><?= date('d/m/Y', strtotime($trip['NgayBatDau'])) ?> <span class="text-muted fw-normal"></span></span>
                     </div>
                     <div class="info-row">
                         <span class="info-label">Ngày kết thúc</span>
-                        <span class="info-value"><?= date('d/m/Y', strtotime($trip['NgayKetThuc'])) ?> <span class="text-muted fw-normal">lúc 17:00</span></span>
+                        <span class="info-value"><?= date('d/m/Y', strtotime($trip['NgayKetThuc'])) ?> <span class="text-muted fw-normal"></span></span>
                     </div>
                     <div class="info-row">
                         <span class="info-label">Số lượng khách</span>

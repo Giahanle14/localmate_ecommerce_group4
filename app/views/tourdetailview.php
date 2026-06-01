@@ -382,8 +382,25 @@
                         <input type="hidden" name="id" value="<?= $tour['MaTour'] ?>">
 
                         <div class="mb-4">
-                            <label class="form-label text-success fw-bold">Chọn ngày</label>
-                            <input type="date" name="ngaydi" class="form-control custom-input" required>
+                            <label class="form-label text-success fw-bold">Chọn ngày khởi hành</label>
+                            <!-- Đổi name thành malichkhoihanh để truyền sang trang Thanh toán chuẩn DB mới -->
+                            <select name="malichkhoihanh" id="lichkhoihanh_select" class="form-select custom-input" required onchange="updateMaxQty()">
+                                <option value="" disabled selected>-- Chọn ngày --</option>
+                                <?php if(!empty($schedules)): ?>
+                                    <?php foreach($schedules as $sch): ?>
+                                        <?php 
+                                            $ngayBD = date('d/m/Y', strtotime($sch['NgayBatDau']));
+                                            $choTrong = $sch['ChoTrong'];
+                                        ?>
+                                        <!-- Nếu hết chỗ thì disable luôn option đó -->
+                                        <option value="<?= $sch['MaLichKhoiHanh'] ?>" data-chotrong="<?= $choTrong ?>" <?= $choTrong <= 0 ? 'disabled' : '' ?>>
+                                            <?= $ngayBD ?> (Còn <?= $choTrong ?> chỗ)
+                                        </option>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <option value="" disabled>Chưa có lịch khởi hành</option>
+                                <?php endif; ?>
+                            </select>
                         </div>
 
                         <div class="mb-4">
