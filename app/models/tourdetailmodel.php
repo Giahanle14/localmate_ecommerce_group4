@@ -24,14 +24,7 @@ class TourDetailModel {
         $stmt->execute([':matour' => $maTour]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-
-    // Lấy lịch trình từ bảng lichtrinhtour và sắp xếp theo ThuTu
-    public function getItinerary($maTour) {
-        $sql = "SELECT * FROM lichtrinhtour WHERE MaTour = :matour ORDER BY ThuTu ASC";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->execute([':matour' => $maTour]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
+    
     // Hàm kiểm tra xem khách đã lưu tour này chưa (trả về true/false)
     public function checkIsFavorited($maTK_DK, $maTour) {
         // Chuyển đổi mã nếu Controller truyền mã bắt đầu bằng DK
