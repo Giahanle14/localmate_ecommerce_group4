@@ -165,22 +165,27 @@ if (!$conn) {
                     <?php if ($user_role === 'Quản trị viên'): ?>
                         <li class="nav-item">
                             <a class="nav-link <?= ($current_controller == 'adminhome') ? 'active-nav-pill' : '' ?>" href="index.php?controller=adminhome">
-                                <i class="fa-solid fa-house"></i> TRANG CHỦ
+                                <i class="fa-solid fa-house"></i> TỔNG QUAN
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link <?= ($current_controller == 'admintour') ? 'active-nav-pill' : '' ?>" href="index.php?controller=admintour">
-                                <i class="fa-solid fa-suitcase-rolling"></i> QUẢN LÝ TOUR
+                                <i class="fa-solid fa-suitcase-rolling"></i> TOUR
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link <?= ($current_controller == 'adminschedule') ? 'active-nav-pill' : '' ?>" href="index.php?controller=adminschedule">
+                                <i class="fa-regular fa-calendar-check"></i> LỊCH KHỞI HÀNH
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link <?= ($current_controller == 'adminaccount') ? 'active-nav-pill' : '' ?>" href="index.php?controller=adminaccount">
-                                <i class="fa-solid fa-user-shield"></i> QUẢN LÝ TÀI KHOẢN
+                                <i class="fa-solid fa-user-shield"></i> TÀI KHOẢN
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link <?= ($current_controller == 'admintrip') ? 'active-nav-pill' : '' ?>" href="index.php?controller=admintrip">
-                                <i class="fa-solid fa-location-dot"></i> QUẢN LÝ CHUYẾN ĐI
+                                <i class="fa-solid fa-plane-departure"></i> CHUYẾN ĐI
                             </a>
                         </li>
                         <li class="nav-item">

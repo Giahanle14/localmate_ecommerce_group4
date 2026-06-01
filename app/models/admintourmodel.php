@@ -10,41 +10,13 @@ class AdminTourModel {
         $this->conn = $conn;
     }
 
-    // Đếm số lượng tour cho các tab
-    public function getTourStats() {
-        try {
-            $stats = [
-                'all' => $this->conn->query("SELECT COUNT(*) FROM Tour")->fetchColumn(),
-                // Đang mở: Chưa qua ngày bắt đầu hoặc chưa set ngày
-                'open' => $this->conn->query("SELECT COUNT(*) FROM Tour WHERE NgayBatDau >= CURDATE() OR NgayBatDau IS NULL")->fetchColumn(),
-                // Đã đóng: Ngày bắt đầu đã trôi qua
-                'closed' => $this->conn->query("SELECT COUNT(*) FROM Tour WHERE NgayBatDau < CURDATE()")->fetchColumn()
-            ];
-            return $stats;
-        } catch (Exception $e) {
-            // Đề phòng trường hợp bạn chưa cập nhật cột NgayBatDau trong CSDL
-            $count = $this->conn->query("SELECT COUNT(*) FROM Tour")->fetchColumn();
-            return ['all' => $count, 'open' => 0, 'closed' => 0];
-        }
-    }
-
-    // Thêm tham số $tab vào đây
-    public function getFilteredTours($filters, $tab = 'all') {
+    public function getFilteredTours($filters) {
         $sql = "SELECT t.*, 
-                COALESCE((SELECT SUM(c.SoLuongKhach) FROM ChuyenDi c WHERE c.MaTour = t.MaTour AND c.TrangThai != 'Đã hủy'), 0) as SoLuotDangKy,
-                (SELECT IFNULL(ROUND(AVG(dg.SoSao), 1), 0) FROM phieudanhgia dg JOIN chuyendi cd ON dg.MaChuyenDi = cd.MaChuyenDi WHERE cd.MaTour = t.MaTour) AS TrungBinhSao,
-                (SELECT COUNT(dg.MaDG) FROM phieudanhgia dg JOIN chuyendi cd ON dg.MaChuyenDi = cd.MaChuyenDi WHERE cd.MaTour = t.MaTour) AS SoLuotDanhGia
+                COALESCE((SELECT SUM(c.SoLuongKhach) FROM ChuyenDi c JOIN LichKhoiHanh lkh ON c.MaLichKhoiHanh = lkh.MaLichKhoiHanh WHERE lkh.MaTour = t.MaTour AND c.TrangThai != 'Đã hủy'), 0) as SoLuotDangKy,
+                (SELECT IFNULL(ROUND(AVG(dg.SoSao), 1), 0) FROM phieudanhgia dg JOIN chuyendi cd ON dg.MaChuyenDi = cd.MaChuyenDi JOIN LichKhoiHanh lkh ON cd.MaLichKhoiHanh = lkh.MaLichKhoiHanh WHERE lkh.MaTour = t.MaTour) AS TrungBinhSao,
+                (SELECT COUNT(dg.MaDG) FROM phieudanhgia dg JOIN chuyendi cd ON dg.MaChuyenDi = cd.MaChuyenDi JOIN LichKhoiHanh lkh ON cd.MaLichKhoiHanh = lkh.MaLichKhoiHanh WHERE lkh.MaTour = t.MaTour) AS SoLuotDanhGia
                 FROM Tour t WHERE 1=1";
         $params = [];
-
-        // Xử lý Tab (Lưu ý: Yêu cầu CSDL phải có cột NgayBatDau)
-        try {
-            if ($tab === 'open') {
-                $sql .= " AND (t.NgayBatDau >= CURDATE() OR t.NgayBatDau IS NULL)";
-            } elseif ($tab === 'closed') {
-                $sql .= " AND t.NgayBatDau < CURDATE()";
-            }
-        } catch (Exception $e) {}
 
         if (!empty($filters['search'])) {
             $sql .= " AND (t.TenTour LIKE :search OR t.DiaDiem LIKE :search OR t.MaTour LIKE :search)";
@@ -89,30 +61,31 @@ class AdminTourModel {
 
     public function addTour($data) {
         $maTour = $this->getNextMaTour();
-        $sql = "INSERT INTO Tour (MaTour, TenTour, DiaDiem, MoTa, Gia, SoNgay, SoKhachToiDa, VungDiaLy, NgayBatDau, NgayKetThuc, HinhAnh, MaTK_QTV) 
-                VALUES (:maTour, :tenTour, :diaDiem, :moTa, :gia, :soNgay, :soKhach, :vungDiaLy, :ngayBatDau, :ngayKetThuc, :hinhAnh, :maQTV)";
+        $sql = "INSERT INTO Tour (MaTour, TenTour, DiaDiem, MoTa, LichTrinh, Gia, SoNgay, SoKhachToiDa, VungDiaLy, LoaiTraiNghiem, HinhAnh, UuDai, MaTK_QTV) 
+                VALUES (:maTour, :tenTour, :diaDiem, :moTa, :lichTrinh, :gia, :soNgay, :soKhach, :vungDiaLy, :loaiTraiNghiem, :hinhAnh, :uuDai, :maQTV)";
         $stmt = $this->conn->prepare($sql);
         return $stmt->execute([
             ':maTour' => $maTour,
             ':tenTour' => $data['TenTour'],
             ':diaDiem' => $data['DiaDiem'],
             ':moTa' => $data['MoTa'],
+            ':lichTrinh' => $data['LichTrinh'],
             ':gia' => $data['Gia'],
             ':soNgay' => $data['SoNgay'],
             ':soKhach' => $data['SoKhachToiDa'],
             ':vungDiaLy' => $data['VungDiaLy'],
-            ':ngayBatDau' => $data['NgayBatDau'],
-            ':ngayKetThuc' => $data['NgayKetThuc'],
+            ':loaiTraiNghiem' => $data['LoaiTraiNghiem'],
             ':hinhAnh' => $data['HinhAnh'],
+            ':uuDai' => $data['UuDai'],
             ':maQTV' => $data['MaTK_QTV']
         ]);
     }
 
     public function updateTour($data) {
         $sql = "UPDATE Tour SET 
-                TenTour = :tenTour, DiaDiem = :diaDiem, MoTa = :moTa, 
+                TenTour = :tenTour, DiaDiem = :diaDiem, MoTa = :moTa, LichTrinh = :lichTrinh,
                 Gia = :gia, SoNgay = :soNgay, SoKhachToiDa = :soKhach, 
-                VungDiaLy = :vungDiaLy, NgayBatDau = :ngayBatDau, NgayKetThuc = :ngayKetThuc";
+                VungDiaLy = :vungDiaLy, LoaiTraiNghiem = :loaiTraiNghiem, UuDai = :uuDai";
         
         if (!empty($data['HinhAnh'])) {
             $sql .= ", HinhAnh = :hinhAnh";
@@ -124,12 +97,13 @@ class AdminTourModel {
             ':tenTour' => $data['TenTour'],
             ':diaDiem' => $data['DiaDiem'],
             ':moTa' => $data['MoTa'],
+            ':lichTrinh' => $data['LichTrinh'],
             ':gia' => $data['Gia'],
             ':soNgay' => $data['SoNgay'],
             ':soKhach' => $data['SoKhachToiDa'],
             ':vungDiaLy' => $data['VungDiaLy'],
-            ':ngayBatDau' => $data['NgayBatDau'],
-            ':ngayKetThuc' => $data['NgayKetThuc'],
+            ':loaiTraiNghiem' => $data['LoaiTraiNghiem'],
+            ':uuDai' => $data['UuDai'],
             ':maTour' => $data['MaTour']
         ];
         
@@ -144,6 +118,7 @@ class AdminTourModel {
         $stmt = $this->conn->prepare("DELETE FROM Tour WHERE MaTour = :maTour");
         return $stmt->execute([':maTour' => $maTour]);
     }
+    
     public function getReviewsByTour($maTour) {
         $sql = "SELECT 
                     dg.MaDG,
@@ -156,10 +131,11 @@ class AdminTourModel {
                     GROUP_CONCAT(ha.DuongDan SEPARATOR '||') AS HinhAnh
                 FROM phieudanhgia dg
                 JOIN chuyendi cd ON dg.MaChuyenDi = cd.MaChuyenDi
+                JOIN lichkhoihanh lkh ON cd.MaLichKhoiHanh = lkh.MaLichKhoiHanh
                 JOIN taikhoan tk ON dg.MaTK_DK = tk.MaTK
                 LEFT JOIN dukhach dk ON tk.MaTK = dk.MaTK_DK
                 LEFT JOIN hinhanhdanhgia ha ON dg.MaDG = ha.MaDG
-                WHERE cd.MaTour = :matour
+                WHERE lkh.MaTour = :matour
                 GROUP BY dg.MaDG, tk.HoTen, dk.AnhDaiDien, dg.NgayDG, dg.SoSao, dg.NoiDung, dg.DieuAnTuong
                 ORDER BY dg.NgayDG DESC";
                 
