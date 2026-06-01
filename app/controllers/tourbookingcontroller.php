@@ -30,8 +30,13 @@ class TourBookingController {
         }
 
         $ngayDi = $schedule['NgayBatDau'];
-        $choTrong = $schedule['ChoTrong']; // Biến này sẽ truyền sang View
+        $choTrong = $schedule['ChoTrong']; 
         
+        // BẢO MẬT BACKEND: Bắt lỗi nếu người dùng sửa URL truyền số lượng ảo
+        if ($soLuong > $choTrong) {
+            $soLuong = $choTrong; // Ép về đúng số chỗ còn lại
+        }
+
         $soNgay = $tour['SoNgay'];
         $ngayKetThuc = date('Y-m-d', strtotime($ngayDi . ' + ' . ($soNgay - 1) . ' days'));
         $userInfo = $_SESSION['user'] ?? null;
@@ -80,7 +85,7 @@ class TourBookingController {
         $tongTienTruocGiam = $tienNguoiLon + $tienTreEm;
         $tongTienSauGiam = $tongTienTruocGiam * (1 - $uuDai);
 
-        // 3. Lưu tạm session (Đã thêm ma_lich_khoi_hanh vào session)
+        // 3. Lưu tạm session
         $_SESSION['booking_temp'] = [
             'ma_tour' => $maTour,
             'ma_lich_khoi_hanh' => $maLichKhoiHanh,

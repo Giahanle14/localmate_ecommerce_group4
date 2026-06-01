@@ -18,14 +18,14 @@ class AdmintripController {
         // Thống kê số lượng
         $stats = $model->getTripStats();
 
-        // Xử lý Request (ĐÃ THÊM BIẾN DATERANGE)
+        // Xử lý Request
         $tab = isset($_GET['tab']) ? $_GET['tab'] : 'all';
         $search = isset($_GET['search']) ? trim($_GET['search']) : '';
         $daterange = isset($_GET['daterange']) ? trim($_GET['daterange']) : '';
         $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
         $limit = 10; 
 
-        // Gọi dữ liệu (Truyền thêm $daterange vào hàm)
+        // Gọi dữ liệu
         $result = $model->getTrips($tab, $search, $daterange, $page, $limit);
         $trips = $result['data'];
         $total = (int)$result['total'];
@@ -35,7 +35,6 @@ class AdmintripController {
         require_once 'app/views/admintripview.php';
     }
 
-    // Các hàm phụ trợ
     public function detail() {
         if (!isset($_GET['id'])) {
             header("Location: index.php?controller=admintrip");

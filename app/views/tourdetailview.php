@@ -3,28 +3,21 @@
 
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
-        .tour-title {
+    .tour-title {
         font-family: 'Pacifico', cursive !important; 
         font-weight: 400 !important; 
         font-size: 3.5rem !important; 
         color: #00712D !important; 
         text-shadow: 3px 3px 5px rgba(0, 113, 45, 0.25) !important;
-        
-        /* Nới lỏng khoảng cách dòng và đẩy các phần tử bên dưới ra xa */
         line-height: 1.6 !important; 
         padding-bottom: 10px !important;
         margin-bottom: 15px !important; 
-        
-        /* Bắt buộc khung phải giãn nở chiều cao vô hạn để chứa hết chữ */
         height: auto !important;
         max-height: none !important;
         display: block !important;
-        
-        /* Ép bẻ từ xuống dòng */
         white-space: normal !important;
         word-wrap: break-word !important;
         overflow-wrap: break-word !important;
-        
         flex: 1; 
         min-width: 0 !important; 
         margin-right: 20px; 
@@ -36,12 +29,7 @@
     .tour-meta span { margin-right: 25px; font-weight: 600; font-size: 1.05rem; color: #444; font-family: 'Quicksand', sans-serif; }
     .sticky-booking-box { position: sticky; top: 90px; z-index: 10; }
     .booking-card { background: #FCFBF7; border-radius: 15px; padding: 25px; box-shadow: 0 8px 25px rgba(0,0,0,0.06); border: 1px solid #f0eee9; font-family: 'Quicksand', sans-serif;}
-    .price-main-tag { 
-        color: #FF9F00; 
-        font-size: 1.8rem; 
-        font-weight: 800; 
-        font-family: 'Montserrat', sans-serif; 
-    }
+    .price-main-tag { color: #FF9F00; font-size: 1.8rem; font-weight: 800; font-family: 'Montserrat', sans-serif; }
     .custom-input, .qty-selector { border: 1px solid #00712D; border-radius: 8px; color: #555; font-weight: 600;}
     .qty-selector { padding: 8px 15px; background: #fff; }
     .btn-book-custom { background: #FF9E8E; color: #fff; font-weight: 700; border-radius: 25px; width: 60%; margin: 20px auto 0; display: block; border: none; padding: 12px; transition: 0.3s; font-size: 1.1rem; }
@@ -52,150 +40,31 @@
     .timeline-title { font-weight: 700; font-size: 1.1rem; }
    
     /* KHU VỰC ĐÁNH GIÁ TRẢI NGHIỆM */
-    .review-section {
-        margin-top: 50px;
-        margin-bottom: 50px;
-    }
-    .review-main-title {
-        font-family: 'Quicksand', sans-serif;
-        font-weight: 800;
-        color: #123e30; 
-        font-size: 2rem;
-        margin-bottom: 25px;
-        display: inline-block;
-    }
-    .review-container-outer {
-        background-color: #fdfae9; 
-        border: 2px solid #c9d8c9; 
-        border-radius: 20px;
-        padding: 40px 30px; /* Tăng lề trái phải lên 50px */
-        position: relative;
-    }
-    .review-slider {
-        display: flex;
-        gap: 20px;
-        overflow-x: auto;
-        scroll-behavior: smooth;
-        padding-bottom: 15px; 
-    }
-    .review-slider::-webkit-scrollbar {
-        display: none; /* Ẩn thanh cuộn để vuốt mượt mà */
-    }
-    .review-card {
-        background: white;
-        border-radius: 16px;
-        padding: 20px !important; /* Ép lề trong rộng ra */
-        min-width: 250px; /* Thu nhỏ từ 350px xuống 260px */
-        max-width: 250px;
-        flex: 0 0 auto;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.04);
-        display: flex;
-        flex-direction: column;
-        CURSOR: POINTER; 
-        TRANSITION: ALL 0.2S EASE;
-    }
-    .review-card:hover {
-        TRANSFORM: TRANSLATEY(-3PX); 
-        BOX-SHADOW: 0 8PX 20PX RGBA(0,113,45,0.1);
-    }
-    .review-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 15px;
-    }
+    .review-section { margin-top: 50px; margin-bottom: 50px; }
+    .review-main-title { font-family: 'Quicksand', sans-serif; font-weight: 800; color: #123e30; font-size: 2rem; margin-bottom: 25px; display: inline-block; }
+    .review-container-outer { background-color: #fdfae9; border: 2px solid #c9d8c9; border-radius: 20px; padding: 40px 30px; position: relative; }
+    .review-slider { display: flex; gap: 20px; overflow-x: auto; scroll-behavior: smooth; padding-bottom: 15px; }
+    .review-slider::-webkit-scrollbar { display: none; }
+    .review-card { background: white; border-radius: 16px; padding: 20px !important; min-width: 250px; max-width: 250px; flex: 0 0 auto; box-shadow: 0 4px 15px rgba(0,0,0,0.04); display: flex; flex-direction: column; CURSOR: POINTER; TRANSITION: ALL 0.2S EASE; }
+    .review-card:hover { TRANSFORM: TRANSLATEY(-3PX); BOX-SHADOW: 0 8PX 20PX RGBA(0,113,45,0.1); }
+    .review-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
     .reviewer-info { display: flex; align-items: center; gap: 12px; }
-    .reviewer-avatar-box {
-        width: 40px; height: 40px;
-        border-radius: 50%;
-        overflow: hidden;
-        background-color: #EBF6E0; color: #00712D;
-        display: flex; align-items: center; justify-content: center;
-        font-weight: bold; font-size: 1.2rem;
-    }
+    .reviewer-avatar-box { width: 40px; height: 40px; border-radius: 50%; overflow: hidden; background-color: #EBF6E0; color: #00712D; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.2rem; }
     .reviewer-avatar-box img { width: 100%; height: 100%; object-fit: cover; }
-    .reviewer-name { font-weight: 700; color: #222; margin: 0; font-size: 0.80rem;white-space: nowrap;overflow: hidden; text-overflow: ellipsis; }
+    .reviewer-name { font-weight: 700; color: #222; margin: 0; font-size: 0.80rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .review-date { font-size: 0.70rem; color: #888; margin-top: 4px; }
+    .review-rating { color: #f6ab2f; font-size: 1.0rem; font-weight: 800; display: flex; align-items: center; gap: 5px; }
     
-    .review-rating {
-        color: #f6ab2f; /* Màu vàng cam của Sao */
-        font-size: 1.0rem;
-        font-weight: 800;
-        display: flex;
-        align-items: center;
-        gap: 5px;
-    }
-    /* 1. Class chỉ chịu trách nhiệm tạo khung nền trắng và đệm lề */
-    .review-content-box {
-        background: white;
-        border: 1px solid #f0f0f0;
-        border-radius: 12px;
-        padding: 14px 16px !important; 
-        box-shadow: 0 4px 12px rgba(0,0,0,0.05); 
-        margin-bottom: 15px;
-    }
-
-    /* 2. Class: Chỉ chịu trách nhiệm quản lý font chữ */
-    .text-clamp-3 {
-        color: #555;
-        line-height: 1.6;
-        font-family: 'Quicksand', sans-serif;
-        font-weight: 600;
-        font-size: 0.65rem; 
-        text-align: justify;
-        display: -webkit-box;
-        -webkit-line-clamp: 3;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-    }
-    .review-images-container {
-        display: flex; gap: 8px; margin-bottom: 18px;
-        overflow-x: auto; padding-bottom: 4px;
-    }
-    .review-img {
-        width: 60px; height: 60px; 
-        object-fit: cover; border-radius: 8px;
-        flex-shrink: 0; /* Chống bị bóp méo ảnh */
-    }
-    .placeholder-img {
-        width: 60px; height: 60px;
-        border-radius: 10px;
-        background: #e9ecef;
-        display: flex; align-items: center; justify-content: center;
-        color: #adb5bd; 
-        font-size: 1.5rem; 
-        flex-shrink: 0; 
-    }
-    .review-tags-container {
-        display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto;
-    }
-    .review-tag-pill {
-        display: inline-flex; align-items: center; gap: 4px;
-        border: 1px solid #00712D; 
-        background-color: transparent; 
-        color: #00712D;
-        padding: 3.5px 8px; /* Thu nhỏ đệm viền trái/phải/trên/dưới */
-        border-radius: 30px;
-        font-size: 0.50rem; /* Thu nhỏ cỡ chữ của tag */
-        font-weight: 700;
-    }
-    /* Nút mũi tên vuốt trái phải */
-    .nav-arrow-btn {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 40px; height: 40px;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.9);
-        border: 1px solid #ddd;
-        display: flex; align-items: center; justify-content: center;
-        color: #888;
-        font-size: 1.2rem;
-        cursor: pointer;
-        z-index: 10;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        transition: 0.3s;
-    }
+    .review-content-box { background: white; border: 1px solid #f0f0f0; border-radius: 12px; padding: 14px 16px !important; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 15px; }
+    .text-clamp-3 { color: #555; line-height: 1.6; font-family: 'Quicksand', sans-serif; font-weight: 600; font-size: 0.65rem; text-align: justify; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+    
+    .review-images-container { display: flex; gap: 8px; margin-bottom: 18px; overflow-x: auto; padding-bottom: 4px; }
+    .review-img { width: 60px; height: 60px; object-fit: cover; border-radius: 8px; flex-shrink: 0; }
+    .placeholder-img { width: 60px; height: 60px; border-radius: 10px; background: #e9ecef; display: flex; align-items: center; justify-content: center; color: #adb5bd; font-size: 1.5rem; flex-shrink: 0; }
+    .review-tags-container { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; }
+    .review-tag-pill { display: inline-flex; align-items: center; gap: 4px; border: 1px solid #00712D; background-color: transparent; color: #00712D; padding: 3.5px 8px; border-radius: 30px; font-size: 0.50rem; font-weight: 700; }
+    
+    .nav-arrow-btn { position: absolute; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; border-radius: 50%; background: rgba(255, 255, 255, 0.9); border: 1px solid #ddd; display: flex; align-items: center; justify-content: center; color: #888; font-size: 1.2rem; cursor: pointer; z-index: 10; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: 0.3s; }
     .nav-arrow-btn:hover { background: white; color: #333; }
     .nav-arrow-btn.prev { left: -15px; } 
     .nav-arrow-btn.next { right: -15px; }
@@ -226,10 +95,10 @@
             <div class="tour-meta mb-5 d-flex flex-wrap">
                 <span><i class="fa-solid fa-location-dot text-danger"></i> <?= htmlspecialchars($tour['DiaDiem'] ?? $tour['VungDiaLy']) ?></span>
                 <span class="ms-3 me-3">
-    <i class="fa-solid fa-star" style="color: #FF9F00;"></i> 
-    <?= (!empty($tour['TrungBinhSao']) && $tour['TrungBinhSao'] > 0) ? $tour['TrungBinhSao'] : 'Chưa có' ?> 
-    <?php if (!empty($tour['SoLuotDanhGia']) && $tour['SoLuotDanhGia'] > 0) echo "(" . $tour['SoLuotDanhGia'] . ")"; ?>
-</span>
+                    <i class="fa-solid fa-star" style="color: #FF9F00;"></i> 
+                    <?= (!empty($tour['TrungBinhSao']) && $tour['TrungBinhSao'] > 0) ? $tour['TrungBinhSao'] : 'Chưa có' ?> 
+                    <?php if (!empty($tour['SoLuotDanhGia']) && $tour['SoLuotDanhGia'] > 0) echo "(" . $tour['SoLuotDanhGia'] . ")"; ?>
+                </span>
                 <span><i class="fa-solid fa-user-group"></i> Tối đa <?= $tour['SoKhachToiDa'] ?> người</span>
                 <span><i class="fa-solid fa-clock"></i> <?= $tour['SoNgay'] ?> ngày</span>
             </div>
@@ -241,130 +110,120 @@
             <div class="mt-4 tour-desc-text" style="background: #FCFBF7; padding: 25px; border-radius: 15px; border: 1px solid #f0eee9;">
                 <?= !empty($tour['LichTrinh']) ? nl2br($tour['LichTrinh']) : 'Đang cập nhật lịch trình...' ?>
             </div>
+            
             <!-- KHU VỰC ĐÁNH GIÁ TỪ KHÁCH HÀNG -->
-    <div class="review-section" id="reviewSection">
-        <!-- KHỐI TIÊU ĐỀ + BỘ LỌC ĐÁNH GIÁ -->
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h4 class="review-main-title mb-0">Đánh giá trải nghiệm</h4>
-        
-        <select class="form-select w-auto fw-bold" style="border-radius: 30px; color: #00712D; border: 2px solid #00712D; cursor: pointer;" onchange="sortReviewsSmooth(this.value, '<?= $tour['MaTour'] ?>')">
-            <option value="newest">⏳ Mới nhất</option>
-            <option value="sao_giam">⭐ Sao giảm dần</option>
-            <option value="sao_tang">⭐ Sao tăng dần</option>
-        </select>
-    </div>
+            <div class="review-section" id="reviewSection">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="review-main-title mb-0">Đánh giá trải nghiệm</h4>
+                    <select class="form-select w-auto fw-bold" style="border-radius: 30px; color: #00712D; border: 2px solid #00712D; cursor: pointer;" onchange="sortReviewsSmooth(this.value, '<?= $tour['MaTour'] ?>')">
+                        <option value="newest">⏳ Mới nhất</option>
+                        <option value="sao_giam">⭐ Sao giảm dần</option>
+                        <option value="sao_tang">⭐ Sao tăng dần</option>
+                    </select>
+                </div>
 
-        <div class="review-container-outer">
-            <!-- Nút điều hướng Carousel -->
-            <button class="nav-arrow-btn prev" onclick="scrollReview(-1)"><i class="fa-solid fa-chevron-left"></i></button>
-            <button class="nav-arrow-btn next" onclick="scrollReview(1)"><i class="fa-solid fa-chevron-right"></i></button>
+                <div class="review-container-outer">
+                    <button class="nav-arrow-btn prev" onclick="scrollReview(-1)"><i class="fa-solid fa-chevron-left"></i></button>
+                    <button class="nav-arrow-btn next" onclick="scrollReview(1)"><i class="fa-solid fa-chevron-right"></i></button>
 
-            <div class="review-slider" id="reviewSlider">
-               <?php if (!empty($danhGiaList)): ?>
-                    <?php foreach ($danhGiaList as $review): ?>
-                        <?php 
-                            // Ép kiểu mảng ảnh để JS dễ đọc
-                            $imgArr = [];
-                            if (!empty($review['HinhAnh'])) {
-                                $imgParts = explode('||', $review['HinhAnh']);
-                                foreach ($imgParts as $ip) { if (trim($ip)) $imgArr[] = trim($ip); }
-                            }
-                            $imgJson = htmlspecialchars(json_encode($imgArr), ENT_QUOTES, 'UTF-8');
-                            $avatar = !empty($review['AnhDaiDien']) ? htmlspecialchars($review['AnhDaiDien'], ENT_QUOTES, 'UTF-8') : '';
-                            $name = htmlspecialchars($review['TenKhachHang'], ENT_QUOTES, 'UTF-8');
-                            $content = htmlspecialchars($review['NoiDung'], ENT_QUOTES, 'UTF-8');
-                            $tags = !empty($review['AnTuong']) ? htmlspecialchars($review['AnTuong'], ENT_QUOTES, 'UTF-8') : '';
-                        ?>
-                        
-                        <div class="review-card" onclick="openReviewModal(this)"
-                             data-name="<?= $name ?>" data-avatar="<?= $avatar ?>"
-                             data-date="<?= date('d/m/Y', strtotime($review['NgayDanhGia'])) ?>"
-                             data-rating="<?= $review['SoSao'] ?? 5 ?>" data-content="<?= $content ?>"
-                             data-images="<?= $imgJson ?>" data-tags="<?= $tags ?>">
-                             
+                    <div class="review-slider" id="reviewSlider">
+                       <?php if (!empty($danhGiaList)): ?>
+                            <?php foreach ($danhGiaList as $review): ?>
+                                <?php 
+                                    $imgArr = [];
+                                    if (!empty($review['HinhAnh'])) {
+                                        $imgParts = explode('||', $review['HinhAnh']);
+                                        foreach ($imgParts as $ip) { if (trim($ip)) $imgArr[] = trim($ip); }
+                                    }
+                                    $imgJson = htmlspecialchars(json_encode($imgArr), ENT_QUOTES, 'UTF-8');
+                                    $avatar = !empty($review['AnhDaiDien']) ? htmlspecialchars($review['AnhDaiDien'], ENT_QUOTES, 'UTF-8') : '';
+                                    $name = htmlspecialchars($review['TenKhachHang'], ENT_QUOTES, 'UTF-8');
+                                    $content = htmlspecialchars($review['NoiDung'], ENT_QUOTES, 'UTF-8');
+                                    $tags = !empty($review['AnTuong']) ? htmlspecialchars($review['AnTuong'], ENT_QUOTES, 'UTF-8') : '';
+                                ?>
+                                
+                                <div class="review-card" onclick="openReviewModal(this)"
+                                     data-name="<?= $name ?>" data-avatar="<?= $avatar ?>"
+                                     data-date="<?= date('d/m/Y', strtotime($review['NgayDanhGia'])) ?>"
+                                     data-rating="<?= $review['SoSao'] ?? 5 ?>" data-content="<?= $content ?>"
+                                     data-images="<?= $imgJson ?>" data-tags="<?= $tags ?>">
 
-                            <div class="review-header">
-                                <div class="reviewer-info">
-                                    <div class="reviewer-avatar-box">
-                                        <?php if (!empty($review['AnhDaiDien'])): ?>
-                                            <img src="<?= htmlspecialchars($review['AnhDaiDien']) ?>" alt="Avatar" onerror="this.style.display='none'">
+                                    <div class="review-header">
+                                        <div class="reviewer-info">
+                                            <div class="reviewer-avatar-box">
+                                                <?php if (!empty($review['AnhDaiDien'])): ?>
+                                                    <img src="<?= htmlspecialchars($review['AnhDaiDien']) ?>" alt="Avatar" onerror="this.style.display='none'">
+                                                <?php else: ?>
+                                                    <?php $firstChar = mb_substr(htmlspecialchars($review['TenKhachHang']), 0, 1, "UTF-8"); ?>
+                                                    <?= mb_strtoupper($firstChar, "UTF-8") ?>
+                                                <?php endif; ?>
+                                            </div>
+                                            <div>
+                                                <h5 class="reviewer-name"><?= htmlspecialchars($review['TenKhachHang']) ?></h5>
+                                                <div class="review-date"><?= date('d/m/Y', strtotime($review['NgayDanhGia'])) ?></div>
+                                            </div>
+                                        </div>
+                                        <div class="review-rating">
+                                            <i class="fa-solid fa-star"></i> <?= $review['SoSao'] ?? 5 ?>
+                                        </div>
+                                    </div>
+
+                                    <div class="review-content-box">
+                                        <div class="text-clamp-3">
+                                            <?= htmlspecialchars($review['NoiDung']) ?>
+                                        </div>
+                                    </div>
+
+                                    <div class="review-images-container">
+                                        <?php if (!empty($review['HinhAnh'])): ?>
+                                            <?php 
+                                                $images = explode('||', $review['HinhAnh']);
+                                                foreach ($images as $img): 
+                                                    $imgPath = trim($img);
+                                                    if (!empty($imgPath)):
+                                            ?>
+                                                <img src="<?= htmlspecialchars($imgPath) ?>" class="review-img" alt="Ảnh đánh giá" onerror="this.style.display='none'">
+                                            <?php 
+                                                    endif;
+                                                endforeach; 
+                                            ?>
                                         <?php else: ?>
-                                            <?php $firstChar = mb_substr(htmlspecialchars($review['TenKhachHang']), 0, 1, "UTF-8"); ?>
-                                            <?= mb_strtoupper($firstChar, "UTF-8") ?>
+                                            <div class="placeholder-img"><i class="fa-regular fa-image"></i></div>
                                         <?php endif; ?>
                                     </div>
-                                    <div>
-                                        <h5 class="reviewer-name"><?= htmlspecialchars($review['TenKhachHang']) ?></h5>
-                                        <div class="review-date"><?= date('d/m/Y', strtotime($review['NgayDanhGia'])) ?></div>
-                                    </div>
-                                </div>
-                            <!-- Ngôi sao -->
-                                <div class="review-rating">
-                                    <i class="fa-solid fa-star"></i> <?= $review['SoSao'] ?? 5 ?>
-                                </div>
-                            </div>
 
-                            <!-- Box chứa nội dung riêng biệt -->
-                            <div class="review-content-box">
-                                <div class="text-clamp-3">
-                                    <?= htmlspecialchars($review['NoiDung']) ?>
-                                </div>
-                            </div>
-
-                            <div class="review-images-container">
-                                <?php if (!empty($review['HinhAnh'])): ?>
-                                    <?php 
-                                        $images = explode('||', $review['HinhAnh']);
-                                        foreach ($images as $img): 
-                                            $imgPath = trim($img);
-                                            if (!empty($imgPath)):
-                                    ?>
-                                        <img src="<?= htmlspecialchars($imgPath) ?>" class="review-img" alt="Ảnh đánh giá" onerror="this.style.display='none'">
-                                    <?php 
-                                            endif;
-                                        endforeach; 
-                                    ?>
-                                <?php else: ?>
-                                    <!-- Khung ảnh trống mặc định nếu không có hình -->
-                                    <div class="placeholder-img"><i class="fa-regular fa-image"></i></div>
-                                <?php endif; ?>
-                            </div>
-
-                            <!-- Xử lý tách riêng từng tag Ấn tượng -->
-                            <?php if(!empty($review['AnTuong'])): ?>
-                                <div class="review-tags-container">
-                                    <?php 
-                                        // Tách các ấn tượng cách nhau bằng dấu phẩy
-                                        $tags = explode(',', $review['AnTuong']);
-                                        foreach ($tags as $tag):
-                                            $tag = trim($tag);
-                                            if (!empty($tag)):
-                                                // Tự động gán Icon dựa vào từ khóa
-                                                $icon = '📌'; 
-                                                if (stripos($tag, 'tiền') !== false) $icon = '💸';
-                                                elseif (stripos($tag, 'thân thiện') !== false) $icon = '🙋';
-                                                elseif (stripos($tag, 'an toàn') !== false) $icon = '🛡️';
-                                                elseif (stripos($tag, 'dịch vụ') !== false) $icon = '👏';
-                                                elseif (stripos($tag, 'đẹp') !== false) $icon = '✨';
-                                                elseif (stripos($tag, 'ngon') !== false) $icon = '🍲';
-                                    ?>
-                                        <div class="review-tag-pill">
-                                            <span><?= $icon ?></span> <?= htmlspecialchars($tag) ?>
+                                    <?php if(!empty($review['AnTuong'])): ?>
+                                        <div class="review-tags-container">
+                                            <?php 
+                                                $tags = explode(',', $review['AnTuong']);
+                                                foreach ($tags as $tag):
+                                                    $tag = trim($tag);
+                                                    if (!empty($tag)):
+                                                        $icon = '📌'; 
+                                                        if (stripos($tag, 'tiền') !== false) $icon = '💸';
+                                                        elseif (stripos($tag, 'thân thiện') !== false) $icon = '🙋';
+                                                        elseif (stripos($tag, 'an toàn') !== false) $icon = '🛡️';
+                                                        elseif (stripos($tag, 'dịch vụ') !== false) $icon = '👏';
+                                                        elseif (stripos($tag, 'đẹp') !== false) $icon = '✨';
+                                                        elseif (stripos($tag, 'ngon') !== false) $icon = '🍲';
+                                            ?>
+                                                <div class="review-tag-pill">
+                                                    <span><?= $icon ?></span> <?= htmlspecialchars($tag) ?>
+                                                </div>
+                                            <?php 
+                                                    endif;
+                                                endforeach; 
+                                            ?>
                                         </div>
-                                    <?php 
-                                            endif;
-                                        endforeach; 
-                                    ?>
+                                    <?php endif; ?>
                                 </div>
-                            <?php endif; ?>
-                        </div>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <p class="text-center w-100 text-muted">Chưa có đánh giá nào cho tour này.</p>
-                <?php endif; ?>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <p class="text-center w-100 text-muted">Chưa có đánh giá nào cho tour này.</p>
+                        <?php endif; ?>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
         </div>
 
         <div class="col-lg-4">
@@ -383,7 +242,6 @@
 
                         <div class="mb-4">
                             <label class="form-label text-success fw-bold">Chọn ngày khởi hành</label>
-                            <!-- Đổi name thành malichkhoihanh để truyền sang trang Thanh toán chuẩn DB mới -->
                             <select name="malichkhoihanh" id="lichkhoihanh_select" class="form-select custom-input" required onchange="updateMaxQty()">
                                 <option value="" disabled selected>-- Chọn ngày --</option>
                                 <?php if(!empty($schedules)): ?>
@@ -392,7 +250,6 @@
                                             $ngayBD = date('d/m/Y', strtotime($sch['NgayBatDau']));
                                             $choTrong = $sch['ChoTrong'];
                                         ?>
-                                        <!-- Nếu hết chỗ thì disable luôn option đó -->
                                         <option value="<?= $sch['MaLichKhoiHanh'] ?>" data-chotrong="<?= $choTrong ?>" <?= $choTrong <= 0 ? 'disabled' : '' ?>>
                                             <?= $ngayBD ?> (Còn <?= $choTrong ?> chỗ)
                                         </option>
@@ -406,18 +263,15 @@
                         <div class="mb-4">
                             <label class="form-label text-success fw-bold">Số lượng khách</label>
                             <div class="d-flex align-items-center justify-content-between qty-selector">
-    <button type="button" class="btn p-0 border-0" onclick="updateTourQty(-1)">
-        <i class="fa-solid fa-circle-chevron-left fs-4" style="color: #799580;"></i>
-    </button>
-    
-    <span id="qty_display" class="fw-bold fs-5 text-success">1</span>
-    
-    <button type="button" class="btn p-0 border-0" onclick="updateTourQty(1)">
-        <i class="fa-solid fa-circle-chevron-right fs-4" style="color: #799580;"></i>
-    </button>
-    
-    <input type="hidden" name="soluong" id="soluong_input" value="1">
-</div>
+                                <button type="button" class="btn p-0 border-0" onclick="updateTourQty(-1)">
+                                    <i class="fa-solid fa-circle-chevron-left fs-4" style="color: #799580;"></i>
+                                </button>
+                                <span id="qty_display" class="fw-bold fs-5 text-success">1</span>
+                                <button type="button" class="btn p-0 border-0" onclick="updateTourQty(1)">
+                                    <i class="fa-solid fa-circle-chevron-right fs-4" style="color: #799580;"></i>
+                                </button>
+                                <input type="hidden" name="soluong" id="soluong_input" value="1">
+                            </div>
                         </div>
 
                         <hr style="border-color: #ddd; margin: 25px 0;">
@@ -439,59 +293,81 @@
             </div>
         </div>
     </div>
+
+    <!-- MODAL VÀ LỚP PHỦ ẢNH -->
     <div class="modal fade" id="reviewDetailModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content" style="border-radius: 20px; background-color: #fdfae9; border: 2px solid #c9d8c9;">
-            <div class="modal-header border-0 pb-0">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body px-4 pt-0 pb-4">
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <div class="d-flex align-items-center gap-3">
-                        <div id="modalReviewAvatar" class="reviewer-avatar-box" style="width: 55px; height: 55px; font-size: 1.5rem;"></div>
-                        <div>
-                            <h4 id="modalReviewName" class="mb-1" style="font-weight: 700; color: #222;"></h4>
-                            <div id="modalReviewDate" style="color: #888; font-size: 0.95rem;"></div>
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content" style="border-radius: 20px; background-color: #fdfae9; border: 2px solid #c9d8c9;">
+                <div class="modal-header border-0 pb-0">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body px-4 pt-0 pb-4">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div class="d-flex align-items-center gap-3">
+                            <div id="modalReviewAvatar" class="reviewer-avatar-box" style="width: 55px; height: 55px; font-size: 1.5rem;"></div>
+                            <div>
+                                <h4 id="modalReviewName" class="mb-1" style="font-weight: 700; color: #222;"></h4>
+                                <div id="modalReviewDate" style="color: #888; font-size: 0.95rem;"></div>
+                            </div>
+                        </div>
+                        <div class="review-rating" style="font-size: 1.4rem;">
+                            <i class="fa-solid fa-star"></i> <span id="modalReviewRating"></span>
                         </div>
                     </div>
-                    <div class="review-rating" style="font-size: 1.4rem;">
-                        <i class="fa-solid fa-star"></i> <span id="modalReviewRating"></span>
-                    </div>
+                    
+                    <div id="modalReviewContent" class="mb-4 p-3 bg-white" style="border-radius: 12px; border: 1px solid #f0f0f0; color: #444; line-height: 1.7; font-family: 'Quicksand', sans-serif; font-size: 1.05rem; text-align: justify; box-shadow: 0 4px 12px rgba(0,0,0,0.03);"></div>
+                    <div id="modalReviewImages" class="row g-3 mb-3"></div>
+                    <div id="modalReviewTags" class="d-flex flex-wrap gap-2"></div>
                 </div>
-                
-                <div id="modalReviewContent" class="mb-4 p-3 bg-white" style="border-radius: 12px; border: 1px solid #f0f0f0; color: #444; line-height: 1.7; font-family: 'Quicksand', sans-serif; font-size: 1.05rem; text-align: justify; box-shadow: 0 4px 12px rgba(0,0,0,0.03);"></div>
-                
-                <div id="modalReviewImages" class="row g-3 mb-3"></div>
-                
-                <div id="modalReviewTags" class="d-flex flex-wrap gap-2"></div>
             </div>
         </div>
     </div>
-    <!-- LỚP PHỦ XEM ẢNH PHÓNG TO (FULLSCREEN) -->
-<div id="imageZoomOverlay" onclick="closeZoom()" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 10000; align-items: center; justify-content: center; cursor: zoom-out; opacity: 0; transition: opacity 0.3s ease;">
-    <!-- Nút X tắt (có thể bấm ra ngoài ảnh để tắt luôn cũng được) -->
-    <span style="position: absolute; top: 20px; right: 40px; color: white; font-size: 45px; font-weight: bold; cursor: pointer;">&times;</span>
-    
-    <!-- Ảnh được phóng to -->
-    <img id="zoomedImageSrc" src="" style="max-width: 90%; max-height: 90%; object-fit: contain; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); transform: scale(0.9); transition: transform 0.3s ease;">
-</div>
-</div>
 
+    <div id="imageZoomOverlay" onclick="closeZoom()" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 10000; align-items: center; justify-content: center; cursor: zoom-out; opacity: 0; transition: opacity 0.3s ease;">
+        <span style="position: absolute; top: 20px; right: 40px; color: white; font-size: 45px; font-weight: bold; cursor: pointer;">&times;</span>
+        <img id="zoomedImageSrc" src="" style="max-width: 90%; max-height: 90%; object-fit: contain; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); transform: scale(0.9); transition: transform 0.3s ease;">
+    </div>
 </div>
 
 <script>
-    // JS tính số lượng, đổi lại cách bắt event onclick cho button
-    // Ép kiểu về số nguyên (parseInt) để an toàn tuyệt đối, tránh JS hiểu nhầm là chuỗi
     const basePrice = <?= isset($giaThucTe) ? $giaThucTe : $tour['Gia'] ?>;
-    const maxQty = parseInt('<?= $tour['SoKhachToiDa'] ?>', 10);
+    let maxQty = parseInt('<?= $tour['SoKhachToiDa'] ?>', 10);
     let currentQty = 1;
 
     function formatCurrency(number) {
         return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     }
 
-    // TÊN HÀM MỚI (updateTourQty) để không bị đụng hàng với code cũ
+    function updateMaxQty() {
+        const select = document.getElementById('lichkhoihanh_select');
+        const selectedOption = select.options[select.selectedIndex];
+        
+        if(selectedOption && selectedOption.value !== "") {
+            maxQty = parseInt(selectedOption.getAttribute('data-chotrong'), 10);
+            
+            if(currentQty > maxQty) {
+                currentQty = maxQty > 0 ? maxQty : 1; 
+                document.getElementById('qty_display').innerText = currentQty;
+                document.getElementById('soluong_input').value = currentQty;
+                document.getElementById('calc_qty').innerText = currentQty;
+                
+                let total = basePrice * currentQty;
+                let formattedTotal = formatCurrency(total) + " VNĐ";
+                document.getElementById('calc_subtotal').innerText = formattedTotal;
+                document.getElementById('calc_total').innerText = formattedTotal;
+                
+                Swal.fire({ icon: 'info', title: 'Đã điều chỉnh', text: 'Ngày bạn vừa chọn chỉ còn ' + maxQty + ' chỗ, hệ thống đã tự động điều chỉnh số lượng.'});
+            }
+        }
+    }
+
     function updateTourQty(amount) {
+        const select = document.getElementById('lichkhoihanh_select');
+        if(select.value === "") {
+            Swal.fire({ icon: 'warning', title: 'Lưu ý', text: 'Vui lòng chọn ngày khởi hành trước để biết số chỗ còn trống!'});
+            return;
+        }
+
         let newQty = currentQty + amount;
         if (newQty >= 1 && newQty <= maxQty) {
             currentQty = newQty;
@@ -504,20 +380,14 @@
             document.getElementById('calc_subtotal').innerText = formattedTotal;
             document.getElementById('calc_total').innerText = formattedTotal;
         } else if (newQty > maxQty) {
-            Swal.fire({ icon: 'warning', title: 'Giới hạn', text: 'Chỉ còn tối đa ' + maxQty + ' chỗ!'});
+            Swal.fire({ icon: 'warning', title: 'Giới hạn', text: 'Ngày khởi hành này chỉ còn tối đa ' + maxQty + ' chỗ!'});
         }
     }
 
-    // JS Xử lý thả tim đã nâng cấp
     function toggleFavoriteDetail(btnElement, maTour) {
-        // KIỂM TRA BẰNG POPUP XỊN TRƯỚC KHI GỌI AJAX
-        if (!requireLoginPopup(null, 'lưu tour vào danh sách yêu thích')) {
-            return; // Dừng luôn nếu chưa đăng nhập
-        }
-
+        if (!requireLoginPopup(null, 'lưu tour vào danh sách yêu thích')) { return; }
         const icon = btnElement.querySelector('i');
         
-        // Gọi đến API có sẵn (Các phần dưới giữ nguyên như bạn đang có)
         fetch('index.php?controller=favorite', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -537,35 +407,26 @@
         })
         .catch(error => console.error('Lỗi:', error));
     }
+
     function scrollReview(direction) {
         const slider = document.getElementById('reviewSlider');
-        // Chiều rộng thẻ (260px) + gap (20px) = 280
         const scrollAmount = 280; 
         slider.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
     }
-    // HÀM MỚI: Sắp xếp đánh giá ngầm (Không load lại trang)
+    
     function sortReviewsSmooth(sortType, maTour) {
         const slider = document.getElementById('reviewSlider');
-        
-        // Tạo hiệu ứng mờ nhẹ để khách hàng biết web đang xử lý
         slider.style.transition = "opacity 0.3s ease";
         slider.style.opacity = "0.4";
 
-        // Thêm tham số '&t=' + Date.now() để CHỐNG TRÌNH DUYỆT LƯU CACHE
         const fetchUrl = 'index.php?controller=tourdetail&id=' + maTour + '&sort_review=' + sortType + '&t=' + Date.now();
 
-        // Dùng Fetch tải dữ liệu ngầm
         fetch(fetchUrl)
             .then(response => response.text())
             .then(html => {
-                // Tạo một "trình duyệt ảo" đọc HTML trả về
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(html, 'text/html');
-                
-                // Cắt lấy đúng phần ruột của danh sách đánh giá mới và đắp vào
                 slider.innerHTML = doc.getElementById('reviewSlider').innerHTML;
-                
-                // Trả lại độ sáng và cuộn thẻ về vị trí đầu tiên
                 slider.style.opacity = "1";
                 slider.scrollLeft = 0;
             })
@@ -574,9 +435,8 @@
                 slider.style.opacity = "1"; 
             });
     }
-    // HÀM MỚI: MỞ POPUP CHI TIẾT ĐÁNH GIÁ
+
     function openReviewModal(cardElement) {
-        // Lấy toàn bộ dữ liệu đang giấu trong thẻ card
         const name = cardElement.getAttribute('data-name');
         const avatar = cardElement.getAttribute('data-avatar');
         const date = cardElement.getAttribute('data-date');
@@ -585,13 +445,11 @@
         const images = JSON.parse(cardElement.getAttribute('data-images') || '[]');
         const tagsStr = cardElement.getAttribute('data-tags');
 
-        // Bơm thông tin text vào Modal
         document.getElementById('modalReviewName').innerText = name;
         document.getElementById('modalReviewDate').innerText = date;
         document.getElementById('modalReviewRating').innerText = rating;
         document.getElementById('modalReviewContent').innerText = content;
 
-        // Bơm Avatar
         const avatarBox = document.getElementById('modalReviewAvatar');
         if (avatar) {
             avatarBox.innerHTML = `<img src="${avatar}" style="width:100%; height:100%; object-fit:cover;">`;
@@ -599,14 +457,12 @@
             avatarBox.innerHTML = name.charAt(0).toUpperCase();
         }
 
-        // Bơm lưới Hình ảnh (Sắp xếp dạng cột cực đẹp)
         const imagesBox = document.getElementById('modalReviewImages');
         imagesBox.innerHTML = '';
         if (images.length > 0) {
             images.forEach(img => {
                 imagesBox.innerHTML += `
                     <div class="col-6 col-md-4">
-                        <!-- ĐÃ THÊM: cursor: pointer và onclick="zoomImage(this.src)" -->
                         <img src="${img}" class="img-fluid rounded-3 w-100" 
                              style="height: 160px; object-fit: cover; border: 2px solid #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.1); cursor: pointer; transition: 0.2s;" 
                              onerror="this.style.display='none'" 
@@ -618,7 +474,6 @@
             });
         }
 
-        // Bơm Tags (Tự động cấp lại Icon)
         const tagsBox = document.getElementById('modalReviewTags');
         tagsBox.innerHTML = '';
         if (tagsStr) {
@@ -643,38 +498,33 @@
             });
         }
 
-        // Kích hoạt bật Popup lên
         const modal = new bootstrap.Modal(document.getElementById('reviewDetailModal'));
         modal.show();
     }
-    // HÀM MỚI: PHÓNG TO ẢNH FULL MÀN HÌNH
+
     function zoomImage(imageSrc) {
         const overlay = document.getElementById('imageZoomOverlay');
         const zoomedImg = document.getElementById('zoomedImageSrc');
-        
-        // Đưa đường dẫn ảnh vào thẻ img lớn
         zoomedImg.src = imageSrc;
         
-        // Bật lớp phủ và tạo hiệu ứng bung nở (scale)
         overlay.style.display = 'flex';
         setTimeout(() => {
             overlay.style.opacity = '1';
             zoomedImg.style.transform = 'scale(1)';
-        }, 10); // Đợi 10ms để trình duyệt kịp nhận diện display: flex
+        }, 10); 
     }
 
-    // HÀM MỚI: TẮT ẢNH PHÓNG TO
     function closeZoom() {
         const overlay = document.getElementById('imageZoomOverlay');
         const zoomedImg = document.getElementById('zoomedImageSrc');
         
-        // Hiệu ứng mờ dần và thu nhỏ lại
         overlay.style.opacity = '0';
         zoomedImg.style.transform = 'scale(0.9)';
         
-        // Sau 300ms (bằng thời gian transition) thì ẩn hẳn đi
         setTimeout(() => {
             overlay.style.display = 'none';
         }, 300);
     }
 </script>
+
+<?php include 'app/views/layouts/footer.php'; ?>

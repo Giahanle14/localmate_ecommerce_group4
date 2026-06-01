@@ -81,12 +81,11 @@
 
 <div class="success-wrapper">
     <div class="success-box">
-        <div class="check-circle">
-            <i class="fa-solid fa-check"></i>
+        <div class="check-circle" style="background-color: #F29A2E;"> <i class="fa-solid fa-clock-rotate-left"></i>
         </div>
-        <h1>Bạn đã hủy tour<br>thành công!</h1>
-        <p>Hãy xem thêm các tour trải nghiệm khác của chúng mình nhé!</p>
+        <h1 style="font-size: 2.2rem;">Yêu cầu hủy tour<br>đã được gửi!</h1>
+        <p>Hệ thống đang tiếp nhận yêu cầu của bạn. Quản trị viên sẽ xét duyệt và hoàn tiền (nếu có) <strong>tối đa trong vòng 24h</strong>.</p>
         
-        <a href="index.php?controller=mytrip" class="btn-close-success">Đóng</a>
+        <a href="index.php?controller=mytrip" class="btn-close-success" style="background-color: #F29A2E;">Quay lại chuyến đi</a>
     </div>
 </div>
