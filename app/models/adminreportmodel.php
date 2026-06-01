@@ -20,19 +20,19 @@ class AdminReportModel {
         $vungStr = $filters['vung'] ?? '';
 
         // Điều kiện cơ bản: Chỉ tính các chuyến đi Đã hoàn thành
-        $where = ["cd.TrangThai = 'Đã hoàn thành'"];
+        $where = ["cd.trangthai = 'Đã hoàn thành'"];
         $params = [];
 
         if (!empty($year)) {
-            $where[] = "YEAR(lkh.NgayBatDau) = ?";
+            $where[] = "YEAR(lkh.ngaybatdau) = ?";
             $params[] = $year;
         }
 
         if (!empty($month)) {
-            $where[] = "MONTH(lkh.NgayBatDau) = ?";
+            $where[] = "MONTH(lkh.ngaybatdau) = ?";
             $params[] = $month;
         } elseif (!empty($quarter)) {
-            $where[] = "QUARTER(lkh.NgayBatDau) = ?";
+            $where[] = "QUARTER(lkh.ngaybatdau) = ?";
             $params[] = $quarter;
         }
 
@@ -42,7 +42,7 @@ class AdminReportModel {
             $loaiConditions = [];
             foreach ($loaiArr as $loaiItem) {
                 if (!empty(trim($loaiItem))) {
-                    $loaiConditions[] = "FIND_IN_SET(?, t.LoaiTraiNghiem)";
+                    $loaiConditions[] = "FIND_IN_SET(?, t.loaitraininghiem)";
                     $params[] = trim($loaiItem);
                 }
             }
@@ -62,30 +62,30 @@ class AdminReportModel {
                 }
             }
             if (count($vungPlaceholders) > 0) {
-                $where[] = "t.VungDiaLy IN (" . implode(',', $vungPlaceholders) . ")";
+                $where[] = "t.vungdialy IN (" . implode(',', $vungPlaceholders) . ")";
             }
         }
 
         $whereClause = "WHERE " . implode(' AND ', $where);
 
-        // CHUỖI JOIN MỚI CẬP NHẬT THEO SCHEME CSDL: ChuyenDi -> LichKhoiHanh -> Tour
-        $joins = "FROM ChuyenDi cd 
-                  JOIN LichKhoiHanh lkh ON cd.MaLichKhoiHanh = lkh.MaLichKhoiHanh 
-                  JOIN Tour t ON lkh.MaTour = t.MaTour";
+        // CHUỖI JOIN MỚI CẬP NHẬT THEO SCHEME CSDL
+        $joins = "FROM chuyendi cd 
+                  JOIN lichkhoihanh lkh ON cd.malichkhoihanh = lkh.malichkhoihanh 
+                  JOIN tour t ON lkh.matour = t.matour";
 
         // 1. Truy vấn Tổng doanh thu
-        $sqlTotal = "SELECT SUM(cd.TongGiaTien) as Total $joins $whereClause";
+        $sqlTotal = "SELECT SUM(cd.tonggiatien) as Total $joins $whereClause";
         $stmt = $this->conn->prepare($sqlTotal);
         $stmt->execute($params);
         $totalRevenue = $stmt->fetchColumn() ?: 0;
 
         // 2. Dữ liệu Biểu đồ cột (Theo ngày nếu chọn Tháng, ngược lại theo Tháng)
         if (!empty($month)) {
-            $sqlBar = "SELECT DAY(lkh.NgayBatDau) as label, SUM(cd.TongGiaTien) as value 
-                       $joins $whereClause GROUP BY DAY(lkh.NgayBatDau) ORDER BY DAY(lkh.NgayBatDau)";
+            $sqlBar = "SELECT DAY(lkh.ngaybatdau) as label, SUM(cd.tonggiatien) as value 
+                       $joins $whereClause GROUP BY DAY(lkh.ngaybatdau) ORDER BY DAY(lkh.ngaybatdau)";
         } else {
-            $sqlBar = "SELECT MONTH(lkh.NgayBatDau) as label, SUM(cd.TongGiaTien) as value 
-                       $joins $whereClause GROUP BY MONTH(lkh.NgayBatDau) ORDER BY MONTH(lkh.NgayBatDau)";
+            $sqlBar = "SELECT MONTH(lkh.ngaybatdau) as label, SUM(cd.tonggiatien) as value 
+                       $joins $whereClause GROUP BY MONTH(lkh.ngaybatdau) ORDER BY MONTH(lkh.ngaybatdau)";
         }
         $stmt = $this->conn->prepare($sqlBar);
         $stmt->execute($params);
@@ -115,8 +115,8 @@ class AdminReportModel {
         }
 
         // 3. Biểu đồ tròn - Cơ cấu theo Vùng địa lý
-        $sqlVung = "SELECT t.VungDiaLy as label, SUM(cd.TongGiaTien) as value 
-                    $joins $whereClause GROUP BY t.VungDiaLy";
+        $sqlVung = "SELECT t.vungdialy as label, SUM(cd.tonggiatien) as value 
+                    $joins $whereClause GROUP BY t.vungdialy";
         $stmt = $this->conn->prepare($sqlVung);
         $stmt->execute($params);
         $pieVung = $stmt->fetchAll();
@@ -126,8 +126,8 @@ class AdminReportModel {
         $pieLoai = [];
         foreach ($loaiList as $l) {
             $paramsLoai = $params;
-            $sqlLoai = "SELECT SUM(cd.TongGiaTien) 
-                        $joins $whereClause AND FIND_IN_SET(?, t.LoaiTraiNghiem)";
+            $sqlLoai = "SELECT SUM(cd.tonggiatien) 
+                        $joins $whereClause AND FIND_IN_SET(?, t.loaitraininghiem)";
             $paramsLoai[] = $l;
             $stmt = $this->conn->prepare($sqlLoai);
             $stmt->execute($paramsLoai);

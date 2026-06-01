@@ -18,7 +18,7 @@ class TourDetailModel {
      JOIN chuyendi c ON dg.MaChuyenDi = c.MaChuyenDi 
      JOIN lichkhoihanh lkh ON c.MaLichKhoiHanh = lkh.MaLichKhoiHanh
      WHERE lkh.MaTour = t.MaTour) AS SoLuotDanhGia
-                FROM Tour t 
+                FROM tour t 
                 WHERE t.MaTour = :matour";
                 
         $stmt = $this->conn->prepare($sql);
@@ -41,7 +41,7 @@ class TourDetailModel {
     // Hàm kiểm tra xem khách đã lưu tour này chưa (trả về true/false)
     public function checkIsFavorited($maTK_DK, $maTour) {
         if (strpos($maTK_DK, 'DK') === 0) {
-            $stmtDK = $this->conn->prepare("SELECT MaTK_DK FROM DuKhach WHERE MaDK = :maDK");
+            $stmtDK = $this->conn->prepare("SELECT MaTK_DK FROM dukhach WHERE MaDK = :maDK");
             $stmtDK->execute([':maDK' => $maTK_DK]);
             $res = $stmtDK->fetch(PDO::FETCH_ASSOC);
             if ($res) {
@@ -49,7 +49,7 @@ class TourDetailModel {
             }
         }
         
-        $sql = "SELECT 1 FROM DanhSachYeuThich WHERE MaTK_DK = :maTK_DK AND MaTour = :maTour";
+        $sql = "SELECT 1 FROM danhsachyeuthich WHERE MaTK_DK = :maTK_DK AND MaTour = :maTour";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([':maTK_DK' => $maTK_DK, ':maTour' => $maTour]);
         

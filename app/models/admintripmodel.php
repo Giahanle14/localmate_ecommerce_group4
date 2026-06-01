@@ -12,10 +12,10 @@ class AdminTripModel {
 
     public function getTripStats() {
         $stats = [
-            'all' => $this->conn->query("SELECT COUNT(*) FROM ChuyenDi")->fetchColumn(),
-            'pending' => $this->conn->query("SELECT COUNT(cd.MaChuyenDi) FROM ChuyenDi cd JOIN LichKhoiHanh lkh ON cd.MaLichKhoiHanh = lkh.MaLichKhoiHanh JOIN Tour t ON lkh.MaTour = t.MaTour WHERE cd.TrangThai != 'Đã hủy' AND DATE_ADD(lkh.NgayBatDau, INTERVAL (IFNULL(t.SoNgay, 1) - 1) DAY) >= CURDATE()")->fetchColumn(),
-            'completed' => $this->conn->query("SELECT COUNT(cd.MaChuyenDi) FROM ChuyenDi cd JOIN LichKhoiHanh lkh ON cd.MaLichKhoiHanh = lkh.MaLichKhoiHanh JOIN Tour t ON lkh.MaTour = t.MaTour WHERE cd.TrangThai != 'Đã hủy' AND DATE_ADD(lkh.NgayBatDau, INTERVAL (IFNULL(t.SoNgay, 1) - 1) DAY) < CURDATE()")->fetchColumn(),
-            'cancel_req' => $this->conn->query("SELECT COUNT(*) FROM YeuCauHuy WHERE TrangThai = 'Chưa xử lý'")->fetchColumn()
+            'all' => $this->conn->query("SELECT COUNT(*) FROM chuyendi")->fetchColumn(),
+            'pending' => $this->conn->query("SELECT COUNT(cd.MaChuyenDi) FROM chuyendi cd JOIN lichkhoihanh lkh ON cd.MaLichKhoiHanh = lkh.MaLichKhoiHanh JOIN tour t ON lkh.MaTour = t.MaTour WHERE cd.TrangThai != 'Đã hủy' AND DATE_ADD(lkh.NgayBatDau, INTERVAL (IFNULL(t.SoNgay, 1) - 1) DAY) >= CURDATE()")->fetchColumn(),
+            'completed' => $this->conn->query("SELECT COUNT(cd.MaChuyenDi) FROM chuyendi cd JOIN lichkhoihanh lkh ON cd.MaLichKhoiHanh = lkh.MaLichKhoiHanh JOIN tour t ON lkh.MaTour = t.MaTour WHERE cd.TrangThai != 'Đã hủy' AND DATE_ADD(lkh.NgayBatDau, INTERVAL (IFNULL(t.SoNgay, 1) - 1) DAY) < CURDATE()")->fetchColumn(),
+            'cancel_req' => $this->conn->query("SELECT COUNT(*) FROM yeucauhuy WHERE TrangThai = 'Chưa xử lý'")->fetchColumn()
         ];
         return $stats;
     }
@@ -24,12 +24,12 @@ class AdminTripModel {
         $sql = "SELECT c.MaChuyenDi, lkh.NgayBatDau, DATE_ADD(lkh.NgayBatDau, INTERVAL (IFNULL(t.SoNgay, 1) - 1) DAY) as NgayKetThuc, c.TrangThai, 
                        tk.HoTen, t.TenTour, 
                        y.TrangThai as HuyTrangThai 
-                FROM ChuyenDi c
-                JOIN DuKhach dk ON c.MaTK_DK = dk.MaTK_DK
-                JOIN TaiKhoan tk ON dk.MaTK_DK = tk.MaTK
-                JOIN LichKhoiHanh lkh ON c.MaLichKhoiHanh = lkh.MaLichKhoiHanh
-                JOIN Tour t ON lkh.MaTour = t.MaTour
-                LEFT JOIN YeuCauHuy y ON c.MaChuyenDi = y.MaChuyenDi
+                FROM chuyendi c
+                JOIN dukhach dk ON c.MaTK_DK = dk.MaTK_DK
+                JOIN taikhoan tk ON dk.MaTK_DK = tk.MaTK
+                JOIN lichkhoihanh lkh ON c.MaLichKhoiHanh = lkh.MaLichKhoiHanh
+                JOIN tour t ON lkh.MaTour = t.MaTour
+                LEFT JOIN yeucauhuy y ON c.MaChuyenDi = y.MaChuyenDi
                 WHERE 1=1";
         
         $params = [];
@@ -92,12 +92,12 @@ class AdminTripModel {
                        t.TenTour, t.HinhAnh as AnhTour, t.Gia as GiaTour, t.SoNgay, t.VungDiaLy,
                        lkh.NgayBatDau, DATE_ADD(lkh.NgayBatDau, INTERVAL (IFNULL(t.SoNgay, 1) - 1) DAY) as NgayKetThuc,
                        y.LyDoHuy, y.TrangThai as HuyTrangThai, y.NgayYeuCau
-                FROM ChuyenDi c
-                JOIN DuKhach dk ON c.MaTK_DK = dk.MaTK_DK
-                JOIN TaiKhoan tk ON dk.MaTK_DK = tk.MaTK
-                JOIN LichKhoiHanh lkh ON c.MaLichKhoiHanh = lkh.MaLichKhoiHanh
-                JOIN Tour t ON lkh.MaTour = t.MaTour
-                LEFT JOIN YeuCauHuy y ON c.MaChuyenDi = y.MaChuyenDi
+                FROM chuyendi c
+                JOIN dukhach dk ON c.MaTK_DK = dk.MaTK_DK
+                JOIN taikhoan tk ON dk.MaTK_DK = tk.MaTK
+                JOIN lichkhoihanh lkh ON c.MaLichKhoiHanh = lkh.MaLichKhoiHanh
+                JOIN tour t ON lkh.MaTour = t.MaTour
+                LEFT JOIN yeucauhuy y ON c.MaChuyenDi = y.MaChuyenDi
                 WHERE c.MaChuyenDi = :maChuyenDi";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([':maChuyenDi' => $maChuyenDi]);
@@ -108,18 +108,18 @@ class AdminTripModel {
         try {
             $this->conn->beginTransaction();
 
-            $stmtInfo = $this->conn->prepare("SELECT MaLichKhoiHanh, SoLuongKhach FROM ChuyenDi WHERE MaChuyenDi = ?");
+            $stmtInfo = $this->conn->prepare("SELECT MaLichKhoiHanh, SoLuongKhach FROM chuyendi WHERE MaChuyenDi = ?");
             $stmtInfo->execute([$maChuyenDi]);
             $cdInfo = $stmtInfo->fetch(PDO::FETCH_ASSOC);
 
-            $stmt1 = $this->conn->prepare("UPDATE ChuyenDi SET TrangThai = 'Đã hủy' WHERE MaChuyenDi = ?");
+            $stmt1 = $this->conn->prepare("UPDATE chuyendi SET TrangThai = 'Đã hủy' WHERE MaChuyenDi = ?");
             $stmt1->execute([$maChuyenDi]);
 
-            $stmt2 = $this->conn->prepare("UPDATE YeuCauHuy SET TrangThai = 'Đã xử lý', NgayHoanTat = NOW(), MaTK_QTV = ? WHERE MaChuyenDi = ?");
+            $stmt2 = $this->conn->prepare("UPDATE yeucauhuy SET TrangThai = 'Đã xử lý', NgayHoanTat = NOW(), MaTK_QTV = ? WHERE MaChuyenDi = ?");
             $stmt2->execute([$maQTV, $maChuyenDi]);
 
             if ($cdInfo && $cdInfo['MaLichKhoiHanh']) {
-                $stmt3 = $this->conn->prepare("UPDATE LichKhoiHanh SET SoChoDaDat = SoChoDaDat - ? WHERE MaLichKhoiHanh = ?");
+                $stmt3 = $this->conn->prepare("UPDATE lichkhoihanh SET SoChoDaDat = SoChoDaDat - ? WHERE MaLichKhoiHanh = ?");
                 $stmt3->execute([$cdInfo['SoLuongKhach'], $cdInfo['MaLichKhoiHanh']]);
             }
 

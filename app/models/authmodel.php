@@ -10,15 +10,14 @@ class AuthModel {
         $this->conn = $conn;
     }
 
-    
     public function checkEmailExist($email) {
-        $stmt = $this->conn->prepare("SELECT MaTK FROM TaiKhoan WHERE Gmail = :email");
+        $stmt = $this->conn->prepare("SELECT MaTK FROM taikhoan WHERE Gmail = :email");
         $stmt->execute([':email' => $email]);
         return $stmt->rowCount() > 0;
     }
 
     private function getNextMaTK() {
-        $stmt = $this->conn->query("SELECT MaTK FROM TaiKhoan ORDER BY MaTK DESC LIMIT 1");
+        $stmt = $this->conn->query("SELECT MaTK FROM taikhoan ORDER BY MaTK DESC LIMIT 1");
         $lastId = $stmt->fetchColumn();
         if (!$lastId) return 'TK00000001';
         $num = intval(substr($lastId, 2)) + 1;
@@ -26,7 +25,7 @@ class AuthModel {
     }
 
     private function getNextMaDK() {
-        $stmt = $this->conn->query("SELECT MaDK FROM DuKhach ORDER BY MaDK DESC LIMIT 1");
+        $stmt = $this->conn->query("SELECT MaDK FROM dukhach ORDER BY MaDK DESC LIMIT 1");
         $lastId = $stmt->fetchColumn();
         if (!$lastId) return 'DK00000001';
         $num = intval(substr($lastId, 2)) + 1;
@@ -42,8 +41,8 @@ class AuthModel {
             
             $hashedPassword = password_hash($password, PASSWORD_BCRYPT, ['cost' => 12]); 
 
-            // 1. Thêm vào bảng TaiKhoan
-            $sqlTK = "INSERT INTO TaiKhoan (MaTK, HoTen, SDT, Gmail, MatKhau, LoaiTK, TrangThai) 
+            // 1. Thêm vào bảng taikhoan
+            $sqlTK = "INSERT INTO taikhoan (MaTK, HoTen, SDT, Gmail, MatKhau, LoaiTK, TrangThai) 
                       VALUES (:maTK, :hoTen, 'Chưa cập nhật', :email, :matKhau, 'Du khách', 'Hoạt động')";
             $stmtTK = $this->conn->prepare($sqlTK);
             $stmtTK->execute([
@@ -53,7 +52,8 @@ class AuthModel {
                 ':matKhau' => $hashedPassword
             ]);
 
-            $sqlDK = "INSERT INTO DuKhach (MaTK_DK, MaDK, SDTKhanCap, HangThanhVien) 
+            // 2. Thêm vào bảng dukhach
+            $sqlDK = "INSERT INTO dukhach (MaTK_DK, MaDK, SDTKhanCap, HangThanhVien) 
                       VALUES (:maTK_DK, :maDK, 'Chưa cập nhật', 'Đồng')";
             $stmtDK = $this->conn->prepare($sqlDK);
             $stmtDK->execute([
@@ -79,7 +79,7 @@ class AuthModel {
 
     public function updatePassword($email, $newPassword) {
         $hashedPassword = password_hash($newPassword, PASSWORD_BCRYPT, ['cost' => 12]);
-        $stmt = $this->conn->prepare("UPDATE TaiKhoan SET MatKhau = :matKhau WHERE Gmail = :email");
+        $stmt = $this->conn->prepare("UPDATE taikhoan SET MatKhau = :matKhau WHERE Gmail = :email");
         return $stmt->execute([
             ':matKhau' => $hashedPassword,
             ':email' => $email

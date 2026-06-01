@@ -1,8 +1,8 @@
 <?php
-$host = '26.211.116.140'; // IP VPN máy chủ (Giữ nguyên nếu nhóm đang dùng chung mạng ảo)
-$dbname = 'LocalMate_db'; 
-$username = 'LocalMateData';
-$password = 'LocalMate04';     
+$host = "sql213.infinityfree.com";
+$dbname = "if0_42068989_localmate_db";
+$username = "if0_42068989";
+$password = "LocalMate123";      
 
 try {
     // Kết nối CSDL bằng PDO
