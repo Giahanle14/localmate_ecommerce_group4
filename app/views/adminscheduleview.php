@@ -10,7 +10,7 @@
        ========================================================= */
     .toolbar { display: flex; justify-content: space-between; align-items: center; }
     
-    .filter-section { display: flex; gap: 15px; }
+    .filter-section { display: flex; gap: 15px; width: 100%;}
     
     .search-box { position: relative; width: 300px; }
     .search-box i { position: absolute; top: 50%; left: 15px; transform: translateY(-50%); color: #0d5c2c; font-size: 16px; }
@@ -28,7 +28,7 @@
     .table-container { background: white; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); overflow: hidden; border: 1px solid #f0f0f0; }
     .table { margin-bottom: 0; }
     .table thead { background-color: #EAF9DE; }
-    .table th { color: #0d5c2c; font-weight: 700; border-bottom: none; padding: 18px 15px; font-size: 15px; }
+    .table th { color: #0d5c2c; font-weight: 700; border-bottom: none; padding: 18px 15px; font-size: 15px; white-space: nowrap; }
     .table td { padding: 18px 15px; vertical-align: middle; border-bottom: 1px solid #f5f5f5; color: #0d5c2c; font-weight: 600; font-size: 14px; }
     
     .action-icon { font-size: 18px; cursor: pointer; margin: 0 8px; transition: transform 0.2s; }
@@ -44,19 +44,38 @@
     .page-link { border-radius: 6px !important; border: 1px solid #0d5c2c; color: #0d5c2c; font-weight: 600; padding: 6px 12px; margin: 0 2px;}
     .page-link:hover { background: #EAF9DE; color: #0d5c2c; }
     .page-item.active .page-link { background: #0d5c2c; color: white; border-color: #0d5c2c; }
+
+    /* =========================================================
+       RESPONSIVE CHO TRANG QUẢN LÝ LỊCH KHỞI HÀNH (MOBILE & TABLET)
+       ========================================================= */
+    @media (max-width: 768px) {
+        .toolbar { flex-direction: column; gap: 15px; align-items: stretch; }
+        .filter-section { flex-direction: column; gap: 12px; }
+        .search-box, .date-box { width: 100% !important; }
+        
+        .d-flex.align-items-center.gap-3 { justify-content: flex-end; }
+        .btn-add-new { width: 100%; justify-content: center; }
+
+        .table-responsive::-webkit-scrollbar { height: 6px; }
+        .table-responsive::-webkit-scrollbar-thumb { background-color: #8A9D8E; border-radius: 10px; }
+        .table-responsive::-webkit-scrollbar-track { background: #EAF9DE; border-radius: 10px; }
+
+        .pagination-wrapper { flex-direction: column; gap: 15px; text-align: center; }
+        .page-info { font-size: 12px; }
+    }
 </style>
 
 <div class="breadcrumb-custom">
     <a href="index.php?controller=adminhome"><i class="fa-solid fa-house me-1"></i>Tổng quan</a> 
     <i class="fa-solid fa-angle-right mx-2 text-muted" style="font-size: 12px;"></i> 
-    <a href="index.php?controller=adminschedule">Quản lý lịch trình</a>
+    <a href="index.php?controller=adminschedule">Quản lý lịch khởi hành</a>
 </div>
 
 <main class="container-fluid px-3 px-lg-5 py-4" style="background-color: #FCFDF9; min-height: 80vh;">
     
     <?php if ($viewMode === 'list'): ?>
         <div class="toolbar mb-4">
-            <form method="GET" action="index.php" id="filterForm" class="m-0">
+            <form method="GET" action="index.php" id="filterForm" class="m-0 w-100 me-md-3">
                 <input type="hidden" name="controller" value="adminschedule">
                 <div class="filter-section">
                     <div class="search-box">
@@ -69,7 +88,7 @@
                     </div>
                 </div>
             </form>
-            <div class="d-flex align-items-center gap-3">
+            <div class="d-flex align-items-center gap-3 mt-3 mt-md-0">
                 <a href="index.php?controller=adminschedule&action=add" class="btn-add-new">
                     <i class="fa-solid fa-plus"></i> Thêm
                 </a>
@@ -84,7 +103,7 @@
                             <th>Mã lịch</th>
                             <th>Tour liên kết</th>
                             <th>Ngày khởi hành</th>
-                            <th style="width: 25%;">Tình trạng chỗ</th>
+                            <th style="width: 25%; min-width: 180px;">Tình trạng chỗ</th>
                             <th class="text-center">Thao tác</th>
                         </tr>
                     </thead>
@@ -121,7 +140,7 @@
                                         </div>
                                     </td>
                                     
-                                    <td class="text-center">
+                                    <td class="text-center" style="white-space: nowrap;">
                                         <i class="fa-solid fa-eye action-icon" style="color: #0d5c2c;" title="Xem chi tiết"
                                            onclick="openViewModal('<?= $item['MaLichKhoiHanh'] ?>', '<?= htmlspecialchars($item['TenTour'], ENT_QUOTES) ?>', '<?= date('d/m/Y', strtotime($item['NgayBatDau'])) ?>', <?= $item['SoChoDaDat'] ?>, <?= $item['SoKhachToiDa'] ?>, '<?= $item['MaTour'] ?>')">
                                         </i>
@@ -153,12 +172,13 @@
             <?php if (isset($totalPages) && $totalPages > 0): ?>
             <div class="pagination-wrapper">
                 <?php
+                    // Lấy các biến tìm kiếm từ URL/Controller
                     $page = isset($page) ? $page : 1;
                     $limit = isset($limit) ? $limit : 10;
                     $total = isset($total) ? $total : 0;
-                    $searchParam = isset($_GET['search']) ? '&search=' . urlencode($_GET['search']) : '';
-                    $daterangeParam = isset($_GET['daterange']) ? '&daterange=' . urlencode($_GET['daterange']) : '';
-                    $urlParams = $searchParam . $daterangeParam;
+                    
+                    $searchParam = isset($search) ? urlencode($search) : (isset($_GET['search']) ? urlencode($_GET['search']) : '');
+                    $daterangeParam = isset($daterange) ? urlencode($daterange) : (isset($_GET['daterange']) ? urlencode($_GET['daterange']) : '');
                     
                     $startItem = ($page - 1) * $limit + 1;
                     $endItem = min($page * $limit, $total);
@@ -168,7 +188,7 @@
                 </div>
                 <ul class="pagination d-flex flex-wrap justify-content-center">
                     <li class="page-item <?= ($page <= 1) ? 'disabled' : '' ?>">
-                        <a class="page-link" href="index.php?controller=adminschedule<?= $urlParams ?>&page=<?= $page - 1 ?>"><i class="fa-solid fa-chevron-left"></i></a>
+                        <a class="page-link" href="index.php?controller=adminschedule&search=<?= $searchParam ?>&daterange=<?= $daterangeParam ?>&page=<?= $page - 1 ?>"><i class="fa-solid fa-chevron-left"></i></a>
                     </li>
                     
                     <?php 
@@ -189,7 +209,7 @@
 
                     <?php for($i = $startPage; $i <= $endPage; $i++): ?>
                         <li class="page-item <?= ($page == $i) ? 'active' : '' ?>">
-                            <a class="page-link" href="index.php?controller=adminschedule<?= $urlParams ?>&page=<?= $i ?>"><?= $i ?></a>
+                            <a class="page-link" href="index.php?controller=adminschedule&search=<?= $searchParam ?>&daterange=<?= $daterangeParam ?>&page=<?= $i ?>"><?= $i ?></a>
                         </li>
                     <?php endfor; ?>
 
@@ -198,7 +218,7 @@
                     <?php endif; ?>
 
                     <li class="page-item <?= ($page >= $totalPages) ? 'disabled' : '' ?>">
-                        <a class="page-link" href="index.php?controller=adminschedule<?= $urlParams ?>&page=<?= $page + 1 ?>"><i class="fa-solid fa-chevron-right"></i></a>
+                        <a class="page-link" href="index.php?controller=adminschedule&search=<?= $searchParam ?>&daterange=<?= $daterangeParam ?>&page=<?= $page + 1 ?>"><i class="fa-solid fa-chevron-right"></i></a>
                     </li>
                 </ul>
             </div>
@@ -207,9 +227,9 @@
         </div>
 
     <?php elseif ($viewMode === 'add' || $viewMode === 'edit'): ?>
-        <div class="card shadow-sm border-0 rounded-4 mx-auto" style="max-width: 800px;">
-            <div class="card-body p-5">
-                <h3 class="admin-title text-center mb-4" style="color: #00712D; font-weight: 800; text-transform: uppercase;">
+        <div class="card shadow-sm border-0 rounded-4 mx-auto mt-4 mt-md-0" style="max-width: 800px;">
+            <div class="card-body p-4 p-md-5">
+                <h3 class="admin-title text-center mb-4" style="color: #00712D; font-weight: 800; text-transform: uppercase; font-size: clamp(1.2rem, 3vw, 1.75rem);">
                     <?= $viewMode === 'add' ? 'Thêm Lịch Khởi Hành' : 'Cập Nhật Lịch Khởi Hành' ?>
                 </h3>
                 
@@ -237,8 +257,8 @@
                     </div>
 
                     <hr class="my-4 text-muted">
-                    <div class="text-end">
-                        <a href="index.php?controller=adminschedule" class="btn btn-outline-secondary px-4 py-2 fw-bold rounded-3 me-2">Hủy bỏ</a>
+                    <div class="text-end d-flex justify-content-end gap-2">
+                        <a href="index.php?controller=adminschedule" class="btn btn-outline-secondary px-4 py-2 fw-bold rounded-3">Hủy bỏ</a>
                         <button type="submit" class="btn text-white px-4 py-2 fw-bold rounded-3" style="background-color: #00712D;"><?= $viewMode === 'add' ? 'Thêm Mới' : 'Cập Nhật' ?></button>
                     </div>
                 </form>
@@ -292,7 +312,7 @@ if(document.getElementById('dateRange')) {
         mode: "range",
         dateFormat: "d/m/Y",
         locale: "vn",
-        rangeSeparator: " - ", // THÊM DÒNG NÀY ĐỂ CỐ ĐỊNH CHUỖI NGĂN CÁCH
+        rangeSeparator: " - ", 
         onClose: function(selectedDates, dateStr, instance) {
             if (dateStr !== initialDateStr) {
                 document.getElementById('filterForm').submit();

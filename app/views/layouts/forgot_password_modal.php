@@ -1,3 +1,9 @@
+<style>
+    .forgot-otp-box { width: clamp(35px, 10vw, 45px) !important; height: clamp(40px, 12vw, 55px) !important; font-size: 1.2rem; }
+    @media (min-width: 576px) { .btn-modal-step { width: 50% !important; } }
+    @media (max-width: 575px) { .btn-modal-step { width: 100% !important; } }
+</style>
+
 <div class="modal fade" id="forgotPasswordModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" style="max-width: 680px;">
         <div class="modal-content login-modal-content">
@@ -22,9 +28,9 @@
                                    oninput="this.setCustomValidity('')">
                         </div>
                         
-                        <div class="d-flex gap-2 mt-5">
-                            <button type="button" class="btn btn-outline-secondary w-50 fw-bold" style="border-radius: 25px;" onclick="backToLogin()">QUAY LẠI</button>
-                            <button type="button" class="btn btn-auth-submit text-white w-50 m-0" onclick="goToForgotStep(2)">LẤY LẠI MẬT KHẨU</button>
+                        <div class="d-flex flex-column flex-sm-row gap-2 mt-5">
+                            <button type="button" class="btn btn-outline-secondary btn-modal-step fw-bold" style="border-radius: 25px;" onclick="backToLogin()">QUAY LẠI</button>
+                            <button type="button" class="btn btn-auth-submit btn-modal-step text-white m-0" onclick="goToForgotStep(2)">LẤY LẠI MẬT KHẨU</button>
                         </div>
                     </div>
 
@@ -36,7 +42,7 @@
                             </p>
                         </div>
                         
-                        <div class="d-flex justify-content-center gap-3 mb-5 mt-2">
+                        <div class="d-flex justify-content-center gap-1 gap-sm-3 mb-5 mt-2">
                             <input type="text" class="form-control auth-input text-center otp-box forgot-otp-box" maxlength="1" oninput="moveForgotNext(this, 1)" onkeydown="moveForgotPrev(event, this, 0)" required>
                             <input type="text" class="form-control auth-input text-center otp-box forgot-otp-box" maxlength="1" oninput="moveForgotNext(this, 2)" onkeydown="moveForgotPrev(event, this, 1)" required>
                             <input type="text" class="form-control auth-input text-center otp-box forgot-otp-box" maxlength="1" oninput="moveForgotNext(this, 3)" onkeydown="moveForgotPrev(event, this, 2)" required>
@@ -49,9 +55,9 @@
                                 Chưa nhận được mã? <a href="javascript:void(0)" id="forgotResendOtp" class="text-muted text-decoration-none pointer-events-none" onclick="startForgotOtpTimer()">Gửi lại (<span id="forgotTimer">60</span>s)</a>
                         </div>
                         
-                        <div class="d-flex gap-2 mt-4">
-                            <button type="button" class="btn btn-outline-secondary w-50 fw-bold" style="border-radius: 25px;" onclick="goToForgotStep(1, true)">QUAY LẠI</button>
-                            <button type="button" class="btn btn-auth-submit text-white w-50 m-0" onclick="goToForgotStep(3)">TIẾP TỤC</button>
+                        <div class="d-flex flex-column flex-sm-row gap-2 mt-4">
+                            <button type="button" class="btn btn-outline-secondary btn-modal-step fw-bold" style="border-radius: 25px;" onclick="goToForgotStep(1, true)">QUAY LẠI</button>
+                            <button type="button" class="btn btn-auth-submit btn-modal-step text-white m-0" onclick="goToForgotStep(3)">TIẾP TỤC</button>
                         </div>
                     </div>
 
@@ -88,9 +94,9 @@
                             </ul>
                         </div>
                         
-                        <div class="d-flex gap-2">
-                            <button type="button" class="btn btn-outline-secondary w-50 fw-bold" style="border-radius: 25px;" onclick="goToForgotStep(2, true)">QUAY LẠI</button>
-                            <button type="button" class="btn btn-auth-submit text-white w-50 m-0" onclick="submitForgotPassword()">HOÀN TẤT</button>
+                        <div class="d-flex flex-column flex-sm-row gap-2">
+                            <button type="button" class="btn btn-outline-secondary btn-modal-step fw-bold" style="border-radius: 25px;" onclick="goToForgotStep(2, true)">QUAY LẠI</button>
+                            <button type="button" class="btn btn-auth-submit btn-modal-step text-white m-0" onclick="submitForgotPassword()">HOÀN TẤT</button>
                         </div>
                     </div>
 
@@ -141,7 +147,6 @@
         }
     }
 
-    // Hàm chuyển về modal đăng nhập
     function backToLogin() {
         let forgotModal = bootstrap.Modal.getInstance(document.getElementById('forgotPasswordModal'));
         if(forgotModal) forgotModal.hide();
@@ -153,7 +158,6 @@
         const modalTitle = document.getElementById('forgotTitle');
         const modalSubtitle = document.getElementById('forgotSubtitle');
 
-        // Cập nhật Tiêu đề Modal
         if (stepNumber === 3) {
             modalTitle.innerText = "TẠO MẬT KHẨU MỚI";
             modalSubtitle.innerText = "Đăng nhập để nhận được các ưu đãi và quyền lợi hấp dẫn!";
@@ -164,7 +168,6 @@
             modalSubtitle.style.display = "block";
         }
 
-        // BƯỚC 1 -> 2:
         if (stepNumber === 2 && !isBack) {
             const emailInput = document.getElementById('forgotEmailInput');
             if (!emailInput.checkValidity()) { emailInput.reportValidity(); return; }
@@ -197,7 +200,6 @@
             return;
         }
 
-        // BƯỚC 2 -> 3: Check mã OTP
         if (stepNumber === 3 && !isBack) {
             let otpValue = '';
             document.querySelectorAll('.forgot-otp-box').forEach(box => { otpValue += box.value; });

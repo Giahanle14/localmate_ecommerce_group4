@@ -105,6 +105,42 @@
     .btn-outline-action:hover { background: #EAF9DE; }
     .btn-outline-green { background: white; color: #0d5c2c; border: 1px solid #0d5c2c; border-radius: 8px; padding: 14px; font-weight: 800; font-size: 16px; width: 100%; transition: 0.3s; text-align: center; display: block; text-decoration: none;}
     .btn-outline-green:hover { background: #0d5c2c; color: white; }
+    /* =========================================================
+       6. RESPONSIVE CHO TRANG QUẢN LÝ TOUR (MOBILE & TABLET)
+       ========================================================= */
+    @media (max-width: 768px) {
+        .admin-container { padding: 0 10px; margin: 20px auto; }
+        .admin-title { font-size: 22px; margin-bottom: 20px; }
+        
+        /* Chỉnh lại thanh bộ lọc & tìm kiếm */
+        .filter-wrapper { flex-direction: column; align-items: stretch; gap: 15px; margin-bottom: 25px; }
+        .filter-bar-v2 { min-width: 100%; flex-direction: column; padding: 15px; border-radius: 16px; gap: 10px; }
+        .filter-input-group { border-right: none !important; margin-right: 0; padding-right: 0; width: 100%; border-bottom: 1px solid #eee; padding-bottom: 15px; }
+        
+        .filter-bar-v2 .dropdown { width: 100%; border-left: none !important; padding-left: 0 !important; margin-top: 5px;}
+        .filter-icon-btn { width: 100%; border: 1px solid #0d5c2c; border-radius: 8px; justify-content: center; gap: 8px; }
+        .filter-icon-btn::after { content: " Bộ lọc nâng cao"; font-size: 14px; font-weight: 600; font-family: 'Quicksand', sans-serif;}
+        .filter-popup-menu { width: 100%; max-width: 320px; } /* Tránh menu lọc tràn viền */
+        
+        .btn-search-green { width: 100%; border-radius: 8px; padding: 12px; }
+        .btn-orange-pill { width: 100%; display: flex; justify-content: center; align-items: center; border-radius: 8px; }
+
+        /* Chỉnh lại giao diện Form Thêm/Sửa/Chi tiết */
+        .input-title-tour { font-size: 22px; line-height: 1.4; }
+        .cover-upload-box { height: 220px; margin-bottom: 25px; border-radius: 12px; }
+        .cover-upload-content i { font-size: 28px; padding: 12px; margin-bottom: 10px; }
+        .cover-upload-content h5 { font-size: 16px; }
+        
+        .right-panel { padding: 20px 15px; border-radius: 16px; }
+        .admin-textarea { height: 120px; }
+        .admin-textarea[name="lichTrinh"] { height: 200px; }
+        
+        .gallery-grid { gap: 10px; }
+        .gallery-slot { border-radius: 8px; }
+        
+        .atc-img-wrap { height: 180px; }
+        .btn-action-top { padding: 8px 12px; font-size: 14px; }
+    }
 </style>
 
 <div class="breadcrumb-custom">

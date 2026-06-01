@@ -1,35 +1,39 @@
 <?php include 'app/views/layouts/header.php'; ?>
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
-<!-- Nhúng thư viện SweetAlert2 -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <style>
     body, .review-page-bg { background-color: #FDF9ED !important; }
     .review-container { font-family: 'Quicksand', sans-serif; padding-bottom: 100px; }
 
-    .review-title { color: #F89B29; font-weight: 700; text-align: center; font-size: 2rem; margin-bottom: 30px; }
+    .review-title { color: #F89B29; font-weight: 700; text-align: center; font-size: clamp(1.5rem, 4vw, 2rem); margin-bottom: 30px; }
     
     .review-card { background: #FFFFFF; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); max-width: 650px; margin: auto; overflow: hidden; }
-    .tour-info-box { background: #EBF6E0; padding: 30px 40px; display: flex; gap: 20px; border-bottom: 1px solid #E2EEDB; }
-    .tour-info-img { width: 150px; height: 100px; object-fit: cover; border-radius: 10px; flex-shrink: 0; }
+    
+    /* Gỡ bỏ CSS cứng, nhường lại cho class bootstrap quản lý */
+    .tour-info-box { background: #EBF6E0; border-bottom: 1px solid #E2EEDB; }
+    
+    /* Hình ảnh cho phép full chiều ngang trên mobile, cố định trên PC */
+    .tour-info-img { width: 100%; max-width: 150px; height: 100px; object-fit: cover; border-radius: 10px; flex-shrink: 0; }
+    @media (max-width: 767px) {
+        .tour-info-img { max-width: 100%; height: 180px; }
+    }
+
     .tour-title { font-weight: 700; color: #1B3B2B; font-size: 1.2rem; margin-bottom: 8px; }
     .tour-meta { font-size: 0.9rem; color: #555; font-weight: 600; margin-bottom: 5px;}
     
-    .form-body { 
-        padding: 30px 50px 50px 50px; 
-        background-color: #FFFFFF; /* Thêm dòng này để ép nền trắng */
-    }
+    .form-body { background-color: #FFFFFF; }
     .section-title { 
-        color: #333; /* Màu chữ đen/xám đậm như thiết kế gốc */
+        color: #333; 
         font-weight: 700; 
         font-size: 1.05rem; 
         margin-bottom: 12px; 
         display: block; 
-        background: transparent; /* Xóa nền xanh */
-        padding: 0; /* Xóa khoảng cách thừa */
+        background: transparent; 
+        padding: 0; 
     }
     
-    .star-rating i { font-size: 2.2rem; color: #888; cursor: pointer; margin: 0 5px; font-weight: 400; transition: 0.2s;} 
+    .star-rating i { font-size: clamp(1.8rem, 5vw, 2.2rem); color: #888; cursor: pointer; margin: 0 5px; font-weight: 400; transition: 0.2s;} 
     .star-rating i.active { color: #FF9F00; font-weight: 900;} 
     
     .tag-checkbox { display: none !important; }
@@ -40,11 +44,6 @@
     .custom-textarea:focus { outline: none; box-shadow: 0 0 5px rgba(0, 113, 45, 0.2); }
     
     .img-upload-box { border: 1px dashed #ccc; border-radius: 10px; padding: 15px; text-align: center; cursor: pointer; background: #fff; width: 90px; height: 90px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-    
-    .btn-submit-review { background: #00712D; color: white; font-weight: 700; border-radius: 25px; padding: 10px 35px; border: none; font-size: 1rem; transition: all 0.3s ease;}
-    .btn-submit-review:hover { background: #005522 !important; color: white !important; box-shadow: 0 4px 12px rgba(0, 113, 45, 0.3); }
-    .btn-delete-review { background: white; color: #dc3545; font-weight: 700; border-radius: 25px; padding: 10px 25px; border: 1px solid #dc3545; font-size: 1rem; transition: all 0.3s ease; text-decoration: none;}
-    .btn-delete-review:hover { background: #dc3545; color: white; }
     
     .img-wrapper { position: relative; display: inline-block; margin-right: 10px; margin-bottom: 10px; }
     .preview-img { width: 90px; height: 90px; object-fit: cover; border-radius: 10px; border: 2px solid #00712D; }
@@ -57,20 +56,20 @@
     .readonly-form #upload_wrapper { display: none !important; }
     .readonly-form .btn-remove-img { display: none !important; }
 </style>
-<div class="breadcrumb-custom">
+<div class="breadcrumb-custom px-3">
     <a href="index.php?controller=home"><i class="fa-solid fa-house me-1"></i>Trang chủ</a> 
     <i class="fa-solid fa-angle-right mx-2 text-muted" style="font-size: 12px;"></i> 
     <a href="index.php?controller=mytrip">Chuyến đi của tôi</a> 
     <i class="fa-solid fa-angle-right mx-2 text-muted" style="font-size: 12px;"></i> 
-    <span class="text-dark fw-bold">Đánh giá trải nghiệm</span>
+    <span class="text-dark fw-bold">Đánh giá</span>
 </div>
-<div class="review-page-bg">
+<div class="review-page-bg px-3">
     <div class="review-container pt-4">
         
         <h1 class="review-title">Đánh giá trải nghiệm</h1>
 
         <div class="review-card">
-            <div class="tour-info-box">
+            <div class="tour-info-box d-flex flex-column flex-md-row gap-3 p-3 p-md-4 align-items-md-center">
             <?php 
                 $hinhAnh = !empty($trip['HinhAnh']) ? $trip['HinhAnh'] : 'image/default-tour.png';
                 $imgSrc = (strpos($hinhAnh, 'public/') === 0) ? $hinhAnh : 'public/' . $hinhAnh; 
@@ -95,9 +94,7 @@
             </div>
         </div>
 
-
-            <div class="form-body">
-                <!-- NẾU CÓ DỮ LIỆU CŨ => Gắn class readonly-form để khóa tương tác -->
+            <div class="form-body p-3 p-md-4 p-lg-5">
                 <?php $isReadOnly = !empty($review) ? 'readonly-form' : ''; ?>
                 
                 <form id="review_form" class="<?= $isReadOnly ?>" action="index.php?controller=review&action=<?= !empty($review) ? 'update' : 'store' ?>" method="POST" enctype="multipart/form-data">
@@ -108,7 +105,6 @@
                     <input type="hidden" name="ma_chuyen_di" value="<?= htmlspecialchars($trip['MaChuyenDi']) ?>">
                     <input type="hidden" name="ma_dk" value="<?= htmlspecialchars($trip['MaTK_DK'] ?? '') ?>">
                     <input type="hidden" name="so_sao" id="so_sao_input" value="<?= $review['SoSao'] ?? 0 ?>">
-                    <!-- Nơi chứa các ID ảnh cũ bị người dùng click xóa -->
                     <div id="deleted_images_container"></div>
 
                     <div class="text-center mb-4">
@@ -148,7 +144,7 @@
                     <div class="mb-2">
                         <span class="section-title">Thêm hình ảnh (Tùy chọn)</span>
                         
-                        <div class="d-flex justify-content-between align-items-end mt-3">
+                        <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-end mt-3 gap-3">
                             <div class="d-flex flex-wrap gap-2">
                                 <?php if (!empty($images)): ?>
                                     <?php foreach ($images as $img): ?>
@@ -165,7 +161,7 @@
                                 <input type="file" name="hinh_anh[]" id="file_upload" style="display:none;" multiple accept="image/*">
                             </div>
                             
-                            <div class="d-flex flex-column gap-2 ms-3" style="width: 140px;">
+                            <div class="d-flex flex-sm-column gap-2" style="width: 100%; max-width: 200px;">
                                 <button type="submit" class="btn fw-bold shadow-sm w-100" style="background-color: #00A32A; color: white; padding: 10px; border-radius: 8px; border: none;">
                                     <?= !empty($review) ? 'Cập nhật' : 'Gửi đánh giá' ?>
                                 </button>
@@ -185,14 +181,12 @@
 </div>
 
 <script>
-    // 1. Logic bật chế độ chỉnh sửa
     function enableEditMode() {
-        document.getElementById('review_form').classList.remove('readonly-form'); // Mở khóa form
-        document.getElementById('btn_enable_edit').classList.add('d-none'); // Ẩn nút "Sửa đánh giá"
-        document.getElementById('btn_submit').classList.remove('d-none'); // Hiện nút "Gửi đánh giá"
+        document.getElementById('review_form').classList.remove('readonly-form'); 
+        document.getElementById('btn_enable_edit').classList.add('d-none'); 
+        document.getElementById('btn_submit').classList.remove('d-none');
     }
 
-    // 2. Logic xóa ảnh cũ (Thêm ID vào input ẩn để controller biết mà xóa)
     function deleteExistingImage(maHA) {
         document.getElementById('img_' + maHA).style.display = 'none';
         const input = document.createElement('input');
@@ -202,7 +196,6 @@
         document.getElementById('deleted_images_container').appendChild(input);
     }
 
-    // 3. Logic Popup Xóa bằng SweetAlert2
     function confirmDelete(url) {
         Swal.fire({
             title: 'Bạn có chắc chắn?',
@@ -221,12 +214,10 @@
         })
     }
 
-    // 4. Logic Đổi sao
     const stars = document.querySelectorAll('#star_container i');
     const ratingInput = document.getElementById('so_sao_input');
     stars.forEach((star, index) => {
         star.addEventListener('click', function() {
-            // Chỉ đổi sao nếu không bị khóa form
             if (!document.getElementById('review_form').classList.contains('readonly-form')) {
                 ratingInput.value = index + 1;
                 stars.forEach((s, idx) => {
@@ -244,10 +235,8 @@
         });
     });
 
-    // 5. Logic Preview ảnh mới upload
     document.getElementById('file_upload').addEventListener('change', function() {
         const container = document.getElementById('preview_container');
-        // Không xóa ảnh cũ, chỉ thêm ảnh mới vào
         Array.from(this.files).forEach(file => {
             const reader = new FileReader();
             reader.onload = (e) => {

@@ -4,12 +4,12 @@
 <style>
     body { font-family: 'Quicksand', sans-serif; background-color: #F8FAF5; }
     
-       /* Khu vực Title & Text */
-    .about-section { padding: 60px 0; }
-    .about-title { font-weight: 700; color: #00712D; font-size: 2.5rem; margin-bottom: 20px; line-height: 1.3;}
+    /* Khu vực Title & Text */
+    .about-section { padding: clamp(30px, 5vw, 60px) 0; }
+    .about-title { font-weight: 700; color: #00712D; font-size: clamp(1.8rem, 4vw, 2.5rem); margin-bottom: 20px; line-height: 1.3;}
     .about-subtitle { font-weight: 700; color: #F89B29; font-size: 1rem; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 2px; }
     .about-text { color: #555; line-height: 1.8; font-size: 1.1rem; text-align: justify; margin-bottom: 20px;}
-    .about-img { border-radius: 20px; width: 100%; box-shadow: 0 10px 30px rgba(0,0,0,0.1); object-fit: cover; height: 450px; }
+    .about-img { border-radius: 20px; width: 100%; box-shadow: 0 10px 30px rgba(0,0,0,0.1); object-fit: cover; height: clamp(250px, 40vw, 450px); }
 
     /* Khu vực Giá trị cốt lõi */
     .value-card { background: white; border-radius: 20px; padding: 40px 30px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.03); height: 100%; transition: 0.3s; border: 1px solid #f0f0f0; }
@@ -21,10 +21,10 @@
 
     /* Khu vực Đội ngũ */
     .team-img-wrap { position: relative; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-    .team-img-wrap img { width: 100%; height: 400px; object-fit: cover; transition: 0.5s; }
+    .team-img-wrap img { width: 100%; height: clamp(250px, 40vw, 400px); object-fit: cover; transition: 0.5s; }
     .team-img-wrap:hover img { transform: scale(1.05); }
 
-    /* Khu vực Testimonial (Cảm nhận khách hàng) */
+    /* Khu vực Testimonial */
     .testimonial-card { background: white; border-radius: 20px; padding: 35px 30px 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); position: relative; border: 1px solid #f0f0f0; height: 100%; margin-top: 20px;}
     .quote-icon { position: absolute; top: -20px; left: 30px; background: #F89B29; color: white; width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; box-shadow: 0 5px 15px rgba(248, 155, 41, 0.3); }
     .testimonial-text { color: #555; line-height: 1.7; font-size: 1.05rem; font-style: italic; margin-bottom: 20px; }
@@ -34,18 +34,20 @@
     .stars { color: #FF9F00; font-size: 0.9rem; }
 
     /* Khu vực Kêu gọi hành động (CTA) */
-    .cta-section { background: linear-gradient(135deg, #00712D 0%, #004d1f 100%); color: white; padding: 60px 0; border-radius: 20px; margin-bottom: 80px; text-align: center; box-shadow: 0 10px 20px rgba(0, 113, 45, 0.2); }
+    .cta-section { background: linear-gradient(135deg, #00712D 0%, #004d1f 100%); color: white; padding: clamp(40px, 8vw, 60px) 20px; border-radius: 20px; margin-bottom: 80px; text-align: center; box-shadow: 0 10px 20px rgba(0, 113, 45, 0.2); }
     .btn-cta { background: #F89B29; color: white; font-weight: 700; border-radius: 30px; padding: 12px 35px; border: none; font-size: 1.1rem; transition: 0.3s; margin-top: 20px; display: inline-block; text-decoration: none;}
     .btn-cta:hover { background: #e08920; color: white; transform: scale(1.05);}
 </style>
 
-<div class="breadcrumb-custom">
+<!-- Thêm px-3 px-md-4 để đồng bộ lề ngang với container -->
+<div class="breadcrumb-custom px-3 px-md-4">
     <a href="index.php?controller=home"><i class="fa-solid fa-house me-1"></i>Trang chủ</a> 
     <i class="fa-solid fa-angle-right mx-2 text-muted" style="font-size: 12px;"></i> 
     <a href="index.php?controller=about">Về LocalMate</a>
 </div>
 
-<div class="container about-section">
+<!-- Thêm px-3 px-md-4 vào thẻ container chính -->
+<div class="container about-section px-3 px-md-4">
     <div class="row align-items-center mb-5 pb-5">
         <div class="col-lg-6 mb-4 mb-lg-0 pe-lg-5">
             <div class="about-subtitle">CÂU CHUYỆN CỦA CHÚNG TÔI</div>
@@ -78,7 +80,7 @@
                 <div class="carousel-inner">
                     <?php foreach($tourImages as $index => $img): ?>
                         <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
-                            <img src="<?= htmlspecialchars($img) ?>" class="d-block w-100 about-img" alt="LocalMate Tour" style="height: 450px; object-fit: cover; border-radius: 20px;">
+                            <img src="<?= htmlspecialchars($img) ?>" class="d-block w-100 about-img" alt="LocalMate Tour">
                         </div>
                     <?php endforeach; ?>
                 </div>
@@ -97,7 +99,7 @@
     <div class="row mb-5 pb-5 border-bottom">
         <div class="col-12 text-center mb-5">
             <div class="about-subtitle">Tầm nhìn & Sứ mệnh</div>
-            <h2 class="about-title" style="font-size: 2.2rem;">Giá trị cốt lõi</h2>
+            <h2 class="about-title">Giá trị cốt lõi</h2>
         </div>
         
         <div class="col-md-4 mb-4">
@@ -146,7 +148,7 @@
     <div class="row mb-5 pb-4">
         <div class="col-12 text-center mb-5">
             <div class="about-subtitle">Phản hồi từ hành khách</div>
-            <h2 class="about-title" style="font-size: 2.2rem;">Khách hàng nói gì về chúng tôi?</h2>
+            <h2 class="about-title">Khách hàng nói gì về chúng tôi?</h2>
         </div>
         
         <div class="col-md-4 mb-4">
@@ -193,7 +195,7 @@
     </div>
 
     <div class="cta-section">
-        <h2 style="font-weight: 700; margin-bottom: 15px;">Sẵn sàng cho chuyến đi tuyệt vời tiếp theo?</h2>
+        <h2 style="font-weight: 700; margin-bottom: 15px; font-size: clamp(1.5rem, 4vw, 2rem);">Sẵn sàng cho chuyến đi tuyệt vời tiếp theo?</h2>
         <p style="font-size: 1.1rem; opacity: 0.9; max-width: 650px; margin: 0 auto;">Hãy để LocalMate đồng hành cùng bạn trên mọi nẻo đường. Đặt tour ngay hôm nay để nhận được những ưu đãi tốt nhất từ hệ thống!</p>
         <a href="index.php?controller=tour" class="btn-cta"><i class="fa-solid fa-compass me-2"></i> Khám phá các tour ngay</a>
     </div>

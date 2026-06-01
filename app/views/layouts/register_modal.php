@@ -1,3 +1,9 @@
+<style>
+    .otp-box { width: clamp(35px, 10vw, 45px) !important; height: clamp(40px, 12vw, 55px) !important; font-size: 1.2rem; }
+    @media (min-width: 576px) { .btn-modal-step { width: 50% !important; } }
+    @media (max-width: 575px) { .btn-modal-step { width: 100% !important; } }
+</style>
+
 <div class="modal fade" id="registerModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" style="max-width: 680px;">
         <div class="modal-content login-modal-content">
@@ -36,9 +42,9 @@
                             Bằng cách tiếp tục, bạn đồng ý với <a href="#">Điều khoản và Điều kiện</a> này và bạn đã được thông báo<br>về <a href="#">Chính sách bảo mật dữ liệu</a> của chúng tôi.
                         </div>
                         
-                        <div class="d-flex gap-2">
-                            <button type="button" class="btn btn-outline-secondary w-50 fw-bold" style="border-radius: 25px;" onclick="backToLoginFromRegister()">QUAY LẠI</button>
-                            <button type="button" class="btn btn-auth-submit text-white w-50 m-0" onclick="goToStep(2)">TIẾP TỤC</button>
+                        <div class="d-flex flex-column flex-sm-row gap-2">
+                            <button type="button" class="btn btn-outline-secondary btn-modal-step fw-bold" style="border-radius: 25px;" onclick="backToLoginFromRegister()">QUAY LẠI</button>
+                            <button type="button" class="btn btn-auth-submit btn-modal-step text-white m-0" onclick="goToStep(2)">TIẾP TỤC</button>
                         </div>
                     </div>
 
@@ -50,7 +56,7 @@
                             </p>
                         </div>
                         
-                        <div class="d-flex justify-content-center gap-3 mb-5 mt-2">
+                        <div class="d-flex justify-content-center gap-1 gap-sm-3 mb-5 mt-2">
                             <input type="text" class="form-control auth-input text-center otp-box" maxlength="1" oninput="moveToNext(this, 1)" onkeydown="moveToPrev(event, this, 0)" required>
                             <input type="text" class="form-control auth-input text-center otp-box" maxlength="1" oninput="moveToNext(this, 2)" onkeydown="moveToPrev(event, this, 1)" required>
                             <input type="text" class="form-control auth-input text-center otp-box" maxlength="1" oninput="moveToNext(this, 3)" onkeydown="moveToPrev(event, this, 2)" required>
@@ -64,9 +70,9 @@
                              Chưa nhận được mã? <a href="javascript:void(0)" id="resendOtpLink" class="text-muted text-decoration-none pointer-events-none" onclick="startOtpTimer()">Gửi lại (<span id="otpTimer">60</span>s)</a>
                         </div>
                         
-                        <div class="d-flex gap-2">
-                            <button type="button" class="btn btn-outline-secondary w-50 fw-bold" style="border-radius: 25px;" onclick="goToStep(1, true)">QUAY LẠI</button>
-                            <button type="button" class="btn btn-auth-submit text-white w-50 m-0" onclick="goToStep(3)">TIẾP TỤC</button>
+                        <div class="d-flex flex-column flex-sm-row gap-2">
+                            <button type="button" class="btn btn-outline-secondary btn-modal-step fw-bold" style="border-radius: 25px;" onclick="goToStep(1, true)">QUAY LẠI</button>
+                            <button type="button" class="btn btn-auth-submit btn-modal-step text-white m-0" onclick="goToStep(3)">TIẾP TỤC</button>
                         </div>
                     </div>
 
@@ -103,9 +109,9 @@
                             </ul>
                         </div>
                         
-                        <div class="d-flex gap-2">
-                            <button type="button" class="btn btn-outline-secondary w-50 fw-bold" style="border-radius: 25px;" onclick="goToStep(2, true)">QUAY LẠI</button>
-                            <button type="button" id="btnSubmitRegister" class="btn btn-auth-submit text-white w-50 m-0" onclick="submitRegisterForm()">HOÀN TẤT</button>
+                        <div class="d-flex flex-column flex-sm-row gap-2">
+                            <button type="button" class="btn btn-outline-secondary btn-modal-step fw-bold" style="border-radius: 25px;" onclick="goToStep(2, true)">QUAY LẠI</button>
+                            <button type="button" id="btnSubmitRegister" class="btn btn-auth-submit btn-modal-step text-white m-0" onclick="submitRegisterForm()">HOÀN TẤT</button>
                         </div>
                     </div>
 
@@ -160,7 +166,6 @@
         }
     }
 
-    // Hàm chuyển về Modal Đăng nhập
     function backToLoginFromRegister() {
         let registerModal = bootstrap.Modal.getInstance(document.getElementById('registerModal'));
         if(registerModal) registerModal.hide();
@@ -172,14 +177,12 @@
         const modalTitle = document.getElementById('regTitle');
         const modalSubtitle = document.getElementById('regSubtitle');
 
-        // Cập nhật tiêu đề theo bước
         if (stepNumber === 3) {
             modalTitle.innerText = "TẠO MẬT KHẨU";
         } else {
             modalTitle.innerText = "TẠO TÀI KHOẢN";
         }
 
-        // BƯỚC 1 -> BƯỚC 2: Xử lý email và gửi OTP
         if (stepNumber === 2 && !isBack) {
             const hotenInput = document.getElementById('regHoTen');
             const emailInput = document.getElementById('regEmailSdt');
@@ -203,7 +206,7 @@
                 
                 if (data.status !== 'success') {
                     alert(data.message); 
-                    goToStep(1, true); // Nếu lỗi thì trả về bước 1
+                    goToStep(1, true); 
                     return; 
                 }
             } catch (error) {
@@ -214,7 +217,6 @@
             return;
         }
 
-        // BƯỚC 2 -> BƯỚC 3: Xác minh OTP
         if (stepNumber === 3 && !isBack) {
             let otpValue = '';
             document.querySelectorAll('.otp-box').forEach(box => { otpValue += box.value; });
@@ -240,7 +242,6 @@
             }
         }
 
-        // Chuyển đổi giao diện cho các trường hợp Quay lại
         document.getElementById('step1').style.display = 'none';
         document.getElementById('step2').style.display = 'none';
         document.getElementById('step3').style.display = 'none';
@@ -250,7 +251,6 @@
         if (stepNumber === 3) document.getElementById('regPassword').focus();
     }
 
-    // Hàm kiểm tra Mật khẩu theo 2 tầng
     function submitRegisterForm() {
         const pass = document.getElementById('regPassword').value;
         const confirm = document.getElementById('regConfirmPassword').value;
@@ -283,13 +283,10 @@
         }
     }
 
-    // Quản lý sự kiện phím toàn cục cho Modal
     document.addEventListener('keydown', function(event) {
         if (document.getElementById('registerModal').classList.contains('show')) {
-            
             if (event.key === 'Enter') {
-                event.preventDefault(); // Chặn tải lại trang
-                
+                event.preventDefault(); 
                 const step1 = document.getElementById('step1');
                 const step2 = document.getElementById('step2');
                 const step3 = document.getElementById('step3');
@@ -302,15 +299,10 @@
                         document.getElementById('regEmailSdt').reportValidity();
                     }
                 } 
-                else if (step2.style.display !== 'none') {
-                    goToStep(3);
-                } 
-                else if (step3.style.display !== 'none') {
-                    submitRegisterForm();
-                }
+                else if (step2.style.display !== 'none') goToStep(3);
+                else if (step3.style.display !== 'none') submitRegisterForm();
             }
 
-            // Sự kiện Backspace cho OTP
             if (event.key === 'Backspace' && event.target.classList.contains('otp-box')) {
                 if (event.target.value === '') {
                     const boxes = document.querySelectorAll('.otp-box');
