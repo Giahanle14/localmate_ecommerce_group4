@@ -10,11 +10,11 @@ class AdminHomeController {
             header("Location: index.php?controller=home");
             exit();
         }
-        global $conn;
-        require_once __DIR__ . '/../config/db_connect.php';
+        
         require_once __DIR__ . '/../models/adminhomemodel.php';
         
-        $model = new AdminHomeModel($conn);
+        // GỌI MODEL MỚI (KHÔNG CÒN TRUYỀN BIẾN $conn)
+        $model = new AdminHomeModel();
         
         // Lấy dữ liệu cho 4 thẻ thống kê
         $doanhThu = $model->getMonthlyRevenue();

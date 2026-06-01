@@ -14,11 +14,7 @@ class AdminTourController {
 
     public function index() {
         $model = new AdminTourModel();
-        
-        // 1. Nhận trạng thái Tab từ URL
-        $tab = isset($_GET['tab']) ? $_GET['tab'] : 'all';
 
-        // 2. Nhận bộ lọc
         $filters = [
             'search' => isset($_GET['search']) ? trim($_GET['search']) : '',
             'vung' => isset($_GET['vung']) ? trim($_GET['vung']) : '',
@@ -26,11 +22,7 @@ class AdminTourController {
             'gia' => isset($_GET['gia']) ? trim($_GET['gia']) : ''
         ];
 
-        // 3. Lấy dữ liệu thống kê đếm số
-        $stats = $model->getTourStats();
-
-        // 4. Lấy danh sách tour đã lọc & chuyển ra View
-        $tours = $model->getFilteredTours($filters, $tab);
+        $tours = $model->getFilteredTours($filters);
         $viewMode = 'list';
         require_once 'app/views/admintourview.php';
     }
@@ -49,7 +41,7 @@ class AdminTourController {
         }
         $danhGiaList = $model->getReviewsByTour($_GET['id']);
 
-        $viewMode = 'detail'; // Bật chế độ chỉ xem
+        $viewMode = 'detail';
         require_once 'app/views/admintourview.php';
     }
 
@@ -58,27 +50,48 @@ class AdminTourController {
         $viewMode = 'add';
         
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $uploadDir = 'public/image/tour/';
+            if (!is_dir($uploadDir)) mkdir($uploadDir, 0777, true);
+
             $hinhAnh = 'public/image/tour/default.jpg';
-            
             if (isset($_FILES['coverImage']) && $_FILES['coverImage']['error'] === UPLOAD_ERR_OK) {
-                $uploadDir = 'public/image/tour/';
-                if (!is_dir($uploadDir)) mkdir($uploadDir, 0777, true);
-                $fileName = time() . '_' . basename($_FILES['coverImage']['name']);
+                $fileName = time() . '_cover_' . basename($_FILES['coverImage']['name']);
                 $targetFile = $uploadDir . $fileName;
                 if (move_uploaded_file($_FILES['coverImage']['tmp_name'], $targetFile)) {
                     $hinhAnh = $targetFile;
                 }
             }
 
+            $galleryPaths = [];
+            if (isset($_FILES['gallery'])) {
+                $fileCount = count($_FILES['gallery']['name']);
+                for ($i = 0; $i < $fileCount; $i++) {
+                    if ($_FILES['gallery']['error'][$i] === UPLOAD_ERR_OK) {
+                        $fileName = time() . '_gal_' . $i . '_' . basename($_FILES['gallery']['name'][$i]);
+                        $targetFile = $uploadDir . $fileName;
+                        if (move_uploaded_file($_FILES['gallery']['tmp_name'][$i], $targetFile)) {
+                            $galleryPaths[] = $targetFile;
+                        }
+                    }
+                }
+            }
+
+            $loaiTraiNghiem = isset($_POST['loaiTraiNghiem']) ? implode(',', (array)$_POST['loaiTraiNghiem']) : 'Tham quan';
+            $uuDaiRaw = isset($_POST['uuDai']) && $_POST['uuDai'] !== '' ? floatval($_POST['uuDai']) : 0;
+            $uuDai = $uuDaiRaw > 0 ? $uuDaiRaw / 100 : 0;
+
             $data = [
-                'TenTour' => trim($_POST['tenTour']),
-                'DiaDiem' => trim($_POST['diaDiem']),
-                'MoTa' => trim($_POST['moTa']),
-                'Gia' => str_replace(',', '', $_POST['gia']),
-                'SoNgay' => (int)$_POST['soNgay'],
-                'SoKhachToiDa' => (int)$_POST['soKhachToiDa'],
-                'VungDiaLy' => $_POST['vungDiaLy'],
+                'TenTour' => trim($_POST['tenTour'] ?? ''),
+                'DiaDiem' => trim($_POST['diaDiem'] ?? ''),
+                'MoTa' => trim($_POST['moTa'] ?? ''),
+                'LichTrinh' => trim($_POST['lichTrinh'] ?? ''), 
+                'Gia' => str_replace(',', '', $_POST['gia'] ?? '0'),
+                'SoNgay' => (int)($_POST['soNgay'] ?? 0),
+                'SoKhachToiDa' => (int)($_POST['soKhachToiDa'] ?? 0),
+                'VungDiaLy' => $_POST['vungDiaLy'] ?? '',
+                'LoaiTraiNghiem' => $loaiTraiNghiem, 
                 'HinhAnh' => $hinhAnh,
+                'UuDai' => $uuDai,
                 'MaTK_QTV' => $_SESSION['user']['MaTK']
             ];
 
@@ -111,26 +124,48 @@ class AdminTourController {
         $viewMode = 'edit';
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $hinhAnh = '';
+            $uploadDir = 'public/image/tour/';
+            if (!is_dir($uploadDir)) mkdir($uploadDir, 0777, true);
             
+            $hinhAnh = '';
             if (isset($_FILES['coverImage']) && $_FILES['coverImage']['error'] === UPLOAD_ERR_OK) {
-                $uploadDir = 'public/image/tour/';
-                $fileName = time() . '_' . basename($_FILES['coverImage']['name']);
+                $fileName = time() . '_cover_' . basename($_FILES['coverImage']['name']);
                 $targetFile = $uploadDir . $fileName;
                 if (move_uploaded_file($_FILES['coverImage']['tmp_name'], $targetFile)) {
                     $hinhAnh = $targetFile;
                 }
             }
 
+            $galleryPaths = [];
+            if (isset($_FILES['gallery'])) {
+                $fileCount = count($_FILES['gallery']['name']);
+                for ($i = 0; $i < $fileCount; $i++) {
+                    if ($_FILES['gallery']['error'][$i] === UPLOAD_ERR_OK) {
+                        $fileName = time() . '_gal_' . $i . '_' . basename($_FILES['gallery']['name'][$i]);
+                        $targetFile = $uploadDir . $fileName;
+                        if (move_uploaded_file($_FILES['gallery']['tmp_name'][$i], $targetFile)) {
+                            $galleryPaths[] = $targetFile;
+                        }
+                    }
+                }
+            }
+
+            $loaiTraiNghiem = isset($_POST['loaiTraiNghiem']) ? implode(',', (array)$_POST['loaiTraiNghiem']) : 'Tham quan';
+            $uuDaiRaw = isset($_POST['uuDai']) && $_POST['uuDai'] !== '' ? floatval($_POST['uuDai']) : 0;
+            $uuDai = $uuDaiRaw > 0 ? $uuDaiRaw / 100 : 0;
+
             $data = [
                 'MaTour' => $maTour,
-                'TenTour' => trim($_POST['tenTour']),
-                'DiaDiem' => trim($_POST['diaDiem']),
-                'MoTa' => trim($_POST['moTa']),
-                'Gia' => str_replace(',', '', $_POST['gia']),
-                'SoNgay' => (int)$_POST['soNgay'],
-                'SoKhachToiDa' => (int)$_POST['soKhachToiDa'],
-                'VungDiaLy' => $_POST['vungDiaLy'],
+                'TenTour' => trim($_POST['tenTour'] ?? ''),
+                'DiaDiem' => trim($_POST['diaDiem'] ?? ''),
+                'MoTa' => trim($_POST['moTa'] ?? ''),
+                'LichTrinh' => trim($_POST['lichTrinh'] ?? ''),
+                'Gia' => str_replace(',', '', $_POST['gia'] ?? '0'),
+                'SoNgay' => (int)($_POST['soNgay'] ?? 0),
+                'SoKhachToiDa' => (int)($_POST['soKhachToiDa'] ?? 0),
+                'VungDiaLy' => $_POST['vungDiaLy'] ?? '',
+                'LoaiTraiNghiem' => $loaiTraiNghiem,
+                'UuDai' => $uuDai,
                 'HinhAnh' => $hinhAnh
             ];
 
@@ -151,7 +186,7 @@ class AdminTourController {
             if ($model->deleteTour($_GET['id'])) {
                 echo "<script>alert('Xóa Tour thành công!'); window.location.href='index.php?controller=admintour';</script>";
             } else {
-                echo "<script>alert('Không thể xóa Tour vì đã có chuyến đi ràng buộc!'); history.back();</script>";
+                echo "<script>alert('Không thể xóa Tour vì đã có Lịch khởi hành hoặc Chuyến đi ràng buộc!'); history.back();</script>";
             }
         }
     }

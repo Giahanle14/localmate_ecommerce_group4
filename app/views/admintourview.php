@@ -7,119 +7,108 @@
 <style>
     body { background-color: #F8FAF5; font-family: 'Quicksand', sans-serif; }
     .admin-container { max-width: 1300px; margin: 40px auto; padding: 0 20px; }
-    
     .admin-title { color: #0d5c2c; font-weight: 800; font-size: 28px; text-transform: uppercase; margin-bottom: 30px; display: inline-block; }
-
-    /* ---------------------------------------------------
-       1. TABS PHÂN LOẠI
-       --------------------------------------------------- */
-    .trip-tabs { display: flex; gap: 15px; margin-bottom: 25px; flex-wrap: wrap; }
-    .trip-tab-btn { background-color: #EAF9DE; color: #0d5c2c; border: none; border-radius: 30px; padding: 10px 20px; font-weight: 700; font-size: 15px; display: flex; align-items: center; gap: 8px; text-decoration: none; transition: 0.3s; }
-    .trip-tab-btn:hover { background-color: #d8f2c3; color: #0d5c2c; }
-    .trip-tab-btn.active { background-color: #0d5c2c; color: white; }
-    .tab-badge { background: white; color: #0d5c2c; border-radius: 20px; padding: 2px 10px; font-size: 13px; font-weight: 800; }
-    .trip-tab-btn.active .tab-badge { background: rgba(255,255,255,0.2); color: white; }
 
     /* ---------------------------------------------------
        2. THANH TÌM KIẾM MỚI & NÚT THÊM TOUR
        --------------------------------------------------- */
     .filter-wrapper { display: flex; justify-content: space-between; align-items: center; gap: 20px; margin-bottom: 40px; flex-wrap: wrap;}
-    
     .filter-bar-v2 { background: white; border-radius: 50px; padding: 8px 8px 8px 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); display: flex; align-items: center; flex-grow: 1; border: 1px solid #eee; min-width: 700px;}
-    
     .filter-input-group { display: flex; align-items: center; padding-right: 15px; flex-grow: 1; }
     .filter-input-group.border-end { border-right: 1px solid #e0e0e0 !important; margin-right: 15px; }
     .filter-input-group i { color: #0d5c2c; margin-right: 12px; font-size: 1.1rem; }
     .filter-input-group input { border: none; outline: none; width: 100%; font-weight: 500; color: #444; background: transparent; }
     .filter-input-group input::placeholder { color: #999; }
-    
     .btn-search-green { background: #0d5c2c; color: white; border-radius: 30px; padding: 10px 30px; font-weight: 700; border: none; transition: 0.2s; white-space: nowrap;}
     .btn-search-green:hover { background: #0a4722; }
-
     .btn-orange-pill { background-color: #F29A2E; color: white; border-radius: 30px; font-weight: 700; padding: 12px 25px; border: none; transition: 0.3s; white-space: nowrap; text-decoration: none; height: fit-content;}
     .btn-orange-pill:hover { background-color: #d18222; color: white; transform: translateY(-2px); }
 
-    /* BỘ LỌC NÂNG CAO */
+    /* ---------------------------------------------------
+       3. BỘ LỌC NÂNG CAO
+       --------------------------------------------------- */
     .filter-icon-btn { background: transparent; border: none; color: #0d5c2c; font-size: 1.2rem; padding: 10px 15px; cursor: pointer; transition: 0.2s; border-radius: 50%; display: flex; align-items: center; justify-content: center;}
     .filter-icon-btn:hover, .filter-icon-btn[aria-expanded="true"] { background: #EAF9DE; }
-    
     .filter-popup-menu { width: 320px; border-radius: 16px; padding: 25px; border: 1px solid #e0e0e0; box-shadow: 0 10px 30px rgba(0,0,0,0.08); margin-top: 15px !important; }
     .fp-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 15px;}
     .fp-title { color: #0d5c2c; font-weight: 800; font-size: 16px; margin: 0; display: flex; align-items: center; gap: 8px;}
     .fp-clear { color: #0d5c2c; font-weight: 600; font-size: 14px; text-decoration: none; transition: 0.2s; display: flex; align-items: center; gap: 5px; cursor: pointer;}
     .fp-clear:hover { color: #F29A2E; }
-    
     .fp-group { margin-bottom: 18px; }
     .fp-label { display: block; font-weight: 700; color: #555; font-size: 13px; margin-bottom: 8px; }
     .fp-select { width: 100%; border: 1px solid #ddd; border-radius: 8px; padding: 10px 15px; color: #444; font-weight: 500; outline: none; cursor: pointer; appearance: none; background: url('data:image/svg+xml;utf8,<svg fill="%23666" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>') no-repeat right 10px center; background-color: white;}
     .fp-select:focus { border-color: #0d5c2c; }
-    
     .btn-apply-filter { background: #0d5c2c; color: white; width: 100%; border-radius: 8px; font-weight: 700; padding: 10px; border: none; margin-top: 10px; transition: 0.2s;}
     .btn-apply-filter:hover { background: #0a4722; }
 
     /* ---------------------------------------------------
-       3. CARD TOUR VÀ THÊM TOUR MỚI
+       4. CARD TOUR VÀ THÊM TOUR MỚI
        --------------------------------------------------- */
     .admin-tour-card { background: white; border-radius: 16px; overflow: hidden; border: 1px solid #f0f0f0; box-shadow: 0 4px 15px rgba(0,0,0,0.03); transition: 0.3s; position: relative; height: 100%; display: flex; flex-direction: column;}
     .admin-tour-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.08); }
     .atc-img-wrap { height: 200px; position: relative; }
     .atc-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
-    .btn-edit-top { position: absolute; top: 0; left: 0; background: #0d5c2c; color: white; padding: 10px 15px; border-bottom-right-radius: 16px; font-size: 18px; z-index: 20; transition: 0.2s;}
-    .btn-edit-top:hover { background: #F29A2E; color: white; }
-    .badge-verified { position: absolute; top: 15px; right: 15px; background: #EAF9DE; color: #0d5c2c; font-weight: 700; font-size: 12px; padding: 5px 12px; border-radius: 20px; z-index: 10; display: flex; align-items: center; gap: 5px;}
+    .badge-discount { position: absolute; top: 15px; right: 15px; background: #E74C3C; color: white; font-weight: 800; font-size: 13px; padding: 5px 12px; border-radius: 20px; z-index: 10; box-shadow: 0 4px 10px rgba(231, 76, 60, 0.3); }
+    
+    .tour-actions-top { position: absolute; top: 0; left: 0; z-index: 20; display: flex; box-shadow: 2px 2px 10px rgba(0,0,0,0.1); border-bottom-right-radius: 16px; overflow: hidden;}
+    .btn-action-top { color: white; padding: 10px 15px; font-size: 16px; transition: 0.2s; text-decoration: none; display: flex; align-items: center; justify-content: center;}
+    .btn-action-edit { background: #0d5c2c; }
+    .btn-action-edit:hover { background: #0a4722; color: white; }
+    .btn-action-schedule { background: #F29A2E; }
+    .btn-action-schedule:hover { background: #d18222; color: white; }
     
     .atc-body { padding: 20px; display: flex; flex-direction: column; flex-grow: 1; }
     .atc-title-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 5px; }
     .atc-title { font-weight: 800; color: #163C24; font-size: 18px; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;}
     .atc-rating { color: #FFB800; font-weight: 700; font-size: 14px; white-space: nowrap; }
     .atc-location { color: #777; font-size: 13px; margin-bottom: 10px; }
-    
     .tour-tags-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 20px; }
     .tour-tag { background: #F1F8E4; color: #4A7A3A; font-weight: 700; font-size: 11px; padding: 4px 10px; border-radius: 20px; display: flex; align-items: center; gap: 4px; }
-    
-    .atc-stats { display: flex; justify-content: space-between; border-top: 1px solid #eee; padding-top: 15px; margin-top: auto; }
+    .atc-stats { display: flex; justify-content: space-between; align-items: flex-end; border-top: 1px solid #eee; padding-top: 15px; margin-top: auto; }
     .atc-stat-col { display: flex; flex-direction: column; }
     .atc-stat-label { font-size: 12px; color: #666; margin-bottom: 4px; }
     .atc-stat-val { font-weight: 800; color: #163C24; font-size: 16px; }
-
+    .atc-stat-val-old { font-size: 12px; color: #999; text-decoration: line-through; margin-bottom: 2px; line-height: 1;}
+    .atc-stat-val-new { font-weight: 800; color: #E74C3C; font-size: 16px; line-height: 1;}
     .add-new-card { border: 2px dashed #B4D6B5; background: #FAFAF5; display: flex; flex-direction: column; justify-content: center; align-items: center; color: #0d5c2c; cursor: pointer; text-decoration: none;}
     .add-new-card:hover { background: #EAF9DE; border-color: #0d5c2c; }
     .add-new-card i { font-size: 50px; margin-bottom: 15px; }
     .add-new-card span { font-weight: 800; font-size: 20px; }
 
     /* ---------------------------------------------------
-       4. GIAO DIỆN FORM (Thêm/Sửa/Xem Chi Tiết)
+       5. GIAO DIỆN FORM (Thêm/Sửa/Xem Chi Tiết)
        --------------------------------------------------- */
-    .cover-upload-box { background: #EAECE8; border-radius: 16px; height: 250px; display: flex; flex-direction: column; justify-content: center; align-items: center; color: #666; cursor: pointer; position: relative; overflow: hidden; margin-bottom: 40px; transition: 0.3s;}
+    .input-title-tour { color: #123C27; font-weight: 800; font-size: 36px; margin-bottom: 15px; border: none; background: transparent; width: 100%; outline: none; padding: 0; font-family: inherit; transition: 0.3s; }
+    .input-title-tour::placeholder { color: #a0b0a5; }
+    .input-title-tour:focus:not([disabled]) { border-bottom: 2px dashed #0d5c2c; padding-bottom: 5px; }
+    .cover-upload-box { background: #EAECE8; border-radius: 16px; height: 350px; width: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; color: #666; cursor: pointer; position: relative; overflow: hidden; margin-bottom: 40px; transition: 0.3s;}
     .cover-upload-box:hover { background: #dfe1dc; }
     .cover-upload-box img { position: absolute; width: 100%; height: 100%; object-fit: cover; z-index: 1; display: none; }
     .cover-upload-content { position: relative; z-index: 2; text-align: center; }
     .cover-upload-content i { font-size: 35px; color: #0d5c2c; background: #EAF9DE; padding: 15px; border-radius: 50%; margin-bottom: 15px; }
     .cover-upload-content h5 { font-weight: 700; color: #333; margin-bottom: 5px; }
     .cover-upload-content p { font-size: 13px; color: #777; margin:0;}
-
-    .form-label-bold { font-weight: 800; color: #0d5c2c; font-size: 14px; text-transform: uppercase; margin-bottom: 8px; display: block;}
-    .admin-input { background: #F4F5F0; border: 1px solid transparent; border-radius: 8px; padding: 12px 18px; font-weight: 600; color: #333; transition: 0.3s; width: 100%; }
+    .form-label-bold { font-weight: 800; color: #0d5c2c; font-size: 16px; text-transform: uppercase; margin-bottom: 8px; display: block;}
+    .admin-input { background: #F4F5F0; border: 1px solid transparent; border-radius: 8px; padding: 14px 18px; font-weight: 600; color: #333; transition: 0.3s; width: 100%; font-size: 15px; }
     .admin-input:focus:not([disabled]) { background: white; border-color: #0d5c2c; box-shadow: 0 0 0 3px rgba(13, 92, 44, 0.1); outline: none; }
     .admin-input:disabled { background: #EAECE8; color: #666; cursor: not-allowed; }
-    .admin-textarea { background: #F4F5F0; border: none; border-radius: 8px; padding: 16px 18px; font-weight: 500; height: 160px; resize: none; width: 100%; }
+    .admin-textarea { background: #F4F5F0; border: none; border-radius: 8px; padding: 16px 18px; font-weight: 500; height: 140px; resize: none; width: 100%; font-size: 15px; }
     .admin-textarea:disabled { background: #EAECE8; color: #666; cursor: not-allowed; }
-
-    .right-panel { background: #FAFAF5; border-radius: 16px; padding: 25px; border: 1px solid #f0f0f0;}
-    .gallery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
-    .gallery-slot { background: #EAECE8; border-radius: 12px; aspect-ratio: 1/1; display: flex; justify-content: center; align-items: center; color: #999; font-size: 24px; cursor: pointer; transition: 0.2s;}
+    .right-panel { background: #F4F5F0; border-radius: 20px; padding: 30px; border: none; }
+    .gallery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; }
+    .gallery-slot { background: #EAECE8; border-radius: 12px; aspect-ratio: 1/1; display: flex; justify-content: center; align-items: center; color: #999; font-size: 24px; cursor: pointer; transition: 0.2s; overflow: hidden; position: relative;}
     .gallery-slot:hover { background: #dfe1dc; color: #0d5c2c;}
-
-    .btn-submit-orange { background: #F29A2E; color: white; border-radius: 8px; padding: 12px; font-weight: 700; font-size: 15px; border: none; width: 100%; transition: 0.3s; margin-bottom: 15px;}
-    .btn-submit-orange:hover { background: #d18222; }
-    .btn-outline-action { background: transparent; color: #0d5c2c; border: 1px solid #B4D6B5; border-radius: 8px; padding: 12px; font-weight: 700; font-size: 15px; width: 100%; transition: 0.3s; }
+    .gallery-slot img { width: 100%; height: 100%; object-fit: cover; }
+    .btn-submit-orange { background: #F29A2E; color: #1a1a1a; border-radius: 8px; padding: 14px; font-weight: 800; font-size: 16px; border: none; width: 100%; transition: 0.3s; margin-bottom: 15px; text-transform: uppercase;}
+    .btn-submit-orange:hover { background: #d18222; color: white; }
+    .btn-outline-action { background: transparent; color: #0d5c2c; border: 1px solid #B4D6B5; border-radius: 8px; padding: 14px; font-weight: 800; font-size: 16px; width: 100%; transition: 0.3s; text-transform: uppercase;}
     .btn-outline-action:hover { background: #EAF9DE; }
-    .btn-outline-danger { background: transparent; color: #dc3545; border: 1px solid #dc3545; border-radius: 8px; padding: 12px; font-weight: 700; font-size: 15px; width: 100%; transition: 0.3s; text-align: center; display: block; text-decoration: none;}
-    .btn-outline-danger:hover { background: #dc3545; color: white; }
+    .btn-outline-green { background: white; color: #0d5c2c; border: 1px solid #0d5c2c; border-radius: 8px; padding: 14px; font-weight: 800; font-size: 16px; width: 100%; transition: 0.3s; text-align: center; display: block; text-decoration: none;}
+    .btn-outline-green:hover { background: #0d5c2c; color: white; }
 </style>
 
 <div class="breadcrumb-custom">
-    <a href="index.php?controller=adminhome"><i class="fa-solid fa-house me-1"></i>Trang chủ</a> 
+    <a href="index.php?controller=adminhome"><i class="fa-solid fa-house me-1"></i>Tổng quan</a> 
     <i class="fa-solid fa-angle-right mx-2 text-muted" style="font-size: 12px;"></i> 
     <a href="index.php?controller=admintour">Quản lý tour</a>
     
@@ -145,44 +134,22 @@
     
     <?php
         $searchQuery = isset($_GET['search']) ? $_GET['search'] : '';
-        $dateQuery = isset($_GET['date']) ? $_GET['date'] : '';
         $vungQuery = isset($_GET['vung']) ? $_GET['vung'] : '';
         $traiNghiemQuery = isset($_GET['trainghiem']) ? $_GET['trainghiem'] : '';
         $giaQuery = isset($_GET['gia']) ? $_GET['gia'] : '';
-        
-        // Tab mặc định
-        $currentTab = isset($_GET['tab']) ? $_GET['tab'] : 'all';
     ?>
-
-    <div class="trip-tabs">
-        <a href="javascript:void(0)" onclick="changeTab('all')" class="trip-tab-btn <?= $currentTab == 'all' ? 'active' : '' ?>">
-            Tất cả tour <span class="tab-badge"><?= isset($stats['all']) ? $stats['all'] : 0 ?></span>
-        </a>
-        <a href="javascript:void(0)" onclick="changeTab('open')" class="trip-tab-btn <?= $currentTab == 'open' ? 'active' : '' ?>">
-            Đang mở <span class="tab-badge"><?= isset($stats['open']) ? $stats['open'] : 0 ?></span>
-        </a>
-        <a href="javascript:void(0)" onclick="changeTab('closed')" class="trip-tab-btn <?= $currentTab == 'closed' ? 'active' : '' ?>">
-            Đã đóng <span class="tab-badge"><?= isset($stats['closed']) ? $stats['closed'] : 0 ?></span>
-        </a>
-    </div>
 
     <form action="index.php" method="GET" id="searchTourForm">
         <input type="hidden" name="controller" value="admintour">
-        <input type="hidden" name="tab" id="tabInput" value="<?= htmlspecialchars($currentTab) ?>">
 
         <div class="filter-wrapper">
             <div class="filter-bar-v2">
-                <div class="filter-input-group border-end" style="flex: 2;">
+                <div class="filter-input-group" style="flex: 2;">
                     <i class="fa-solid fa-magnifying-glass"></i>
                     <input type="text" name="search" placeholder="Nhập tên tour, địa điểm, mã tour..." value="<?= htmlspecialchars($searchQuery) ?>">
                 </div>
                 
-                <div class="filter-input-group border-end" style="width: 250px; flex: none;">
-                    <i class="fa-regular fa-calendar"></i>
-                    <input type="text" id="dateFilter" name="date" placeholder="Thời gian khởi hành" value="<?= htmlspecialchars($dateQuery) ?>">
-                </div>
-                
-                <div class="dropdown me-2">
+                <div class="dropdown me-2 border-start ps-3">
                     <button class="filter-icon-btn" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" title="Bộ lọc nâng cao">
                         <i class="fa-solid fa-sliders"></i>
                     </button>
@@ -246,7 +213,6 @@
 
     <div class="row g-4">
         <?php 
-        // Danh sách Icon tương ứng với loại trải nghiệm
         $tagIcons = [
             'Ẩm thực' => 'fa-utensils',
             'Văn hóa' => 'fa-masks-theater',
@@ -258,17 +224,35 @@
             'Sông nước' => 'fa-ship'
         ];
         foreach ($tours as $tour): 
+            $giaGoc = $tour['Gia'];
+            $uuDai = isset($tour['UuDai']) ? (float)$tour['UuDai'] : 0;
+            $phanTram = 0;
+            $giaGiam = $giaGoc;
+            
+            if ($uuDai > 0) {
+                $phanTram = round($uuDai * 100);
+                $giaGiam = $giaGoc * (1 - $uuDai);
+            }
         ?>
             <div class="col-md-6 col-lg-4">
                 <div class="admin-tour-card">
-                    <a href="index.php?controller=admintour&action=edit&id=<?= $tour['MaTour'] ?>" class="btn-edit-top" title="Chỉnh sửa Tour">
-                        <i class="fa-solid fa-pen-to-square"></i>
-                    </a>
+                    <div class="tour-actions-top">
+                        <a href="index.php?controller=admintour&action=edit&id=<?= $tour['MaTour'] ?>" class="btn-action-top btn-action-edit" title="Chỉnh sửa Tour">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+                        <a href="index.php?controller=adminschedule&search=<?= urlencode($tour['TenTour']) ?>" class="btn-action-top btn-action-schedule" title="Xem lịch khởi hành">
+                            <i class="fa-solid fa-calendar-days"></i>
+                        </a>
+                    </div>
                     
                     <a href="index.php?controller=admintour&action=detail&id=<?= $tour['MaTour'] ?>" class="text-decoration-none text-dark d-flex flex-column h-100" style="position: relative; z-index: 10;">
                                            
                         <div class="atc-img-wrap">
                             <img src="<?= htmlspecialchars(!empty($tour['HinhAnh']) && strpos($tour['HinhAnh'], 'public/') === 0 ? $tour['HinhAnh'] : 'public/' . $tour['HinhAnh']) ?>" alt="<?= htmlspecialchars($tour['TenTour']) ?>">
+                            
+                            <?php if($uuDai > 0): ?>
+                                <span class="badge-discount">-<?= $phanTram ?>%</span>
+                            <?php endif; ?>
                         </div>
                         
                         <div class="atc-body">
@@ -297,7 +281,14 @@
                             <div class="atc-stats">
                                 <div class="atc-stat-col">
                                     <span class="atc-stat-label">Giá</span>
-                                    <span class="atc-stat-val"><?= number_format($tour['Gia'], 0, ',', '.') ?> VNĐ</span>
+                                    
+                                    <?php if($uuDai > 0): ?>
+                                        <span class="atc-stat-val-old"><?= number_format($giaGoc, 0, ',', '.') ?> VNĐ</span>
+                                        <span class="atc-stat-val-new"><?= number_format($giaGiam, 0, ',', '.') ?> VNĐ</span>
+                                    <?php else: ?>
+                                        <span class="atc-stat-val"><?= number_format($giaGoc, 0, ',', '.') ?> VNĐ</span>
+                                    <?php endif; ?>
+
                                 </div>
                                 <div class="atc-stat-col text-end">
                                     <span class="atc-stat-label">Khách đăng ký</span>
@@ -335,6 +326,10 @@
     ?>
 
     <form action="<?= $actionUrl ?>" method="POST" enctype="multipart/form-data">
+
+        <div class="mb-4 mt-2">
+            <input type="text" name="tenTour" class="input-title-tour" placeholder="Nhập tên tour (VD: Khám phá Thác Bản Giốc)..." value="<?= ($isEdit || $isDetail) ? htmlspecialchars($tourData['TenTour']) : '' ?>" required <?= $disabled ?>>
+        </div>
         
         <div class="cover-upload-box" <?= !$isDetail ? 'onclick="document.getElementById(\'coverImageInput\').click();"' : '' ?>>
             <?php if (($isEdit || $isDetail) && !empty($tourData['HinhAnh'])): ?>
@@ -343,7 +338,7 @@
                     <div class="cover-upload-content" style="background: rgba(255,255,255,0.85); padding: 15px; border-radius: 12px; display: none;" id="coverOverlay">
                         <i class="fa-solid fa-camera-retro"></i>
                         <h5>Upload Cover Image</h5>
-                        <p>Nhấp để thay đổi ảnh nền</p>
+                        <p>Nhấp để thay đổi ảnh bìa toàn cảnh</p>
                     </div>
                 <?php endif; ?>
             <?php else: ?>
@@ -357,18 +352,14 @@
             <input type="file" name="coverImage" id="coverImageInput" accept="image/*" class="d-none" onchange="previewCover(this)">
         </div>
 
-        <div class="row g-4">
-            <div class="col-lg-7">
-                <div class="mb-4">
-                    <label class="form-label-bold">TÊN TOUR</label>
-                    <input type="text" name="tenTour" class="admin-input" placeholder="Ví dụ: Tham quan Đồi thông hai mộ ở Đà Lạt" value="<?= ($isEdit || $isDetail) ? htmlspecialchars($tourData['TenTour']) : '' ?>" required <?= $disabled ?>>
-                </div>
+        <div class="row g-4 mb-5">
+            <div class="col-lg-7 pe-lg-4">
                 
                 <div class="mb-4">
                     <label class="form-label-bold">ĐỊA ĐIỂM</label>
                     <div class="position-relative">
-                        <i class="fa-solid fa-location-dot position-absolute" style="top: 14px; left: 18px; color: #0d5c2c;"></i>
-                        <input type="text" name="diaDiem" class="admin-input" style="padding-left: 45px;" placeholder="Đà Lạt, Lâm Đồng, Việt Nam" value="<?= ($isEdit || $isDetail) ? htmlspecialchars($tourData['DiaDiem']) : '' ?>" required <?= $disabled ?>>
+                        <i class="fa-solid fa-location-dot position-absolute" style="top: 16px; left: 18px; color: #333;"></i>
+                        <input type="text" name="diaDiem" class="admin-input" style="padding-left: 45px;" placeholder="Huế, Việt Nam" value="<?= ($isEdit || $isDetail) ? htmlspecialchars($tourData['DiaDiem']) : '' ?>" required <?= $disabled ?>>
                     </div>
                 </div>
 
@@ -376,6 +367,12 @@
                     <label class="form-label-bold">MÔ TẢ CHUYẾN ĐI</label>
                     <textarea name="moTa" class="admin-textarea" placeholder="Nhập mô tả..." required <?= $disabled ?>><?= ($isEdit || $isDetail) ? htmlspecialchars($tourData['MoTa']) : '' ?></textarea>
                 </div>
+
+                <div class="mb-4">
+                    <label class="form-label-bold">LỊCH TRÌNH</label>
+                    <textarea name="lichTrinh" class="admin-textarea" style="height: 250px;" placeholder="Ngày 1 - 11:30 - Đến bến..." required <?= $disabled ?>><?= ($isEdit || $isDetail) ? htmlspecialchars($tourData['LichTrinh']) : '' ?></textarea>
+                </div>
+
                 <?php if ($isDetail): ?>
                 <div class="mb-4 mt-5">
                     <label class="form-label-bold mb-3">
@@ -417,24 +414,6 @@
                                             ?>
                                         </div>
                                     <?php endif; ?>
-                                    
-                                    <?php if(!empty($review['AnTuong'])): ?>
-                                        <div class="mt-2">
-                                            <?php 
-                                                $tags = explode(',', $review['AnTuong']);
-                                                foreach ($tags as $tag):
-                                                    $tag = trim($tag);
-                                                    if (!empty($tag)):
-                                            ?>
-                                                <span class="badge" style="background-color: #EAF9DE; color: #0d5c2c; border: 1px solid #B4D6B5; margin-right: 5px; font-weight: 700;">
-                                                    <?= htmlspecialchars($tag) ?>
-                                                </span>
-                                            <?php 
-                                                    endif;
-                                                endforeach; 
-                                            ?>
-                                        </div>
-                                    <?php endif; ?>
                                 </div>
                             <?php endforeach; ?>
                         </div>
@@ -446,7 +425,6 @@
                     <?php endif; ?>
                 </div>
                 <?php endif; ?>
-                </div> ```
             </div>
 
             <div class="col-lg-5">
@@ -455,67 +433,62 @@
                         <div class="col-6">
                             <label class="form-label-bold">GIÁ (VNĐ)</label>
                             <div class="position-relative">
-                                <span class="position-absolute" style="top: 13px; left: 15px; color: #666; font-weight: 700;">đ</span>
-                                <input type="text" name="gia" class="admin-input" style="padding-left: 35px;" value="<?= ($isEdit || $isDetail) ? number_format($tourData['Gia'], 0, ',', '.') : '' ?>" required oninput="formatCurrency(this)" <?= $disabled ?>>
+                                <span class="position-absolute" style="top: 15px; left: 18px; color: #333; font-weight: 700;">đ</span>
+                                <input type="text" name="gia" class="admin-input" style="padding-left: 40px;" value="<?= ($isEdit || $isDetail) ? number_format($tourData['Gia'], 0, ',', '.') : '' ?>" required oninput="formatCurrency(this)" <?= $disabled ?>>
                             </div>
                         </div>
                         <div class="col-6">
-                            <label class="form-label-bold">THỜI LƯỢNG</label>
+                            <label class="form-label-bold">SỐ NGÀY</label>
                             <div class="position-relative">
-                                <input type="number" name="soNgay" class="admin-input" value="<?= ($isEdit || $isDetail) ? $tourData['SoNgay'] : '1' ?>" required <?= $disabled ?>>
-                                <span class="position-absolute" style="top: 13px; right: 15px; color: #666; font-weight: 600;">Ngày</span>
+                                <input type="number" name="soNgay" class="admin-input text-center" value="<?= ($isEdit || $isDetail) ? $tourData['SoNgay'] : '1' ?>" required <?= $disabled ?>>
+                                <span class="position-absolute" style="top: 15px; right: 18px; color: #333; font-weight: 700;">Days</span>
                             </div>
                         </div>
                     </div>
 
                     <div class="row g-3 mb-4">
                         <div class="col-6">
-                            <label class="form-label-bold">NGÀY BẮT ĐẦU</label>
+                            <label class="form-label-bold">ƯU ĐÃI (%)</label>
                             <div class="position-relative">
-                                <i class="fa-regular fa-calendar position-absolute" style="top: 14px; left: 12px; color: #0d5c2c;"></i>
-                                <input type="date" name="ngayBatDau" class="admin-input" style="padding-left: 35px;" value="<?= ($isEdit || $isDetail) && isset($tourData['NgayBatDau']) ? htmlspecialchars($tourData['NgayBatDau']) : '' ?>" <?= $disabled ?>>
+                                <input type="number" name="uuDai" class="admin-input" placeholder="0" value="<?= ($isEdit || $isDetail) && isset($tourData['UuDai']) ? floatval($tourData['UuDai']) * 100 : '' ?>" <?= $disabled ?>>
+                                <span class="position-absolute" style="top: 15px; right: 18px; color: #333; font-weight: 700;">%</span>
                             </div>
                         </div>
-                        <div class="col-6">
-                            <label class="form-label-bold">NGÀY KẾT THÚC</label>
-                            <div class="position-relative">
-                                <i class="fa-regular fa-calendar position-absolute" style="top: 14px; left: 12px; color: #0d5c2c;"></i>
-                                <input type="date" name="ngayKetThuc" class="admin-input" style="padding-left: 35px;" value="<?= ($isEdit || $isDetail) && isset($tourData['NgayKetThuc']) ? htmlspecialchars($tourData['NgayKetThuc']) : '' ?>" <?= $disabled ?>>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row g-3 mb-4">
                         <div class="col-6">
                             <label class="form-label-bold">KHÁCH TỐI ĐA</label>
                             <div class="position-relative">
-                                <i class="fa-solid fa-users position-absolute" style="top: 14px; left: 15px; color: #0d5c2c;"></i>
+                                <i class="fa-solid fa-users position-absolute" style="top: 16px; left: 18px; color: #333;"></i>
                                 <input type="number" name="soKhachToiDa" class="admin-input text-center" value="<?= ($isEdit || $isDetail) ? $tourData['SoKhachToiDa'] : '10' ?>" required <?= $disabled ?>>
                             </div>
                         </div>
-                        <div class="col-6">
-                            <label class="form-label-bold">VÙNG ĐỊA LÝ</label>
-                            <select name="vungDiaLy" class="admin-input" style="cursor: pointer;" <?= $disabled ?>>
-                                <?php 
-                                    $vungMien = ['Tây Bắc', 'Đông Bắc', 'Đồng bằng sông Hồng', 'Bắc Trung Bộ', 'Nam Trung Bộ', 'Tây Nguyên', 'Đông Nam Bộ', 'Đồng bằng sông Cửu Long'];
-                                    $currentVung = ($isEdit || $isDetail) ? $tourData['VungDiaLy'] : 'Đông Nam Bộ';
-                                    foreach ($vungMien as $vung) {
-                                        $sel = ($vung == $currentVung) ? 'selected' : '';
-                                        echo "<option value=\"$vung\" $sel>$vung</option>";
-                                    }
-                                ?>
-                            </select>
-                        </div>
                     </div>
 
-                    <label class="form-label-bold">ẢNH MINH HỌA CHUYẾN ĐI</label>
-                    <div class="gallery-grid">
-                        <div class="gallery-slot"><i class="fa-solid fa-plus"></i></div>
-                        <div class="gallery-slot"><i class="fa-solid fa-plus"></i></div>
-                        <div class="gallery-slot"><i class="fa-solid fa-plus"></i></div>
-                        <div class="gallery-slot"><i class="fa-solid fa-plus"></i></div>
+                    <div class="mb-4">
+                        <label class="form-label-bold">VÙNG ĐỊA LÝ</label>
+                        <select name="vungDiaLy" class="admin-input" style="cursor: pointer;" <?= $disabled ?>>
+                            <?php 
+                                $vungMien = ['Tây Bắc', 'Đông Bắc', 'Đồng bằng sông Hồng', 'Bắc Trung Bộ', 'Nam Trung Bộ', 'Tây Nguyên', 'Đông Nam Bộ', 'Đồng bằng sông Cửu Long'];
+                                $currentVung = ($isEdit || $isDetail) ? $tourData['VungDiaLy'] : 'Đông Nam Bộ';
+                                foreach ($vungMien as $vung) {
+                                    $sel = ($vung == $currentVung) ? 'selected' : '';
+                                    echo "<option value=\"$vung\" $sel>$vung</option>";
+                                }
+                            ?>
+                        </select>
                     </div>
-                    <p style="font-size: 11px; color: #888; font-style: italic; margin-bottom: 25px;">Úp ít nhất 4 bức ảnh để minh hoạ cho chuyến đi nhé!</p>
+
+                    <label class="form-label-bold mt-2">ẢNH MINH HỌA CHUYẾN ĐI</label>
+                    <div class="gallery-grid">
+                        <?php for($i = 1; $i <= 4; $i++): ?>
+                            <label class="gallery-slot" for="gallery-input-<?= $i ?>">
+                                <i class="fa-solid fa-plus" id="gallery-icon-<?= $i ?>" style="color: #999;"></i>
+                                <img id="gallery-preview-<?= $i ?>" src="" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover;">
+                                <?php if(!$isDetail): ?>
+                                    <input type="file" name="gallery[]" id="gallery-input-<?= $i ?>" accept="image/*" style="display:none;" onchange="previewGallery(this, <?= $i ?>)">
+                                <?php endif; ?>
+                            </label>
+                        <?php endfor; ?>
+                    </div>
 
                     <?php if ($isDetail): ?>
                         <a href="index.php?controller=admintour&action=edit&id=<?= $tourData['MaTour'] ?>" class="btn btn-submit-orange d-block text-center text-decoration-none">
@@ -525,8 +498,8 @@
                             Quay lại danh sách
                         </a>
                     <?php elseif ($isEdit): ?>
-                        <button type="submit" class="btn-submit-orange">Lưu sửa đổi <i class="fa-solid fa-check ms-2"></i></button>
-                        <a href="index.php?controller=admintour&action=delete&id=<?= $tourData['MaTour'] ?>" onclick="return confirm('Bạn có chắc chắn muốn xóa Tour này?');" class="btn btn-outline-danger">Xóa chuyến đi</a>
+                        <button type="submit" class="btn-submit-orange">Lưu sửa đổi <i class="fa-solid fa-arrow-right ms-2"></i></button>
+                        <a href="index.php?controller=admintour&action=delete&id=<?= $tourData['MaTour'] ?>" onclick="return confirm('Bạn có chắc chắn muốn xóa Tour này?');" class="btn-outline-green">Xóa chuyến đi</a>
                     <?php else: ?>
                         <button type="submit" class="btn-submit-orange">Tạo chuyến đi <i class="fa-solid fa-arrow-right ms-2"></i></button>
                         <button type="button" class="btn-outline-action" onclick="window.location.href='index.php?controller=admintour'">Lưu bản nháp</button>
@@ -541,21 +514,6 @@
 </div>
 
 <script>
-    if(document.getElementById('dateFilter')) {
-        flatpickr("#dateFilter", {
-            mode: "range", 
-            dateFormat: "d/m/Y",
-            locale: "vn",
-            placeholder: "Thời gian khởi hành"
-        });
-    }
-
-    // XỬ LÝ CHUYỂN TAB 
-    function changeTab(tabName) {
-        document.getElementById('tabInput').value = tabName;
-        document.getElementById('searchTourForm').submit();
-    }
-
     function clearFilters() {
         window.location.href = 'index.php?controller=admintour';
     }
@@ -583,10 +541,23 @@
             reader.readAsDataURL(input.files[0]);
         }
     }
+
+    function previewGallery(input, index) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                var img = document.getElementById('gallery-preview-' + index);
+                img.src = e.target.result;
+                img.style.display = 'block';
+                var icon = document.getElementById('gallery-icon-' + index);
+                if(icon) icon.style.display = 'none';
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
     
     const coverBox = document.querySelector('.cover-upload-box');
-    if (coverBox && !coverBox.hasAttribute('onclick')) {
-    } else if (coverBox) {
+    if (coverBox && coverBox.hasAttribute('onclick')) {
         coverBox.addEventListener('mouseenter', function() {
             if (document.getElementById('coverPreview').src !== "") {
                 const overlay = document.getElementById('coverOverlay');
