@@ -77,6 +77,15 @@
         0% { transform: translateY(30px); opacity: 0; }
         100% { transform: translateY(0); opacity: 1; }
     }
+
+    /* ĐẶC TRỊ RESPONSIVE MÀN HÌNH DI ĐỘNG SIÊU NHỎ */
+    @media (max-width: 576px) {
+        .success-box { padding: 40px 20px; }
+        .check-circle { width: 60px; height: 60px; font-size: 1.8rem; }
+        .success-box h1 { font-size: 1.8rem !important; }
+        .success-box p { font-size: 1rem; margin-bottom: 30px; }
+        .btn-close-success { width: 100%; padding: 14px 20px; font-size: 1.1rem; }
+    }
 </style>
 
 <div class="success-wrapper">

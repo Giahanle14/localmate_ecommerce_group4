@@ -1,4 +1,4 @@
-<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght=500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
     .admin-dashboard {
@@ -22,7 +22,7 @@
         width: 100% !important;
     }
     
-    /* CSS CHO 4 THẺ THỐNG KÊ */
+    /* CSS CHO 4 THỂ THỐNG KÊ */
     .stat-card {
         background: white;
         border-radius: 20px;
@@ -65,7 +65,7 @@
     .icon-user { background-color: #fff3e0; color: #ff9800; }
     .icon-review { background-color: #fce4ec; color: #e91e63; }
 
-    /* CSS CHO BẢNG CHUYẾN ĐI */
+    /* CSS CHO BẢNG CHUYỂN ĐI */
     .table-container {
         background: white;
         border-radius: 20px;
@@ -109,6 +109,18 @@
         font-size: 0.85rem;
         font-weight: 700;
         display: inline-block;
+    }
+
+    /* RESPONSIVE CHO ADMIN HOME (MOBILE & TABLET) */
+    @media (max-width: 768px) {
+        .admin-dashboard { padding: 20px 10px; }
+        .section-title { font-size: 1.4rem; margin-bottom: 20px; }
+        .stat-card { flex-direction: column-reverse; text-align: center; gap: 15px; padding: 20px 15px; }
+        .stat-value { font-size: 1.5rem; }
+        
+        .table-responsive::-webkit-scrollbar { height: 6px; }
+        .table-responsive::-webkit-scrollbar-thumb { background-color: #8A9D8E; border-radius: 10px; }
+        .table-responsive::-webkit-scrollbar-track { background: #EAF9DE; border-radius: 10px; }
     }
 </style>
 
@@ -170,40 +182,42 @@
         <h2 class="section-title mt-5">CÁC CHUYẾN ĐI MỚI NHẤT</h2>
         
         <div class="table-container">
-            <table class="custom-table">
-                <thead>
-                    <tr>
-                        <th>Mã Chuyến Đi</th>
-                        <th style="text-align: left;">Tên Tour</th>
-                        <th>Ngày bắt đầu</th>
-                        <th>Số lượng</th>
-                        <th>Tổng tiền</th>
-                        <th>Trạng thái</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (!empty($chuyenDiMoi)): ?>
-                        <?php foreach ($chuyenDiMoi as $cd): ?>
-                            <tr>
-                                <td><?= htmlspecialchars($cd['MaChuyenDi']) ?></td>
-                                <td style="text-align: left; font-weight: 700;"><?= htmlspecialchars($cd['TenTour']) ?></td>
-                                <td><?= date('d/m/Y', strtotime($cd['NgayBatDau'])) ?></td>
-                                <td><?= $cd['SoLuongKhach'] ?></td>
-                                <td><?= number_format($cd['TongTien'], 0, ',', '.') ?> VNĐ</td>
-                                <td>
-                                    <span class="status-badge" style="<?= ($cd['TrangThai'] == 'Hoàn thành') ? 'background-color: #888;' : '' ?>">
-                                        <?= htmlspecialchars($cd['TrangThai']) ?>
-                                    </span>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    <?php else: ?>
+            <div class="table-responsive">
+                <table class="custom-table">
+                    <thead>
                         <tr>
-                            <td colspan="6" class="text-center py-4 text-muted">Chưa có chuyến đi nào gần đây.</td>
+                            <th>Mã Chuyến Đi</th>
+                            <th style="text-align: left;">Tên Tour</th>
+                            <th>Ngày bắt đầu</th>
+                            <th>Số lượng</th>
+                            <th>Tổng tiền</th>
+                            <th>Trạng thái</th>
                         </tr>
-                    <?php endif; ?>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        <?php if (!empty($chuyenDiMoi)): ?>
+                            <?php foreach ($chuyenDiMoi as $cd): ?>
+                                <tr>
+                                    <td><?= htmlspecialchars($cd['MaChuyenDi']) ?></td>
+                                    <td style="text-align: left; font-weight: 700;"><?= htmlspecialchars($cd['TenTour']) ?></td>
+                                    <td><?= date('d/m/Y', strtotime($cd['NgayBatDau'])) ?></td>
+                                    <td><?= $cd['SoLuongKhach'] ?></td>
+                                    <td><?= number_format($cd['TongTien'], 0, ',', '.') ?> VNĐ</td>
+                                    <td>
+                                        <span class="status-badge" style="<?= ($cd['TrangThai'] == 'Hoàn thành') ? 'background-color: #888;' : '' ?>">
+                                            <?= htmlspecialchars($cd['TrangThai']) ?>
+                                        </span>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <tr>
+                                <td colspan="6" class="text-center py-4 text-muted">Chưa có chuyến đi nào gần đây.</td>
+                            </tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
             
             <div class="text-end mt-4">
                 <a href="index.php?controller=admintrip" class="btn fw-bold" style="background-color: #eaf5eb; color: #00712D; border-radius: 30px; padding: 10px 25px; transition: 0.3s;" onmouseover="this.style.backgroundColor='#d3ebd6'" onmouseout="this.style.backgroundColor='#eaf5eb'">

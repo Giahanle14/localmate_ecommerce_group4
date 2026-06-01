@@ -45,10 +45,10 @@
 
     /* Tiêu đề Promo */
     .promo-header { margin-bottom: 20px; color: white; display: flex; align-items: center;}
-    .promo-header h4 { font-weight: 800; font-size: 1.5rem; margin-bottom: 5px; color: white !important;}
+    .promo-header h4 { font-weight: 800; font-size: clamp(1.2rem, 4vw, 1.5rem); margin-bottom: 5px; color: white !important;}
     .promo-header h4 i { color: #FFD166 !important; margin-right: 8px;}
     .promo-subtitle { font-weight: 500; opacity: 0.9; font-size: 0.95rem; }
-    .btn-view-more { color: white; border: 1px solid rgba(255,255,255,0.5); padding: 8px 20px; border-radius: 30px; text-decoration: none; font-weight: 700; transition: 0.3s; background: rgba(255,255,255,0.1);}
+    .btn-view-more { color: white; border: 1px solid rgba(255,255,255,0.5); padding: 8px 20px; border-radius: 30px; text-decoration: none; font-weight: 700; transition: 0.3s; background: rgba(255,255,255,0.1); white-space: nowrap;}
     .btn-view-more:hover { background: white; color: #111; border-color: white;}
 
     /* Wrapper Slider ngang */
@@ -80,8 +80,12 @@
     .highlight-section-green .slider-arrow:hover { background: white; color: #1A5336; }
     .highlight-section-orange .slider-arrow:hover { background: white; color: #E67E22; }
     .highlight-section-blue .slider-arrow:hover { background: white; color: #1565C0; }
-    .slider-arrow.prev { left: -20px; }
-    .slider-arrow.next { right: -20px; }
+    .slider-arrow.prev { left: -10px; }
+    .slider-arrow.next { right: -10px; }
+    @media (min-width: 768px) {
+        .slider-arrow.prev { left: -20px; }
+        .slider-arrow.next { right: -20px; }
+    }
 
     /* -------------------------------------
        CARD TOUR V2 
@@ -98,7 +102,28 @@
         box-shadow: 0 6px 20px rgba(0,0,0,0.15);
         transition: transform 0.3s;
     }
-    .tour-card-v2:hover { transform: translateY(-5px); }
+    .review-card-home {
+        background: white;
+        border-radius: 16px;
+        padding: 20px;
+        min-width: 320px;
+        max-width: 320px;
+        scroll-snap-align: start;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        display: flex;
+        flex-direction: column;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: none;
+    }
+
+    /* RESPONSIVE CARD CHO MOBILE */
+    @media (max-width: 576px) {
+        .tour-card-v2, .review-card-home { min-width: 85vw; max-width: 85vw; }
+        .highlight-section-green, .highlight-section-orange, .highlight-section-blue { padding: 20px 15px; }
+    }
+
+    .tour-card-v2:hover, .review-card-home:hover { transform: translateY(-5px); }
     
     .tour-card-img-wrap { position: relative; height: 200px; }
     .cover-img { width: 100%; height: 100%; object-fit: cover; }
@@ -125,115 +150,48 @@
     .highlight-section-orange .btn-detail-outline:hover { background: #E67E22; border-color: #E67E22; color: white;}
 
     /* -------------------------------------
-       CARD REVIEW (Đồng bộ với TourDetail)
+       CARD REVIEW 
        ------------------------------------- */
-    .review-card-home {
-        background: white;
-        border-radius: 16px;
-        padding: 20px;
-        min-width: 320px;
-        max-width: 320px;
-        scroll-snap-align: start;
-        box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-        display: flex;
-        flex-direction: column;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        border: none;
-    }
-    .review-card-home:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 25px rgba(0,0,0,0.25);
-    }
-    .review-header-home {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 15px;
-    }
+    .review-header-home { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
     .reviewer-info-home { display: flex; align-items: center; gap: 12px; }
     .reviewer-avatar-box-home {
-        width: 45px; height: 45px;
-        border-radius: 50%;
-        overflow: hidden;
+        width: 45px; height: 45px; border-radius: 50%; overflow: hidden;
         background-color: #EBF6E0; color: #00712D;
         display: flex; align-items: center; justify-content: center;
-        font-weight: bold; font-size: 1.2rem;
-        border: 2px solid #fff;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        font-weight: bold; font-size: 1.2rem; border: 2px solid #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
     .reviewer-avatar-box-home img { width: 100%; height: 100%; object-fit: cover; }
     .reviewer-name-home { font-weight: 800; color: #222; margin: 0; font-size: 0.95rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 130px;}
     .review-date-home { font-size: 0.75rem; color: #888; margin-top: 4px; font-weight: 600;}
-    .review-rating-home {
-        color: #f6ab2f;
-        font-size: 1.0rem;
-        font-weight: 800;
-        display: flex;
-        align-items: center;
-        gap: 5px;
-    }
-    .review-tour-name-home {
-        font-size: 0.95rem; font-weight: 800; color: #1565C0; margin-bottom: 12px; line-height: 1.3;
-        display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
-    }
-    .review-content-box-home {
-        background: white;
-        border: 1px solid #f0f0f0;
-        border-radius: 12px;
-        padding: 14px 16px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.02);
-        margin-bottom: 15px;
-        flex-grow: 1;
-    }
-    .text-clamp-3-home {
-        color: #555;
-        line-height: 1.6;
-        font-size: 0.9rem;
-        text-align: justify;
-        display: -webkit-box;
-        -webkit-line-clamp: 3;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-        font-style: italic;
-    }
-    .review-images-container-home {
-        display: flex; gap: 8px; margin-bottom: 10px;
-        overflow-x: auto; padding-bottom: 4px;
-    }
+    .review-rating-home { color: #f6ab2f; font-size: 1.0rem; font-weight: 800; display: flex; align-items: center; gap: 5px; }
+    .review-tour-name-home { font-size: 0.95rem; font-weight: 800; color: #1565C0; margin-bottom: 12px; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .review-content-box-home { background: white; border: 1px solid #f0f0f0; border-radius: 12px; padding: 14px 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.02); margin-bottom: 15px; flex-grow: 1; }
+    .text-clamp-3-home { color: #555; line-height: 1.6; font-size: 0.9rem; text-align: justify; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; font-style: italic; }
+    .review-images-container-home { display: flex; gap: 8px; margin-bottom: 10px; overflow-x: auto; padding-bottom: 4px; }
     .review-images-container-home::-webkit-scrollbar { display: none; }
-    .review-img-home {
-        width: 65px; height: 65px;
-        object-fit: cover; border-radius: 8px;
-        flex-shrink: 0;
-    }
-    .placeholder-img-home {
-        width: 65px; height: 65px;
-        border-radius: 8px;
-        background: #e9ecef;
-        display: flex; align-items: center; justify-content: center;
-        color: #adb5bd;
-        font-size: 1.5rem;
-        flex-shrink: 0;
-    }
+    .review-img-home { width: 65px; height: 65px; object-fit: cover; border-radius: 8px; flex-shrink: 0; }
+    .placeholder-img-home { width: 65px; height: 65px; border-radius: 8px; background: #e9ecef; display: flex; align-items: center; justify-content: center; color: #adb5bd; font-size: 1.5rem; flex-shrink: 0; }
     
-    /* CÁC LỚP CSS CHO THẺ TAGS */
-    .review-tags-container-home {
-        display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto;
-    }
-    .review-tag-pill-home {
-        display: inline-flex; align-items: center; gap: 4px;
-        border: 1px solid #00712D; 
-        background-color: transparent; 
-        color: #00712D;
-        padding: 3.5px 8px; 
-        border-radius: 30px;
-        font-size: 0.65rem; 
-        font-weight: 700;
+    .review-tags-container-home { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; }
+    .review-tag-pill-home { display: inline-flex; align-items: center; gap: 4px; border: 1px solid #00712D; background-color: transparent; color: #00712D; padding: 3.5px 8px; border-radius: 30px; font-size: 0.65rem; font-weight: 700; }
+
+    /* -------------------------------------
+       THANH TÌM KIẾM RESPONSIVE 
+       ------------------------------------- */
+    .search-input-group { border-right: 1px solid #eee; padding: 5px 15px; display: flex; align-items: center; flex-grow: 1; }
+    .search-input-group:last-child { border-right: none; }
+    .search-input-group i { color: #00712D; font-size: 1.1rem; width: 25px; }
+    
+    @media (max-width: 991px) {
+        .search-bar-wrapper { margin-top: -40px !important; padding: 0 15px; }
+        #searchForm { flex-direction: column; border-radius: 20px !important; padding: 15px; gap: 10px; }
+        .search-input-group { border-right: none !important; border-bottom: 1px dashed #ddd; width: 100%; padding: 15px 5px; }
+        .search-input-group:nth-last-child(2) { border-bottom: none; }
+        .btn-search { width: 100%; padding: 12px !important; border-radius: 12px !important; margin-top: 10px; }
+        .guest-popup { width: 100%; right: 0; top: 100%; }
     }
 </style>
 
-<!-- SLIDESHOW BANNER TỰ ĐỘNG CHẠY -->
 <section class="hero-section position-relative p-0">
     <div id="homeBannerCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="3500">
         <div class="carousel-indicators">
@@ -263,8 +221,7 @@
 <div class="search-bar-wrapper" style="position: relative; z-index: 10; margin-top: -85px; padding-bottom: 20px;">
     <div class="container">
         <div class="search-container shadow-lg" style="border-radius: 50px; background: white;">
-            <form id="searchForm" action="index.php" method="GET" class="d-flex align-items-center flex-nowrap w-100 bg-white" style="border-radius: 50px;">
-                <!-- ĐÃ SỬA LỖI Ở ĐÂY: Đổi controller từ 'searchtour' thành 'tour' -->
+            <form id="searchForm" action="index.php" method="GET" class="d-flex flex-column flex-lg-row align-items-lg-center w-100 bg-white" style="border-radius: 50px;">
                 <input type="hidden" name="controller" value="tour">
                 <div class="search-input-group position-relative">
                     <i class="fa-solid fa-magnifying-glass"></i>
@@ -310,10 +267,8 @@
     </div>
 </div>
 
-
 <div class="container">
     
-    <!-- 1. KHU VỰC TOUR TRẢI NGHIỆM NỔI BẬT (NỀN XANH LÁ) -->
     <div class="highlight-section-green">
         <div class="promo-header row">
             <div class="promo-title-wrap col-md-9 mb-3 mb-md-0">
@@ -381,7 +336,6 @@
     </div>
 
 
-    <!-- 2. KHU VỰC TOUR ĐƯỢC YÊU THÍCH (NỀN VÀNG CAM) -->
     <div class="highlight-section-orange">
         <div class="promo-header row">
             <div class="promo-title-wrap col-md-9 mb-3 mb-md-0">
@@ -449,10 +403,8 @@
     </div>
 
 
-    <!-- 3. KHU VỰC KINH NGHIỆM ĐI TOUR (NỀN XANH DƯƠNG) -->
     <div class="highlight-section-blue">
         <div class="promo-header row">
-            <!-- Đổi thành col-12 để full dòng, XÓA NÚT XEM TẤT CẢ -->
             <div class="col-12 mb-2">
                 <h4><i class="fa-solid fa-comments"></i> Kinh Nghiệm Đi Tour</h4>
                 <div class="promo-subtitle">Lắng nghe những chia sẻ chân thực nhất từ các du khách đã trải nghiệm.</div>
@@ -466,7 +418,6 @@
                 <?php if(!empty($latestReviews)): ?>
                     <?php foreach($latestReviews as $review): ?>
                         <?php 
-                            // Ép kiểu mảng ảnh để JS dễ đọc
                             $imgArr = [];
                             if (!empty($review['HinhAnh']) && is_array($review['HinhAnh'])) {
                                 foreach ($review['HinhAnh'] as $ip) { if (trim($ip)) $imgArr[] = trim($ip); }
@@ -501,7 +452,6 @@
                                         <div class="review-date-home"><?= date('H:i - d/m/Y', strtotime($review['NgayDG'])) ?></div>
                                     </div>
                                 </div>
-                                <!-- Ngôi sao -->
                                 <div class="review-rating-home">
                                     <i class="fa-solid fa-star"></i> <?= $review['SoSao'] ?? 5 ?>
                                 </div>
@@ -527,7 +477,6 @@
                                 <?php endif; ?>
                             </div>
                             
-                            <!-- KHU VỰC THẺ TAGS (Điều Ấn Tượng) -->
                             <?php if(!empty($review['DieuAnTuong'])): ?>
                                 <div class="review-tags-container-home">
                                     <?php 
@@ -535,7 +484,6 @@
                                         foreach ($tags as $tag):
                                             $tag = trim($tag);
                                             if (!empty($tag)):
-                                                // Gán Icon tự động dựa vào nội dung tag
                                                 $icon = '📌'; 
                                                 if (stripos($tag, 'tiền') !== false) $icon = '💸';
                                                 elseif (stripos($tag, 'thân thiện') !== false) $icon = '🙋';
@@ -565,17 +513,13 @@
         </div>
     </div>
 
-</div> <!-- ĐÓNG THẺ CONTAINER -->
-
-<script>
-    // JS Cho Mũi Tên Trượt Ngang Custom Slider
+</div> <script>
     function scrollSlider(sliderId, direction) {
         const container = document.getElementById(sliderId);
         const scrollAmount = 360 * direction; 
         container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
     }
 
-    // Logic lịch & khách
     flatpickr("#datePicker", {
         dateFormat: "d/m/Y",
         locale: "vn",
@@ -626,7 +570,6 @@
         }
     });
 
-    // Validate form search
     const searchForm = document.getElementById('searchForm');
     const destInput = document.getElementById('destination');
     const destError = document.getElementById('destError');
@@ -643,7 +586,6 @@
         destError.classList.add('d-none'); 
     });
 
-    // AJAX Xử lý thả tim
     function toggleHeartHome(element, maTour) {
         const icon = element.querySelector('i');
         const countSpan = element.querySelector('.like-count');
@@ -674,7 +616,6 @@
                 if (data.message.includes("đăng nhập") && typeof requireLoginPopup === 'function') {
                     requireLoginPopup(null, 'thêm tour vào Danh sách yêu thích');
                 } else {
-                    // Dùng alert cho các lỗi khác (VD: tài khoản admin/đối tác không được thả tim)
                     alert(data.message);
                 }
             }

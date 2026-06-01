@@ -1,11 +1,26 @@
-<!-- app/views/adminaccountview.php -->
+<style>
+    /* RESPONSIVE CHO TRANG QUẢN LÝ TÀI KHOẢN (MOBILE & TABLET) */
+    @media (max-width: 768px) {
+        .toolbar { flex-direction: column; align-items: stretch !important; gap: 15px; }
+        .search-box { width: 100% !important; }
+        .search-box input { width: 100% !important; padding-top: 12px; padding-bottom: 12px; }
+        
+        .toolbar .d-flex { flex-direction: column; width: 100%; gap: 10px !important; }
+        .filter-box, .filter-box select { width: 100%; }
+        .btn-add-new { width: 100%; justify-content: center; padding: 12px; }
+        
+        .table-responsive::-webkit-scrollbar { height: 6px; }
+        .table-responsive::-webkit-scrollbar-thumb { background-color: #8A9D8E; border-radius: 10px; }
+        .table-responsive::-webkit-scrollbar-track { background: #EAF9DE; border-radius: 10px; }
+    }
+</style>
+
 <div class="breadcrumb-custom">
     <a href="index.php?controller=adminhome"><i class="fa-solid fa-house me-1"></i>Tổng quan</a> 
     <i class="fa-solid fa-angle-right mx-2 text-muted" style="font-size: 12px;"></i> 
     <a href="index.php?controller=adminaccount">Quản lý tài khoản</a>
 </div>
 <main class="container-fluid px-3 px-lg-5 py-4">
-    <!-- Toolbar Filters -->
     <div class="toolbar mb-4">
         <div class="search-box">
             <i class="fa-solid fa-magnifying-glass"></i>
@@ -34,7 +49,6 @@
         </div>
     </div>
 
-    <!-- Table Danh Sách -->
     <div class="table-container">
         <div class="table-responsive">
             <table class="table table-custom">
@@ -49,22 +63,17 @@
                     </tr>
                 </thead>
                 <tbody id="tableBody">
-                    </tbody>
+                </tbody>
             </table>
         </div>
     </div>
 
-    <!-- Phân trang -->
     <div class="d-flex justify-content-center mt-5">
         <ul class="pagination justify-content-center gap-2" id="pagination">
-            <!-- Pagination rendered by JS -->
-        </ul>
+            </ul>
     </div>
 </main>
 
-<!-- ================= MODALS ================= -->
-
-<!-- Modal Xem Chi Tiết / Cập Nhật / Thêm -->
 <div class="modal fade" id="accountModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -93,7 +102,6 @@
                         </div>
                     </div>
 
-                    <!-- Khu vực dành riêng cho Du khách khi XEM CHI TIẾT -->
                     <div id="extraInfoDuKhach" style="display: none;">
                         <div class="form-group-title">THÔNG TIN CÁ NHÂN (DU KHÁCH)</div>
                         <div class="row mb-3">
@@ -127,7 +135,6 @@
                             </select>
                         </div>
                         
-                        <!-- Chức danh cho QTV -->
                         <div class="col-md-6 mb-3" id="wrapChucDanh">
                             <label class="form-label">Chức danh <span class="text-danger">*</span></label>
                             <select class="form-select" id="chucDanh">
@@ -137,7 +144,6 @@
                             </select>
                         </div>
 
-                        <!-- Hạng thành viên cho DK (Chỉ Readonly khi View/Edit và luôn tô xám) -->
                         <div class="col-md-6 mb-3" id="wrapHangThanhVien" style="display: none;">
                             <label class="form-label">Hạng thành viên</label>
                             <input type="text" class="form-control" id="hangThanhVien" readonly style="background-color: #e9ecef;">
@@ -229,17 +235,15 @@
         if (form) form.addEventListener('submit', handleFormSubmit);
     });
 
-    // --- HELPER CHUYỂN HƯỚNG KHI BỊ KHÓA ---
     function checkForceLogout(result) {
         if (result && result.redirect) {
-            alert(result.message); // Hiện thông báo bị khóa
-            window.location.href = result.redirect; // Đá văng về trang chủ
+            alert(result.message);
+            window.location.href = result.redirect;
             return true;
         }
         return false;
     }
 
-    // --- Helpers Mở / Đóng Modal ---
     function showModalHelper() {
         if (accountModal) accountModal.show();
         else if (typeof $ !== 'undefined' && $.fn.modal) $('#accountModal').modal('show'); 
@@ -250,7 +254,6 @@
         else if (typeof $ !== 'undefined' && $.fn.modal) $('#accountModal').modal('hide');
     }
 
-    // --- FETCH DATA ---
     async function loadData() {
         tableBody.innerHTML = '<tr><td colspan="6"><i class="fa-solid fa-spinner fa-spin"></i> Đang tải dữ liệu...</td></tr>';
         
@@ -267,8 +270,6 @@
             
             try {
                 const result = JSON.parse(textRaw);
-                
-                // KIỂM TRA BỊ ĐĂNG XUẤT
                 if (checkForceLogout(result)) return;
 
                 if (result.status === 'success') {
@@ -286,7 +287,6 @@
         }
     }
 
-    // --- RENDER UI ---
     function renderTable(data) {
         if (!data || data.length === 0) {
             tableBody.innerHTML = '<tr><td colspan="6" class="text-muted">Không tìm thấy tài khoản nào.</td></tr>';
@@ -350,7 +350,6 @@
         loadData();
     }
 
-    // --- MODAL ACTIONS ---
     function setReadOnly(isReadOnly) {
         const inputs = form.querySelectorAll('input:not([type="radio"]), select');
         inputs.forEach(input => {
@@ -428,7 +427,6 @@
             const response = await fetch(API_URL + 'getDetail&maTK=' + maTK);
             const result = await response.json();
             
-            // KIỂM TRA BỊ ĐĂNG XUẤT
             if (checkForceLogout(result)) return;
             
             if(result.status === 'success') {
@@ -509,7 +507,6 @@
             });
             const result = await response.json();
 
-            // KIỂM TRA BỊ ĐĂNG XUẤT
             if (checkForceLogout(result)) return;
 
             if (result.status === 'success') {
@@ -537,7 +534,6 @@
                 });
                 const result = await response.json();
                 
-                // KIỂM TRA BỊ ĐĂNG XUẤT
                 if (checkForceLogout(result)) return;
                 
                 if(result.status === 'success') {
