@@ -24,21 +24,19 @@ class AdminReportModel {
         $params = [];
 
         if (!empty($year)) {
-            $where[] = "YEAR(cd.NgayKetThuc) = ?";
+            $where[] = "YEAR(lkh.NgayBatDau) = ?";
             $params[] = $year;
         }
 
         if (!empty($month)) {
-            $where[] = "MONTH(cd.NgayKetThuc) = ?";
+            $where[] = "MONTH(lkh.NgayBatDau) = ?";
             $params[] = $month;
         } elseif (!empty($quarter)) {
-            $where[] = "QUARTER(cd.NgayKetThuc) = ?";
+            $where[] = "QUARTER(lkh.NgayBatDau) = ?";
             $params[] = $quarter;
         }
 
         // XỬ LÝ LỌC NHIỀU LOẠI TRẢI NGHIỆM
-        // Giải thích: Cột LoaiTraiNghiem là kiểu SET, mỗi tour có thể có nhiều loại (VD: 'Văn hóa,Ẩm thực')
-        // Khi filter cũng chọn nhiều loại (VD: 'Văn hóa,Tham quan'), ta cần tạo nhiều điều kiện FIND_IN_SET kết hợp bằng OR
         if (!empty($loaiStr)) {
             $loaiArr = explode(',', $loaiStr);
             $loaiConditions = [];
@@ -54,8 +52,6 @@ class AdminReportModel {
         }
 
         // XỬ LÝ LỌC NHIỀU VÙNG ĐỊA LÝ
-        // Giải thích: Cột VungDiaLy là kiểu ENUM, mỗi tour chỉ có 1 vùng.
-        // Ta sử dụng toán tử IN (?,?,...) để lọc.
         if (!empty($vungStr)) {
             $vungArr = explode(',', $vungStr);
             $vungPlaceholders = [];
@@ -72,24 +68,24 @@ class AdminReportModel {
 
         $whereClause = "WHERE " . implode(' AND ', $where);
 
+        // CHUỖI JOIN MỚI CẬP NHẬT THEO SCHEME CSDL: ChuyenDi -> LichKhoiHanh -> Tour
+        $joins = "FROM ChuyenDi cd 
+                  JOIN LichKhoiHanh lkh ON cd.MaLichKhoiHanh = lkh.MaLichKhoiHanh 
+                  JOIN Tour t ON lkh.MaTour = t.MaTour";
+
         // 1. Truy vấn Tổng doanh thu
-        $sqlTotal = "SELECT SUM(cd.TongGiaTien) as Total 
-                     FROM ChuyenDi cd 
-                     JOIN Tour t ON cd.MaTour = t.MaTour 
-                     $whereClause";
+        $sqlTotal = "SELECT SUM(cd.TongGiaTien) as Total $joins $whereClause";
         $stmt = $this->conn->prepare($sqlTotal);
         $stmt->execute($params);
         $totalRevenue = $stmt->fetchColumn() ?: 0;
 
         // 2. Dữ liệu Biểu đồ cột (Theo ngày nếu chọn Tháng, ngược lại theo Tháng)
         if (!empty($month)) {
-            $sqlBar = "SELECT DAY(cd.NgayKetThuc) as label, SUM(cd.TongGiaTien) as value 
-                       FROM ChuyenDi cd JOIN Tour t ON cd.MaTour = t.MaTour 
-                       $whereClause GROUP BY DAY(cd.NgayKetThuc) ORDER BY DAY(cd.NgayKetThuc)";
+            $sqlBar = "SELECT DAY(lkh.NgayBatDau) as label, SUM(cd.TongGiaTien) as value 
+                       $joins $whereClause GROUP BY DAY(lkh.NgayBatDau) ORDER BY DAY(lkh.NgayBatDau)";
         } else {
-            $sqlBar = "SELECT MONTH(cd.NgayKetThuc) as label, SUM(cd.TongGiaTien) as value 
-                       FROM ChuyenDi cd JOIN Tour t ON cd.MaTour = t.MaTour 
-                       $whereClause GROUP BY MONTH(cd.NgayKetThuc) ORDER BY MONTH(cd.NgayKetThuc)";
+            $sqlBar = "SELECT MONTH(lkh.NgayBatDau) as label, SUM(cd.TongGiaTien) as value 
+                       $joins $whereClause GROUP BY MONTH(lkh.NgayBatDau) ORDER BY MONTH(lkh.NgayBatDau)";
         }
         $stmt = $this->conn->prepare($sqlBar);
         $stmt->execute($params);
@@ -120,34 +116,22 @@ class AdminReportModel {
 
         // 3. Biểu đồ tròn - Cơ cấu theo Vùng địa lý
         $sqlVung = "SELECT t.VungDiaLy as label, SUM(cd.TongGiaTien) as value 
-                    FROM ChuyenDi cd JOIN Tour t ON cd.MaTour = t.MaTour 
-                    $whereClause GROUP BY t.VungDiaLy";
+                    $joins $whereClause GROUP BY t.VungDiaLy";
         $stmt = $this->conn->prepare($sqlVung);
         $stmt->execute($params);
         $pieVung = $stmt->fetchAll();
 
-        // 4. Biểu đồ tròn - Cơ cấu theo Loại trải nghiệm
-        // Vì 1 tour có thể có nhiều loại trải nghiệm (kiểu SET), 
-        // ta lặp qua danh sách TẤT CẢ các loại trải nghiệm để tính tổng doanh thu cho từng loại
-        // có chứa trong tour đã được lọc.
+        // 4. Biểu đồ ngang - Doanh thu theo Loại trải nghiệm
         $loaiList = ['Văn hóa', 'Ẩm thực', 'Rừng cây', 'Chữa lành', 'Núi non', 'Tham quan', 'Biển đảo', 'Nông thôn', 'Sông nước'];
         $pieLoai = [];
         foreach ($loaiList as $l) {
-            // Copy lại toàn bộ mảng tham số dùng cho $whereClause gốc
             $paramsLoai = $params;
-            
-            // Câu lệnh này sẽ lấy TẤT CẢ tour thoả mãn bộ lọc chung ($whereClause),
-            // sau đó lọc thêm điều kiện tour đó CÓ chứa loại trải nghiệm $l hiện tại.
-            $sqlLoai = "SELECT SUM(cd.TongGiaTien) FROM ChuyenDi cd JOIN Tour t ON cd.MaTour = t.MaTour 
-                        $whereClause AND FIND_IN_SET(?, t.LoaiTraiNghiem)";
-            
-            // Đẩy giá trị $l vào cuối mảng tham số
+            $sqlLoai = "SELECT SUM(cd.TongGiaTien) 
+                        $joins $whereClause AND FIND_IN_SET(?, t.LoaiTraiNghiem)";
             $paramsLoai[] = $l;
-            
             $stmt = $this->conn->prepare($sqlLoai);
             $stmt->execute($paramsLoai);
             $val = $stmt->fetchColumn();
-            
             if ($val > 0) {
                 $pieLoai[] = ['label' => $l, 'value' => (float)$val];
             }

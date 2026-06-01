@@ -1,8 +1,55 @@
-<div class="breadcrumb-custom">
-    <a href="index.php?controller=adminhome"><i class="fa-solid fa-house me-1"></i>Tổng quan</a> 
-    <i class="fa-solid fa-angle-right mx-2 text-muted" style="font-size: 12px;"></i> 
-    <a href="index.php?controller=adminreport">Báo cáo doanh thu</a>
+<style>
+    /* BỘ CSS DÀNH RIÊNG CHO CHẾ ĐỘ XUẤT/IN PDF BẰNG TRÌNH DUYỆT */
+    @media print {
+        /* 1. Ẩn TẤT CẢ các thẻ con trực tiếp của body (Giấu toàn bộ vỏ bọc chứa Header, Navbar, Breadcrumb...) */
+        body > * {
+            display: none !important;
+        }
+        
+        /* 2. CHỈ HIỂN THỊ DUY NHẤT KHUÔN MẪU BÁO CÁO (Được JS dời ra ngoài cùng lúc bấm xuất) */
+        body > #fullReportExport {
+            display: block !important;
+            width: 100%;
+            margin: 0 !important;
+            padding: 0 !important;
+            font-family: 'Times New Roman', Times, serif !important;
+        }
+
+        /* 3. Cài đặt trang in A4 với lề: Trái 3cm, Trên/Dưới/Phải 2cm */
+        @page {
+            size: A4 portrait;
+            margin: 2cm 2cm 2cm 3cm; 
+        }
+
+        /* Reset html/body không cho chiếm chiều cao dư thừa */
+        html, body {
+            height: auto !important;
+            min-height: 0 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            background-color: #fff !important;
+        }
+    }
+
+    /* Tinh chỉnh cho bộ lọc chọn nhiều (Multi-select Checkbox) */
+    .custom-multi-select .dropdown-item {
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+    .custom-multi-select .dropdown-item:active {
+        background-color: #E6EECA; /* Giữ tông màu xanh của hệ thống thay vì màu xanh dương mặc định */
+        color: #123C27;
+    }
+    .custom-multi-select .form-check-input {
+        cursor: pointer;
+    }
+</style>
+
+<div class="breadcrumb-custom px-3 px-lg-5">
+    <a href="?controller=home">Trang chủ</a> > 
+    <span style="color: #666;">Báo Cáo Doanh Thu</span>
 </div>
+
 <main class="container-fluid px-3 px-lg-5 py-4" style="background-color: #FCFDF9;">
     <div class="row">
         <div class="col-lg-3 mb-4">
@@ -579,6 +626,10 @@
         } else if (typeof $!== 'undefined' &&$.fn.modal) {
             $('#exportModal').modal('hide');
         }
+
+        // THỦ THUẬT KHẮC PHỤC LỖI DÍNH HEADER/BREADCRUMB:
+        // Đưa khung in ra làm thẻ con trực tiếp của thẻ <body> để CSS @media print có thể dễ dàng ẩn đi toàn bộ layout web bên ngoài
+        document.body.appendChild(document.getElementById('fullReportExport'));
 
         setTimeout(() => {
             window.print();
