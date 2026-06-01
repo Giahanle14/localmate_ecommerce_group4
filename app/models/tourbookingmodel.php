@@ -12,16 +12,16 @@ class TourBookingModel {
     public function getTourById($maTour) {
         $sql = "SELECT t.*, 
                 (SELECT COUNT(p.MaDG) 
-                 FROM PhieuDanhGia p 
-                 JOIN ChuyenDi c ON p.MaChuyenDi = c.MaChuyenDi 
-                 JOIN LichKhoiHanh lkh ON c.MaLichKhoiHanh = lkh.MaLichKhoiHanh 
+                 FROM phieudanhgia p 
+                 JOIN chuyendi c ON p.MaChuyenDi = c.MaChuyenDi 
+                 JOIN lichkhoihanh lkh ON c.MaLichKhoiHanh = lkh.MaLichKhoiHanh 
                  WHERE lkh.MaTour = t.MaTour) as SoDanhGia,
                 (SELECT IFNULL(ROUND(AVG(p.SoSao), 1), 0) 
-                 FROM PhieuDanhGia p 
-                 JOIN ChuyenDi c ON p.MaChuyenDi = c.MaChuyenDi 
-                 JOIN LichKhoiHanh lkh ON c.MaLichKhoiHanh = lkh.MaLichKhoiHanh 
+                 FROM phieudanhgia p 
+                 JOIN chuyendi c ON p.MaChuyenDi = c.MaChuyenDi 
+                 JOIN lichkhoihanh lkh ON c.MaLichKhoiHanh = lkh.MaLichKhoiHanh 
                  WHERE lkh.MaTour = t.MaTour) as SaoTrungBinh
-                FROM Tour t 
+                FROM tour t 
                 WHERE t.MaTour = :id";
         
         $stmt = $this->conn->prepare($sql);
@@ -29,7 +29,7 @@ class TourBookingModel {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    // Hàm lấy thông tin Lịch khởi hành (Lúc nãy bạn bị thiếu hàm này nè)
+    // Hàm lấy thông tin Lịch khởi hành
     public function getScheduleById($maLichKhoiHanh) {
         $sql = "SELECT lkh.*, t.SoKhachToiDa, 
                        (t.SoKhachToiDa - lkh.SoChoDaDat) AS ChoTrong

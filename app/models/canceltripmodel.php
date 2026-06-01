@@ -9,39 +9,31 @@ class CancelTripModel {
         $this->conn = $conn;
     }
 
-    // ĐÃ SỬA: Bẻ lái câu lệnh JOIN qua bảng LichKhoiHanh để lấy NgayBatDau và TenTour
     public function getTripById($maTK, $maChuyenDi) {
         $sql = "SELECT c.MaChuyenDi, lkh.NgayBatDau, c.TongGiaTien, t.TenTour, c.TrangThai
-                FROM ChuyenDi c
-                JOIN LichKhoiHanh lkh ON c.MaLichKhoiHanh = lkh.MaLichKhoiHanh
-                JOIN Tour t ON lkh.MaTour = t.MaTour
+                FROM chuyendi c
+                JOIN lichkhoihanh lkh ON c.MaLichKhoiHanh = lkh.MaLichKhoiHanh
+                JOIN tour t ON lkh.MaTour = t.MaTour
                 WHERE c.MaChuyenDi = :macd AND c.MaTK_DK = :matk";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([':macd' => $maChuyenDi, ':matk' => $maTK]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    // Sinh mã yêu cầu hủy tự động
     private function generateMaYeuCauHuy() {
-        $stmt = $this->conn->query("SELECT MaYeuCauHuy FROM YeuCauHuy ORDER BY MaYeuCauHuy DESC LIMIT 1");
+        $stmt = $this->conn->query("SELECT MaYeuCauHuy FROM yeucauhuy ORDER BY MaYeuCauHuy DESC LIMIT 1");
         $lastId = $stmt->fetchColumn();
         if (!$lastId) return 'HUY0000001';
         $num = intval(substr($lastId, 3)) + 1;
         return 'HUY' . str_pad($num, 7, '0', STR_PAD_LEFT);
     }
 
-    // Thực thi Transaction lưu yêu cầu hủy
-    // Thực thi Transaction lưu yêu cầu hủy (BẢN MỚI CHUẨN LOGIC)
     public function submitCancelRequest($maTK, $maChuyenDi, $lyDo, $tyLeHoan, $soTienHoan) {
         try {
             $this->conn->beginTransaction();
 
-            // CHỈ tạo yêu cầu hủy chờ duyệt. 
-            // KHÔNG sửa trạng thái chuyến đi thành 'Đã hủy' ở đây.
-            // KHÔNG hoàn trả ghế ở đây.
-
             $maYeuCau = $this->generateMaYeuCauHuy();
-            $sqlInsert = "INSERT INTO YeuCauHuy (MaYeuCauHuy, LyDoHuy, TyLeHoanTien, SoTienHoan, NgayYeuCau, TrangThai, MaChuyenDi, MaTK_DK)
+            $sqlInsert = "INSERT INTO yeucauhuy (MaYeuCauHuy, LyDoHuy, TyLeHoanTien, SoTienHoan, NgayYeuCau, TrangThai, MaChuyenDi, MaTK_DK)
                           VALUES (:mayc, :lydo, :tyle, :sotien, NOW(), 'Chưa xử lý', :macd, :matk)";
             $stmtInsert = $this->conn->prepare($sqlInsert);
             $stmtInsert->execute([

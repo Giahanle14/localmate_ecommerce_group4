@@ -12,10 +12,10 @@ class AdminTourModel {
 
     public function getFilteredTours($filters) {
         $sql = "SELECT t.*, 
-                COALESCE((SELECT SUM(c.SoLuongKhach) FROM ChuyenDi c JOIN LichKhoiHanh lkh ON c.MaLichKhoiHanh = lkh.MaLichKhoiHanh WHERE lkh.MaTour = t.MaTour AND c.TrangThai != 'Đã hủy'), 0) as SoLuotDangKy,
-                (SELECT IFNULL(ROUND(AVG(dg.SoSao), 1), 0) FROM phieudanhgia dg JOIN chuyendi cd ON dg.MaChuyenDi = cd.MaChuyenDi JOIN LichKhoiHanh lkh ON cd.MaLichKhoiHanh = lkh.MaLichKhoiHanh WHERE lkh.MaTour = t.MaTour) AS TrungBinhSao,
-                (SELECT COUNT(dg.MaDG) FROM phieudanhgia dg JOIN chuyendi cd ON dg.MaChuyenDi = cd.MaChuyenDi JOIN LichKhoiHanh lkh ON cd.MaLichKhoiHanh = lkh.MaLichKhoiHanh WHERE lkh.MaTour = t.MaTour) AS SoLuotDanhGia
-                FROM Tour t WHERE 1=1";
+                COALESCE((SELECT SUM(c.SoLuongKhach) FROM chuyendi c JOIN lichkhoihanh lkh ON c.MaLichKhoiHanh = lkh.MaLichKhoiHanh WHERE lkh.MaTour = t.MaTour AND c.TrangThai != 'Đã hủy'), 0) as SoLuotDangKy,
+                (SELECT IFNULL(ROUND(AVG(dg.SoSao), 1), 0) FROM phieudanhgia dg JOIN chuyendi cd ON dg.MaChuyenDi = cd.MaChuyenDi JOIN lichkhoihanh lkh ON cd.MaLichKhoiHanh = lkh.MaLichKhoiHanh WHERE lkh.MaTour = t.MaTour) AS TrungBinhSao,
+                (SELECT COUNT(dg.MaDG) FROM phieudanhgia dg JOIN chuyendi cd ON dg.MaChuyenDi = cd.MaChuyenDi JOIN lichkhoihanh lkh ON cd.MaLichKhoiHanh = lkh.MaLichKhoiHanh WHERE lkh.MaTour = t.MaTour) AS SoLuotDanhGia
+                FROM tour t WHERE 1=1";
         $params = [];
 
         if (!empty($filters['search'])) {
@@ -46,13 +46,13 @@ class AdminTourModel {
     }
 
     public function getTourById($maTour) {
-        $stmt = $this->conn->prepare("SELECT * FROM Tour WHERE MaTour = :maTour");
+        $stmt = $this->conn->prepare("SELECT * FROM tour WHERE MaTour = :maTour");
         $stmt->execute([':maTour' => $maTour]);
         return $stmt->fetch();
     }
 
     private function getNextMaTour() {
-        $stmt = $this->conn->query("SELECT MaTour FROM Tour ORDER BY MaTour DESC LIMIT 1");
+        $stmt = $this->conn->query("SELECT MaTour FROM tour ORDER BY MaTour DESC LIMIT 1");
         $lastId = $stmt->fetchColumn();
         if (!$lastId) return 'TOUR000001';
         $num = intval(substr($lastId, 4)) + 1;
@@ -61,7 +61,7 @@ class AdminTourModel {
 
     public function addTour($data) {
         $maTour = $this->getNextMaTour();
-        $sql = "INSERT INTO Tour (MaTour, TenTour, DiaDiem, MoTa, LichTrinh, Gia, SoNgay, SoKhachToiDa, VungDiaLy, LoaiTraiNghiem, HinhAnh, UuDai, MaTK_QTV) 
+        $sql = "INSERT INTO tour (MaTour, TenTour, DiaDiem, MoTa, LichTrinh, Gia, SoNgay, SoKhachToiDa, VungDiaLy, LoaiTraiNghiem, HinhAnh, UuDai, MaTK_QTV) 
                 VALUES (:maTour, :tenTour, :diaDiem, :moTa, :lichTrinh, :gia, :soNgay, :soKhach, :vungDiaLy, :loaiTraiNghiem, :hinhAnh, :uuDai, :maQTV)";
         $stmt = $this->conn->prepare($sql);
         return $stmt->execute([
@@ -82,7 +82,7 @@ class AdminTourModel {
     }
 
     public function updateTour($data) {
-        $sql = "UPDATE Tour SET 
+        $sql = "UPDATE tour SET 
                 TenTour = :tenTour, DiaDiem = :diaDiem, MoTa = :moTa, LichTrinh = :lichTrinh,
                 Gia = :gia, SoNgay = :soNgay, SoKhachToiDa = :soKhach, 
                 VungDiaLy = :vungDiaLy, LoaiTraiNghiem = :loaiTraiNghiem, UuDai = :uuDai";
@@ -115,7 +115,7 @@ class AdminTourModel {
     }
 
     public function deleteTour($maTour) {
-        $stmt = $this->conn->prepare("DELETE FROM Tour WHERE MaTour = :maTour");
+        $stmt = $this->conn->prepare("DELETE FROM tour WHERE MaTour = :maTour");
         return $stmt->execute([':maTour' => $maTour]);
     }
     

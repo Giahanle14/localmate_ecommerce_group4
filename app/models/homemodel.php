@@ -6,32 +6,31 @@ class HomeModel {
     private $conn;
 
     public function __construct() {
-        global $conn; // Lấy biến kết nối từ app/config/db_connect.php
+        global $conn; 
         $this->conn = $conn;
     }
 
-    // Hàm lấy danh sách Tour Nổi Bật (Lấy 6 tour mới nhất)
     public function getToursNoiBat($maTK_DK = null) {
         $sql = "SELECT t.*, 
-                (SELECT COUNT(*) FROM DanhSachYeuThich d WHERE d.MaTour = t.MaTour) as SoLuotThich,
+                (SELECT COUNT(*) FROM danhsachyeuthich d WHERE d.MaTour = t.MaTour) as SoLuotThich,
                 (SELECT COUNT(*) 
-                 FROM PhieuDanhGia p 
-                 JOIN ChuyenDi c ON p.MaChuyenDi = c.MaChuyenDi 
-                 JOIN LichKhoiHanh lkh ON c.MaLichKhoiHanh = lkh.MaLichKhoiHanh 
+                 FROM phieudanhgia p 
+                 JOIN chuyendi c ON p.MaChuyenDi = c.MaChuyenDi 
+                 JOIN lichkhoihanh lkh ON c.MaLichKhoiHanh = lkh.MaLichKhoiHanh 
                  WHERE lkh.MaTour = t.MaTour) as SoDanhGia,
                 (SELECT IFNULL(ROUND(AVG(p.SoSao), 1), 0) 
-                 FROM PhieuDanhGia p 
-                 JOIN ChuyenDi c ON p.MaChuyenDi = c.MaChuyenDi 
-                 JOIN LichKhoiHanh lkh ON c.MaLichKhoiHanh = lkh.MaLichKhoiHanh 
+                 FROM phieudanhgia p 
+                 JOIN chuyendi c ON p.MaChuyenDi = c.MaChuyenDi 
+                 JOIN lichkhoihanh lkh ON c.MaLichKhoiHanh = lkh.MaLichKhoiHanh 
                  WHERE lkh.MaTour = t.MaTour) as SaoTrungBinh";
         
         if ($maTK_DK) {
-            $sql .= ", (SELECT COUNT(*) FROM DanhSachYeuThich d2 WHERE d2.MaTour = t.MaTour AND d2.MaTK_DK = :ma_tk) as IsLiked";
+            $sql .= ", (SELECT COUNT(*) FROM danhsachyeuthich d2 WHERE d2.MaTour = t.MaTour AND d2.MaTK_DK = :ma_tk) as IsLiked";
         } else {
             $sql .= ", 0 as IsLiked";
         }
 
-        $sql .= " FROM Tour t ORDER BY t.NgayTao DESC LIMIT 6";
+        $sql .= " FROM tour t ORDER BY t.NgayTao DESC LIMIT 6";
 
         $stmt = $this->conn->prepare($sql);
         if ($maTK_DK) {
@@ -41,28 +40,27 @@ class HomeModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Hàm lấy danh sách Tour Yêu Thích (Lấy 6 tour có nhiều lượt thả tim nhất)
     public function getToursYeuThich($maTK_DK = null) {
         $sql = "SELECT t.*, 
-                (SELECT COUNT(*) FROM DanhSachYeuThich d WHERE d.MaTour = t.MaTour) as SoLuotThich,
+                (SELECT COUNT(*) FROM danhsachyeuthich d WHERE d.MaTour = t.MaTour) as SoLuotThich,
                 (SELECT COUNT(*) 
-                 FROM PhieuDanhGia p 
-                 JOIN ChuyenDi c ON p.MaChuyenDi = c.MaChuyenDi 
-                 JOIN LichKhoiHanh lkh ON c.MaLichKhoiHanh = lkh.MaLichKhoiHanh 
+                 FROM phieudanhgia p 
+                 JOIN chuyendi c ON p.MaChuyenDi = c.MaChuyenDi 
+                 JOIN lichkhoihanh lkh ON c.MaLichKhoiHanh = lkh.MaLichKhoiHanh 
                  WHERE lkh.MaTour = t.MaTour) as SoDanhGia,
                 (SELECT IFNULL(ROUND(AVG(p.SoSao), 1), 0) 
-                 FROM PhieuDanhGia p 
-                 JOIN ChuyenDi c ON p.MaChuyenDi = c.MaChuyenDi 
-                 JOIN LichKhoiHanh lkh ON c.MaLichKhoiHanh = lkh.MaLichKhoiHanh 
+                 FROM phieudanhgia p 
+                 JOIN chuyendi c ON p.MaChuyenDi = c.MaChuyenDi 
+                 JOIN lichkhoihanh lkh ON c.MaLichKhoiHanh = lkh.MaLichKhoiHanh 
                  WHERE lkh.MaTour = t.MaTour) as SaoTrungBinh";
         
         if ($maTK_DK) {
-            $sql .= ", (SELECT COUNT(*) FROM DanhSachYeuThich d2 WHERE d2.MaTour = t.MaTour AND d2.MaTK_DK = :ma_tk) as IsLiked";
+            $sql .= ", (SELECT COUNT(*) FROM danhsachyeuthich d2 WHERE d2.MaTour = t.MaTour AND d2.MaTK_DK = :ma_tk) as IsLiked";
         } else {
             $sql .= ", 0 as IsLiked";
         }
 
-        $sql .= " FROM Tour t ORDER BY SoLuotThich DESC, t.NgayTao DESC LIMIT 6";
+        $sql .= " FROM tour t ORDER BY SoLuotThich DESC, t.NgayTao DESC LIMIT 6";
 
         $stmt = $this->conn->prepare($sql);
         if ($maTK_DK) {
@@ -72,36 +70,31 @@ class HomeModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Hàm xử lý Thả tim / Bỏ tim (Dùng chung cho AJAX)
     public function toggleFavorite($maTK_DK, $maTour) {
-        // Kiểm tra xem đã tim chưa
-        $checkSql = "SELECT * FROM DanhSachYeuThich WHERE MaTK_DK = :ma_tk AND MaTour = :ma_tour";
+        $checkSql = "SELECT * FROM danhsachyeuthich WHERE MaTK_DK = :ma_tk AND MaTour = :ma_tour";
         $stmt = $this->conn->prepare($checkSql);
         $stmt->execute([':ma_tk' => $maTK_DK, ':ma_tour' => $maTour]);
         
         if ($stmt->rowCount() > 0) {
-            // Đã tim -> Xóa (Bỏ tim)
-            $delSql = "DELETE FROM DanhSachYeuThich WHERE MaTK_DK = :ma_tk AND MaTour = :ma_tour";
+            $delSql = "DELETE FROM danhsachyeuthich WHERE MaTK_DK = :ma_tk AND MaTour = :ma_tour";
             $this->conn->prepare($delSql)->execute([':ma_tk' => $maTK_DK, ':ma_tour' => $maTour]);
             return 'removed';
         } else {
-            // Chưa tim -> Thêm
-            $insertSql = "INSERT INTO DanhSachYeuThich (MaTK_DK, MaTour) VALUES (:ma_tk, :ma_tour)";
-            $this->conn->prepare($insertSql)->execute([':ma_tk' => $maTK_DK, ':ma_tour' => $maTour]);
+            $insertSql = "INSERT INTO danhsachyeuthich (MaTK_DK, MaTour) VALUES (:ma_tk, :ma_tour)";
+            $this->conn->prepare($insertSql)->execute([':maTK_DK' => $maTK_DK, ':ma_tour' => $maTour]);
             return 'added';
         }
     }
 
-    // Hàm lấy danh sách Đánh giá mới nhất (Kinh nghiệm đi tour)
     public function getLatestReviews($limit = 12) {
         $sql = "SELECT p.MaDG, p.NoiDung, p.SoSao, p.NgayDG, p.DieuAnTuong, 
                        tk.HoTen, dk.AnhDaiDien, t.TenTour, t.MaTour
-                FROM PhieuDanhGia p
-                JOIN DuKhach dk ON p.MaTK_DK = dk.MaTK_DK
-                JOIN TaiKhoan tk ON dk.MaTK_DK = tk.MaTK
-                JOIN ChuyenDi c ON p.MaChuyenDi = c.MaChuyenDi
-                JOIN LichKhoiHanh lkh ON c.MaLichKhoiHanh = lkh.MaLichKhoiHanh
-                JOIN Tour t ON lkh.MaTour = t.MaTour
+                FROM phieudanhgia p
+                JOIN dukhach dk ON p.MaTK_DK = dk.MaTK_DK
+                JOIN taikhoan tk ON dk.MaTK_DK = tk.MaTK
+                JOIN chuyendi c ON p.MaChuyenDi = c.MaChuyenDi
+                JOIN lichkhoihanh lkh ON c.MaLichKhoiHanh = lkh.MaLichKhoiHanh
+                JOIN tour t ON lkh.MaTour = t.MaTour
                 ORDER BY p.NgayDG DESC
                 LIMIT :limit";
         
@@ -110,10 +103,9 @@ class HomeModel {
         $stmt->execute();
         $reviews = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        // 2. Lấy hình ảnh đính kèm cho từng bài đánh giá
         foreach ($reviews as &$review) {
             $maDG = $review['MaDG'];
-            $sqlImg = "SELECT DuongDan FROM HinhAnhDanhGia WHERE MaDG = :madg";
+            $sqlImg = "SELECT DuongDan FROM hinhanhdanhgia WHERE MaDG = :madg";
             $stmtImg = $this->conn->prepare($sqlImg);
             $stmtImg->execute([':madg' => $maDG]);
             $review['HinhAnh'] = $stmtImg->fetchAll(PDO::FETCH_COLUMN);

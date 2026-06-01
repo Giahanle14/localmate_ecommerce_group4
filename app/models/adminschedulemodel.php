@@ -10,7 +10,6 @@ class AdminScheduleModel {
         $this->conn = $conn;
     }
 
-    // Nhận thêm tham số $daterange
     public function getAllSchedules($search = '', $page = 1, $limit = 10, $daterange = '') {
         $offset = ($page - 1) * $limit;
         
@@ -23,7 +22,6 @@ class AdminScheduleModel {
         
         $params = [];
 
-        // Lọc theo chữ
         if (!empty($search)) {
             $searchCond = " AND (t.TenTour LIKE :search OR l.MaLichKhoiHanh LIKE :search)";
             $sql .= $searchCond;
@@ -31,18 +29,14 @@ class AdminScheduleModel {
             $params[':search'] = "%$search%";
         }
         
-        // Lọc theo khoảng thời gian
         if (!empty($daterange)) {
-            // 1. Chuẩn hóa chuỗi: Dù JS gửi lên " đến ", " to ", hay " - " thì đều gom về " - "
             $daterange_clean = str_replace([' đến ', ' to '], ' - ', $daterange);
             $dates = explode(" - ", $daterange_clean);
             
             if (count($dates) == 2) {
-                // Đổi định dạng từ d/m/Y sang Y-m-d chuẩn SQL
                 $dt1 = DateTime::createFromFormat('d/m/Y', trim($dates[0]));
                 $dt2 = DateTime::createFromFormat('d/m/Y', trim($dates[1]));
                 if ($dt1 && $dt2) {
-                    // 2. Dùng hàm DATE() của SQL để loại bỏ giờ:phút:giây, giúp lọc chính xác 100%
                     $dateCond = " AND DATE(l.NgayBatDau) BETWEEN :startDate AND :endDate";
                     $sql .= $dateCond;
                     $countSql .= $dateCond;
@@ -52,7 +46,6 @@ class AdminScheduleModel {
             } elseif (count($dates) == 1) {
                 $dt = DateTime::createFromFormat('d/m/Y', trim($dates[0]));
                 if ($dt) {
-                    // Dùng hàm DATE() tương tự cho trường hợp lọc 1 ngày
                     $dateCond = " AND DATE(l.NgayBatDau) = :date";
                     $sql .= $dateCond;
                     $countSql .= $dateCond;
@@ -63,12 +56,10 @@ class AdminScheduleModel {
 
         $sql .= " ORDER BY l.NgayBatDau DESC LIMIT $limit OFFSET $offset";
         
-        // Truy vấn dữ liệu
         $stmt = $this->conn->prepare($sql);
         $stmt->execute($params);
         $data = $stmt->fetchAll();
 
-        // Truy vấn tổng số lượng
         $stmtCount = $this->conn->prepare($countSql);
         $stmtCount->execute($params);
         
@@ -87,7 +78,6 @@ class AdminScheduleModel {
     }
 
     private function generateId() {
-        // ĐÃ CHỈNH SỬA TỪ LKC SANG LKH
         $stmt = $this->conn->query("SELECT MaLichKhoiHanh FROM lichkhoihanh WHERE MaLichKhoiHanh LIKE 'LKH%' ORDER BY MaLichKhoiHanh DESC LIMIT 1");
         $lastId = $stmt->fetchColumn();
         if (!$lastId) return 'LKH0000001';

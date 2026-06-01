@@ -3,7 +3,7 @@ class ReviewModel {
     public static function generateNextMaDG() {
         global $conn;
         require_once __DIR__ . '/../config/db_connect.php';
-        $sql = "SELECT MaDG FROM PhieuDanhGia WHERE MaDG LIKE 'DG%' ORDER BY MaDG DESC LIMIT 1";
+        $sql = "SELECT MaDG FROM phieudanhgia WHERE MaDG LIKE 'DG%' ORDER BY MaDG DESC LIMIT 1";
         $stmt = $conn->query($sql);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($row) {
@@ -28,7 +28,7 @@ class ReviewModel {
         return 'HA00000001';
     }
 
-    // ĐÃ SỬA: JOIN qua LichKhoiHanh để lấy NgayBatDau và tính NgayKetThuc
+    // ĐÃ SỬA: JOIN qua lichkhoihanh để lấy NgayBatDau và tính NgayKetThuc
     public static function getTripDetails($maChuyenDi) {
         global $conn;
         require_once __DIR__ . '/../config/db_connect.php'; 
@@ -36,9 +36,9 @@ class ReviewModel {
         $sql = "SELECT c.MaChuyenDi, lkh.NgayBatDau, 
                        DATE_ADD(lkh.NgayBatDau, INTERVAL (t.SoNgay - 1) DAY) AS NgayKetThuc, 
                        c.TongGiaTien, t.TenTour, t.DiaDiem, t.HinhAnh, c.MaTK_DK 
-                FROM ChuyenDi c 
-                JOIN LichKhoiHanh lkh ON c.MaLichKhoiHanh = lkh.MaLichKhoiHanh
-                JOIN Tour t ON lkh.MaTour = t.MaTour 
+                FROM chuyendi c 
+                JOIN lichkhoihanh lkh ON c.MaLichKhoiHanh = lkh.MaLichKhoiHanh
+                JOIN tour t ON lkh.MaTour = t.MaTour 
                 WHERE c.MaChuyenDi = :machuyendi";
                 
         $stmt = $conn->prepare($sql);
@@ -49,7 +49,7 @@ class ReviewModel {
     public static function saveRating($maDG, $noiDung, $soSao, $dieuAnTuong, $maTK_DK, $maChuyenDi) {
         global $conn;
         require_once __DIR__ . '/../config/db_connect.php';
-        $sql = "INSERT INTO PhieuDanhGia (MaDG, NoiDung, SoSao, NgayDG, DieuAnTuong, MaTK_DK, MaChuyenDi) 
+        $sql = "INSERT INTO phieudanhgia (MaDG, NoiDung, SoSao, NgayDG, DieuAnTuong, MaTK_DK, MaChuyenDi) 
                 VALUES (:madg, :noidung, :sosao, NOW(), :dieuantuong, :matk_dk, :machuyendi)";
         $stmt = $conn->prepare($sql);
         return $stmt->execute([
@@ -72,7 +72,7 @@ class ReviewModel {
     public static function getReviewByTripId($maChuyenDi) {
         global $conn;
         require_once __DIR__ . '/../config/db_connect.php';
-        $sql = "SELECT * FROM PhieuDanhGia WHERE MaChuyenDi = :machuyendi";
+        $sql = "SELECT * FROM phieudanhgia WHERE MaChuyenDi = :machuyendi";
         $stmt = $conn->prepare($sql);
         $stmt->execute([':machuyendi' => $maChuyenDi]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
@@ -92,7 +92,7 @@ class ReviewModel {
     public static function updateRating($maDG, $noiDung, $soSao, $dieuAnTuong) {
         global $conn;
         require_once __DIR__ . '/../config/db_connect.php';
-        $sql = "UPDATE PhieuDanhGia 
+        $sql = "UPDATE phieudanhgia 
                 SET NoiDung = :noidung, SoSao = :sosao, DieuAnTuong = :dieuantuong, NgayDG = NOW() 
                 WHERE MaDG = :madg";
         $stmt = $conn->prepare($sql);
@@ -115,7 +115,7 @@ class ReviewModel {
         $stmtImg->execute([':madg' => $maDG]);
 
         // Xóa phiếu đánh giá
-        $sql = "DELETE FROM PhieuDanhGia WHERE MaDG = :madg";
+        $sql = "DELETE FROM phieudanhgia WHERE MaDG = :madg";
         $stmt = $conn->prepare($sql);
         return $stmt->execute([':madg' => $maDG]);
     }

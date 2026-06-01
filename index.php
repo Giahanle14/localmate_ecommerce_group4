@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-// 3 DÒNG NÀY LÀ THẦN CHÚ ĐỂ BẬT HIỂN THỊ LỖI THAY VÌ TRẮNG MÀN HÌNH
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -15,7 +14,8 @@ if (isset($_SESSION['user']['MaTK']) && !empty($_SESSION['user']['MaTK'])) {
     
     if ($conn) {
         $maTK_dang_nhap = $_SESSION['user']['MaTK'];
-        $stmt = $conn->prepare("SELECT TrangThai, DaXoa FROM TaiKhoan WHERE MaTK = ?");
+        // ĐÃ SỬA: TaiKhoan -> taikhoan
+        $stmt = $conn->prepare("SELECT TrangThai, DaXoa FROM taikhoan WHERE MaTK = ?");
         $stmt->execute([$maTK_dang_nhap]);
         $userCheck = $stmt->fetch();
 

@@ -1,7 +1,8 @@
 <?php
 use PHPMailer\PHPMailer\PHPMailer;
-    use PHPMailer\PHPMailer\Exception;
-    use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\SMTP;
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -24,13 +25,15 @@ class AuthController {
             $password = $_POST['password']; 
 
             try {
-                $stmt = $conn->prepare("SELECT * FROM TaiKhoan WHERE Gmail = ?");
+                // ĐÃ SỬA: TaiKhoan -> taikhoan
+                $stmt = $conn->prepare("SELECT * FROM taikhoan WHERE Gmail = ?");
                 $stmt->execute([$email]);
                 $taiKhoan = $stmt->fetch(PDO::FETCH_ASSOC);
 
                 if ($taiKhoan && password_verify($password, $taiKhoan['MatKhau'])) {
                     
-                    $stmtDK = $conn->prepare("SELECT * FROM DuKhach WHERE MaTK_DK = ?");
+                    // ĐÃ SỬA: DuKhach -> dukhach
+                    $stmtDK = $conn->prepare("SELECT * FROM dukhach WHERE MaTK_DK = ?");
                     $stmtDK->execute([$taiKhoan['MaTK']]);
                     $duKhach = $stmtDK->fetch(PDO::FETCH_ASSOC);
 

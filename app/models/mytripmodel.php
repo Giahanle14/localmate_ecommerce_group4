@@ -6,20 +6,17 @@ class MytripModel {
         $this->conn = $db;
     }
 
-    /**
-     * 1. Lấy danh sách chuyến đi theo trạng thái
-     */
     public function getTripsByCustomer($maTK, $trangThai) {
         $sql = "SELECT c.MaChuyenDi, lkh.NgayBatDau, 
                        DATE_ADD(lkh.NgayBatDau, INTERVAL (t.SoNgay - 1) DAY) AS NgayKetThuc, 
                        c.TongGiaTien, c.SoLuongKhach, c.TrangThai,
                        t.TenTour, t.DiaDiem, t.HinhAnh, dg.MaDG, dg.SoSao,
                        y.TrangThai AS HuyTrangThai
-                FROM ChuyenDi c 
-                JOIN LichKhoiHanh lkh ON c.MaLichKhoiHanh = lkh.MaLichKhoiHanh
-                JOIN Tour t ON lkh.MaTour = t.MaTour
-                LEFT JOIN PhieuDanhGia dg ON c.MaChuyenDi = dg.MaChuyenDi
-                LEFT JOIN YeuCauHuy y ON c.MaChuyenDi = y.MaChuyenDi
+                FROM chuyendi c 
+                JOIN lichkhoihanh lkh ON c.MaLichKhoiHanh = lkh.MaLichKhoiHanh
+                JOIN tour t ON lkh.MaTour = t.MaTour
+                LEFT JOIN phieudanhgia dg ON c.MaChuyenDi = dg.MaChuyenDi
+                LEFT JOIN yeucauhuy y ON c.MaChuyenDi = y.MaChuyenDi
                 WHERE c.MaTK_DK = :matk AND c.TrangThai = :trangthai
                 ORDER BY lkh.NgayBatDau DESC";
         
@@ -28,9 +25,6 @@ class MytripModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    /**
-     * Tính sao và lượt đánh giá
-     */
     private function getStatsSql() {
         return "
             (SELECT IFNULL(ROUND(AVG(dg.SoSao), 1), 0) FROM phieudanhgia dg JOIN chuyendi cd ON dg.MaChuyenDi = cd.MaChuyenDi JOIN lichkhoihanh lkh ON cd.MaLichKhoiHanh = lkh.MaLichKhoiHanh WHERE lkh.MaTour = t.MaTour) AS TrungBinhSao,
@@ -39,23 +33,20 @@ class MytripModel {
         ";
     }
 
-    /**
-     * 2. LẤY TOUR GỢI Ý
-     */
     public function getSuggestedTours($maTK, $limit = 3) {
         $statsSql = $this->getStatsSql();
         
         $sql_history = "SELECT DISTINCT t.LoaiTraiNghiem 
-                        FROM ChuyenDi c 
-                        JOIN LichKhoiHanh lkh ON c.MaLichKhoiHanh = lkh.MaLichKhoiHanh
-                        JOIN Tour t ON lkh.MaTour = t.MaTour 
+                        FROM chuyendi c 
+                        JOIN lichkhoihanh lkh ON c.MaLichKhoiHanh = lkh.MaLichKhoiHanh
+                        JOIN tour t ON lkh.MaTour = t.MaTour 
                         WHERE c.MaTK_DK = :matk";
         $stmt_hist = $this->conn->prepare($sql_history);
         $stmt_hist->execute([':matk' => $maTK]);
         $history_rows = $stmt_hist->fetchAll(PDO::FETCH_ASSOC);
 
         if (empty($history_rows)) {
-            $sql_random = "SELECT t.*, $statsSql FROM Tour t ORDER BY RAND() LIMIT :limit";
+            $sql_random = "SELECT t.*, $statsSql FROM tour t ORDER BY RAND() LIMIT :limit";
             $stmt_rand = $this->conn->prepare($sql_random);
             $stmt_rand->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
             $stmt_rand->execute();
@@ -84,9 +75,9 @@ class MytripModel {
         
         $where_sql = implode(' OR ', $where_clauses);
         
-        $sql_suggest = "SELECT t.*, $statsSql FROM Tour t 
+        $sql_suggest = "SELECT t.*, $statsSql FROM tour t 
                         WHERE ($where_sql) 
-                        AND t.MaTour NOT IN (SELECT lkh2.MaTour FROM ChuyenDi c2 JOIN LichKhoiHanh lkh2 ON c2.MaLichKhoiHanh = lkh2.MaLichKhoiHanh WHERE c2.MaTK_DK = :matk)
+                        AND t.MaTour NOT IN (SELECT lkh2.MaTour FROM chuyendi c2 JOIN lichkhoihanh lkh2 ON c2.MaLichKhoiHanh = lkh2.MaLichKhoiHanh WHERE c2.MaTK_DK = :matk)
                         ORDER BY RAND() LIMIT :limit";
 
         $stmt_sug = $this->conn->prepare($sql_suggest);
@@ -101,7 +92,7 @@ class MytripModel {
 
         if (count($result) < $limit) {
             $needed = $limit - count($result);
-            $sql_fallback = "SELECT t.*, $statsSql FROM Tour t WHERE t.MaTour NOT IN (SELECT lkh2.MaTour FROM ChuyenDi c2 JOIN LichKhoiHanh lkh2 ON c2.MaLichKhoiHanh = lkh2.MaLichKhoiHanh WHERE c2.MaTK_DK = :matk) ORDER BY RAND() LIMIT :needed";
+            $sql_fallback = "SELECT t.*, $statsSql FROM tour t WHERE t.MaTour NOT IN (SELECT lkh2.MaTour FROM chuyendi c2 JOIN lichkhoihanh lkh2 ON c2.MaLichKhoiHanh = lkh2.MaLichKhoiHanh WHERE c2.MaTK_DK = :matk) ORDER BY RAND() LIMIT :needed";
             $stmt_fall = $this->conn->prepare($sql_fallback);
             $stmt_fall->bindValue(':needed', (int)$needed, PDO::PARAM_INT);
             $stmt_fall->bindValue(':matk', $maTK);
@@ -113,9 +104,6 @@ class MytripModel {
         return $result;
     }
 
-    /**
-     * 3. LẤY TOUR ƯU ĐÃI
-     */
     public function getTopPromotionalTours($limit = 3) {
         $statsSql = $this->getStatsSql();
         $sql = "SELECT t.*, $statsSql FROM tour t 
@@ -128,9 +116,6 @@ class MytripModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     
-    /**
-     * 4. LẤY CHI TIẾT CHUYẾN ĐI
-     */
     public function getTripDetail($maTK, $maChuyenDi) {
         $sql = "SELECT c.MaChuyenDi, lkh.NgayBatDau, 
                        DATE_ADD(lkh.NgayBatDau, INTERVAL (t.SoNgay - 1) DAY) AS NgayKetThuc, 
@@ -139,13 +124,13 @@ class MytripModel {
                        g.MaGiaoDich, g.PhuongThuc, g.NgayGiaoDich, g.MaGiaoDichDoiTac, g.TrangThai as TrangThaiGD,
                        tk.HoTen, tk.SDT, tk.Gmail, dk.DiaChi,
                        y.LyDoHuy, y.SoTienHoan, y.TyLeHoanTien, y.NgayHoanTat, y.NgayYeuCau, y.TrangThai as TrangThaiHuy
-                FROM ChuyenDi c
-                JOIN LichKhoiHanh lkh ON c.MaLichKhoiHanh = lkh.MaLichKhoiHanh
-                JOIN Tour t ON lkh.MaTour = t.MaTour
-                JOIN DuKhach dk ON c.MaTK_DK = dk.MaTK_DK
-                JOIN TaiKhoan tk ON dk.MaTK_DK = tk.MaTK
-                LEFT JOIN GiaoDich g ON c.MaChuyenDi = g.MaChuyenDi
-                LEFT JOIN YeuCauHuy y ON c.MaChuyenDi = y.MaChuyenDi
+                FROM chuyendi c
+                JOIN lichkhoihanh lkh ON c.MaLichKhoiHanh = lkh.MaLichKhoiHanh
+                JOIN tour t ON lkh.MaTour = t.MaTour
+                JOIN dukhach dk ON c.MaTK_DK = dk.MaTK_DK
+                JOIN taikhoan tk ON dk.MaTK_DK = tk.MaTK
+                LEFT JOIN giaodich g ON c.MaChuyenDi = g.MaChuyenDi
+                LEFT JOIN yeucauhuy y ON c.MaChuyenDi = y.MaChuyenDi
                 WHERE c.MaChuyenDi = :macd AND c.MaTK_DK = :matk";
         
         $stmt = $this->conn->prepare($sql);
