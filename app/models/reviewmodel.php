@@ -31,11 +31,12 @@ class ReviewModel {
     public static function getTripDetails($maChuyenDi) {
         global $conn;
         require_once __DIR__ . '/../config/db_connect.php'; 
-        // Lấy đúng tên cột TongGiaTien và MaTK_DK
+        
         $sql = "SELECT c.MaChuyenDi, c.NgayBatDau, c.NgayKetThuc, c.TongGiaTien, t.TenTour, t.DiaDiem, t.HinhAnh, c.MaTK_DK 
                 FROM ChuyenDi c 
                 JOIN Tour t ON c.MaTour = t.MaTour 
                 WHERE c.MaChuyenDi = :machuyendi";
+                
         $stmt = $conn->prepare($sql);
         $stmt->execute([':machuyendi' => $maChuyenDi]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
