@@ -238,16 +238,8 @@
             <p class="tour-desc-text"><?= nl2br(htmlspecialchars($tour['MoTa'])) ?></p>
 
             <h4 class="heading-quicksand mt-5">Lịch trình chi tiết</h4>
-            <div class="mt-4">
-                <?php if(!empty($itinerary)): ?>
-                    <?php foreach($itinerary as $item): ?>
-                        <div class="timeline-item">
-                            <div class="timeline-time"><?= htmlspecialchars($item['ThoiGian']) ?></div>
-                            <div class="timeline-title"><?= htmlspecialchars($item['TieuDe']) ?></div>
-                            <div class="text-secondary"><?= htmlspecialchars($item['NoiDung']) ?></div>
-                        </div>
-                    <?php endforeach; ?>
-                <?php endif; ?>
+            <div class="mt-4 tour-desc-text" style="background: #FCFBF7; padding: 25px; border-radius: 15px; border: 1px solid #f0eee9;">
+                <?= !empty($tour['LichTrinh']) ? nl2br($tour['LichTrinh']) : 'Đang cập nhật lịch trình...' ?>
             </div>
             <!-- KHU VỰC ĐÁNH GIÁ TỪ KHÁCH HÀNG -->
     <div class="review-section" id="reviewSection">
