@@ -10,8 +10,8 @@
     .review-title { color: #F89B29; font-weight: 700; text-align: center; font-size: 2rem; margin-bottom: 30px; }
     
     .review-card { background: #FFFFFF; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); max-width: 650px; margin: auto; overflow: hidden; }
-    .tour-info-box { background: #EBF6E0; padding: 30px 40px; display: flex; gap: 20px; border-bottom: 1px solid #E2EEDB;}
-    .tour-info-img { width: 150px; height: 100px; object-fit: cover; border-radius: 10px; }
+    .tour-info-box { background: #EBF6E0; padding: 30px 40px; display: flex; gap: 20px; border-bottom: 1px solid #E2EEDB; }
+    .tour-info-img { width: 150px; height: 100px; object-fit: cover; border-radius: 10px; flex-shrink: 0; }
     .tour-title { font-weight: 700; color: #1B3B2B; font-size: 1.2rem; margin-bottom: 8px; }
     .tour-meta { font-size: 0.9rem; color: #555; font-weight: 600; margin-bottom: 5px;}
     
@@ -19,16 +19,24 @@
         padding: 30px 50px 50px 50px; 
         background-color: #FFFFFF; /* Thêm dòng này để ép nền trắng */
     }
-    .section-title { font-weight: 700; color: #1B3B2B; margin-bottom: 15px; display: block; font-size: 1.05rem;}
+    .section-title { 
+        color: #333; /* Màu chữ đen/xám đậm như thiết kế gốc */
+        font-weight: 700; 
+        font-size: 1.05rem; 
+        margin-bottom: 12px; 
+        display: block; 
+        background: transparent; /* Xóa nền xanh */
+        padding: 0; /* Xóa khoảng cách thừa */
+    }
     
     .star-rating i { font-size: 2.2rem; color: #888; cursor: pointer; margin: 0 5px; font-weight: 400; transition: 0.2s;} 
     .star-rating i.active { color: #FF9F00; font-weight: 900;} 
     
     .tag-checkbox { display: none !important; }
-    .tag-label { border: 1px solid #92C2A2; border-radius: 25px; padding: 8px 18px; margin: 0 10px 15px 0; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: white; color: #1B3B2B; font-weight: 600; font-size: 0.9rem; transition: all 0.3s;}
-    .tag-checkbox:checked + .tag-label { border-color: #00712D; background-color: #E8F5E9; color: #00712D; }
+    .tag-label { border: 1px solid #00712D; border-radius: 25px; padding: 8px 18px; margin: 0 10px 15px 0; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: white; color: #00712D; font-weight: 600; font-size: 0.9rem; transition: all 0.3s;}
+    .tag-checkbox:checked + .tag-label { border-color: #00712D; background-color: #F9E68F; color: #00712D; }
     
-    .custom-textarea { border-radius: 12px; border: 1px solid #689E78; padding: 15px; font-weight: 500; width: 100%; margin-bottom: 30px; background-color: #ffffff; color: #1B3B2B;}
+    .custom-textarea { border-radius: 12px; border: 1px solid #00712D; padding: 15px; font-weight: 500; width: 100%; margin-bottom: 30px; background-color: #ffffff; color: #00712D;}
     .custom-textarea:focus { outline: none; box-shadow: 0 0 5px rgba(0, 113, 45, 0.2); }
     
     .img-upload-box { border: 1px dashed #ccc; border-radius: 10px; padding: 15px; text-align: center; cursor: pointer; background: #fff; width: 90px; height: 90px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
@@ -63,14 +71,30 @@
 
         <div class="review-card">
             <div class="tour-info-box">
-                <img src="<?= htmlspecialchars($trip['HinhAnh'] ?? 'public/image/default.jpg') ?>" class="tour-info-img" alt="Tour">
-                <div>
-                    <p class="tour-meta" style="color: #d32f2f; text-transform: uppercase;"><i class="fa-solid fa-location-dot"></i> <?= htmlspecialchars($trip['DiaDiem'] ?? 'Việt Nam') ?></p>
-                    <h4 class="tour-title"><?= htmlspecialchars($trip['TenTour']) ?></h4>
-                    <p class="tour-meta"><i class="fa-regular fa-calendar-days"></i> <?= date('d/m/Y', strtotime($trip['NgayBatDau'])) ?> - <?= date('d/m/Y', strtotime($trip['NgayKetThuc'])) ?></p>
-                    <p class="tour-meta">Đã thanh toán: <strong style="color: #00712D; font-weight: 800;"><?= number_format($trip['TongGiaTien'] ?? 0, 0, ',', '.') ?> VNĐ</strong></p>
-                </div>
+            <?php 
+                $hinhAnh = !empty($trip['HinhAnh']) ? $trip['HinhAnh'] : 'image/default-tour.png';
+                $imgSrc = (strpos($hinhAnh, 'public/') === 0) ? $hinhAnh : 'public/' . $hinhAnh; 
+            ?>
+            <img src="<?= htmlspecialchars($imgSrc ?? '') ?>" class="tour-info-img" alt="Hình ảnh tour" onerror="this.src='public/image/default-tour.png'">
+            
+            <div class="d-flex flex-column justify-content-center">
+                <p class="tour-meta mb-1" style="color: #d32f2f; text-transform: uppercase; font-size: 0.85rem; font-weight: 700;">
+                    <i class="fa-solid fa-location-dot"></i> <?= htmlspecialchars($trip['DiaDiem'] ?? 'Đang cập nhật') ?>
+                </p>
+                <h5 style="color: #1B3B2B; font-weight: 800; margin-bottom: 8px; font-size: 1.2rem;">
+                    <?= htmlspecialchars($trip['TenTour'] ?? '') ?>
+                </h5>
+                <p class="tour-meta mb-1" style="color: #555; font-size: 0.9rem; font-weight: 500;">
+                    <i class="fa-regular fa-calendar-days" style="color: #888;"></i> 
+                    <?= !empty($trip['NgayBatDau']) ? date('d/m/Y', strtotime($trip['NgayBatDau'])) : 'Đang cập nhật' ?> - 
+                    <?= !empty($trip['NgayKetThuc']) ? date('d/m/Y', strtotime($trip['NgayKetThuc'])) : 'Đang cập nhật' ?>
+                </p>
+                <p class="tour-meta mb-0" style="color: #555; font-size: 0.9rem;">
+                    Đã thanh toán: <strong style="color: #00712D; font-weight: 700;"><?= number_format($trip['TongGiaTien'] ?? 0, 0, ',', '.') ?> VNĐ</strong>
+                </p>
             </div>
+        </div>
+
 
             <div class="form-body">
                 <!-- NẾU CÓ DỮ LIỆU CŨ => Gắn class readonly-form để khóa tương tác -->
@@ -121,44 +145,37 @@
                         <textarea class="form-control custom-textarea" name="noi_dung" rows="4" placeholder="Hãy nhận xét về chuyến đi của bạn"><?= htmlspecialchars($review['NoiDung'] ?? '') ?></textarea>
                     </div>
 
-                    <div class="d-flex justify-content-between align-items-end mt-2">
-                        <div style="flex-grow: 1;">
-                            <span class="section-title" style="margin-bottom: 10px;">Thêm hình ảnh (Tùy chọn)</span>
-                            
-                            <div id="preview_container" class="d-flex flex-wrap mt-2">
-                                <!-- Hiển thị ảnh cũ -->
+                    <div class="mb-2">
+                        <span class="section-title">Thêm hình ảnh (Tùy chọn)</span>
+                        
+                        <div class="d-flex justify-content-between align-items-end mt-3">
+                            <div class="d-flex flex-wrap gap-2">
                                 <?php if (!empty($images)): ?>
                                     <?php foreach ($images as $img): ?>
-                                        <div class="img-wrapper existing-img" id="img_<?= $img['MaHinhAnhDG'] ?>">
-                                            <img src="<?= htmlspecialchars($img['DuongDan']) ?>" class="preview-img">
-                                            <button type="button" class="btn-remove-img" onclick="deleteExistingImage('<?= $img['MaHinhAnhDG'] ?>')"><i class="fa-solid fa-times"></i></button>
-                                        </div>
+                                        <img src="<?= htmlspecialchars($img['DuongDan']) ?>" onerror="this.style.display='none'" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px; border: 1px solid #ddd;" title="Ảnh đã tải lên">
                                     <?php endforeach; ?>
                                 <?php endif; ?>
-                            </div>
-                            
-                            <!-- Nút Thêm ảnh (Sẽ bị ẩn trong mode Read-Only) -->
-                            <div id="upload_wrapper" class="mt-2">
-                                <label class="img-upload-box" for="file_upload">
-                                    <i class="fa-regular fa-image" style="font-size: 1.5rem; color: #aaa;"></i>
-                                    <span style="font-size: 0.7rem; font-weight: 600; color: #aaa; margin-top:5px;">Thêm ảnh mới</span>
+                                
+                                <div id="preview_container" class="d-flex flex-wrap gap-2"></div>
+                                
+                                <label class="img-upload-box mb-0" for="file_upload" style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 80px; height: 80px; border: 2px dashed #ccc; border-radius: 8px; cursor: pointer; background: #fafafa; transition: 0.3s;">
+                                    <i class="fa-regular fa-image" style="font-size: 1.5rem; color: #999;"></i>
+                                    <span style="font-size: 0.65rem; color: #888; margin-top: 5px; font-weight: 600; text-align: center;">Thêm ảnh<br>mới</span>
                                 </label>
                                 <input type="file" name="hinh_anh[]" id="file_upload" style="display:none;" multiple accept="image/*">
                             </div>
-                        </div>
-
-                        <div class="d-flex flex-column gap-2 text-end ms-3">
-                            <?php if(!empty($review)): ?>
-                                <!-- Mode Đã đánh giá: Hiển thị nút Sửa (Bật mode edit) -->
-                                <button type="button" id="btn_enable_edit" class="btn btn-submit-review" onclick="enableEditMode()">Sửa đánh giá</button>
-                                <!-- Nút Submit Gửi Đánh Giá (Ban đầu bị ẩn) -->
-                                <button type="submit" id="btn_submit" class="btn btn-submit-review d-none">Gửi đánh giá</button>
+                            
+                            <div class="d-flex flex-column gap-2 ms-3" style="width: 140px;">
+                                <button type="submit" class="btn fw-bold shadow-sm w-100" style="background-color: #00A32A; color: white; padding: 10px; border-radius: 8px; border: none;">
+                                    <?= !empty($review) ? 'Cập nhật' : 'Gửi đánh giá' ?>
+                                </button>
                                 
-                                <button type="button" class="btn-delete-review" onclick="confirmDelete('index.php?controller=review&action=delete&id=<?= $trip['MaChuyenDi'] ?>')">Xóa đánh giá</button>
-                            <?php else: ?>
-                                <!-- Mode Thêm mới: Chỉ có nút Submit -->
-                                <button type="submit" class="btn btn-submit-review">Gửi đánh giá</button>
-                            <?php endif; ?>
+                                <?php if(!empty($review)): ?>
+                                    <a href="index.php?controller=review&action=delete&id=<?= $trip['MaChuyenDi'] ?>" class="btn fw-bold shadow-sm w-100" style="background-color: #FF0000; color: white; padding: 10px; border-radius: 8px; border: none; text-decoration: none; text-align: center;" onclick="return confirm('Bạn có chắc chắn muốn xóa bài đánh giá này?');">
+                                        Xóa
+                                    </a>
+                                <?php endif; ?>
+                            </div>
                         </div>
                     </div>
                 </form>

@@ -212,7 +212,7 @@ if (!$conn) {
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="index.php?controller=mytrip" class="nav-link" onclick="return requireLoginPopup(event, 'xem Chuyến đi của tôi')">
+                            <a href="index.php?controller=mytrip" class="nav-link <?= ($current_controller == 'mytrip') ? 'active-nav-pill' : '' ?>" onclick="return requireLoginPopup(event, 'xem Chuyến đi của tôi')">
                                 <i class="fa-solid fa-location-dot"></i> CHUYẾN ĐI CỦA TÔI
                             </a>
                         </li>

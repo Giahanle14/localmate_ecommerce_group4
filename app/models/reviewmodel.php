@@ -28,14 +28,19 @@ class ReviewModel {
         return 'HA00000001';
     }
 
+    // ĐÃ SỬA: JOIN qua LichKhoiHanh để lấy NgayBatDau và tính NgayKetThuc
     public static function getTripDetails($maChuyenDi) {
         global $conn;
         require_once __DIR__ . '/../config/db_connect.php'; 
-        // Lấy đúng tên cột TongGiaTien và MaTK_DK
-        $sql = "SELECT c.MaChuyenDi, c.NgayBatDau, c.NgayKetThuc, c.TongGiaTien, t.TenTour, t.DiaDiem, t.HinhAnh, c.MaTK_DK 
+        
+        $sql = "SELECT c.MaChuyenDi, lkh.NgayBatDau, 
+                       DATE_ADD(lkh.NgayBatDau, INTERVAL (t.SoNgay - 1) DAY) AS NgayKetThuc, 
+                       c.TongGiaTien, t.TenTour, t.DiaDiem, t.HinhAnh, c.MaTK_DK 
                 FROM ChuyenDi c 
-                JOIN Tour t ON c.MaTour = t.MaTour 
+                JOIN LichKhoiHanh lkh ON c.MaLichKhoiHanh = lkh.MaLichKhoiHanh
+                JOIN Tour t ON lkh.MaTour = t.MaTour 
                 WHERE c.MaChuyenDi = :machuyendi";
+                
         $stmt = $conn->prepare($sql);
         $stmt->execute([':machuyendi' => $maChuyenDi]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
@@ -114,6 +119,7 @@ class ReviewModel {
         $stmt = $conn->prepare($sql);
         return $stmt->execute([':madg' => $maDG]);
     }
+    
     // Hàm xóa 1 hình ảnh dựa vào Mã Hình Ảnh
     public static function deleteReviewImage($maHinhAnh) {
         global $conn;
